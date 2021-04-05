@@ -50,7 +50,7 @@ import java.util.Date;
 
 /**
  * Metodo de pruebas funcionales
- * 
+ *
  * @author mfernandez
  */
 public class Main {
@@ -65,30 +65,12 @@ public class Main {
 //    private static final String FILE = "/home/mfernandez/Test/Caballero.pdf";
 //    private static final String FILE = "/home/mfernandez/CompartidoWindows/Aplicaciones Windows/caso firma/1.7_Porcentaje_Cero_Papeles_Quipux_Agosto_2020_editado_3.pdf";
 //    private static final String FILE = "/home/mfernandez/CompartidoWindows/Aplicaciones Windows/caso firma/1.7_Porcentaje_Cero_Papeles_Quipux_Agosto_2020_ok.pdf";
-//    private static final String FILE = "/home/efra/repos/mintel/archivos/ArchivosFirma/Caso 01 - Imagen.jpg";
-//    private static final String FILE = "/home/efra/repos/mintel/archivos/ArchivosFirma/Caso 02 - Aparenta ser PDF.pdf";
-//    private static final String FILE = "/home/efra/repos/mintel/archivos/ArchivosFirma/Caso 03 - Sin firma.pdf";
-//    private static final String FILE = "/home/efra/repos/mintel/archivos/ArchivosFirma/Caso 04 - 1F Consejo Judicatura.pdf";
-//    private static final String FILE = "/home/efra/repos/mintel/archivos/ArchivosFirma/Caso 05 - FIrma EC_CESAR.pdf";
-//    private static final String FILE = "/home/efra/repos/mintel/archivos/ArchivosFirma/Caso 06 - PDF Firmado - Una firma - BCE - segundo ejemplo.pdf";
-//    private static final String FILE = "/home/efra/repos/mintel/archivos/ArchivosFirma/Caso 07 - Archivo de prueba-signedKT.pdf";
-    private static final String FILE = "/home/efra/repos/mintel/archivos/ArchivosFirma/Caso 08 - PDF Firmado - Una firma - Entidad Extranjera.pdf";
-//    private static final String FILE = "/home/efra/repos/mintel/archivos/ArchivosFirma/Caso 09 - PDF Firmado - Tres firmas - CJ - CJ - CJ.pdf";
-//    private static final String FILE = "/home/efra/repos/mintel/archivos/ArchivosFirma/Caso 10 - Acta 50 firmas.pdf";
-//    private static final String FILE = "/home/efra/repos/mintel/archivos/ArchivosFirma/Caso 11 - 1F BCE NO VIGENTE.pdf";
-//    private static final String FILE = "/home/efra/repos/mintel/archivos/ArchivosFirma/Caso 12 - 1F ALTERADO.pdf";
-//    private static final String FILE = "/home/efra/repos/mintel/archivos/ArchivosFirma/Caso 14 - Archivo-prueba-sello-tiempo-PAdES-LTV.PDF";
-//    private static final String FILE = "/home/efra/repos/mintel/archivos/ArchivosFirma/Caso 15 - FIRMADO_sellotiempoCJ-yfirma.pdf";
-//    private static final String FILE = "/home/efra/repos/mintel/archivos/ArchivosFirma/Caso 16 - Archivo-prueba-sello-tiempo MODIFICADO.pdf";
-//    private static final String FILE = "/home/efra/repos/mintel/archivos/ArchivosFirma/Caso 17 - 2F ENTIDAD NO AUTORIZADA y AUTORIZADA.pdf";
-//    private static final String FILE = "/home/efra/repos/mintel/archivos/ArchivosFirma/Caso 18 - PDF Firmado - Una firma - Entidad Extranjera y una ecuatoriana.pdf";
-//    private static final String FILE = "/home/efra/repos/mintel/archivos/ArchivosFirma/Caso 19 - PDF Firmado - Una firma - Entidad Extranjera y una ecuatoriana MODIF.pdf";
-//    private static final String FILE = "/home/efra/repos/mintel/archivos/ArchivosFirma/Caso 20 - 3F BCE - SECURITY - ACCV.pdf";
-//    private static final String FILE = "/home/efra/repos/mintel/archivos/ArchivosFirma/Caso 21 - PDF Firmado - Una firma - caducado.pdf";
-//    private static final String FILE = "/home/efra/repos/mintel/archivos/ArchivosFirma/Caso 22 - PDF Firmado - Una firma - revocado.pdf";
-//    private static final String FILE = "/home/efra/repos/mintel/archivos/ArchivosFirma/Caso 23 - PDF Firmado - Una firma - caducado y modificado.pdf";
-//    private static final String FILE = "/home/mfernandez/Test/Editados/Paz y salvo - rige el 2020 Diego Saud DF-signed-signed.pdf";
 //    private static final String FILE = "/home/mfernandez/Test/documento_blanco-signed.pdf";
+//    private static final String FILE = "/home/mfernandez/Descargas/MINTEL-SGERC-2021-0185-E.pdf";
+//    private static final String FILE = "/home/mfernandez/Test/Editados/Paz y salvo - rige el 2020 Diego Saud DF-signed-signed.pdf";
+//    private static final String FILE = "/home/mfernandez/Test/Verify/05.pdf";
+    private static final String FILE = "/home/mfernandez/Test/2021/11.pdf";
+//    private static final String FILE = "/home/mfernandez/Test/2021/083-2020.pdf";
 //    private static final String FILE = "/home/mfernandez/documento_blanco.pdf";
 //    private static final String FILE = "/home/mfernandez/Test/1.pdf";
 //    private static final String FILE = "/home/mfernandez/Test/firmadoEditado.pdf";
