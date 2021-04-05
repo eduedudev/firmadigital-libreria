@@ -73,7 +73,7 @@
             <url>http://repo.e-iceblue.com/nexus/content/groups/public/</url>
         </repository>
     </repositories>
-    validacion pdf-->
+    validacion pdf -->
 
     <dependencies>
         <!--extensiones-->
