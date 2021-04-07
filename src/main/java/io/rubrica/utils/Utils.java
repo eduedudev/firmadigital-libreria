@@ -92,9 +92,7 @@ public class Utils {
     private static final Logger logger = Logger.getLogger(Utils.class.getName());
 
     static {
-//        Security.addProvider(new BouncyCastleProvider());
-        BouncyCastleProvider bcp = new BouncyCastleProvider();
-        Security.insertProviderAt(bcp, 1);
+        Security.addProvider(new BouncyCastleProvider());
     }
 
     /**
