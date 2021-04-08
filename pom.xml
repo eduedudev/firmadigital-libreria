@@ -60,21 +60,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-<!--    validacion pdf
-    <repositories>
-        <repository>
-            <id>AsposeJavaAPI</id>
-            <name>Aspose Java API</name>
-            <url>https://repository.aspose.com/repo/</url>
-        </repository>
-        <repository>
-            <id>com.e-iceblue</id>
-            <name>e-iceblue</name>
-            <url>http://repo.e-iceblue.com/nexus/content/groups/public/</url>
-        </repository>
-    </repositories>
-    validacion pdf -->
-
     <dependencies>
         <!--extensiones-->
         <dependency>
@@ -121,18 +106,6 @@
             <type>pom</type>
         </dependency>
         <!-- add all iText 7 modules -->
-<!--        validacion pdf
-        <dependency>
-            <groupId>com.aspose</groupId>
-            <artifactId>aspose-pdf</artifactId>
-            <version>20.6</version>
-        </dependency>
-        <dependency>
-            <groupId> e-iceblue </groupId>
-            <artifactId>spire.pdf</artifactId>
-            <version>3.11.6</version>
-        </dependency>
-        validacion pdf-->
         <dependency>
             <groupId>com.github.librepdf</groupId>
             <artifactId>openpdf</artifactId>

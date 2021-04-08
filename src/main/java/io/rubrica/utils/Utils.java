@@ -396,59 +396,11 @@ public class Utils {
             if (signInfos == null || signInfos.isEmpty()) {
                 return new Documento(false, false, certificados, "Documento sin firmas");
             } else {
-//                //Load a pdf document
-//                com.spire.pdf.PdfDocument doc = new com.spire.pdf.PdfDocument();
-//                doc.loadFromFile(pdf.getAbsolutePath());
-//                //Get the collection of PDF fields
-//                com.spire.pdf.widget.PdfFormWidget pdfFormWidget = (com.spire.pdf.widget.PdfFormWidget) doc.getForm();
-//                com.spire.pdf.widget.PdfFormFieldWidgetCollection pdfFormFieldWidgetCollection = pdfFormWidget.getFieldsWidget();
-//                //Traverse all the PDF form field
-//                for (int i = 0; i < pdfFormFieldWidgetCollection.getCount(); i++) {
-//                    //check whether it is PdfSignatureField
-//                    if (pdfFormFieldWidgetCollection.get(i) instanceof com.spire.pdf.widget.PdfSignatureFieldWidget) {
-//                        //get the signature field
-//                        com.spire.pdf.widget.PdfSignatureFieldWidget signatureFieldWidget = (com.spire.pdf.widget.PdfSignatureFieldWidget) pdfFormFieldWidgetCollection.get(i);
-//                        //get the PDF signature
-//                        com.spire.pdf.security.PdfSignature signature = signatureFieldWidget.getSignature();
-//                        //Verify the signature
-//                        boolean resultSignature = signature.verifySignature();
-//                        if (resultSignature) {
-//                            System.out.println("Valid signature");
-//                        } else {
-//                            System.out.println("Invalid signature");
-//                        }
-//                        boolean resultDocModified = signature.verifyDocModified();
-//                        if (resultDocModified) {
-//                            System.out.println("Valid DocModified");
-//                        } else {
-//                            System.out.println("Invalid DocModified");
-//                        }
-//                        System.out.println("*****************");
-//                    }
-//                }
                 for (SignInfo signInfo : signInfos) {
                     Certificado certificado = signInfoToCertificado(signInfo);
                     try {
                         java.util.List<String> signatureNames = signatureUtil.getSignatureNames();
                         for (String signatureName : signatureNames) {
-//                            // Create PDF File Signature
-//                            com.aspose.pdf.facades.PdfFileSignature pdfSign = new com.aspose.pdf.facades.PdfFileSignature();
-//                            // Bind PDF
-//                            pdfSign.bindPdf(pdf.getAbsolutePath());
-//
-//                            // Verify signature using signature name
-//                            if (pdfSign.verifySigned(signatureName)) {
-//                                if (pdfSign.isCertified()) // Certified?
-//                                {
-//                                    if (pdfSign.getAccessPermissions() == com.aspose.pdf.DocMDPAccessPermissions.FillingInForms) // Get access permission
-//                                    {
-//                                        System.out.println("pdfSign.getSignatureAppearance(): " + pdfSign.getSignatureAppearance());
-//                                        System.out.println("pdfSign.verifySigned(signatureName): " + pdfSign.verifySigned(signatureName));
-//                                        System.out.println("pdfSign.verifySignature(signatureName): " + pdfSign.verifySignature(signatureName));
-//                                        // Do something
-//                                    }
-//                                }
-//                            }
                             // <editor-fold defaultstate="collapsed" desc="Tested Code">
                             //
 //                            HashMap<String, String> info = pdfReader.getInfo();
