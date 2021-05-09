@@ -17,7 +17,8 @@
  */
 package io.rubrica.certificate;
 
-import io.rubrica.exceptions.EntidadCertificadoraNoValidaException;
+import java.security.cert.X509Certificate;
+
 import io.rubrica.certificate.ec.CertificadoFuncionarioPublico;
 import io.rubrica.certificate.ec.CertificadoMiembroEmpresa;
 import io.rubrica.certificate.ec.CertificadoPersonaJuridica;
@@ -43,13 +44,25 @@ import io.rubrica.certificate.ec.cj.CertificadoPersonaJuridicaPrivadaConsejoJudi
 import io.rubrica.certificate.ec.cj.CertificadoPersonaJuridicaPublicaConsejoJudicatura;
 import io.rubrica.certificate.ec.cj.CertificadoPersonaNaturalConsejoJudicatura;
 import io.rubrica.certificate.ec.cj.ConsejoJudicaturaSubCaCert;
+import io.rubrica.certificate.ec.digercic.CertificadoDigercic;
+import io.rubrica.certificate.ec.digercic.CertificadoDigercicFactory;
+import io.rubrica.certificate.ec.digercic.DigercicSubCaCert20212031;
 import io.rubrica.certificate.ec.securitydata.CertificadoSecurityData;
 import io.rubrica.certificate.ec.securitydata.CertificadoSecurityDataFactory;
 import io.rubrica.certificate.ec.securitydata.SecurityDataSubCaCert20112026;
 import io.rubrica.certificate.ec.securitydata.SecurityDataSubCaCert20192031;
 import io.rubrica.certificate.ec.securitydata.SecurityDataSubCaCert20202039;
+import io.rubrica.certificate.ec.uanataca.CertificadoMiembroEmpresaUanataca;
+import io.rubrica.certificate.ec.uanataca.CertificadoPersonaJuridicaPrivadaUanataca;
+import io.rubrica.certificate.ec.uanataca.CertificadoPersonaNaturalUanataca;
+import io.rubrica.certificate.ec.uanataca.CertificadoRepresentanteLegalUanataca;
+import io.rubrica.certificate.ec.uanataca.CertificadoUanataca;
+import io.rubrica.certificate.ec.uanataca.CertificadoUanatacaDataFactory;
+import io.rubrica.certificate.ec.uanataca.UanatacaSubCaCert0220162029;
+import io.rubrica.certificate.ec.uanataca.UanatacaSubCaCert0120162029;
 import io.rubrica.certificate.to.DatosUsuario;
-import java.security.cert.X509Certificate;
+import io.rubrica.exceptions.EntidadCertificadoraNoValidaException;
+import io.rubrica.utils.Utils;
 
 /**
  * Validar diferentes certificados digitales acreditados por ARCOTEL
@@ -57,6 +70,8 @@ import java.security.cert.X509Certificate;
  * @author mfernandez
  */
 public class CertEcUtils {
+	
+	private static final String UANATACA_NAME="UANATACA S.A.";
 
     public static X509Certificate getRootCertificate(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         String entidadCertStr = getNombreCA(certificado);
@@ -112,6 +127,23 @@ public class CertEcUtils {
                 } catch (java.security.InvalidKeyException ex) {
                     //TODO
                 }
+//            case "Dirección General de Registro Civil, Identificación y Cedulación": {
+//                return new DigercicSubCaCert20212031();
+//            }
+            case UANATACA_NAME:
+                try{
+                    if (io.rubrica.utils.Utils.verifySignature(certificado, new UanatacaSubCaCert0120162029())) {
+                        System.out.println("Uanataca 2016-2029");
+                        return new UanatacaSubCaCert0120162029();
+                    }
+                    if (io.rubrica.utils.Utils.verifySignature(certificado, new UanatacaSubCaCert0220162029())) {
+                        System.out.println("Uanataca 2016-2029");
+                        return new UanatacaSubCaCert0220162029();
+                    }
+                    return null;
+                } catch (java.security.InvalidKeyException ex) {
+                    //TODO
+                }
             default:
                 throw new EntidadCertificadoraNoValidaException("Entidad Certificadora no reconocida");
         }
@@ -130,6 +162,12 @@ public class CertEcUtils {
         }
         if (certificado.getIssuerX500Principal().getName().toUpperCase().contains("ANF")) {
             return "Anf AC";
+        }
+//        if (certificado.getIssuerX500Principal().getName().toUpperCase().contains("DIRECCIÓN GENERAL DE REGISTRO CIVIL")) {
+//            return "Dirección General de Registro Civil, Identificación y Cedulación";
+//        }
+        if (certificado.getIssuerX500Principal().getName().toUpperCase().contains(UANATACA_NAME)) {
+            return UANATACA_NAME;
         }
         return "Entidad no reconocidad " + certificado.getIssuerX500Principal().getName();
     }
@@ -370,6 +408,64 @@ public class CertEcUtils {
                 datosUsuario.setSerial(certificado.getSerialNumber().toString());
             }
             datosUsuario.setEntidadCertificadora("Anf AC");
+            datosUsuario.setCertificadoDigitalValido(true);
+            return datosUsuario;
+        }
+//        if (CertificadoDigercicFactory.esCertificadoDigercic(certificado)) {
+//            CertificadoDigercic certificadoDigercic = CertificadoDigercicFactory.construir(certificado);
+//            if (certificadoDigercic instanceof CertificadoPersonaNatural) {
+//                CertificadoPersonaNatural certificadoPersonaNatural = (CertificadoPersonaNatural) certificadoDigercic;
+//
+//                datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
+//                datosUsuario.setNombre(Utils.getCN(certificado));
+//                datosUsuario.setApellido("");
+//                datosUsuario.setSerial(certificado.getSerialNumber().toString());
+//            }
+//            datosUsuario.setEntidadCertificadora("DIGERCIC");
+//            datosUsuario.setCertificadoDigitalValido(true);
+//            return datosUsuario;
+//        }
+        if (CertificadoUanatacaDataFactory.esCertificadoUanataca(certificado)) {
+            CertificadoUanataca certificadoUanataca = CertificadoUanatacaDataFactory.construir(certificado);
+            if (certificadoUanataca instanceof CertificadoMiembroEmpresaUanataca) {
+                CertificadoMiembroEmpresaUanataca certificadoMiembroEmpresaUanataca = (CertificadoMiembroEmpresaUanataca) certificadoUanataca;
+                datosUsuario.setCedula(certificadoMiembroEmpresaUanataca.getCedulaPasaporte());
+                datosUsuario.setNombre(certificadoMiembroEmpresaUanataca.getNombres());
+                datosUsuario.setApellido(certificadoMiembroEmpresaUanataca.getPrimerApellido() + " "
+                        + certificadoMiembroEmpresaUanataca.getSegundoApellido());
+                datosUsuario.setCargo(certificadoMiembroEmpresaUanataca.getCargo());
+                datosUsuario.setSerial(certificado.getSerialNumber().toString());
+            }
+            else if (certificadoUanataca instanceof CertificadoPersonaJuridicaPrivadaUanataca) {
+                CertificadoPersonaJuridicaPrivadaUanataca certificadoPersonaJuridicaUanataca = (CertificadoPersonaJuridicaPrivadaUanataca) certificadoUanataca;
+                datosUsuario.setCedula(certificadoPersonaJuridicaUanataca.getCedulaPasaporte());
+                datosUsuario.setNombre(certificadoPersonaJuridicaUanataca.getNombres());
+                datosUsuario.setApellido(certificadoPersonaJuridicaUanataca.getPrimerApellido() + " "
+                        + certificadoPersonaJuridicaUanataca.getSegundoApellido());
+                datosUsuario.setCargo(datosUsuario.getCargo());
+                datosUsuario.setSerial(certificado.getSerialNumber().toString());
+            }
+            else if (certificadoUanataca instanceof CertificadoPersonaNaturalUanataca) {
+                CertificadoPersonaNaturalUanataca certificadoPersonaNaturalU = (CertificadoPersonaNaturalUanataca) certificadoUanataca;
+                datosUsuario.setCedula(certificadoPersonaNaturalU.getCedulaPasaporte());
+                datosUsuario.setNombre(certificadoPersonaNaturalU.getNombres());
+                datosUsuario.setApellido(certificadoPersonaNaturalU.getPrimerApellido() + " "
+                        + certificadoPersonaNaturalU.getSegundoApellido());
+                datosUsuario.setSerial(certificado.getSerialNumber().toString());
+            }
+            else if (certificadoUanataca instanceof CertificadoRepresentanteLegalUanataca) {
+            	CertificadoRepresentanteLegalUanataca certificadoRepresentanteLegalUanataca = (CertificadoRepresentanteLegalUanataca) certificadoUanataca;
+            	datosUsuario.setCedula(certificadoRepresentanteLegalUanataca.getCedulaPasaporte());
+                datosUsuario.setNombre(certificadoRepresentanteLegalUanataca.getNombres());
+                datosUsuario.setApellido(certificadoRepresentanteLegalUanataca.getPrimerApellido() + " "
+                        + certificadoRepresentanteLegalUanataca.getSegundoApellido());
+                datosUsuario.setCargo(certificadoRepresentanteLegalUanataca.getCargo());
+                datosUsuario.setSerial(certificado.getSerialNumber().toString());
+            }
+            else if (certificadoUanataca instanceof CertificadoSelladoTiempo) {
+                datosUsuario.setSerial(certificado.getSerialNumber().toString());
+            }
+            datosUsuario.setEntidadCertificadora("Uanataca");
             datosUsuario.setCertificadoDigitalValido(true);
             return datosUsuario;
         }
