@@ -127,9 +127,9 @@ public class CertEcUtils {
                 } catch (java.security.InvalidKeyException ex) {
                     //TODO
                 }
-//            case "Dirección General de Registro Civil, Identificación y Cedulación": {
-//                return new DigercicSubCaCert20212031();
-//            }
+            case "Dirección General de Registro Civil, Identificación y Cedulación": {
+                return new DigercicSubCaCert20212031();
+            }
             case UANATACA_NAME:
                 try{
                     if (io.rubrica.utils.Utils.verifySignature(certificado, new UanatacaSubCaCert0120162029())) {
@@ -163,9 +163,9 @@ public class CertEcUtils {
         if (certificado.getIssuerX500Principal().getName().toUpperCase().contains("ANF")) {
             return "Anf AC";
         }
-//        if (certificado.getIssuerX500Principal().getName().toUpperCase().contains("DIRECCIÓN GENERAL DE REGISTRO CIVIL")) {
-//            return "Dirección General de Registro Civil, Identificación y Cedulación";
-//        }
+        if (certificado.getIssuerX500Principal().getName().toUpperCase().contains("DIRECCIÓN GENERAL DE REGISTRO CIVIL")) {
+            return "Dirección General de Registro Civil, Identificación y Cedulación";
+        }
         if (certificado.getIssuerX500Principal().getName().toUpperCase().contains(UANATACA_NAME)) {
             return UANATACA_NAME;
         }
@@ -411,20 +411,20 @@ public class CertEcUtils {
             datosUsuario.setCertificadoDigitalValido(true);
             return datosUsuario;
         }
-//        if (CertificadoDigercicFactory.esCertificadoDigercic(certificado)) {
-//            CertificadoDigercic certificadoDigercic = CertificadoDigercicFactory.construir(certificado);
-//            if (certificadoDigercic instanceof CertificadoPersonaNatural) {
-//                CertificadoPersonaNatural certificadoPersonaNatural = (CertificadoPersonaNatural) certificadoDigercic;
-//
-//                datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
-//                datosUsuario.setNombre(Utils.getCN(certificado));
-//                datosUsuario.setApellido("");
-//                datosUsuario.setSerial(certificado.getSerialNumber().toString());
-//            }
-//            datosUsuario.setEntidadCertificadora("DIGERCIC");
-//            datosUsuario.setCertificadoDigitalValido(true);
-//            return datosUsuario;
-//        }
+        if (CertificadoDigercicFactory.esCertificadoDigercic(certificado)) {
+            CertificadoDigercic certificadoDigercic = CertificadoDigercicFactory.construir(certificado);
+            if (certificadoDigercic instanceof CertificadoPersonaNatural) {
+                CertificadoPersonaNatural certificadoPersonaNatural = (CertificadoPersonaNatural) certificadoDigercic;
+
+                datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
+                datosUsuario.setNombre(Utils.getCN(certificado));
+                datosUsuario.setApellido("");
+                datosUsuario.setSerial(certificado.getSerialNumber().toString());
+            }
+            datosUsuario.setEntidadCertificadora("DIGERCIC");
+            datosUsuario.setCertificadoDigitalValido(true);
+            return datosUsuario;
+        }
         if (CertificadoUanatacaDataFactory.esCertificadoUanataca(certificado)) {
             CertificadoUanataca certificadoUanataca = CertificadoUanatacaDataFactory.construir(certificado);
             if (certificadoUanataca instanceof CertificadoMiembroEmpresaUanataca) {
