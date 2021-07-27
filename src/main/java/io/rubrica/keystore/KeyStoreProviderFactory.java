@@ -40,9 +40,9 @@ public class KeyStoreProviderFactory {
 
     static {
         List<KeyStoreProvider> windows = new ArrayList<KeyStoreProvider>();
-        windows.add(new WindowsPcscKeyStoreProvider());
-        windows.add(new UKCGenericWindowsDllKeyStoreProvider());
         windows.add(new WindowsKeyStoreProvider());
+        windows.add(new UKCGenericWindowsDllKeyStoreProvider());
+        windows.add(new WindowsPcscKeyStoreProvider());
         lista.put(WINDOWS, windows);
     }
 
@@ -60,6 +60,7 @@ public class KeyStoreProviderFactory {
 
     static {
         List<KeyStoreProvider> macOS = new ArrayList<KeyStoreProvider>();
+        macOS.add(new PcscAppleKeyStoreProvider());
         macOS.add(new SafenetAppleKeyStoreProvider());
         macOS.add(new EPass2003AppleKeyStoreProvider());
         macOS.add(new EPass3003AppleKeyStoreProvider());
