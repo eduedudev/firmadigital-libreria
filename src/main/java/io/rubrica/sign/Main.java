@@ -65,6 +65,7 @@ public class Main {
 //    private static final String PASSWORD = "T35t_3cu4d0r.2021";
     private static final String FILE = "C:\\Users\\desarrollo\\Downloads\\documento_blanco-signed.pdf";
 //    private static final String FILE = "/home/mfernandez/documento_blanco-signed-signed.pdf";
+//    private static final String FILE = "/home/mfernandez/Descargas/test/mozilla.pdf.p7m";
 
     public static void main(String args[]) throws KeyStoreException, Exception {
 //        fechaHora(240);//espera en segundos

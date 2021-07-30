@@ -478,28 +478,41 @@ public class Utils {
                     certificados.add(certificado);
                 }
 
-                if (certificados != null || !certificados.isEmpty()) {
-                    for (Certificado certificado : certificados) {
-                        if (!certificado.getDatosUsuario().getSelladoTiempo()) {//certificados digitales
-                            //certificado digital sin ser revocado, integridad de la firma, dentro de fecha de figencia, válido por CA
-                            boolean revocado = validarFirma(certificado.getValidFrom(), certificado.getValidTo(), certificado.getGenerated(), certificado.getRevocated());
-                            if (!revocado || !certificado.getSignVerify() || !certificado.getValidated() || !certificado.getDatosUsuario().isCertificadoDigitalValido()) {
-                                documento.setSignValidate(false);
-                                break;
-                            }
-                        } else {// sellos de tiempo
-                            //dentro de fecha de figencia, válido por CA
-                            if (!certificado.getValidated() || !certificado.getDatosUsuario().isCertificadoDigitalValido()) {
-                                documento.setSignValidate(false);
-                                break;
-                            }
-                        }
-                    }
-                }
+                documento.setSignValidate(validarCertificados(certificados, true));
                 documento.setCertificados(certificados);
             }
         }
         return documento;
+    }
+
+    private static boolean validarCertificados(List<Certificado> certificados, boolean pdf) {
+        boolean retorno = true;
+        if (certificados != null || !certificados.isEmpty()) {
+            for (Certificado certificado : certificados) {
+                if (!certificado.getDatosUsuario().getSelladoTiempo()) {//certificados digitales
+                    //certificado digital sin ser revocado, integridad de la firma, dentro de fecha de figencia, válido por CA
+                    boolean revocado = validarFirma(certificado.getValidFrom(), certificado.getValidTo(), certificado.getGenerated(), certificado.getRevocated());
+                    if (pdf) {
+                        if (!revocado || !certificado.getSignVerify() || !certificado.getValidated() || !certificado.getDatosUsuario().isCertificadoDigitalValido()) {
+                            retorno = false;
+                            break;
+                        }
+                    } else {
+                        if (!revocado || !certificado.getValidated() || !certificado.getDatosUsuario().isCertificadoDigitalValido()) {
+                            retorno = false;
+                            break;
+                        }
+                    }
+                } else {// sellos de tiempo
+                    //dentro de fecha de figencia, válido por CA
+                    if (!certificado.getValidated() || !certificado.getDatosUsuario().isCertificadoDigitalValido()) {
+                        retorno = false;
+                        break;
+                    }
+                }
+            }
+        }
+        return retorno;
     }
 
     private static void infoPDF(PdfDocument pdfDocument) {
@@ -695,7 +708,9 @@ public class Utils {
             String nombreArchivo = FileUtils.crearNombreVerificado(file, FileUtils.getExtension(archivoOriginal));
             FileUtils.saveByteArrayToDisc(archivoOriginal, nombreArchivo);
             FileUtils.abrirDocumento(nombreArchivo);
+            documento = new Documento(true, false, null, null);
             documento.setCertificados(Utils.datosP7mToCertificado(verificador.certificados, verificador.fechasFirmados));
+            documento.setSignValidate(validarCertificados(documento.getCertificados(), false));
             return documento;
         } else {
             if (extDocumento.toLowerCase().equals(".pdf")) {
