@@ -55,6 +55,7 @@ public class KeyStoreProviderFactory {
         linux.add(new Bit4idGenericLinuxKeyStoreProvider());
         linux.add(new EPass2003LinuxKeyStoreProvider());
         linux.add(new EPass3003LinuxKeyStoreProvider());
+        linux.add(new UKCLinuxKeyStoreProvider());
         lista.put(LINUX, linux);
     }
 
