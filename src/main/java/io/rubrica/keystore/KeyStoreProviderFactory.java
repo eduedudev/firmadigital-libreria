@@ -42,25 +42,24 @@ public class KeyStoreProviderFactory {
         List<KeyStoreProvider> windows = new ArrayList<KeyStoreProvider>();
         windows.add(new WindowsKeyStoreProvider());
         windows.add(new UKCGenericWindowsDllKeyStoreProvider());
-        windows.add(new WindowsPcscKeyStoreProvider());
+        windows.add(new WindowsPcscKeyStoreProvider());//debe ir al final porque genera incompatibilidad con el resto
         lista.put(WINDOWS, windows);
     }
 
     static {
         List<KeyStoreProvider> linux = new ArrayList<KeyStoreProvider>();
-        linux.add(new LinuxPcscKeyStoreProvider());
         linux.add(new SafenetIKey2032LinuxKeyStoreProvider());
         linux.add(new SafenetLinuxKeyStoreProvider());
         linux.add(new Bit4idLinuxKeyStoreProvider());
         linux.add(new Bit4idGenericLinuxKeyStoreProvider());
         linux.add(new EPass2003LinuxKeyStoreProvider());
         linux.add(new EPass3003LinuxKeyStoreProvider());
+        linux.add(new LinuxPcscKeyStoreProvider());//debe ir al final porque genera incompatibilidad con el resto
         lista.put(LINUX, linux);
     }
 
     static {
         List<KeyStoreProvider> macOS = new ArrayList<KeyStoreProvider>();
-        macOS.add(new PcscAppleKeyStoreProvider());
         macOS.add(new SafenetAppleKeyStoreProvider());
         macOS.add(new EPass2003AppleKeyStoreProvider());
         macOS.add(new EPass3003AppleKeyStoreProvider());
@@ -68,6 +67,7 @@ public class KeyStoreProviderFactory {
         macOS.add(new Bit4IdGenericAppleKeyStoreProvider());
         macOS.add(new UKCAppleKeyStoreProvider());
         macOS.add(new UKCGenericAppleKeyStoreProvider());
+        macOS.add(new PcscAppleKeyStoreProvider());//debe ir al final porque genera incompatibilidad con el resto
         lista.put(MACOS, macOS);
     }
 
