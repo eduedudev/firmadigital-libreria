@@ -47,6 +47,12 @@ import io.rubrica.certificate.ec.cj.ConsejoJudicaturaSubCaCert;
 import io.rubrica.certificate.ec.digercic.CertificadoDigercic;
 import io.rubrica.certificate.ec.digercic.CertificadoDigercicFactory;
 import io.rubrica.certificate.ec.digercic.DigercicSubCaCert20212031;
+import io.rubrica.certificate.ec.eclipsoft.CertificadoEclipsoft;
+import io.rubrica.certificate.ec.eclipsoft.CertificadoEclipsoftDataFactory;
+import io.rubrica.certificate.ec.eclipsoft.CertificadoMiembroEmpresaEclipsoft;
+import io.rubrica.certificate.ec.eclipsoft.CertificadoPersonaJuridicaPrivadaEclipsoft;
+import io.rubrica.certificate.ec.eclipsoft.CertificadoPersonalNaturalEclipsoft;
+import io.rubrica.certificate.ec.eclipsoft.CertificadoRepresentanteLegalEclipsoft;
 import io.rubrica.certificate.ec.securitydata.CertificadoSecurityData;
 import io.rubrica.certificate.ec.securitydata.CertificadoSecurityDataFactory;
 import io.rubrica.certificate.ec.securitydata.SecurityDataSubCaCert20112026;
@@ -58,8 +64,8 @@ import io.rubrica.certificate.ec.uanataca.CertificadoPersonaNaturalUanataca;
 import io.rubrica.certificate.ec.uanataca.CertificadoRepresentanteLegalUanataca;
 import io.rubrica.certificate.ec.uanataca.CertificadoUanataca;
 import io.rubrica.certificate.ec.uanataca.CertificadoUanatacaDataFactory;
-import io.rubrica.certificate.ec.uanataca.UanatacaSubCaCert0220162029;
 import io.rubrica.certificate.ec.uanataca.UanatacaSubCaCert0120162029;
+import io.rubrica.certificate.ec.uanataca.UanatacaSubCaCert0220162029;
 import io.rubrica.certificate.to.DatosUsuario;
 import io.rubrica.exceptions.EntidadCertificadoraNoValidaException;
 import io.rubrica.utils.Utils;
@@ -465,10 +471,46 @@ public class CertEcUtils {
             else if (certificadoUanataca instanceof CertificadoSelladoTiempo) {
                 datosUsuario.setSerial(certificado.getSerialNumber().toString());
             }
-            datosUsuario.setEntidadCertificadora("Uanataca");
-            datosUsuario.setCertificadoDigitalValido(true);
-            return datosUsuario;
-        }
+            datosUsuario.setEntidadCertificadora("Uanataca Ecuador");
+			datosUsuario.setCertificadoDigitalValido(true);
+			return datosUsuario;
+		}
+		if (CertificadoEclipsoftDataFactory.esCertificadoEclipsoft(certificado)) {
+			CertificadoEclipsoft certificadoEclipsoft = CertificadoEclipsoftDataFactory.construir(certificado);
+			if (certificadoEclipsoft instanceof CertificadoPersonalNaturalEclipsoft) {
+				CertificadoPersonalNaturalEclipsoft certificadoPersonalNaturalEclipsoft = (CertificadoPersonalNaturalEclipsoft) certificadoEclipsoft;
+				datosUsuario.setCedula(certificadoPersonalNaturalEclipsoft.getCedulaPasaporte());
+				datosUsuario.setNombre(certificadoPersonalNaturalEclipsoft.getNombres());
+				datosUsuario.setApellido(certificadoPersonalNaturalEclipsoft.getPrimerApellido() + " " + certificadoPersonalNaturalEclipsoft.getSegundoApellido());
+				datosUsuario.setSerial(certificado.getSerialNumber().toString());
+			} else if (certificadoEclipsoft instanceof CertificadoMiembroEmpresaEclipsoft) {
+				CertificadoMiembroEmpresaEclipsoft certificadoMiembroEmpresaEclipsoft = (CertificadoMiembroEmpresaEclipsoft) certificadoEclipsoft;
+				datosUsuario.setCedula(certificadoMiembroEmpresaEclipsoft.getCedulaPasaporte());
+				datosUsuario.setNombre(certificadoMiembroEmpresaEclipsoft.getNombres());
+				datosUsuario.setApellido(certificadoMiembroEmpresaEclipsoft.getPrimerApellido() + " " + certificadoMiembroEmpresaEclipsoft.getSegundoApellido());
+				datosUsuario.setCargo(certificadoMiembroEmpresaEclipsoft.getCargo());
+				datosUsuario.setSerial(certificado.getSerialNumber().toString());
+			} else if (certificadoEclipsoft instanceof CertificadoRepresentanteLegalEclipsoft) {
+				CertificadoRepresentanteLegalEclipsoft certificadoRepresentanteLegalEclipsoft = (CertificadoRepresentanteLegalEclipsoft) certificadoEclipsoft;
+				datosUsuario.setCedula(certificadoRepresentanteLegalEclipsoft.getCedulaPasaporte());
+				datosUsuario.setNombre(certificadoRepresentanteLegalEclipsoft.getNombres());
+				datosUsuario.setApellido(certificadoRepresentanteLegalEclipsoft.getPrimerApellido() + " " + certificadoRepresentanteLegalEclipsoft.getSegundoApellido());
+				datosUsuario.setCargo(certificadoRepresentanteLegalEclipsoft.getCargo());
+				datosUsuario.setSerial(certificado.getSerialNumber().toString());
+			} else if (certificadoEclipsoft instanceof CertificadoPersonaJuridicaPrivadaEclipsoft) {
+				CertificadoPersonaJuridicaPrivadaEclipsoft certificadoPersonaJuridicaPrivadaEclipsoft = (CertificadoPersonaJuridicaPrivadaEclipsoft) certificadoEclipsoft;
+				datosUsuario.setCedula(certificadoPersonaJuridicaPrivadaEclipsoft.getCedulaPasaporte());
+				datosUsuario.setNombre(certificadoPersonaJuridicaPrivadaEclipsoft.getNombres());
+				datosUsuario.setApellido(certificadoPersonaJuridicaPrivadaEclipsoft.getPrimerApellido() + " " + certificadoPersonaJuridicaPrivadaEclipsoft.getSegundoApellido());
+				datosUsuario.setCargo(datosUsuario.getCargo());
+				datosUsuario.setSerial(certificado.getSerialNumber().toString());
+			} else if (certificadoEclipsoft instanceof CertificadoSelladoTiempo) {
+				datosUsuario.setSerial(certificado.getSerialNumber().toString());
+			}
+			datosUsuario.setEntidadCertificadora("Eclipsoft");
+			datosUsuario.setCertificadoDigitalValido(true);
+			return datosUsuario;
+		}
         return null;
     }
 }

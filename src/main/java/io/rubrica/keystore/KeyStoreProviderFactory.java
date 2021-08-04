@@ -42,7 +42,7 @@ public class KeyStoreProviderFactory {
         List<KeyStoreProvider> windows = new ArrayList<KeyStoreProvider>();
         windows.add(new WindowsKeyStoreProvider());
         windows.add(new UKCGenericWindowsDllKeyStoreProvider());
-        windows.add(new WindowsPcscKeyStoreProvider());//debe ir al final porque genera incompatibilidad con el resto
+        windows.add(new WindowsPcscKeyStoreProvider()); //debe ir al final porque genera incompatibilidad con el resto
         lista.put(WINDOWS, windows);
     }
 
@@ -54,6 +54,7 @@ public class KeyStoreProviderFactory {
         linux.add(new Bit4idGenericLinuxKeyStoreProvider());
         linux.add(new EPass2003LinuxKeyStoreProvider());
         linux.add(new EPass3003LinuxKeyStoreProvider());
+        linux.add(new UKCLinuxKeyStoreProvider());
         linux.add(new LinuxPcscKeyStoreProvider());//debe ir al final porque genera incompatibilidad con el resto
         lista.put(LINUX, linux);
     }
