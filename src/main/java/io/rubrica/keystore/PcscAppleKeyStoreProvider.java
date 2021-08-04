@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2020 
- * Authors: Ricardo Arguello, Misael Fernández
+ * Authors: Misael Fernández
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -20,20 +20,17 @@ package io.rubrica.keystore;
 import java.io.File;
 
 /**
- * KeyStoreProvider para tokens ePass2003.
- *
- * @author mfernandez
+ * @author Edison Lomas Almeida
  */
-public class EPass2003LinuxKeyStoreProvider extends PKCS11KeyStoreProvider {
+public class PcscAppleKeyStoreProvider extends PKCS11KeyStoreProvider {
 
     private static final String CONFIG;
-    private static final String DRIVER_FILE_32_BITS = "/opt/ePass2003_SecurityData_20151225/i386/redist/SecurityDataCsp11_2003auto.so";
-    private static final String DRIVER_FILE_64_BITS = "/opt/ePass2003_SecurityData_20151225/x86_64/redist/SecurityDataCsp11_2003auto.so";
+    private static final String DRIVER_FILE = "/Library/Application Support/seguridata/sgdatap11/pkcs11/libsgdatap11.dylib";
 
     static {
         StringBuilder config = new StringBuilder();
-        config.append("name=ePass2003\n");
-        config.append("library=").append(is64bit() ? DRIVER_FILE_64_BITS : DRIVER_FILE_32_BITS);
+        config.append("name=Pcsc\n");
+        config.append("library=" + DRIVER_FILE);
         CONFIG = config.toString();
     }
 
@@ -44,7 +41,7 @@ public class EPass2003LinuxKeyStoreProvider extends PKCS11KeyStoreProvider {
 
     @Override
     public boolean existeDriver() {
-        File driver = is64bit() ? new File(DRIVER_FILE_64_BITS) : new File(DRIVER_FILE_32_BITS);
+        File driver = new File(DRIVER_FILE);
         return driver.exists();
     }
 }
