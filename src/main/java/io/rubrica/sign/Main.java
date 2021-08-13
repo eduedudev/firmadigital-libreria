@@ -37,6 +37,7 @@ import io.rubrica.keystore.KeyStoreProviderFactory;
 import io.rubrica.sign.pdf.PDFSigner;
 import io.rubrica.sign.pdf.PdfUtil;
 import io.rubrica.utils.FileUtils;
+import io.rubrica.utils.Json;
 import io.rubrica.utils.TiempoUtils;
 import io.rubrica.utils.Utils;
 import io.rubrica.utils.UtilsCrlOcsp;
@@ -58,13 +59,15 @@ public class Main {
     // ARCHIVO
     // ARCHIVO
     //    private static final String ARCHIVO = "/home/mfernandez/prueba.p12";
-    private static final String PASSWORD = "11111111";
-    private static final String ARCHIVO = "C:\\Users\\desarrollo\\Downloads\\prueba.p12";
-//    private static final String PASSWORD = "123456";
+//    private static final String PASSWORD = "11111111";
+    private static final String ARCHIVO = "/home/mfernandez/prueba.p12";
+//    private static final String ARCHIVO = "C:\\Users\\desarrollo\\Downloads\\prueba.p12";
+    private static final String PASSWORD = "123456";
 //    private static final String ARCHIVO = "C:\\Users\\desarrollo\\Documents\\Digercic\\Edgar_Columba.pfx";
 //    private static final String PASSWORD = "T35t_3cu4d0r.2021";
-    private static final String FILE = "C:\\Users\\desarrollo\\Downloads\\documento_blanco-signed.pdf";
-//    private static final String FILE = "/home/mfernandez/documento_blanco-signed-signed.pdf";
+//    private static final String FILE = "C:\\Users\\desarrollo\\Downloads\\documento_blanco-signed.pdf";
+//    private static final String FILE = "/home/mfernandez/documento_blanco-signed.pdf";
+    private static final String FILE = "/home/mfernandez/Descargas/Manual-Usuario-FirmaEC-v2.7.0.pdf";
 //    private static final String FILE = "/home/mfernandez/Descargas/test/mozilla.pdf.p7m";
 
     public static void main(String args[]) throws KeyStoreException, Exception {
@@ -132,10 +135,10 @@ public class Main {
         byte[] docByteArry = DocumentoUtils.loadFile(file);
 
         // ARCHIVO
-//        KeyStoreProvider 223ksp = new FileKeyStoreProvider(ARCHIVO);
-//        KeyStore keyStore = ksp.getKeystore(PASSWORD.toCharArray());
+        KeyStoreProvider ksp = new FileKeyStoreProvider(ARCHIVO);
+        KeyStore keyStore = ksp.getKeystore(PASSWORD.toCharArray());
         // TOKEN
-        KeyStore keyStore = KeyStoreProviderFactory.getKeyStore(PASSWORD);
+//        KeyStore keyStore = KeyStoreProviderFactory.getKeyStore(PASSWORD);
 
         byte[] signed = null;
         Signer signer = Utils.documentSigner(new File(file));
@@ -178,7 +181,7 @@ public class Main {
         KeyStoreProvider ksp = new FileKeyStoreProvider(ARCHIVO);
         KeyStore keyStore = ksp.getKeystore(PASSWORD.toCharArray());
         // TOKEN
-        //KeyStore keyStore = KeyStoreProviderFactory.getKeyStore(PASSWORD);
+//        KeyStore keyStore = KeyStoreProviderFactory.getKeyStore(PASSWORD);
 
         String alias = seleccionarAlias(keyStore);
         X509Certificate x509Certificate = (X509Certificate) keyStore.getCertificate(alias);
@@ -207,6 +210,8 @@ public class Main {
     private static void verificarDocumento(String file) throws IOException, SignatureVerificationException, Exception {
         File document = new File(file);
         Documento documento = Utils.verificarDocumento(document);
+        System.out.println("JSON:");
+        System.out.println(Json.GenerarJsonDocumento(documento));
         System.out.println("Documento: " + documento);
         if (documento.getCertificados() != null) {
             documento.getCertificados().forEach((certificado) -> {
