@@ -37,6 +37,7 @@ import io.rubrica.keystore.KeyStoreProviderFactory;
 import io.rubrica.sign.pdf.PDFSigner;
 import io.rubrica.sign.pdf.PdfUtil;
 import io.rubrica.utils.FileUtils;
+import io.rubrica.utils.Json;
 import io.rubrica.utils.TiempoUtils;
 import io.rubrica.utils.Utils;
 import io.rubrica.utils.UtilsCrlOcsp;
@@ -56,32 +57,24 @@ import java.util.Date;
 public class Main {
 
     // ARCHIVO
+    // ARCHIVO
+    //    private static final String ARCHIVO = "/home/mfernandez/prueba.p12";
+//    private static final String PASSWORD = "11111111";
     private static final String ARCHIVO = "/home/mfernandez/prueba.p12";
+//    private static final String ARCHIVO = "C:\\Users\\desarrollo\\Downloads\\prueba.p12";
     private static final String PASSWORD = "123456";
-//    private static final String FILE = "/home/mfernandez/Descargas/1111201901099252674200120430030017228925486271312_A.xml";
-//    private static final String FILE_XML = "/home/mfernandez/Descargas/1111201901099252674200120430030017228925486271312_A-signed.txt.xml";
-//    private static final String FILE_XML = "/home/mfernandez/Test/facturaMovistar.xml";
-//    private static final String FILE = "/home/mfernandez/Test/hello_encrypted2.pdf";
-//    private static final String FILE = "/home/mfernandez/Test/Caballero.pdf";
-//    private static final String FILE = "/home/mfernandez/CompartidoWindows/Aplicaciones Windows/caso firma/1.7_Porcentaje_Cero_Papeles_Quipux_Agosto_2020_editado_3.pdf";
-//    private static final String FILE = "/home/mfernandez/CompartidoWindows/Aplicaciones Windows/caso firma/1.7_Porcentaje_Cero_Papeles_Quipux_Agosto_2020_ok.pdf";
-//    private static final String FILE = "/home/mfernandez/Test/documento_blanco-signed.pdf";
-//    private static final String FILE = "/home/mfernandez/Descargas/MINTEL-SGERC-2021-0185-E.pdf";
-//    private static final String FILE = "/home/mfernandez/Test/Editados/Paz y salvo - rige el 2020 Diego Saud DF-signed-signed.pdf";
-//    private static final String FILE = "/home/mfernandez/Test/Verify/05.pdf";
-    private static final String FILE = "/home/mfernandez/Test/2021/11.pdf";
-//    private static final String FILE = "/home/mfernandez/Test/2021/083-2020.pdf";
-//    private static final String FILE = "/home/mfernandez/documento_blanco.pdf";
-//    private static final String FILE = "/home/mfernandez/Test/1.pdf";
-//    private static final String FILE = "/home/mfernandez/Test/firmadoEditado.pdf";
-//    private static final String FILE = "/home/mfernandez/Test/documento_blanco.pdf";
-//    private static final String FILE = "/home/mfernandez/Test/quipux_xls.p7m";
+//    private static final String ARCHIVO = "C:\\Users\\desarrollo\\Documents\\Digercic\\Edgar_Columba.pfx";
+//    private static final String PASSWORD = "T35t_3cu4d0r.2021";
+//    private static final String FILE = "C:\\Users\\desarrollo\\Downloads\\documento_blanco-signed.pdf";
+//    private static final String FILE = "/home/mfernandez/documento_blanco-signed.pdf";
+    private static final String FILE = "/home/mfernandez/Descargas/Manual-Usuario-FirmaEC-v2.7.0.pdf";
+//    private static final String FILE = "/home/mfernandez/Descargas/test/mozilla.pdf.p7m";
 
     public static void main(String args[]) throws KeyStoreException, Exception {
 //        fechaHora(240);//espera en segundos
-//        firmarDocumento(FILE);
+        firmarDocumento(FILE);
 //        validarCertificado();
-        verificarDocumento(FILE);
+//        verificarDocumento(FILE);
     }
 
     private static Properties parametros() throws IOException {
@@ -125,9 +118,9 @@ public class Main {
         params.setProperty(PDFSigner.SIGNING_REASON, "Firmado digitalmente con RUBRICA");
         params.setProperty(PDFSigner.SIGN_TIME, TiempoUtils.getFechaHoraServidor());
         params.setProperty(PDFSigner.LAST_PAGE, "1");
-//        params.setProperty(PDFSigner.TYPE_SIG, "QR");
-//        params.setProperty(PDFSigner.INFO_QR, "Firmado digitalmente con RUBRICA\nhttps://minka.gob.ec/rubrica/rubrica");
-        params.setProperty(PDFSigner.TYPE_SIG, "information2");
+        params.setProperty(PDFSigner.TYPE_SIG, "QR");
+        params.setProperty(PDFSigner.INFO_QR, "Firmado digitalmente con RUBRICA\nhttps://minka.gob.ec/rubrica/rubrica");
+//        params.setProperty(PDFSigner.TYPE_SIG, "information2");
         //params.setProperty(PDFSigner.FONT_SIZE, "4.5");
         // Posicion firma
         params.setProperty(PdfUtil.POSITION_ON_PAGE_LOWER_LEFT_X, llx);
@@ -145,7 +138,7 @@ public class Main {
         KeyStoreProvider ksp = new FileKeyStoreProvider(ARCHIVO);
         KeyStore keyStore = ksp.getKeystore(PASSWORD.toCharArray());
         // TOKEN
-        //KeyStore keyStore = KeyStoreProviderFactory.getKeyStore(PASSWORD);
+//        KeyStore keyStore = KeyStoreProviderFactory.getKeyStore(PASSWORD);
 
         byte[] signed = null;
         Signer signer = Utils.documentSigner(new File(file));
@@ -188,7 +181,7 @@ public class Main {
         KeyStoreProvider ksp = new FileKeyStoreProvider(ARCHIVO);
         KeyStore keyStore = ksp.getKeystore(PASSWORD.toCharArray());
         // TOKEN
-        //KeyStore keyStore = KeyStoreProviderFactory.getKeyStore(PASSWORD);
+//        KeyStore keyStore = KeyStoreProviderFactory.getKeyStore(PASSWORD);
 
         String alias = seleccionarAlias(keyStore);
         X509Certificate x509Certificate = (X509Certificate) keyStore.getCertificate(alias);
@@ -217,6 +210,8 @@ public class Main {
     private static void verificarDocumento(String file) throws IOException, SignatureVerificationException, Exception {
         File document = new File(file);
         Documento documento = Utils.verificarDocumento(document);
+        System.out.println("JSON:");
+        System.out.println(Json.GenerarJsonDocumento(documento));
         System.out.println("Documento: " + documento);
         if (documento.getCertificados() != null) {
             documento.getCertificados().forEach((certificado) -> {
