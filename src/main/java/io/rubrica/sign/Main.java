@@ -57,8 +57,7 @@ import java.util.Date;
 public class Main {
 
     // ARCHIVO
-    // ARCHIVO
-    //    private static final String ARCHIVO = "/home/mfernandez/prueba.p12";
+//    private static final String ARCHIVO = "/home/mfernandez/prueba.p12";
 //    private static final String PASSWORD = "11111111";
     private static final String ARCHIVO = "/home/mfernandez/prueba.p12";
 //    private static final String ARCHIVO = "C:\\Users\\desarrollo\\Downloads\\prueba.p12";
@@ -72,9 +71,9 @@ public class Main {
 
     public static void main(String args[]) throws KeyStoreException, Exception {
 //        fechaHora(240);//espera en segundos
-        firmarDocumento(FILE);
+//        firmarDocumento(FILE);
 //        validarCertificado();
-//        verificarDocumento(FILE);
+        verificarDocumento(FILE);
     }
 
     private static Properties parametros() throws IOException {
@@ -138,7 +137,7 @@ public class Main {
         KeyStoreProvider ksp = new FileKeyStoreProvider(ARCHIVO);
         KeyStore keyStore = ksp.getKeystore(PASSWORD.toCharArray());
         // TOKEN
-//        KeyStore keyStore = KeyStoreProviderFactory.getKeyStore(PASSWORD);
+//        KeyStore keyStore = KeyStoreProviderFactory.getKeyStore(PASSWORD, "TOKEN");
 
         byte[] signed = null;
         Signer signer = Utils.documentSigner(new File(file));
@@ -181,7 +180,7 @@ public class Main {
         KeyStoreProvider ksp = new FileKeyStoreProvider(ARCHIVO);
         KeyStore keyStore = ksp.getKeystore(PASSWORD.toCharArray());
         // TOKEN
-//        KeyStore keyStore = KeyStoreProviderFactory.getKeyStore(PASSWORD);
+//        KeyStore keyStore = KeyStoreProviderFactory.getKeyStore(PASSWORD, "TOKEN");
 
         String alias = seleccionarAlias(keyStore);
         X509Certificate x509Certificate = (X509Certificate) keyStore.getCertificate(alias);
