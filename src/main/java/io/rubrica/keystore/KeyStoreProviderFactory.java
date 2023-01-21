@@ -105,7 +105,8 @@ public class KeyStoreProviderFactory {
     }
 
     /**
-     * Dependiento el tipo de dispositivo que utilice para almacenar el certificado digital
+     * Dependiento el tipo de dispositivo que utilice para almacenar el
+     * certificado digital
      *
      * @param clave
      * @param tipoKeyStoreProvider "TOKEN", "PCSC"

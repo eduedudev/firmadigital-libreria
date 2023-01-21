@@ -27,6 +27,7 @@ import java.security.KeyStoreException;
 import java.security.cert.X509Certificate;
 
 import io.rubrica.certificate.to.DatosUsuario;
+import io.rubrica.exceptions.ConexionException;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.util.Date;
@@ -38,6 +39,7 @@ import java.util.Date;
  */
 public class X509CertificateUtils {
 
+    private String error = null;
     private String revocado = null;
     private boolean caducado = false;
     private boolean desconocido = false;
@@ -56,6 +58,10 @@ public class X509CertificateUtils {
     public String getRevocado() {
         return revocado;
     }
+    
+    public String getError() {
+        return error;
+    }
 
     public static String getCedula(KeyStore keyStore, String alias) {
         try {
@@ -67,13 +73,19 @@ public class X509CertificateUtils {
         }
     }
 
-    public boolean validarX509Certificate(X509Certificate x509Certificate) throws RubricaException, KeyStoreException, EntidadCertificadoraNoValidaException, InvalidKeyException, CertificadoInvalidoException, IOException, HoraServidorException {
+    public boolean validarX509Certificate(X509Certificate x509Certificate, String apiUrl, String base64) throws RubricaException, KeyStoreException, EntidadCertificadoraNoValidaException, InvalidKeyException, CertificadoInvalidoException, IOException, HoraServidorException, ConexionException {
         boolean retorno = false;
         int diasAnticipacion = 30;
         if (x509Certificate != null) {
-            Date fechaHora = TiempoUtils.getFechaHora();
+            String apiUrlFecha = null;
+            String apiUrlRevocado = null;
+            if (apiUrl != null) {
+                apiUrlFecha = apiUrl + "/fecha-hora";
+                apiUrlRevocado = apiUrl + "/certificado/fechaRevocado";
+            }
+            Date fechaHora = TiempoUtils.getFechaHora(apiUrlFecha, base64);
 
-            Date fechaRevocado = UtilsCrlOcsp.validarFechaRevocado(x509Certificate);
+            Date fechaRevocado = UtilsCrlOcsp.validarFechaRevocado(x509Certificate, apiUrlRevocado);
             if (fechaRevocado != null && fechaRevocado.compareTo(fechaHora) <= 0) {
                 revocado = fechaRevocado.toString();
             }
@@ -85,7 +97,8 @@ public class X509CertificateUtils {
                 calendarRecordatorio.add(java.util.Calendar.DATE, -diasAnticipacion);
                 if (calendarRecordatorio.getTime().compareTo(fechaHora) <= 0) {
                     java.text.SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    javax.swing.JOptionPane.showMessageDialog(null, PropertiesUtils.getMessages().getProperty("mensaje.advertencia.certificado_advertencia") + simpleDateFormat.format(x509Certificate.getNotAfter().getTime()), "Advertencia", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                    //javax.swing.JOptionPane.showMessageDialog(null, PropertiesUtils.getMessages().getProperty("mensaje.advertencia.certificado_advertencia") + simpleDateFormat.format(x509Certificate.getNotAfter().getTime()), "Advertencia", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                    error = PropertiesUtils.getMessages().getProperty("mensaje.advertencia.certificado_advertencia") + simpleDateFormat.format(x509Certificate.getNotAfter().getTime());
                 }
             }
 
@@ -94,7 +107,8 @@ public class X509CertificateUtils {
             }
 
             if ((revocado != null) || caducado || desconocido) {
-                javax.swing.JOptionPane.showMessageDialog(null, PropertiesUtils.getMessages().getProperty("mensaje.error.certificado_invalido"), "Advertencia", javax.swing.JOptionPane.WARNING_MESSAGE);
+                error = PropertiesUtils.getMessages().getProperty("mensaje.error.certificado_invalido");
+                retorno = false;
             } else {
                 retorno = true;
             }

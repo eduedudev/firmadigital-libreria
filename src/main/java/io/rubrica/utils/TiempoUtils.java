@@ -18,23 +18,27 @@
 package io.rubrica.utils;
 
 import io.rubrica.exceptions.HoraServidorException;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.URL;
 import java.time.Instant;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.TemporalAccessor;
 import java.util.Date;
 import java.util.logging.Logger;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Form;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import org.glassfish.jersey.client.ClientProperties;
 
 /**
  * Utilidades para manejar tiempos
- * 
+ *
  * @author mfernandez
  */
 public class TiempoUtils {
@@ -44,11 +48,12 @@ public class TiempoUtils {
 
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
 
-    public static Date getFechaHora() throws HoraServidorException {
+    public static Date getFechaHora(String apiUrl, String base64) throws HoraServidorException {
         String fechaHora;
         try {
-            fechaHora = getFechaHoraServidor();
+            fechaHora = getFechaHoraServidor(apiUrl, base64);
         } catch (IOException e) {
+            e.printStackTrace();
             LOGGER.severe("No se puede obtener la fecha del servidor: " + e.getMessage());
             throw new HoraServidorException(PropertiesUtils.getMessages().getProperty("mensaje.error.problema_red"));
         }
@@ -61,37 +66,31 @@ public class TiempoUtils {
         }
     }
 
-    public static String getFechaHoraServidor() throws IOException {
-        String fecha_hora_url = PropertiesUtils.getConfig().getProperty("fecha_hora_url");
+    public static String getFechaHoraServidor(String apiUrl, String base64) throws IOException, HoraServidorException {
+        String fecha_hora_url = apiUrl == null ? PropertiesUtils.getConfig().getProperty("fecha_hora_url") : apiUrl;
         System.out.println("fecha_hora_url: " + fecha_hora_url);
-        if (fecha_hora_url.isEmpty()) {
+        if (fecha_hora_url == null) {
             // La fecha actual en formato ISO-8601 (2017-08-27T17:54:43.562-05:00)
-            return ZonedDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+            //return ZonedDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+            return null;
+//            throw new RuntimeException(PropertiesUtils.getMessages().getProperty("mensaje.error.fecha_hora_url"));
         } else {
-            URL url = new URL(fecha_hora_url);
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
-            con.setConnectTimeout(TIME_OUT);
-            int responseCode = con.getResponseCode();
-            LOGGER.fine("GET Response Code: " + responseCode);
-            System.out.println("GET Response Code: " + responseCode);
-
-            if (responseCode == HttpURLConnection.HTTP_OK) {
-                try (InputStream is = con.getInputStream();) {
-                    InputStreamReader reader = new InputStreamReader(is);
-                    BufferedReader in = new BufferedReader(reader);
-
-                    String inputLine;
-                    StringBuilder response = new StringBuilder();
-
-                    while ((inputLine = in.readLine()) != null) {
-                        response.append(inputLine);
-                    }
-
-                    return response.toString();
-                }
+            Client client = ClientBuilder.newClient();
+            client.property(ClientProperties.CONNECT_TIMEOUT, TIME_OUT);
+            client.property(ClientProperties.READ_TIMEOUT, TIME_OUT);
+            WebTarget target = client.target(fecha_hora_url);
+            Invocation.Builder builder = target.request(MediaType.TEXT_PLAIN);
+            Form form = new Form();
+            form.param("base64", base64);
+            Invocation invocation = builder.buildPost(Entity.form(form));
+            // Leer la respuesta
+            Response response = invocation.invoke();
+            int statusCode = response.getStatus();
+            String respuesta = response.readEntity(String.class);
+            if (statusCode == HttpURLConnection.HTTP_OK) {
+                return respuesta;
             } else {
-                throw new RuntimeException(PropertiesUtils.getMessages().getProperty("mensaje.error.problema_red"));
+                throw new HoraServidorException(PropertiesUtils.getMessages().getProperty("mensaje.error.problema_red"));
             }
         }
     }

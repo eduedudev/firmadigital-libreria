@@ -24,7 +24,7 @@ import java.security.cert.X509CRL;
 
 /**
  * Se establecen url de consulta
- * 
+ *
  * @author mfernandez
  */
 public class ServicioCRL {
@@ -40,6 +40,9 @@ public class ServicioCRL {
     public static final String DIGERCIC_CRL = "https://firma.registrocivil.gob.ec/crl.crl";
     public static final String UANATACA_CRL1 = "http://crl1.uanataca.com/public/pki/crl/CA2subordinada.crl";
     public static final String UANATACA_CRL2 = "http://crl2.uanataca.com/public/pki/crl/CA2subordinada.crl";
+    public static final String DATIL_CRL = "https://datil-subca-crl.s3.us-west-2.amazonaws.com/crl/a0788ee0-78bb-406b-b38a-32e36aa4dbdb.crl";
+    public static final String ARGOSDATA_CRL = "http://crl.argosdata.com.ec/crl/0cdaea45-3374-42ca-9248-7d4797ea00a4.crl";
+    public static final String LAZZATE_CRL = "http://www.enext.site:8777/adss/crls/lazzate.crl";
 
     public static X509CRL downloadCrl(String url) throws Exception {
         byte[] content;

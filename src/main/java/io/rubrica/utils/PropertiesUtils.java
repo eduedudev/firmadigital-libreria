@@ -24,7 +24,7 @@ import java.util.logging.Logger;
 
 /**
  * Utilidad para menejar properties
- * 
+ *
  * @author mfernandez
  */
 public class PropertiesUtils {
@@ -54,4 +54,9 @@ public class PropertiesUtils {
         return config;
     }
 
+    public static String versionBase64() {
+        String jsonVersion = Json.generarJsonVersion(OsUtils.getOs(), "LIBRERIA", getConfig().getProperty("version"), "sha12313");
+        String base64 = java.util.Base64.getEncoder().encodeToString(jsonVersion.getBytes());
+        return base64;
+    }
 }

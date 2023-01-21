@@ -17,9 +17,6 @@
  */
 package io.rubrica.certificate;
 
-import io.rubrica.exceptions.RubricaException;
-import io.rubrica.keystore.Alias;
-import io.rubrica.keystore.KeyStoreUtilities;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -31,8 +28,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+
 import javax.swing.JOptionPane;
 
+import org.bouncycastle.asn1.ASN1Encodable;
 import org.bouncycastle.asn1.ASN1InputStream;
 import org.bouncycastle.asn1.ASN1ObjectIdentifier;
 import org.bouncycastle.asn1.ASN1Primitive;
@@ -40,6 +39,11 @@ import org.bouncycastle.asn1.ASN1Sequence;
 import org.bouncycastle.asn1.ASN1String;
 import org.bouncycastle.asn1.DEROctetString;
 import org.bouncycastle.asn1.DERTaggedObject;
+import org.bouncycastle.asn1.DLTaggedObject;
+
+import io.rubrica.exceptions.RubricaException;
+import io.rubrica.keystore.Alias;
+import io.rubrica.keystore.KeyStoreUtilities;
 
 /**
  * Utilidades para trabajar con Certificados.
@@ -75,12 +79,27 @@ public class CertUtils {
                             // Check the object identifier
                             ASN1ObjectIdentifier objectId = (ASN1ObjectIdentifier) otherNameSeq.getObjectAt(0);
                             if (objectId.toString().equals(oid)) {
-                                DERTaggedObject objectDetail = ((DERTaggedObject) otherNameSeq.getObjectAt(1));
-                                decoded = objectDetail.getObject().toASN1Primitive().toString();
-                                decoded = decoded.substring(3);
+                                ASN1Encodable objectDetail = ((ASN1Encodable) otherNameSeq.getObjectAt(1));
+                                decoded = objectDetail.toASN1Primitive().toString();
+                                decoded = decoded.replace("[0]", "");
                                 break;
                             }
-                        } else if (object != null && object instanceof DERTaggedObject) {
+                        }
+                        if (object != null && object instanceof DLTaggedObject) {
+                            DLTaggedObject dlTaggedObject = (DLTaggedObject) object;
+                            Object obj = dlTaggedObject.getObject();
+                            if (obj != null && obj instanceof ASN1Sequence) {
+                                otherNameSeq = (ASN1Sequence) obj;
+                                // Check the object identifier
+                                ASN1ObjectIdentifier objectId = (ASN1ObjectIdentifier) otherNameSeq.getObjectAt(0);
+                                if (objectId.toString().equals(oid)) {
+                                    DLTaggedObject objectDetail = ((DLTaggedObject) otherNameSeq.getObjectAt(1));
+                                    decoded = objectDetail.getObject().toASN1Primitive().toString();
+                                    break;
+                                }
+                            }
+                        }
+                        if (object != null && object instanceof DERTaggedObject) {
                             DERTaggedObject derTaggedObject = (DERTaggedObject) object;
                             Object obj = derTaggedObject.getObject();
                             if (obj != null && obj instanceof ASN1Sequence) {
@@ -95,9 +114,9 @@ public class CertUtils {
                             }
                         }
                     } catch (UnsupportedEncodingException e) {
-                        System.out.println("Error decoding subjectAltName" + e.getLocalizedMessage());
+                        throw new RuntimeException(e);
                     } catch (Exception e) {
-                        System.out.println("Error decoding subjectAltName" + e.getLocalizedMessage());
+                        throw new RuntimeException(e);
                     }
                 }
             }

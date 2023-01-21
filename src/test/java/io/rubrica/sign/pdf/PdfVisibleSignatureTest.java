@@ -35,6 +35,7 @@ import io.rubrica.sign.SignConstants;
 import io.rubrica.sign.SignInfo;
 import io.rubrica.sign.Signer;
 import io.rubrica.sign.TestHelper;
+import io.rubrica.utils.PropertiesUtils;
 
 public class PdfVisibleSignatureTest {
 
@@ -50,20 +51,20 @@ public class PdfVisibleSignatureTest {
         byte[] pdf = Files.readAllBytes(path);
 
         Properties params = new Properties();
-        params.setProperty(PDFSigner.SIGNING_REASON, "Razon de firma");
-        params.setProperty(PDFSigner.SIGNING_LOCATION, "Quito, Ecuador");
-        params.setProperty(PDFSigner.SIGNATURE_PAGE, "-2");
+        params.setProperty(PDFSignerItext.SIGNING_REASON, "Razon de firma");
+        params.setProperty(PDFSignerItext.SIGNING_LOCATION, "Quito, Ecuador");
+        params.setProperty(PDFSignerItext.SIGNATURE_PAGE, "-2");
 
-        params.setProperty(PdfUtil.POSITION_ON_PAGE_LOWER_LEFT_X, "0");
-        params.setProperty(PdfUtil.POSITION_ON_PAGE_LOWER_LEFT_Y, "0");
-        params.setProperty(PdfUtil.POSITION_ON_PAGE_UPPER_RIGHT_X, "200");
-        params.setProperty(PdfUtil.POSITION_ON_PAGE_UPPER_RIGHT_Y, "100");
+        params.setProperty(RectanguloUtil.POSITION_ON_PAGE_LOWER_LEFT_X, "0");
+        params.setProperty(RectanguloUtil.POSITION_ON_PAGE_LOWER_LEFT_Y, "0");
+        params.setProperty(RectanguloUtil.POSITION_ON_PAGE_UPPER_RIGHT_X, "200");
+        params.setProperty(RectanguloUtil.POSITION_ON_PAGE_UPPER_RIGHT_Y, "100");
 
         byte[] result;
 
         try (FileOutputStream fos = new FileOutputStream(tempFile)) {
-            Signer signer = new PDFSigner();
-            result = signer.sign(pdf, SignConstants.SIGN_ALGORITHM_SHA1WITHRSA, kp.getPrivate(), chain, params);
+            Signer signer = new PDFSignerItext();
+            result = signer.sign(pdf, SignConstants.SIGN_ALGORITHM_SHA1WITHRSA, kp.getPrivate(), chain, params, PropertiesUtils.versionBase64());
 
             assertNotNull(result);
             fos.write(result);

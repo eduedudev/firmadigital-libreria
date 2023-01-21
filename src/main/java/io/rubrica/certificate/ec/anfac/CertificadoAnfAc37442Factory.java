@@ -24,10 +24,11 @@ import java.security.cert.X509Certificate;
 /**
  * Permite construir certificados tipo Certificado ANF AC a partir de
  * certificados X509Certificate.
- * 
+ *
  * @author mfernandez
  */
 public class CertificadoAnfAc37442Factory {
+
     public static boolean esCertificadoDeAnfAc37442(X509Certificate certificado) {
         byte[] valor = certificado.getExtensionValue(CertificadoAnfAc37442.OID_CEDULA_PASAPORTE);
         return (valor != null);

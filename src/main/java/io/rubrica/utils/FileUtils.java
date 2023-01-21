@@ -17,6 +17,7 @@
  */
 package io.rubrica.utils;
 
+import io.rubrica.exceptions.HoraServidorException;
 import java.awt.Desktop;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -65,7 +66,7 @@ public class FileUtils {
      */
     public static File byteArrayConvertToFile(byte[] data) throws IOException {
         // Genera el archivo temporal a partir del InputStream de entrada
-        final File file = File.createTempFile("temp", null);
+        final File file = File.createTempFile("firmaec.rubrica.firmadigital.temp", null);
         try (final FileOutputStream fos = new FileOutputStream(file);) {
             fos.write(data);
             fos.flush();
@@ -74,7 +75,7 @@ public class FileUtils {
         file.deleteOnExit();
         return file;
     }
-    
+
     public static void saveByteArrayToDisc(byte[] archivo, String rutaNombre) throws FileNotFoundException, IOException {
         // TODO validar si hay otro archivo de momento lo sobre escribe
         FileOutputStream fos = new FileOutputStream(rutaNombre);
@@ -95,6 +96,15 @@ public class FileUtils {
         }
     }
 
+    public static String crearNombreTemporal(File documento, String extension, String base64) throws IOException, HoraServidorException {
+        String hora = (TiempoUtils.getFechaHoraServidor(null, base64).replace(":", "").replace(" ", "").replace(".", "").replace("-", "")).substring(0, 20);
+        String nombre = crearNombre(documento);
+        if (new File(nombre).exists()) {
+            nombre = crearNombreTemporal(new File(nombre + "_new"), extension, base64);
+        }
+        return nombre + hora + extension;
+    }
+    
     public static String crearNombreFirmado(File documento, String extension) throws IOException {
         String nombre = crearNombre(documento) + "-signed" + extension;
         if (new File(nombre).exists()) {
@@ -103,8 +113,8 @@ public class FileUtils {
         return nombre;
     }
 
-    public static String crearNombreVerificado(File documento, String extension) throws IOException {
-        String hora = (TiempoUtils.getFechaHoraServidor().replace(":", "").replace(" ", "").replace(".", "").replace("-", "")).substring(0, 20);
+    public static String crearNombreVerificado(File documento, String extension, String base64) throws IOException, HoraServidorException {
+        String hora = (TiempoUtils.getFechaHoraServidor(null, base64).replace(":", "").replace(" ", "").replace(".", "").replace("-", "")).substring(0, 20);
         String nombre = crearNombre(documento);
         if (extension.isEmpty()) {
             extension = getExtension(nombre);
@@ -188,5 +198,45 @@ public class FileUtils {
             }
         }
         return ruta;
+    }
+    
+        /**
+     * Elimina los archivos con una determinada extensión de una carpeta
+     *
+     * @param path Carpeta de la cual eliminar los archivosq
+     * @param constante Constante de los archivos a eliminar
+     */
+    public static void eliminarPorConstante(String path, final String constante) {
+        File[] archivos = new File(path).listFiles((File archivo) -> {
+            if (archivo.isFile() && archivo.exists()) {
+                if (constante != null) {
+                    return archivo.getName().startsWith(constante);
+                }
+            }
+            return false;
+        });
+        for (File archivo : archivos) {
+            archivo.delete();
+        }
+    }
+    
+    /**
+     * Elimina los archivos con una determinada extensión de una carpeta
+     *
+     * @param path Carpeta de la cual eliminar los archivosq
+     * @param extension Extensión de los archivos a eliminar
+     */
+    public static void eliminarPorExtension(String path, final String extension) {
+        File[] archivos = new File(path).listFiles((File archivo) -> {
+            if (archivo.isFile()) {
+                if (extension != null) {
+                    return archivo.getName().endsWith('.' + extension);
+                }
+            }
+            return false;
+        });
+        for (File archivo : archivos) {
+            archivo.delete();
+        }
     }
 }

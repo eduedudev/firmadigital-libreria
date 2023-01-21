@@ -31,6 +31,11 @@ import io.rubrica.certificate.ec.anfac.CertificadoAnfAc18332;
 import io.rubrica.certificate.ec.anfac.CertificadoAnfAc18332Factory;
 import io.rubrica.certificate.ec.anfac.CertificadoAnfAc37442;
 import io.rubrica.certificate.ec.anfac.CertificadoAnfAc37442Factory;
+import io.rubrica.certificate.ec.argosdata.ArgosDataSubCaCert;
+import io.rubrica.certificate.ec.argosdata.CertificadoArgosData;
+import io.rubrica.certificate.ec.argosdata.CertificadoArgosDataFactory;
+import io.rubrica.certificate.ec.argosdata.CertificadoPersonaNaturalArgosData;
+import io.rubrica.certificate.ec.argosdata.CertificadoRepresentanteLegalArgosData;
 import io.rubrica.certificate.ec.bce.BceSubCaCert20112021;
 import io.rubrica.certificate.ec.bce.BceSubCaCert20192029;
 import io.rubrica.certificate.ec.bce.CertificadoBancoCentral;
@@ -66,6 +71,18 @@ import io.rubrica.certificate.ec.uanataca.CertificadoUanataca;
 import io.rubrica.certificate.ec.uanataca.CertificadoUanatacaDataFactory;
 import io.rubrica.certificate.ec.uanataca.UanatacaSubCaCert0120162029;
 import io.rubrica.certificate.ec.uanataca.UanatacaSubCaCert0220162029;
+import io.rubrica.certificate.ec.datil.CertificadoMiembroEmpresaDatil;
+import io.rubrica.certificate.ec.datil.CertificadoPersonaJuridicaPrivadaDatil;
+import io.rubrica.certificate.ec.datil.CertificadoPersonaNaturalDatil;
+import io.rubrica.certificate.ec.datil.CertificadoRepresentanteLegalDatil;
+import io.rubrica.certificate.ec.datil.CertificadoDatil;
+import io.rubrica.certificate.ec.datil.CertificadoDatilDataFactory;
+import io.rubrica.certificate.ec.datil.DatilSubCaCert20212031;
+import io.rubrica.certificate.ec.lazzate.CertificadoLazzate;
+import io.rubrica.certificate.ec.lazzate.CertificadoLazzateDataFactory;
+import io.rubrica.certificate.ec.lazzate.CertificadoPersonaNaturalLazzate;
+import io.rubrica.certificate.ec.lazzate.LazzateSubCaCert;
+
 import io.rubrica.certificate.to.DatosUsuario;
 import io.rubrica.exceptions.EntidadCertificadoraNoValidaException;
 import io.rubrica.utils.Utils;
@@ -77,7 +94,11 @@ import io.rubrica.utils.Utils;
  */
 public class CertEcUtils {
 
-    private static final String UANATACA_NAME = "UANATACA S.A.";
+    public static final String UANATACA_NAME = "UANATACA S.A.";
+    public static final String ECLIPSOFT_NAME = "ECLIPSOFT S.A.";
+    public static final String DATIL_NAME = "DATILMEDIA S.A.";
+    public static final String AGOSDATA_NAME = "ARGOSDATA CA";
+    public static final String LAZZATE_NAME = "LAZZATE CIA. LTDA";
 
     public static X509Certificate getRootCertificate(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         String entidadCertStr = getNombreCA(certificado);
@@ -150,6 +171,16 @@ public class CertEcUtils {
             } catch (java.security.InvalidKeyException ex) {
                 //TODO
             }
+            case DATIL_NAME: {
+                return new DatilSubCaCert20212031();
+            }
+            case AGOSDATA_NAME: {
+                return new ArgosDataSubCaCert();
+            }
+            case LAZZATE_NAME: {
+                return new LazzateSubCaCert();
+            }
+
             default:
                 throw new EntidadCertificadoraNoValidaException("Entidad Certificadora no reconocida");
         }
@@ -175,7 +206,17 @@ public class CertEcUtils {
         if (certificado.getIssuerX500Principal().getName().toUpperCase().contains(UANATACA_NAME)) {
             return UANATACA_NAME;
         }
-        return "Entidad no reconocidad " + certificado.getIssuerX500Principal().getName();
+        if (certificado.getIssuerX500Principal().getName().toUpperCase().contains(DATIL_NAME)) {
+            return DATIL_NAME;
+        }
+        if (certificado.getIssuerX500Principal().getName().toUpperCase().contains(AGOSDATA_NAME)) {
+            return AGOSDATA_NAME;
+        }
+        if (certificado.getIssuerX500Principal().getName().toUpperCase().contains(LAZZATE_NAME)) {
+            return LAZZATE_NAME;
+        }
+
+        return "Entidad no reconocida " + certificado.getIssuerX500Principal().getName();
     }
 
     //TODO poner los nombres como constantes
@@ -503,7 +544,97 @@ public class CertEcUtils {
             } else if (certificadoEclipsoft instanceof CertificadoSelladoTiempo) {
                 datosUsuario.setSerial(certificado.getSerialNumber().toString());
             }
-            datosUsuario.setEntidadCertificadora("Eclipsoft");
+            datosUsuario.setEntidadCertificadora(ECLIPSOFT_NAME);
+            datosUsuario.setCertificadoDigitalValido(true);
+            return datosUsuario;
+        }
+        if (CertificadoDatilDataFactory.esCertificadoDatil(certificado)) {
+            CertificadoDatil certificadoDatil = CertificadoDatilDataFactory.construir(certificado);
+            if (certificadoDatil instanceof CertificadoMiembroEmpresaDatil) {
+                CertificadoMiembroEmpresaDatil certificadoMiembroEmpresaDatil = (CertificadoMiembroEmpresaDatil) certificadoDatil;
+                datosUsuario.setCedula(certificadoMiembroEmpresaDatil.getCedulaPasaporte());
+                datosUsuario.setNombre(certificadoMiembroEmpresaDatil.getNombres());
+                datosUsuario.setApellido(certificadoMiembroEmpresaDatil.getPrimerApellido() + " " + certificadoMiembroEmpresaDatil.getSegundoApellido());
+                datosUsuario.setCargo(certificadoMiembroEmpresaDatil.getCargo());
+                datosUsuario.setSerial(certificado.getSerialNumber().toString());
+            }
+            if (certificadoDatil instanceof CertificadoPersonaJuridicaPrivadaDatil) {
+                CertificadoPersonaJuridicaPrivadaDatil certificadoPersonaJuridicaPrivadaDatil = (CertificadoPersonaJuridicaPrivadaDatil) certificadoDatil;
+                datosUsuario.setCedula(certificadoPersonaJuridicaPrivadaDatil.getCedulaPasaporte());
+                datosUsuario.setNombre(certificadoPersonaJuridicaPrivadaDatil.getNombres());
+                datosUsuario.setApellido(certificadoPersonaJuridicaPrivadaDatil.getPrimerApellido() + " "
+                        + certificadoPersonaJuridicaPrivadaDatil.getSegundoApellido());
+                datosUsuario.setCargo(certificadoPersonaJuridicaPrivadaDatil.getCargo());
+                datosUsuario.setSerial(certificado.getSerialNumber().toString());
+            }
+            if (certificadoDatil instanceof CertificadoRepresentanteLegalDatil) {
+                CertificadoRepresentanteLegalDatil certificadoRepresentanteLegalDatil = (CertificadoRepresentanteLegalDatil) certificadoDatil;
+                datosUsuario.setCedula(certificadoRepresentanteLegalDatil.getCedulaPasaporte());
+                datosUsuario.setNombre(certificadoRepresentanteLegalDatil.getNombres());
+                datosUsuario.setApellido(certificadoRepresentanteLegalDatil.getPrimerApellido() + " "
+                        + certificadoRepresentanteLegalDatil.getSegundoApellido());
+                datosUsuario.setCargo(certificadoRepresentanteLegalDatil.getCargo());
+                datosUsuario.setSerial(certificado.getSerialNumber().toString());
+            }
+            if (certificadoDatil instanceof CertificadoPersonaNaturalDatil) {
+                CertificadoPersonaNaturalDatil certificadoPersonaNaturalDatil = (CertificadoPersonaNaturalDatil) certificadoDatil;
+                datosUsuario.setCedula(certificadoPersonaNaturalDatil.getCedulaPasaporte());
+                datosUsuario.setNombre(certificadoPersonaNaturalDatil.getNombres());
+                datosUsuario.setApellido(certificadoPersonaNaturalDatil.getPrimerApellido() + " "
+                        + certificadoPersonaNaturalDatil.getSegundoApellido());
+                datosUsuario.setSerial(certificado.getSerialNumber().toString());
+            }
+            if (certificadoDatil instanceof CertificadoSelladoTiempo) {
+                datosUsuario.setSerial(certificado.getSerialNumber().toString());
+            }
+            datosUsuario.setEntidadCertificadora(DATIL_NAME);
+            datosUsuario.setCertificadoDigitalValido(true);
+            return datosUsuario;
+        }
+        if (CertificadoArgosDataFactory.esCertificadoArgosData(certificado)) {
+            CertificadoArgosData certificadoArgosData = CertificadoArgosDataFactory.construir(certificado);
+            if (certificadoArgosData instanceof CertificadoPersonaNaturalArgosData) {
+                CertificadoPersonaNaturalArgosData certificadoPersonaNatural = (CertificadoPersonaNaturalArgosData) certificadoArgosData;
+                datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
+                datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
+                datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido() + " "
+                        + certificadoPersonaNatural.getSegundoApellido());
+                datosUsuario.setSerial(certificado.getSerialNumber().toString());
+            } else if (certificadoArgosData instanceof CertificadoRepresentanteLegalArgosData) {
+                CertificadoRepresentanteLegalArgosData certificadoRepresentanteLegal = (CertificadoRepresentanteLegalArgosData) certificadoArgosData;
+                datosUsuario.setCedula(certificadoRepresentanteLegal.getCedulaPasaporte());
+                datosUsuario.setNombre(certificadoRepresentanteLegal.getNombres());
+                datosUsuario.setApellido(certificadoRepresentanteLegal.getPrimerApellido() + " "
+                        + certificadoRepresentanteLegal.getSegundoApellido());
+                datosUsuario.setCargo(certificadoRepresentanteLegal.getCargo());
+                datosUsuario.setSerial(certificado.getSerialNumber().toString());
+            }
+            datosUsuario.setEntidadCertificadora(AGOSDATA_NAME);
+            datosUsuario.setCertificadoDigitalValido(true);
+            return datosUsuario;
+        }
+        
+        if (CertificadoLazzateDataFactory.esCertificadoLazzate(certificado)) {
+            CertificadoLazzate certificadoLazzate = CertificadoLazzateDataFactory.construir(certificado);
+            if (certificadoLazzate instanceof CertificadoPersonaNatural) {
+                CertificadoPersonaNatural certificadoPersonaNatural = (CertificadoPersonaNatural) certificadoLazzate;
+
+                datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
+                datosUsuario.setNombre(Utils.getCN(certificado));
+                datosUsuario.setApellido("");
+                datosUsuario.setSerial(certificado.getSerialNumber().toString());
+            }
+            if (certificadoLazzate instanceof CertificadoPersonaJuridica) {
+                CertificadoPersonaJuridica certificadoPersonaJuridica= (CertificadoPersonaJuridica) certificadoLazzate;
+
+                datosUsuario.setCedula(certificadoPersonaJuridica.getCedulaPasaporte());
+                datosUsuario.setInstitucion(certificadoPersonaJuridica.getRazonSocial());
+                datosUsuario.setCargo(certificadoPersonaJuridica.getCargo());
+                datosUsuario.setNombre(Utils.getCN(certificado));
+                datosUsuario.setApellido("");
+                datosUsuario.setSerial(certificado.getSerialNumber().toString());
+            }
+            datosUsuario.setEntidadCertificadora(LAZZATE_NAME);
             datosUsuario.setCertificadoDigitalValido(true);
             return datosUsuario;
         }

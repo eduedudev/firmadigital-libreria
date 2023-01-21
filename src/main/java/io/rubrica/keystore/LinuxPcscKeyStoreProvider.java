@@ -29,6 +29,7 @@ public class LinuxPcscKeyStoreProvider extends PKCS11KeyStoreProvider {
     private static final String CONFIG;
     private static final String DRIVER_FILE_32_BITS = "/usr/lib/libsgdatap11.so";
     private static final String DRIVER_FILE_64_BITS = "/usr/lib/libsgdatap11.so";
+
     static {
         StringBuilder config = new StringBuilder();
         config.append("name=Pcsc\n");

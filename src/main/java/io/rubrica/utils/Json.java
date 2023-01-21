@@ -6,10 +6,13 @@
 package io.rubrica.utils;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonParser;
-import io.rubrica.certificate.to.Certificado;
-import io.rubrica.certificate.to.Documento;
+import com.google.gson.JsonObject;
+
 import java.text.SimpleDateFormat;
+
+import io.rubrica.certificate.to.Certificado;
+import io.rubrica.certificate.to.DatosUsuario;
+import io.rubrica.certificate.to.Documento;
 
 /**
  *
@@ -19,13 +22,33 @@ public class Json {
 
     private static final SimpleDateFormat simpleDateFormatISO8601 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
 
-    public static String GenerarJsonDocumento(Documento documento) {
+    public static String generarJsonVersion(String sistemaOperativo, String aplicacion, String versionApp, String sha) {
+        if (sistemaOperativo != null && versionApp != null && sha != null) {
+            com.google.gson.JsonObject gsonObject = new com.google.gson.JsonObject();
+            gsonObject.addProperty("sistemaOperativo", sistemaOperativo);
+            gsonObject.addProperty("aplicacion", aplicacion);
+            gsonObject.addProperty("versionApp", versionApp);
+            gsonObject.addProperty("sha", sha);
+            return gsonObject.toString();
+        } else {
+            return null;
+        }
+    }
+
+    public static String generarJsonDocumento(Documento documento) {
+        return generarJsonDocumentoFirmado(null, documento);
+    }
+
+    public static String generarJsonDocumentoFirmado(byte[] byteDocumentoSigned, Documento documento) {
         //creacion del JSON
         com.google.gson.JsonArray gsonArray = new com.google.gson.JsonArray();
         com.google.gson.JsonObject jsonObjectDocumento = null;
         jsonObjectDocumento = new com.google.gson.JsonObject();
         jsonObjectDocumento.addProperty("signValidate", documento.getSignValidate());
         jsonObjectDocumento.addProperty("docValidate", documento.getDocValidate());
+        if (byteDocumentoSigned != null) {
+            jsonObjectDocumento.addProperty("docSigned", java.util.Base64.getEncoder().encodeToString(byteDocumentoSigned));
+        }
         jsonObjectDocumento.addProperty("error", documento.getError());
 
         //Arreglo de Certificado(s)
@@ -49,16 +72,20 @@ public class Json {
             jsonObjectCertificado.addProperty("signVerify", certificado.getSignVerify());
             jsonObjectCertificado.addProperty("docReason", certificado.getDocReason());
             jsonObjectCertificado.addProperty("docLocation", certificado.getDocLocation());
-            jsonObjectCertificado.add("datosUsuario", new JsonParser().parse(new Gson().toJson(certificado.getDatosUsuario())).getAsJsonObject());
+
+            String json = generarJsonDatosUsuario(certificado.getDatosUsuario());
+            JsonObject jsonObjectDatosUsuario = new Gson().fromJson(json, JsonObject.class);
+            jsonObjectCertificado.add("datosUsuario", jsonObjectDatosUsuario);
+
             jsonDocumentoArray.add(jsonObjectCertificado);
         }
         jsonObjectDocumento.add("certificado", new com.google.gson.JsonParser()
                 .parse(new com.google.gson.Gson().toJson(jsonDocumentoArray)).getAsJsonArray());
         gsonArray.add(jsonObjectDocumento);
-        return jsonDocumentoArray.toString();
+        return gsonArray.toString();
     }
 
-    public static String GenerarJsonCertificado(Certificado certificado) {
+    public static String generarJsonCertificado(Certificado certificado) {
         //creacion del JSON
         com.google.gson.JsonArray gsonArray = new com.google.gson.JsonArray();
         com.google.gson.JsonObject jsonObjectCertificado = null;
@@ -81,9 +108,34 @@ public class Json {
         jsonObjectCertificado.addProperty("signVerify", certificado.getSignVerify());
         jsonObjectCertificado.addProperty("docReason", certificado.getDocReason());
         jsonObjectCertificado.addProperty("docLocation", certificado.getDocLocation());
-        jsonObjectCertificado.add("datosUsuario", new JsonParser().parse(new Gson().toJson(certificado.getDatosUsuario())).getAsJsonObject());
+
+        String json = null;
+        if (certificado.getDatosUsuario() != null) {
+            json = generarJsonDatosUsuario(certificado.getDatosUsuario());
+        }
+        JsonObject jsonObjectDatosUsuario = new Gson().fromJson(json, JsonObject.class);
+        jsonObjectCertificado.add("datosUsuario", jsonObjectDatosUsuario);
+
         gsonArray.add(jsonObjectCertificado);
         return gsonArray.toString();
+    }
+
+    public static String generarJsonDatosUsuario(DatosUsuario datosUsuario) {
+        com.google.gson.JsonObject jsonObjectDatosUsuario = null;
+        jsonObjectDatosUsuario = new com.google.gson.JsonObject();
+        jsonObjectDatosUsuario.addProperty("cedula", datosUsuario.getCedula());
+        jsonObjectDatosUsuario.addProperty("nombre", datosUsuario.getNombre());
+        jsonObjectDatosUsuario.addProperty("apellido", datosUsuario.getApellido());
+        jsonObjectDatosUsuario.addProperty("institucion", datosUsuario.getInstitucion());
+        jsonObjectDatosUsuario.addProperty("cargo", datosUsuario.getCargo());
+        jsonObjectDatosUsuario.addProperty("serial", datosUsuario.getSerial());
+        if (datosUsuario.getFechaFirmaArchivo() != null) {
+            jsonObjectDatosUsuario.addProperty("fechaFirmaArchivo", datosUsuario.getFechaFirmaArchivo());
+        }
+        jsonObjectDatosUsuario.addProperty("entidadCertificadora", datosUsuario.getEntidadCertificadora());
+        jsonObjectDatosUsuario.addProperty("selladoTiempo", datosUsuario.getSelladoTiempo());
+        jsonObjectDatosUsuario.addProperty("certificadoDigitalValido", datosUsuario.isCertificadoDigitalValido());
+        return jsonObjectDatosUsuario.toString();
     }
 
 }
