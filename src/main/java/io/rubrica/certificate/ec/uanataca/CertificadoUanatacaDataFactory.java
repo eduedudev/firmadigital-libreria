@@ -21,6 +21,7 @@ import static io.rubrica.certificate.ec.uanataca.CertificadoUanataca.OID_CERTIFI
 import static io.rubrica.certificate.ec.uanataca.CertificadoUanataca.OID_CERTIFICADO_PERSONA_JURIDICA;
 import static io.rubrica.certificate.ec.uanataca.CertificadoUanataca.OID_CERTIFICADO_PERSONA_NATURAL;
 import static io.rubrica.certificate.ec.uanataca.CertificadoUanataca.OID_CERTIFICADO_REPRESENTANTE_EMPRESA;
+import static io.rubrica.certificate.ec.uanataca.CertificadoUanataca.OID_SELLADO_TIEMPO;
 import static io.rubrica.utils.BouncyCastleUtils.certificateHasPolicy;
 
 import java.security.cert.X509Certificate;
@@ -37,7 +38,8 @@ public class CertificadoUanatacaDataFactory {
         return (certificateHasPolicy(certificado, OID_CERTIFICADO_PERSONA_NATURAL)
                 || certificateHasPolicy(certificado, OID_CERTIFICADO_PERSONA_JURIDICA)
                 || certificateHasPolicy(certificado, OID_CERTIFICADO_MIEMBRO_EMPRESA)
-                || certificateHasPolicy(certificado, OID_CERTIFICADO_REPRESENTANTE_EMPRESA));
+                || certificateHasPolicy(certificado, OID_CERTIFICADO_REPRESENTANTE_EMPRESA)
+                || certificateHasPolicy(certificado, OID_SELLADO_TIEMPO));
     }
 
     public static CertificadoUanataca construir(X509Certificate certificado) {
@@ -49,6 +51,8 @@ public class CertificadoUanatacaDataFactory {
             return new CertificadoMiembroEmpresaUanataca(certificado);
         } else if (certificateHasPolicy(certificado, OID_CERTIFICADO_REPRESENTANTE_EMPRESA)) {
             return new CertificadoRepresentanteLegalUanataca(certificado);
+        } else if (certificateHasPolicy(certificado, OID_SELLADO_TIEMPO)) {
+            return new CertificadoSelladoTiempoUanataca(certificado);
         } else {
             throw new RuntimeException("Certificado del Unataca S.A. de tipo desconocido!");
         }

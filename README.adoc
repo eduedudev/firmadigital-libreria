@@ -1,16 +1,16 @@
-= Rubrica: Librería para Firma Digital
+= FirmaEC: firmadigital-libreria
 
+Fork del proyecto Rubrica, la cual es una librería Java para aplicaciones de firma digital.
 
 == Introducción
 
-Rubrica es una librería Java para aplicaciones de firma digital licenciada como software libre mediante una licencia AGPL v3.
+Los siguientes pasos le permitirán obtener una copia del proyecto para correrla en la máquina local para propósitos de desarrollo y pruebas.
 
 === Prerequisitos
 
 ==== Java
-Se necesita instalar _Java Development Kit (JDK) 11_ para compilar y correr la aplicación.
 
-En Microsoft Windows se debe descargar de la página de descargas en http://www.oracle.com/technetwork/java/javase/downloads/[Java SE Downloads].
+Se necesita instalar _Java Development Kit (JDK) 11_ para compilar y correr la aplicación.
 
 En Fedora se debe instalar el paquete _java-11-openjdk-devel_:
 
@@ -26,26 +26,24 @@ En Ubuntu se debe instalar el paquete _openjdk-11-jdk_.
 $ sudo apt-get install openjdk-11-jdk
 ----
 
+==== Maven
 
-== Dependencias
+Para compilar y empaquetar se utiliza http://maven.apache.org[Apache Maven].
 
-* iText7: https://github.com/itext/itext7
-* BouncyCastle: https://www.bouncycastle.org
+== Compilar
 
+Se debe compilar usando el siguiente comando:
 
-== Compilación
-
-Una vez instalados los pre-requisitos se puede compilar usando Maven:
-
+[source, bash]
 ----
-mvn clean install
+$ mvn clean package
 ----
+
+== Autores
+
+* *Ricardo Arguello* - *Desarrollo* - http://www.soportelibre.com[Soporte Libre]
+* *Misael Fernández* - *Desarrollo* - misael.fernandez.correa@gmail.com
 
 == Licencia
 
 https://www.gnu.org/licenses/agpl-3.0.txt[GNU AFFERO GENERAL PUBLIC LICENSE, Version 3 (AGPL-3.0)]
-
-
-== Contacto
-
-Ricardo Arguello: ricardo.arguello AT soportelibre.com

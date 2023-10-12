@@ -31,10 +31,10 @@ public class CertificadoDatil {
 
     // OIDs de tipo de certificado:
     public static final String OID_CERTIFICADO_PERSONA_NATURAL = "1.3.6.1.4.1.52643.2.5.1";
-    public static final String OID_CERTIFICADO_MIEMBRO_EMPRESA = "1.3.6.1.4.1.52643.2.5.1";
-    public static final String OID_CERTIFICADO_REPRESENTANTE_EMPRESA = "1.3.6.1.4.1.52643.2.5.1";
-    public static final String OID_CERTIFICADO_PERSONA_JURIDICA = "1.3.6.1.4.1.52643.2.5.1";
-    public static final String OID_SELLADO_TIEMPO = "1.3.6.1.4.1.52643.2.5";
+    public static final String OID_CERTIFICADO_MIEMBRO_EMPRESA = "1.3.6.1.4.1.52643.2.5.2";
+    public static final String OID_CERTIFICADO_REPRESENTANTE_EMPRESA = "1.3.6.1.4.1.52643.2.5.2";
+    public static final String OID_CERTIFICADO_PERSONA_JURIDICA = "1.3.6.1.4.1.52643.2.5.2";
+    public static final String OID_SELLADO_TIEMPO = "1.3.6.1.4.1.52643.2.5.3";
 
     // OIDs de Campos del Certificado:
     public static final String OID_CEDULA_PASAPORTE = "1.3.6.1.4.1.52643.3.1";

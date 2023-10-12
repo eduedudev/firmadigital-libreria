@@ -70,7 +70,7 @@ public final class XmlStyle {
      * del propio XML
      * @throws ReferenceIsNotXmlException Cuando el estilo referenciado no
      * est&aacute; en formato XML
-     * @throws javax.xml.transform.TransformerFactoryConfigurationError Cuando
+     * @throws jakarta.xml.transform.TransformerFactoryConfigurationError Cuando
      * hay errores de configuraci&oacute; en la factor&iacute;a de
      * transformaciones
      */

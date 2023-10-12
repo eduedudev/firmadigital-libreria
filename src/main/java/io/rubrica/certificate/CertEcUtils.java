@@ -49,6 +49,13 @@ import io.rubrica.certificate.ec.cj.CertificadoPersonaJuridicaPrivadaConsejoJudi
 import io.rubrica.certificate.ec.cj.CertificadoPersonaJuridicaPublicaConsejoJudicatura;
 import io.rubrica.certificate.ec.cj.CertificadoPersonaNaturalConsejoJudicatura;
 import io.rubrica.certificate.ec.cj.ConsejoJudicaturaSubCaCert;
+import io.rubrica.certificate.ec.datil.CertificadoDatil;
+import io.rubrica.certificate.ec.datil.CertificadoDatilDataFactory;
+import io.rubrica.certificate.ec.datil.CertificadoMiembroEmpresaDatil;
+import io.rubrica.certificate.ec.datil.CertificadoPersonaJuridicaPrivadaDatil;
+import io.rubrica.certificate.ec.datil.CertificadoPersonaNaturalDatil;
+import io.rubrica.certificate.ec.datil.CertificadoRepresentanteLegalDatil;
+import io.rubrica.certificate.ec.datil.DatilSubCaCert20212031;
 import io.rubrica.certificate.ec.digercic.CertificadoDigercic;
 import io.rubrica.certificate.ec.digercic.CertificadoDigercicFactory;
 import io.rubrica.certificate.ec.digercic.DigercicSubCaCert20212031;
@@ -58,6 +65,9 @@ import io.rubrica.certificate.ec.eclipsoft.CertificadoMiembroEmpresaEclipsoft;
 import io.rubrica.certificate.ec.eclipsoft.CertificadoPersonaJuridicaPrivadaEclipsoft;
 import io.rubrica.certificate.ec.eclipsoft.CertificadoPersonalNaturalEclipsoft;
 import io.rubrica.certificate.ec.eclipsoft.CertificadoRepresentanteLegalEclipsoft;
+import io.rubrica.certificate.ec.lazzate.CertificadoLazzate;
+import io.rubrica.certificate.ec.lazzate.CertificadoLazzateDataFactory;
+import io.rubrica.certificate.ec.lazzate.LazzateSubCaCert;
 import io.rubrica.certificate.ec.securitydata.CertificadoSecurityData;
 import io.rubrica.certificate.ec.securitydata.CertificadoSecurityDataFactory;
 import io.rubrica.certificate.ec.securitydata.SecurityDataSubCaCert20112026;
@@ -71,18 +81,6 @@ import io.rubrica.certificate.ec.uanataca.CertificadoUanataca;
 import io.rubrica.certificate.ec.uanataca.CertificadoUanatacaDataFactory;
 import io.rubrica.certificate.ec.uanataca.UanatacaSubCaCert0120162029;
 import io.rubrica.certificate.ec.uanataca.UanatacaSubCaCert0220162029;
-import io.rubrica.certificate.ec.datil.CertificadoMiembroEmpresaDatil;
-import io.rubrica.certificate.ec.datil.CertificadoPersonaJuridicaPrivadaDatil;
-import io.rubrica.certificate.ec.datil.CertificadoPersonaNaturalDatil;
-import io.rubrica.certificate.ec.datil.CertificadoRepresentanteLegalDatil;
-import io.rubrica.certificate.ec.datil.CertificadoDatil;
-import io.rubrica.certificate.ec.datil.CertificadoDatilDataFactory;
-import io.rubrica.certificate.ec.datil.DatilSubCaCert20212031;
-import io.rubrica.certificate.ec.lazzate.CertificadoLazzate;
-import io.rubrica.certificate.ec.lazzate.CertificadoLazzateDataFactory;
-import io.rubrica.certificate.ec.lazzate.CertificadoPersonaNaturalLazzate;
-import io.rubrica.certificate.ec.lazzate.LazzateSubCaCert;
-
 import io.rubrica.certificate.to.DatosUsuario;
 import io.rubrica.exceptions.EntidadCertificadoraNoValidaException;
 import io.rubrica.utils.Utils;
@@ -507,6 +505,7 @@ public class CertEcUtils {
                 datosUsuario.setSerial(certificado.getSerialNumber().toString());
             } else if (certificadoUanataca instanceof CertificadoSelladoTiempo) {
                 datosUsuario.setSerial(certificado.getSerialNumber().toString());
+                datosUsuario.setSelladoTiempo(true);
             }
             datosUsuario.setEntidadCertificadora("Uanataca Ecuador");
             datosUsuario.setCertificadoDigitalValido(true);

@@ -7,13 +7,13 @@
 //import java.io.FileOutputStream;
 //import java.io.OutputStream;
 //import java.util.Base64;
-//import javax.jws.WebMethod;
-//import javax.jws.WebParam;
-//import javax.jws.WebResult;
-//import javax.jws.WebService;
-//import javax.jws.soap.SOAPBinding;
-//import javax.jws.soap.SOAPBinding.Style;
-//import javax.jws.soap.SOAPBinding.Use;
+//import jakarta.jws.WebMethod;
+//import jakarta.jws.WebParam;
+//import jakarta.jws.WebResult;
+//import jakarta.jws.WebService;
+//import jakarta.jws.soap.SOAPBinding;
+//import jakarta.jws.soap.SOAPBinding.Style;
+//import jakarta.jws.soap.SOAPBinding.Use;
 //
 //@WebService(targetNamespace = "urn:soapapiorfeo", serviceName = "soapapiorfeo")
 //@SOAPBinding(style = Style.RPC, use = Use.ENCODED)

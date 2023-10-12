@@ -54,6 +54,13 @@ import java.util.logging.Logger;
 import javax.management.openmbean.InvalidKeyException;
 import javax.security.auth.x500.X500Principal;
 
+import org.bouncycastle.asn1.x500.X500Name;
+import org.bouncycastle.asn1.x500.style.BCStyle;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.bouncycastle.tsp.TimeStampToken;
+import org.bouncycastle.tsp.TimeStampTokenInfo;
+import org.w3c.dom.Node;
+
 import com.itextpdf.kernel.pdf.PdfDate;
 import com.itextpdf.kernel.pdf.PdfDictionary;
 import com.itextpdf.kernel.pdf.PdfDocument;
@@ -61,13 +68,6 @@ import com.itextpdf.kernel.pdf.PdfName;
 import com.itextpdf.kernel.pdf.PdfReader;
 import com.itextpdf.signatures.PdfPKCS7;
 import com.itextpdf.signatures.SignatureUtil;
-
-import org.bouncycastle.asn1.x500.X500Name;
-import org.bouncycastle.asn1.x500.style.BCStyle;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.bouncycastle.tsp.TimeStampToken;
-import org.bouncycastle.tsp.TimeStampTokenInfo;
-import org.w3c.dom.Node;
 
 import io.rubrica.certificate.CertEcUtils;
 import io.rubrica.certificate.to.Certificado;
@@ -480,7 +480,8 @@ public class Utils {
                                 certificado.setDocTimeStamp(tsInfo.getGenTime());
                             }
                             for (X509Certificate certificate : signInfo.getCerts()) {
-                                if (pdfPKCS7.getSigningCertificate().equals(certificate)) {
+                                if (pdfPKCS7.getSigningCertificate().equals(certificate)
+                                        && certificado.getGenerated().getTime().equals(pdfPKCS7.getSignDate().getTime())) {
                                     certificado.setDocReason(pdfPKCS7.getReason());
                                     certificado.setDocLocation(pdfPKCS7.getLocation());
                                     certificado.setSignVerify(pdfPKCS7.verifySignatureIntegrityAndAuthenticity());
@@ -524,12 +525,28 @@ public class Utils {
                 if (certificados != null || !certificados.isEmpty()) {
                     documento.setSignValidate(verifySignValidate(certificados));
                 }
+                // Se coloca implementación para colocar como válido si el documento tiene únicamente sellado de tiempo y no firmas,
+                // dado que el metodo signatureCoversWholeDocument verifica si existe una firma que cubra todo el documento, y el
+                // sello de tiempo no cumple con esa caracterista y dado que el metodo verifySignatureIntegrityAndAuthenticity verifica
+                // la integridad del mismo se puede dar como válida estos documentos.
+                if (!documento.getDocValidate()) {
+                    documento.setDocValidate(validIfOnlyTimeStamp(certificados));
+                }
                 documento.setCertificados(certificados);
             }
         }
         return documento;
     }
     //revertir
+
+    private static Boolean validIfOnlyTimeStamp(List<Certificado> certificados) {
+        for (Certificado certificado : certificados) {
+            if (!certificado.getDatosUsuario().getSelladoTiempo()) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     /*public static Documento pdfToDocumento(InputStream pdf) throws IOException, SignatureVerificationException, Exception {
         PdfReader pdfReader = new PdfReader(pdf);
@@ -811,12 +828,14 @@ public class Utils {
         if (signInfos == null || signInfos.isEmpty()) {
             return new Documento(false, false, certificados, "Documento sin firmas");
         } else {
+            documento = new Documento(true, false, null, null);
             for (SignInfo signInfo : signInfos) {
                 certificados.add(signInfoToCertificado(signInfo));
             }
+            documento.setCertificados(certificados);
+            documento.setSignValidate(validarCertificados(documento.getCertificados(), false));
+            return documento;
         }
-        documento.setCertificados(certificados);
-        return documento;
     }
 
     private static final PdfName PDFNAME_ETSI_RFC3161 = new PdfName("ETSI.RFC3161");
@@ -925,36 +944,43 @@ public class Utils {
         Documento documento = null;
 
         String extDocumento = FileUtils.getExtension(docByteArray);
-        if (extDocumento.toLowerCase().contains(".p7s")) {
-            VerificadorCMS verificador = new VerificadorCMS();
-            byte[] archivoOriginal = verificador.verify(docByteArray);
-            String nombreArchivo = FileUtils.crearNombreVerificado(file, FileUtils.getExtension(archivoOriginal), base64);
-            FileUtils.saveByteArrayToDisc(archivoOriginal, nombreArchivo);
-            FileUtils.abrirDocumento(nombreArchivo);
-            documento = new Documento(true, false, null, null);
-            documento.setCertificados(Utils.datosP7mToCertificado(verificador.certificados, verificador.fechasFirmados));
-            documento.setSignValidate(validarCertificados(documento.getCertificados(), false));
-            return documento;
-        } else {
-            if (extDocumento.toLowerCase().equals(".pdf")) {
+
+        switch (extDocumento.toLowerCase()) {
+            case ".p7s": {
+                VerificadorCMS verificador = new VerificadorCMS();
+                byte[] archivoOriginal = verificador.verify(docByteArray);
+                String nombreArchivo = FileUtils.crearNombreVerificado(file, FileUtils.getExtension(archivoOriginal), base64);
+                FileUtils.saveByteArrayToDisc(archivoOriginal, nombreArchivo);
+                FileUtils.abrirDocumento(nombreArchivo);
+                documento = new Documento(true, false, null, null);
+                documento.setCertificados(Utils.datosP7mToCertificado(verificador.certificados, verificador.fechasFirmados));
+                documento.setSignValidate(validarCertificados(documento.getCertificados(), false));
+                return documento;
+            }
+            case ".pdf": {
                 return Utils.pdfToDocumento(file);
-            } else {
+            }
+            case ".xml": {
                 try {
                     Signer docSigner = Utils.documentSigner(file);
                     documento = Utils.signInfosToCertificados(docSigner.getSigners(docByteArray));
                     //SRI
-//                String xml = leerXmlSRI(documento);
-//                List<Certificado> certificadosSRI = Utils.signInfosToCertificados(docSigner.getSigners(xml.getBytes(StandardCharsets.UTF_8)));
-//                if (!certificadosSRI.isEmpty()) {
-//                    javax.swing.JOptionPane.showMessageDialog(null, PropertiesUtils.getMessages().getProperty("mensaje.error.documento_sri"), "Advertencia", javax.swing.JOptionPane.WARNING_MESSAGE);
-//                }
-//                certificados.addAll(certificadosSRI);
+                    //                String xml = leerXmlSRI(documento);
+                    //                List<Certificado> certificadosSRI = Utils.signInfosToCertificados(docSigner.getSigners(xml.getBytes(StandardCharsets.UTF_8)));
+                    //                if (!certificadosSRI.isEmpty()) {
+                    //                    jakarta.swing.JOptionPane.showMessageDialog(null, PropertiesUtils.getMessages().getProperty("mensaje.error.documento_sri"), "Advertencia", jakarta.swing.JOptionPane.WARNING_MESSAGE);
+                    //                }
+                    //                certificados.addAll(certificadosSRI);
                     //SRI
                 } catch (NullPointerException | InvalidFormatException exception) {
                     List<Certificado> certificados = new ArrayList<>();
                     return new Documento(false, false, certificados, "El archivo no es un XML");
                 }
-                return documento;
+            }
+            return documento;
+            default: {
+                List<Certificado> certificados = new ArrayList<>();
+                return new Documento(false, false, certificados, "El archivo no se puede validar, es extensión " + extDocumento);
             }
         }
     }
@@ -1072,6 +1098,5 @@ public class Utils {
         }
         return false;
     }
-    
-    
+
 }

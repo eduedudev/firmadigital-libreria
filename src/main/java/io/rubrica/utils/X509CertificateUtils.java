@@ -97,7 +97,7 @@ public class X509CertificateUtils {
                 calendarRecordatorio.add(java.util.Calendar.DATE, -diasAnticipacion);
                 if (calendarRecordatorio.getTime().compareTo(fechaHora) <= 0) {
                     java.text.SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    //javax.swing.JOptionPane.showMessageDialog(null, PropertiesUtils.getMessages().getProperty("mensaje.advertencia.certificado_advertencia") + simpleDateFormat.format(x509Certificate.getNotAfter().getTime()), "Advertencia", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                    //jakarta.swing.JOptionPane.showMessageDialog(null, PropertiesUtils.getMessages().getProperty("mensaje.advertencia.certificado_advertencia") + simpleDateFormat.format(x509Certificate.getNotAfter().getTime()), "Advertencia", jakarta.swing.JOptionPane.INFORMATION_MESSAGE);
                     error = PropertiesUtils.getMessages().getProperty("mensaje.advertencia.certificado_advertencia") + simpleDateFormat.format(x509Certificate.getNotAfter().getTime());
                 }
             }

@@ -30,13 +30,13 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.client.Invocation;
+import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.Form;
+import jakarta.ws.rs.core.Response;
 import org.glassfish.jersey.client.ClientProperties;
 
 /**
@@ -46,14 +46,10 @@ import org.glassfish.jersey.client.ClientProperties;
  */
 public class Main {
 
-//    private static final String URLAPI = "https://api.firmadigital.gob.ec/api";//produccion
-    private static final String URLAPI = "https://impapi.firmadigital.gob.ec/api";//servidor
-//    private static final String URLAPI = "http://impapi.firmadigital.gob.ec:8181/api";//local
-//    private static final String URLAPI = "http://localhost:8181/api";//local
-//    private static final String URLWS = "https://impws.firmadigital.gob.ec/servicio";//produccion
-    private static final String URLWS = "https://impws.firmadigital.gob.ec/servicio";//servidor
-//    private static final String URLWS = "http://impws.firmadigital.gob.ec:8080/servicio";//local
-//    private static final String URLWS = "http://localhost:8080/servicio";//local
+//    private static final String URLAPI = "https://impapi.firmadigital.gob.ec/api";//servidor
+    private static final String URLAPI = "http://testapi.firmadigital.gob.ec:8080/api";//local
+//    private static final String URLWS = "https://impws.firmadigital.gob.ec/servicio";//servidor
+    private static final String URLWS = "http://testws.firmadigital.gob.ec:8080/servicio";//local
     private static final String PKCS12 = "/home/mfernandez/appFirmaEC/prueba.p12";
     private static final String PASSWORD = "123456";
 //    private static final String FILE = "/home/mfernandez/appFirmaEC/Casos QA/ACTA DE 65 FIMAS-signed-signed-signed-signed.pdf";
@@ -293,8 +289,8 @@ public class Main {
             gsonObject.addProperty("tipoEstampado", tipoEstampado);
             gsonObject.addProperty("razon", "miska muska");
             gsonObject.addProperty("pagina", pagina);
-            gsonObject.addProperty("pre", true);//servidor
-//            gsonObject.addProperty("des", true);//local
+//            gsonObject.addProperty("pre", true);//servidor
+            gsonObject.addProperty("des", true);//local
 //            gsonObject.addProperty("url", URLAPI);
             System.out.println("gsonObject: " + gsonObject.toString());
 

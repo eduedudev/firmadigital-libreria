@@ -35,7 +35,7 @@ public class CertificadoUanataca {
     public static final String OID_CERTIFICADO_REPRESENTANTE_EMPRESA = "1.3.6.1.4.1.47286.102.2.3";
     public static final String OID_CERTIFICADO_PERSONA_JURIDICA = "1.3.6.1.4.1.47286.102.2.4";
     //public static final String OID_CERTIFICADO_EMPRESA = "1.3.6.1.4.1.43745.1.2.2.1";
-    public static final String OID_SELLADO_TIEMPO = "1.3.6.1.4.1.47286.102.2.5";
+    public static final String OID_SELLADO_TIEMPO = "1.3.6.1.4.1.47286.102.2.5.1";
 
     // OIDs de Campos del Certificado:
     public static final String OID_CEDULA_PASAPORTE = "1.3.6.1.4.1.47286.102.3.1";

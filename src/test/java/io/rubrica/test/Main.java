@@ -82,10 +82,10 @@ public class Main {
     private static String hashAlgorithm = "SHA512";
 
     public static void main(String args[]) throws KeyStoreException, Exception {
-//        firmarDocumentoTrifasica(FILE);
+        firmarDocumentoTrifasica(FILE);
 //        firmarDocumentoPDF(FILE);
 //        firmarDocumentoXML(FILE);
-        validarCertificado();
+//        validarCertificado();
 //        verificarDocumento(FILE);
 //        fechaHora(240);//espera en segundos
     }
