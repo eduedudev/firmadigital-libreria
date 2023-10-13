@@ -1,14 +1,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>io.rubrica</groupId>
-    <artifactId>rubrica</artifactId>
+    <groupId>ec.gob.firmadigital</groupId>
+    <artifactId>libreria</artifactId>
     <version>3.0.3-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>Rubrica</name>
+    <name>firmadigital-libreria</name>
     <description>Una librería para firma digital</description>
-    <url>http://rubrica.io</url>
+    <url>http://www.firmadigital.gob.ec</url>
     <licenses>
         <license>
             <name>GNU AFFERO GENERAL PUBLIC LICENSE, Version 3 (AGPL-3.0)</name>
@@ -38,10 +38,9 @@
     </developers>
 
     <scm>
-        <connection>scm:git:https://github.com/rubrica/rubrica.git</connection>
-        <developerConnection>scm:git:git@github.com:rubrica/rubrica.git</developerConnection>
-        <url>https://github.com/rubrica/rubrica</url>
-        <tag>v1.0.0</tag>
+        <connection>scm:git:https://minka.gob.ec/mintel/ge/firmaec/firmadigital-digital.git</connection>
+        <developerConnection>scm:git:git@minka.gob.ec:mintel/ge/firmaec/firmadigital-digital.git</developerConnection>
+        <url>https://minka.gob.ec/mintel/ge/firmaec/firmadigital-digital</url>
     </scm>
     
     <distributionManagement>
@@ -57,8 +56,6 @@
 
     <properties>
         <jakartaee>10.0.0</jakartaee>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -109,25 +106,25 @@
         <dependency>
             <groupId>com.itextpdf</groupId>
             <artifactId>itext7-core</artifactId>
-            <version>7.1.14</version>
+            <version>7.1.18</version>
             <type>pom</type>
         </dependency>
         <dependency>
             <groupId>com.itextpdf</groupId>
             <artifactId>kernel</artifactId>
-            <version>7.1.12</version>
+            <version>7.1.18</version>
             <type>jar</type>
         </dependency>
         <!-- add all iText 7 modules -->
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcprov-jdk15to18</artifactId>
-            <version>1.68</version>
+            <version>1.76</version>
         </dependency>
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcpkix-jdk15to18</artifactId>
-            <version>1.68</version>
+            <version>1.76</version>
         </dependency>
         <dependency>
             <groupId>es.uji.crypto.xades</groupId>
