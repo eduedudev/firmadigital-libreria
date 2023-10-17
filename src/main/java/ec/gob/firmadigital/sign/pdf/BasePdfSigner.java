@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package io.rubrica.sign.pdf;
+package ec.gob.firmadigital.sign.pdf;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -33,15 +33,15 @@ import com.itextpdf.kernel.pdf.PdfReader;
 import com.itextpdf.kernel.pdf.StampingProperties;
 import com.itextpdf.signatures.PdfSignatureAppearance;
 
-import io.rubrica.certificate.CertEcUtils;
-import io.rubrica.certificate.to.DatosUsuario;
-import io.rubrica.sign.RubricaSigner;
-import io.rubrica.sign.pdf.appearance.CustomAppearance;
-import io.rubrica.sign.pdf.appearance.Information1Appearance;
-import io.rubrica.sign.pdf.appearance.Information2Appearance;
-import io.rubrica.sign.pdf.appearance.QrAppereance;
-import io.rubrica.utils.BouncyCastleUtils;
-import io.rubrica.utils.Utils;
+import ec.gob.firmadigital.certificate.CertEcUtils;
+import ec.gob.firmadigital.certificate.to.DatosUsuario;
+import ec.gob.firmadigital.sign.RubricaSigner;
+import ec.gob.firmadigital.sign.pdf.appearance.CustomAppearance;
+import ec.gob.firmadigital.sign.pdf.appearance.Information1Appearance;
+import ec.gob.firmadigital.sign.pdf.appearance.Information2Appearance;
+import ec.gob.firmadigital.sign.pdf.appearance.QrAppereance;
+import ec.gob.firmadigital.utils.BouncyCastleUtils;
+import ec.gob.firmadigital.utils.Utils;
 
 public abstract class BasePdfSigner implements PdfSigner {
 

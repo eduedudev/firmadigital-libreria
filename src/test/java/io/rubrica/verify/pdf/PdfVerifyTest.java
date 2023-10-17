@@ -15,15 +15,15 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package io.rubrica.verify.pdf;
+package ec.gob.firmadigital.verify.pdf;
 
-import io.rubrica.certificate.to.Documento;
-import io.rubrica.exceptions.InvalidFormatException;
-import io.rubrica.exceptions.SignatureVerificationException;
-import io.rubrica.utils.PropertiesUtils;
+import ec.gob.firmadigital.certificate.to.Documento;
+import ec.gob.firmadigital.exceptions.InvalidFormatException;
+import ec.gob.firmadigital.exceptions.SignatureVerificationException;
+import ec.gob.firmadigital.utils.PropertiesUtils;
 
 import java.io.File;
-import io.rubrica.utils.Utils;
+import ec.gob.firmadigital.utils.Utils;
 import java.io.IOException;
 import static org.junit.Assert.fail;
 import org.junit.Test;

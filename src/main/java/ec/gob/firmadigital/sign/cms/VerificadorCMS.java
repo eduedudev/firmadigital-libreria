@@ -15,10 +15,10 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package io.rubrica.sign.cms;
+package ec.gob.firmadigital.sign.cms;
 
-import io.rubrica.certificate.to.DatosUsuario;
-import io.rubrica.certificate.CertEcUtils;
+import ec.gob.firmadigital.certificate.to.DatosUsuario;
+import ec.gob.firmadigital.certificate.CertEcUtils;
 import java.security.GeneralSecurityException;
 import java.security.cert.X509Certificate;
 import java.text.ParseException;
@@ -45,8 +45,8 @@ import org.bouncycastle.cms.jcajce.JcaSimpleSignerInfoVerifierBuilder;
 import org.bouncycastle.operator.OperatorCreationException;
 import org.bouncycastle.util.Store;
 
-import io.rubrica.exceptions.SignatureVerificationException;
-import io.rubrica.utils.BouncyCastleUtils;
+import ec.gob.firmadigital.exceptions.SignatureVerificationException;
+import ec.gob.firmadigital.utils.BouncyCastleUtils;
 import java.util.Date;
 
 /**

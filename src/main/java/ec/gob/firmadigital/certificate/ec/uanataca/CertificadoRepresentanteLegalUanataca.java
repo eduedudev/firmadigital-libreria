@@ -15,11 +15,11 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package io.rubrica.certificate.ec.uanataca;
+package ec.gob.firmadigital.certificate.ec.uanataca;
 
 import java.security.cert.X509Certificate;
 
-import io.rubrica.certificate.ec.CertificadoRepresentanteLegal;
+import ec.gob.firmadigital.certificate.ec.CertificadoRepresentanteLegal;
 
 /**
  * Certificado de representante legal

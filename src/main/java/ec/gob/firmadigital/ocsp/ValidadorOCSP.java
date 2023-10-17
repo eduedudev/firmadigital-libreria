@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package io.rubrica.ocsp;
+package ec.gob.firmadigital.ocsp;
 
 import java.io.BufferedOutputStream;
 import java.io.DataOutputStream;
@@ -50,7 +50,7 @@ import org.bouncycastle.operator.DigestCalculatorProvider;
 import org.bouncycastle.operator.OperatorCreationException;
 import org.bouncycastle.operator.jcajce.JcaDigestCalculatorProviderBuilder;
 
-import io.rubrica.exceptions.RubricaException;
+import ec.gob.firmadigital.exceptions.RubricaException;
 import java.text.SimpleDateFormat;
 
 /**

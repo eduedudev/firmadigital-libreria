@@ -15,15 +15,15 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package io.rubrica.utils;
+package ec.gob.firmadigital.utils;
 
-import io.rubrica.certificate.CertEcUtils;
-import io.rubrica.certificate.ec.anfac.AnfAc18332CaCert20162036;
-import io.rubrica.certificate.ec.anfac.AnfAc37442CaCert20192039;
-import io.rubrica.certificate.ec.bce.BceCaCert;
-import io.rubrica.certificate.ec.cj.ConsejoJudicaturaCaCert;
-import io.rubrica.certificate.ec.securitydata.SecurityDataCaCert;
-import io.rubrica.exceptions.EntidadCertificadoraNoValidaException;
+import ec.gob.firmadigital.certificate.CertEcUtils;
+import ec.gob.firmadigital.certificate.ec.anfac.AnfAc18332CaCert20162036;
+import ec.gob.firmadigital.certificate.ec.anfac.AnfAc37442CaCert20192039;
+import ec.gob.firmadigital.certificate.ec.bce.BceCaCert;
+import ec.gob.firmadigital.certificate.ec.cj.ConsejoJudicaturaCaCert;
+import ec.gob.firmadigital.certificate.ec.securitydata.SecurityDataCaCert;
+import ec.gob.firmadigital.exceptions.EntidadCertificadoraNoValidaException;
 import java.net.SocketTimeoutException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.NoSuchAlgorithmException;
@@ -45,7 +45,7 @@ import java.util.Set;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
-import io.rubrica.exceptions.RubricaException;
+import ec.gob.firmadigital.exceptions.RubricaException;
 
 /**
  * Utilidades para OCSP

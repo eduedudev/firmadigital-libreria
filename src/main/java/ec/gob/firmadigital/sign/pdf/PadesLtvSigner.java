@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.rubrica.sign.pdf;
+package ec.gob.firmadigital.sign.pdf;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -40,7 +40,7 @@ import com.itextpdf.signatures.OcspClientBouncyCastle;
 import com.itextpdf.signatures.PdfSigner;
 import com.itextpdf.signatures.TSAClientBouncyCastle;
 
-import io.rubrica.sign.RubricaSigner;
+import ec.gob.firmadigital.sign.RubricaSigner;
 
 /**
  * PAdES-LTV

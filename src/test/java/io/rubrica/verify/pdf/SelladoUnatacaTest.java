@@ -18,17 +18,17 @@
 /**
  *
  */
-package io.rubrica.verify.pdf;
+package ec.gob.firmadigital.verify.pdf;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-import io.rubrica.certificate.to.Certificado;
-import io.rubrica.certificate.to.Documento;
-import io.rubrica.utils.FileUtils;
-import io.rubrica.utils.PropertiesUtils;
-import io.rubrica.utils.Utils;
+import ec.gob.firmadigital.certificate.to.Certificado;
+import ec.gob.firmadigital.certificate.to.Documento;
+import ec.gob.firmadigital.utils.FileUtils;
+import ec.gob.firmadigital.utils.PropertiesUtils;
+import ec.gob.firmadigital.utils.Utils;
 
 /**
  * @author Edison Lomas Almeida

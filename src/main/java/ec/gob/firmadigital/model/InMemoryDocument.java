@@ -1,4 +1,4 @@
-package io.rubrica.model;
+package ec.gob.firmadigital.model;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

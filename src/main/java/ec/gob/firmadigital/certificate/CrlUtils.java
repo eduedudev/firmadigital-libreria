@@ -16,9 +16,9 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package io.rubrica.certificate;
+package ec.gob.firmadigital.certificate;
 
-import io.rubrica.exceptions.EntidadCertificadoraNoValidaException;
+import ec.gob.firmadigital.exceptions.EntidadCertificadoraNoValidaException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.security.PublicKey;
@@ -36,10 +36,10 @@ import javax.naming.NamingException;
 import javax.naming.directory.Attribute;
 import javax.naming.directory.InitialDirContext;
 
-import io.rubrica.exceptions.RubricaException;
-import io.rubrica.utils.CertificateUtils;
-import io.rubrica.utils.HttpClient;
-import io.rubrica.utils.OcspUtils;
+import ec.gob.firmadigital.exceptions.RubricaException;
+import ec.gob.firmadigital.utils.CertificateUtils;
+import ec.gob.firmadigital.utils.HttpClient;
+import ec.gob.firmadigital.utils.OcspUtils;
 import java.security.cert.X509CRLEntry;
 import java.text.SimpleDateFormat;
 

@@ -8,10 +8,6 @@ Los siguientes pasos le permitirán obtener una copia del proyecto para correrla
 
 == Prerequisitos
 
-=== NetBeans
-
-Se utilizó NetBeans como entorno de desarrollo http://netbeans.org[Netbeans].
-
 === Java
 
 Se necesita instalar _Java Development Kit (JDK) 11_ para compilar y correr la aplicación.
@@ -49,6 +45,10 @@ En _Ubuntu_ se debe instalar el paquete `maven`:
 ----
 $ sudo apt-get install maven
 ----
+
+=== NetBeans
+
+Se utilizó como entorno de desarrollo el IDE http://netbeans.org[Netbeans].
 
 == Compilar
 

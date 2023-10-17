@@ -1,9 +1,9 @@
-//package io.rubrica.pades.signature;
+//package ec.gob.firmadigital.pades.signature;
 //
 //import org.junit.jupiter.api.Test;
 //
-//import io.rubrica.model.Document;
-//import io.rubrica.model.FileDocument;
+//import ec.gob.firmadigital.model.Document;
+//import ec.gob.firmadigital.model.FileDocument;
 //
 //public class BasicSignatureTest {
 //

@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package io.rubrica.sign.xades;
+package ec.gob.firmadigital.sign.xades;
 
 import static junit.framework.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -29,9 +29,9 @@ import java.util.List;
 
 import org.junit.Test;
 
-import io.rubrica.sign.SignInfo;
-import io.rubrica.sign.TestHelper;
-import io.rubrica.utils.PropertiesUtils;
+import ec.gob.firmadigital.sign.SignInfo;
+import ec.gob.firmadigital.sign.TestHelper;
+import ec.gob.firmadigital.utils.PropertiesUtils;
 
 public class XAdESTest {
 

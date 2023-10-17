@@ -15,75 +15,75 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package io.rubrica.certificate;
+package ec.gob.firmadigital.certificate;
 
 import java.security.cert.X509Certificate;
 
-import io.rubrica.certificate.ec.CertificadoFuncionarioPublico;
-import io.rubrica.certificate.ec.CertificadoMiembroEmpresa;
-import io.rubrica.certificate.ec.CertificadoPersonaJuridica;
-import io.rubrica.certificate.ec.CertificadoPersonaNatural;
-import io.rubrica.certificate.ec.CertificadoRepresentanteLegal;
-import io.rubrica.certificate.ec.CertificadoSelladoTiempo;
-import io.rubrica.certificate.ec.anfac.AnfAc18332SubCaCert20162032;
-import io.rubrica.certificate.ec.anfac.AnfAc37442SubCaCert20192029;
-import io.rubrica.certificate.ec.anfac.CertificadoAnfAc18332;
-import io.rubrica.certificate.ec.anfac.CertificadoAnfAc18332Factory;
-import io.rubrica.certificate.ec.anfac.CertificadoAnfAc37442;
-import io.rubrica.certificate.ec.anfac.CertificadoAnfAc37442Factory;
-import io.rubrica.certificate.ec.argosdata.ArgosDataSubCaCert;
-import io.rubrica.certificate.ec.argosdata.CertificadoArgosData;
-import io.rubrica.certificate.ec.argosdata.CertificadoArgosDataFactory;
-import io.rubrica.certificate.ec.argosdata.CertificadoPersonaNaturalArgosData;
-import io.rubrica.certificate.ec.argosdata.CertificadoRepresentanteLegalArgosData;
-import io.rubrica.certificate.ec.bce.BceSubCaCert20112021;
-import io.rubrica.certificate.ec.bce.BceSubCaCert20192029;
-import io.rubrica.certificate.ec.bce.CertificadoBancoCentral;
-import io.rubrica.certificate.ec.bce.CertificadoBancoCentralFactory;
-import io.rubrica.certificate.ec.cj.CertificadoConsejoJudicatura;
-import io.rubrica.certificate.ec.cj.CertificadoConsejoJudicaturaDataFactory;
-import io.rubrica.certificate.ec.cj.CertificadoDepartamentoEmpresaConsejoJudicatura;
-import io.rubrica.certificate.ec.cj.CertificadoEmpresaConsejoJudicatura;
-import io.rubrica.certificate.ec.cj.CertificadoMiembroEmpresaConsejoJudicatura;
-import io.rubrica.certificate.ec.cj.CertificadoPersonaJuridicaPrivadaConsejoJudicatura;
-import io.rubrica.certificate.ec.cj.CertificadoPersonaJuridicaPublicaConsejoJudicatura;
-import io.rubrica.certificate.ec.cj.CertificadoPersonaNaturalConsejoJudicatura;
-import io.rubrica.certificate.ec.cj.ConsejoJudicaturaSubCaCert;
-import io.rubrica.certificate.ec.datil.CertificadoDatil;
-import io.rubrica.certificate.ec.datil.CertificadoDatilDataFactory;
-import io.rubrica.certificate.ec.datil.CertificadoMiembroEmpresaDatil;
-import io.rubrica.certificate.ec.datil.CertificadoPersonaJuridicaPrivadaDatil;
-import io.rubrica.certificate.ec.datil.CertificadoPersonaNaturalDatil;
-import io.rubrica.certificate.ec.datil.CertificadoRepresentanteLegalDatil;
-import io.rubrica.certificate.ec.datil.DatilSubCaCert20212031;
-import io.rubrica.certificate.ec.digercic.CertificadoDigercic;
-import io.rubrica.certificate.ec.digercic.CertificadoDigercicFactory;
-import io.rubrica.certificate.ec.digercic.DigercicSubCaCert20212031;
-import io.rubrica.certificate.ec.eclipsoft.CertificadoEclipsoft;
-import io.rubrica.certificate.ec.eclipsoft.CertificadoEclipsoftDataFactory;
-import io.rubrica.certificate.ec.eclipsoft.CertificadoMiembroEmpresaEclipsoft;
-import io.rubrica.certificate.ec.eclipsoft.CertificadoPersonaJuridicaPrivadaEclipsoft;
-import io.rubrica.certificate.ec.eclipsoft.CertificadoPersonalNaturalEclipsoft;
-import io.rubrica.certificate.ec.eclipsoft.CertificadoRepresentanteLegalEclipsoft;
-import io.rubrica.certificate.ec.lazzate.CertificadoLazzate;
-import io.rubrica.certificate.ec.lazzate.CertificadoLazzateDataFactory;
-import io.rubrica.certificate.ec.lazzate.LazzateSubCaCert;
-import io.rubrica.certificate.ec.securitydata.CertificadoSecurityData;
-import io.rubrica.certificate.ec.securitydata.CertificadoSecurityDataFactory;
-import io.rubrica.certificate.ec.securitydata.SecurityDataSubCaCert20112026;
-import io.rubrica.certificate.ec.securitydata.SecurityDataSubCaCert20192031;
-import io.rubrica.certificate.ec.securitydata.SecurityDataSubCaCert20202039;
-import io.rubrica.certificate.ec.uanataca.CertificadoMiembroEmpresaUanataca;
-import io.rubrica.certificate.ec.uanataca.CertificadoPersonaJuridicaPrivadaUanataca;
-import io.rubrica.certificate.ec.uanataca.CertificadoPersonaNaturalUanataca;
-import io.rubrica.certificate.ec.uanataca.CertificadoRepresentanteLegalUanataca;
-import io.rubrica.certificate.ec.uanataca.CertificadoUanataca;
-import io.rubrica.certificate.ec.uanataca.CertificadoUanatacaDataFactory;
-import io.rubrica.certificate.ec.uanataca.UanatacaSubCaCert0120162029;
-import io.rubrica.certificate.ec.uanataca.UanatacaSubCaCert0220162029;
-import io.rubrica.certificate.to.DatosUsuario;
-import io.rubrica.exceptions.EntidadCertificadoraNoValidaException;
-import io.rubrica.utils.Utils;
+import ec.gob.firmadigital.certificate.ec.CertificadoFuncionarioPublico;
+import ec.gob.firmadigital.certificate.ec.CertificadoMiembroEmpresa;
+import ec.gob.firmadigital.certificate.ec.CertificadoPersonaJuridica;
+import ec.gob.firmadigital.certificate.ec.CertificadoPersonaNatural;
+import ec.gob.firmadigital.certificate.ec.CertificadoRepresentanteLegal;
+import ec.gob.firmadigital.certificate.ec.CertificadoSelladoTiempo;
+import ec.gob.firmadigital.certificate.ec.anfac.AnfAc18332SubCaCert20162032;
+import ec.gob.firmadigital.certificate.ec.anfac.AnfAc37442SubCaCert20192029;
+import ec.gob.firmadigital.certificate.ec.anfac.CertificadoAnfAc18332;
+import ec.gob.firmadigital.certificate.ec.anfac.CertificadoAnfAc18332Factory;
+import ec.gob.firmadigital.certificate.ec.anfac.CertificadoAnfAc37442;
+import ec.gob.firmadigital.certificate.ec.anfac.CertificadoAnfAc37442Factory;
+import ec.gob.firmadigital.certificate.ec.argosdata.ArgosDataSubCaCert;
+import ec.gob.firmadigital.certificate.ec.argosdata.CertificadoArgosData;
+import ec.gob.firmadigital.certificate.ec.argosdata.CertificadoArgosDataFactory;
+import ec.gob.firmadigital.certificate.ec.argosdata.CertificadoPersonaNaturalArgosData;
+import ec.gob.firmadigital.certificate.ec.argosdata.CertificadoRepresentanteLegalArgosData;
+import ec.gob.firmadigital.certificate.ec.bce.BceSubCaCert20112021;
+import ec.gob.firmadigital.certificate.ec.bce.BceSubCaCert20192029;
+import ec.gob.firmadigital.certificate.ec.bce.CertificadoBancoCentral;
+import ec.gob.firmadigital.certificate.ec.bce.CertificadoBancoCentralFactory;
+import ec.gob.firmadigital.certificate.ec.cj.CertificadoConsejoJudicatura;
+import ec.gob.firmadigital.certificate.ec.cj.CertificadoConsejoJudicaturaDataFactory;
+import ec.gob.firmadigital.certificate.ec.cj.CertificadoDepartamentoEmpresaConsejoJudicatura;
+import ec.gob.firmadigital.certificate.ec.cj.CertificadoEmpresaConsejoJudicatura;
+import ec.gob.firmadigital.certificate.ec.cj.CertificadoMiembroEmpresaConsejoJudicatura;
+import ec.gob.firmadigital.certificate.ec.cj.CertificadoPersonaJuridicaPrivadaConsejoJudicatura;
+import ec.gob.firmadigital.certificate.ec.cj.CertificadoPersonaJuridicaPublicaConsejoJudicatura;
+import ec.gob.firmadigital.certificate.ec.cj.CertificadoPersonaNaturalConsejoJudicatura;
+import ec.gob.firmadigital.certificate.ec.cj.ConsejoJudicaturaSubCaCert;
+import ec.gob.firmadigital.certificate.ec.datil.CertificadoDatil;
+import ec.gob.firmadigital.certificate.ec.datil.CertificadoDatilDataFactory;
+import ec.gob.firmadigital.certificate.ec.datil.CertificadoMiembroEmpresaDatil;
+import ec.gob.firmadigital.certificate.ec.datil.CertificadoPersonaJuridicaPrivadaDatil;
+import ec.gob.firmadigital.certificate.ec.datil.CertificadoPersonaNaturalDatil;
+import ec.gob.firmadigital.certificate.ec.datil.CertificadoRepresentanteLegalDatil;
+import ec.gob.firmadigital.certificate.ec.datil.DatilSubCaCert20212031;
+import ec.gob.firmadigital.certificate.ec.digercic.CertificadoDigercic;
+import ec.gob.firmadigital.certificate.ec.digercic.CertificadoDigercicFactory;
+import ec.gob.firmadigital.certificate.ec.digercic.DigercicSubCaCert20212031;
+import ec.gob.firmadigital.certificate.ec.eclipsoft.CertificadoEclipsoft;
+import ec.gob.firmadigital.certificate.ec.eclipsoft.CertificadoEclipsoftDataFactory;
+import ec.gob.firmadigital.certificate.ec.eclipsoft.CertificadoMiembroEmpresaEclipsoft;
+import ec.gob.firmadigital.certificate.ec.eclipsoft.CertificadoPersonaJuridicaPrivadaEclipsoft;
+import ec.gob.firmadigital.certificate.ec.eclipsoft.CertificadoPersonalNaturalEclipsoft;
+import ec.gob.firmadigital.certificate.ec.eclipsoft.CertificadoRepresentanteLegalEclipsoft;
+import ec.gob.firmadigital.certificate.ec.lazzate.CertificadoLazzate;
+import ec.gob.firmadigital.certificate.ec.lazzate.CertificadoLazzateDataFactory;
+import ec.gob.firmadigital.certificate.ec.lazzate.LazzateSubCaCert;
+import ec.gob.firmadigital.certificate.ec.securitydata.CertificadoSecurityData;
+import ec.gob.firmadigital.certificate.ec.securitydata.CertificadoSecurityDataFactory;
+import ec.gob.firmadigital.certificate.ec.securitydata.SecurityDataSubCaCert20112026;
+import ec.gob.firmadigital.certificate.ec.securitydata.SecurityDataSubCaCert20192031;
+import ec.gob.firmadigital.certificate.ec.securitydata.SecurityDataSubCaCert20202039;
+import ec.gob.firmadigital.certificate.ec.uanataca.CertificadoMiembroEmpresaUanataca;
+import ec.gob.firmadigital.certificate.ec.uanataca.CertificadoPersonaJuridicaPrivadaUanataca;
+import ec.gob.firmadigital.certificate.ec.uanataca.CertificadoPersonaNaturalUanataca;
+import ec.gob.firmadigital.certificate.ec.uanataca.CertificadoRepresentanteLegalUanataca;
+import ec.gob.firmadigital.certificate.ec.uanataca.CertificadoUanataca;
+import ec.gob.firmadigital.certificate.ec.uanataca.CertificadoUanatacaDataFactory;
+import ec.gob.firmadigital.certificate.ec.uanataca.UanatacaSubCaCert0120162029;
+import ec.gob.firmadigital.certificate.ec.uanataca.UanatacaSubCaCert0220162029;
+import ec.gob.firmadigital.certificate.to.DatosUsuario;
+import ec.gob.firmadigital.exceptions.EntidadCertificadoraNoValidaException;
+import ec.gob.firmadigital.utils.Utils;
 
 /**
  * Validar diferentes certificados digitales acreditados por ARCOTEL
@@ -104,11 +104,11 @@ public class CertEcUtils {
         switch (entidadCertStr) {
             case "Banco Central del Ecuador": {
                 try {
-                    if (io.rubrica.utils.Utils.verifySignature(certificado, new BceSubCaCert20112021())) {
+                    if (ec.gob.firmadigital.utils.Utils.verifySignature(certificado, new BceSubCaCert20112021())) {
                         System.out.println("BceSubCaCert 2011-2021");
                         return new BceSubCaCert20112021();
                     }
-                    if (io.rubrica.utils.Utils.verifySignature(certificado, new BceSubCaCert20192029())) {
+                    if (ec.gob.firmadigital.utils.Utils.verifySignature(certificado, new BceSubCaCert20192029())) {
                         System.out.println("BceSubCaCert 2019-2029");
                         return new BceSubCaCert20192029();
                     }
@@ -119,15 +119,15 @@ public class CertEcUtils {
             }
             case "Security Data": {
                 try {
-                    if (io.rubrica.utils.Utils.verifySignature(certificado, new SecurityDataSubCaCert20112026())) {
+                    if (ec.gob.firmadigital.utils.Utils.verifySignature(certificado, new SecurityDataSubCaCert20112026())) {
                         System.out.println("SecurityDataSubCaCert");
                         return new SecurityDataSubCaCert20112026();
                     }
-                    if (io.rubrica.utils.Utils.verifySignature(certificado, new SecurityDataSubCaCert20192031())) {
+                    if (ec.gob.firmadigital.utils.Utils.verifySignature(certificado, new SecurityDataSubCaCert20192031())) {
                         System.out.println("SecurityDataSubCaCert 2019-2031");
                         return new SecurityDataSubCaCert20192031();
                     }
-                    if (io.rubrica.utils.Utils.verifySignature(certificado, new SecurityDataSubCaCert20202039())) {
+                    if (ec.gob.firmadigital.utils.Utils.verifySignature(certificado, new SecurityDataSubCaCert20202039())) {
                         System.out.println("SecurityDataSubCaCert 2020-2032");
                         return new SecurityDataSubCaCert20202039();
                     }
@@ -140,11 +140,11 @@ public class CertEcUtils {
                 return new ConsejoJudicaturaSubCaCert();
             case "Anf AC":
                 try {
-                if (io.rubrica.utils.Utils.verifySignature(certificado, new AnfAc18332SubCaCert20162032())) {
+                if (ec.gob.firmadigital.utils.Utils.verifySignature(certificado, new AnfAc18332SubCaCert20162032())) {
                     System.out.println("Anf 2016-2032");
                     return new AnfAc18332SubCaCert20162032();
                 }
-                if (io.rubrica.utils.Utils.verifySignature(certificado, new AnfAc37442SubCaCert20192029())) {
+                if (ec.gob.firmadigital.utils.Utils.verifySignature(certificado, new AnfAc37442SubCaCert20192029())) {
                     System.out.println("Anf 2019-2029");
                     return new AnfAc37442SubCaCert20192029();
                 }
@@ -157,11 +157,11 @@ public class CertEcUtils {
             }
             case UANATACA_NAME:
                 try {
-                if (io.rubrica.utils.Utils.verifySignature(certificado, new UanatacaSubCaCert0120162029())) {
+                if (ec.gob.firmadigital.utils.Utils.verifySignature(certificado, new UanatacaSubCaCert0120162029())) {
                     System.out.println("Uanataca 2016-2029");
                     return new UanatacaSubCaCert0120162029();
                 }
-                if (io.rubrica.utils.Utils.verifySignature(certificado, new UanatacaSubCaCert0220162029())) {
+                if (ec.gob.firmadigital.utils.Utils.verifySignature(certificado, new UanatacaSubCaCert0220162029())) {
                     System.out.println("Uanataca 2016-2029");
                     return new UanatacaSubCaCert0220162029();
                 }

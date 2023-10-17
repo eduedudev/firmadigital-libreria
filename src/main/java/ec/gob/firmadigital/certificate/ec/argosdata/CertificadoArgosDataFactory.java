@@ -15,12 +15,12 @@
 * You should have received a copy of the GNU Affero General Public License
 * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
-package io.rubrica.certificate.ec.argosdata;
+package ec.gob.firmadigital.certificate.ec.argosdata;
 
-import static io.rubrica.certificate.ec.argosdata.CertificadoArgosData.OID_CEDULA_PASAPORTE;
-import static io.rubrica.certificate.ec.argosdata.CertificadoArgosData.OID_TIPO_PERSONA_NATURAL;
-import static io.rubrica.certificate.ec.argosdata.CertificadoArgosData.OID_TIPO_REPRESENTANTE_LEGAL;
-import static io.rubrica.utils.BouncyCastleUtils.certificateHasPolicy;
+import static ec.gob.firmadigital.certificate.ec.argosdata.CertificadoArgosData.OID_CEDULA_PASAPORTE;
+import static ec.gob.firmadigital.certificate.ec.argosdata.CertificadoArgosData.OID_TIPO_PERSONA_NATURAL;
+import static ec.gob.firmadigital.certificate.ec.argosdata.CertificadoArgosData.OID_TIPO_REPRESENTANTE_LEGAL;
+import static ec.gob.firmadigital.utils.BouncyCastleUtils.certificateHasPolicy;
 
 import java.security.cert.X509Certificate;
 

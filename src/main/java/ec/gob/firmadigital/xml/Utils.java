@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package io.rubrica.xml;
+package ec.gob.firmadigital.xml;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -58,10 +58,10 @@ import org.w3c.dom.ls.DOMImplementationLS;
 import org.w3c.dom.ls.LSOutput;
 import org.w3c.dom.ls.LSSerializer;
 
-import io.rubrica.core.Util;
-import io.rubrica.sign.SignConstants;
-import io.rubrica.sign.SignInfo;
-import io.rubrica.sign.XMLConstants;
+import ec.gob.firmadigital.core.Util;
+import ec.gob.firmadigital.sign.SignConstants;
+import ec.gob.firmadigital.sign.SignInfo;
+import ec.gob.firmadigital.sign.XMLConstants;
 
 /**
  * Utilidades para las firmas XML.

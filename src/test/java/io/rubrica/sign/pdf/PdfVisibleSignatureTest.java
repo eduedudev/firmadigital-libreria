@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package io.rubrica.sign.pdf;
+package ec.gob.firmadigital.sign.pdf;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -31,11 +31,11 @@ import java.security.cert.X509Certificate;
 import java.util.List;
 import java.util.Properties;
 
-import io.rubrica.sign.SignConstants;
-import io.rubrica.sign.SignInfo;
-import io.rubrica.sign.Signer;
-import io.rubrica.sign.TestHelper;
-import io.rubrica.utils.PropertiesUtils;
+import ec.gob.firmadigital.sign.SignConstants;
+import ec.gob.firmadigital.sign.SignInfo;
+import ec.gob.firmadigital.sign.Signer;
+import ec.gob.firmadigital.sign.TestHelper;
+import ec.gob.firmadigital.utils.PropertiesUtils;
 
 public class PdfVisibleSignatureTest {
 

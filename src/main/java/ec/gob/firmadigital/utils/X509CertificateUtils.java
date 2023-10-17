@@ -15,19 +15,19 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package io.rubrica.utils;
+package ec.gob.firmadigital.utils;
 
-import io.rubrica.exceptions.CertificadoInvalidoException;
-import io.rubrica.exceptions.HoraServidorException;
-import io.rubrica.certificate.CertEcUtils;
-import io.rubrica.exceptions.EntidadCertificadoraNoValidaException;
-import io.rubrica.exceptions.RubricaException;
+import ec.gob.firmadigital.exceptions.CertificadoInvalidoException;
+import ec.gob.firmadigital.exceptions.HoraServidorException;
+import ec.gob.firmadigital.certificate.CertEcUtils;
+import ec.gob.firmadigital.exceptions.EntidadCertificadoraNoValidaException;
+import ec.gob.firmadigital.exceptions.RubricaException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.cert.X509Certificate;
 
-import io.rubrica.certificate.to.DatosUsuario;
-import io.rubrica.exceptions.ConexionException;
+import ec.gob.firmadigital.certificate.to.DatosUsuario;
+import ec.gob.firmadigital.exceptions.ConexionException;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.util.Date;
@@ -102,7 +102,7 @@ public class X509CertificateUtils {
                 }
             }
 
-            if (!io.rubrica.utils.Utils.verifySignature(x509Certificate)) {
+            if (!ec.gob.firmadigital.utils.Utils.verifySignature(x509Certificate)) {
                 desconocido = true;
             }
 

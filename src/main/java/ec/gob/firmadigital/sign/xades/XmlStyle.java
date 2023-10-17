@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.rubrica.sign.xades;
+package ec.gob.firmadigital.sign.xades;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -30,7 +30,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import io.rubrica.core.Util;
+import ec.gob.firmadigital.core.Util;
 
 /**
  * Elemento de estilo XML (XSL) a firmar.

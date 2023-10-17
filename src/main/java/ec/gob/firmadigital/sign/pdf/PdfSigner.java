@@ -16,14 +16,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.rubrica.sign.pdf;
+package ec.gob.firmadigital.sign.pdf;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.cert.Certificate;
 import java.util.Properties;
 
-import io.rubrica.sign.RubricaSigner;
+import ec.gob.firmadigital.sign.RubricaSigner;
 
 public interface PdfSigner {
 

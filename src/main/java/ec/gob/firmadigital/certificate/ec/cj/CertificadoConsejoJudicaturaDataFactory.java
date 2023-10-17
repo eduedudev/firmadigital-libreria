@@ -15,16 +15,16 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package io.rubrica.certificate.ec.cj;
+package ec.gob.firmadigital.certificate.ec.cj;
 
-import static io.rubrica.certificate.ec.cj.CertificadoConsejoJudicatura.OID_CERTIFICADO_DEPARTAMENTO_EMPRESA;
-import static io.rubrica.certificate.ec.cj.CertificadoConsejoJudicatura.OID_CERTIFICADO_EMPRESA;
-import static io.rubrica.certificate.ec.cj.CertificadoConsejoJudicatura.OID_CERTIFICADO_MIEMBRO_EMPRESA;
-import static io.rubrica.certificate.ec.cj.CertificadoConsejoJudicatura.OID_CERTIFICADO_PERSONA_JURIDICA_PRIVADA;
-import static io.rubrica.certificate.ec.cj.CertificadoConsejoJudicatura.OID_CERTIFICADO_PERSONA_JURIDICA_PUBLICA;
-import static io.rubrica.certificate.ec.cj.CertificadoConsejoJudicatura.OID_CERTIFICADO_PERSONA_NATURAL;
-import static io.rubrica.certificate.ec.cj.CertificadoConsejoJudicatura.OID_SELLADO_TIEMPO;
-import static io.rubrica.utils.BouncyCastleUtils.certificateHasPolicy;
+import static ec.gob.firmadigital.certificate.ec.cj.CertificadoConsejoJudicatura.OID_CERTIFICADO_DEPARTAMENTO_EMPRESA;
+import static ec.gob.firmadigital.certificate.ec.cj.CertificadoConsejoJudicatura.OID_CERTIFICADO_EMPRESA;
+import static ec.gob.firmadigital.certificate.ec.cj.CertificadoConsejoJudicatura.OID_CERTIFICADO_MIEMBRO_EMPRESA;
+import static ec.gob.firmadigital.certificate.ec.cj.CertificadoConsejoJudicatura.OID_CERTIFICADO_PERSONA_JURIDICA_PRIVADA;
+import static ec.gob.firmadigital.certificate.ec.cj.CertificadoConsejoJudicatura.OID_CERTIFICADO_PERSONA_JURIDICA_PUBLICA;
+import static ec.gob.firmadigital.certificate.ec.cj.CertificadoConsejoJudicatura.OID_CERTIFICADO_PERSONA_NATURAL;
+import static ec.gob.firmadigital.certificate.ec.cj.CertificadoConsejoJudicatura.OID_SELLADO_TIEMPO;
+import static ec.gob.firmadigital.utils.BouncyCastleUtils.certificateHasPolicy;
 
 import java.security.cert.X509Certificate;
 

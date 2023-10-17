@@ -15,10 +15,10 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package io.rubrica.test;
+package ec.gob.firmadigital.test;
 
-import static io.rubrica.certificate.CertUtils.seleccionarAlias;
-import static io.rubrica.utils.Utils.dateToCalendar;
+import static ec.gob.firmadigital.certificate.CertUtils.seleccionarAlias;
+import static ec.gob.firmadigital.utils.Utils.dateToCalendar;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -34,34 +34,34 @@ import java.time.temporal.TemporalAccessor;
 import java.util.Date;
 import java.util.Properties;
 import com.itextpdf.signatures.DigestAlgorithms;
-import io.rubrica.certificate.CertEcUtils;
-import io.rubrica.certificate.to.Certificado;
-import io.rubrica.certificate.to.DatosUsuario;
-import io.rubrica.certificate.to.Documento;
-import io.rubrica.core.Util;
-import io.rubrica.exceptions.HoraServidorException;
-import io.rubrica.exceptions.InvalidFormatException;
-import io.rubrica.exceptions.SignatureVerificationException;
-import io.rubrica.keystore.FileKeyStoreProvider;
-import io.rubrica.keystore.KeyStoreProvider;
-import io.rubrica.keystore.KeyStoreProviderFactory;
-import io.rubrica.model.Document;
-import io.rubrica.model.InMemoryDocument;
-import io.rubrica.sign.DigestAlgorithm;
-import io.rubrica.sign.PrivateKeySigner;
-import io.rubrica.sign.SignConstants;
-import io.rubrica.sign.pdf.PDFSignerItext;
-import io.rubrica.sign.pdf.PadesBasicSigner;
-import io.rubrica.sign.pdf.RectanguloUtil;
-import io.rubrica.sign.xades.XAdESSigner;
-import io.rubrica.utils.FileUtils;
-import io.rubrica.utils.Json;
-import io.rubrica.utils.PropertiesUtils;
-import io.rubrica.utils.TiempoUtils;
-import io.rubrica.utils.Utils;
-import io.rubrica.utils.UtilsCrlOcsp;
-import io.rubrica.utils.X509CertificateUtils;
-import io.rubrica.validaciones.DocumentoUtils;
+import ec.gob.firmadigital.certificate.CertEcUtils;
+import ec.gob.firmadigital.certificate.to.Certificado;
+import ec.gob.firmadigital.certificate.to.DatosUsuario;
+import ec.gob.firmadigital.certificate.to.Documento;
+import ec.gob.firmadigital.core.Util;
+import ec.gob.firmadigital.exceptions.HoraServidorException;
+import ec.gob.firmadigital.exceptions.InvalidFormatException;
+import ec.gob.firmadigital.exceptions.SignatureVerificationException;
+import ec.gob.firmadigital.keystore.FileKeyStoreProvider;
+import ec.gob.firmadigital.keystore.KeyStoreProvider;
+import ec.gob.firmadigital.keystore.KeyStoreProviderFactory;
+import ec.gob.firmadigital.model.Document;
+import ec.gob.firmadigital.model.InMemoryDocument;
+import ec.gob.firmadigital.sign.DigestAlgorithm;
+import ec.gob.firmadigital.sign.PrivateKeySigner;
+import ec.gob.firmadigital.sign.SignConstants;
+import ec.gob.firmadigital.sign.pdf.PDFSignerItext;
+import ec.gob.firmadigital.sign.pdf.PadesBasicSigner;
+import ec.gob.firmadigital.sign.pdf.RectanguloUtil;
+import ec.gob.firmadigital.sign.xades.XAdESSigner;
+import ec.gob.firmadigital.utils.FileUtils;
+import ec.gob.firmadigital.utils.Json;
+import ec.gob.firmadigital.utils.PropertiesUtils;
+import ec.gob.firmadigital.utils.TiempoUtils;
+import ec.gob.firmadigital.utils.Utils;
+import ec.gob.firmadigital.utils.UtilsCrlOcsp;
+import ec.gob.firmadigital.utils.X509CertificateUtils;
+import ec.gob.firmadigital.validaciones.DocumentoUtils;
 import java.io.InputStream;
 
 /**

@@ -15,9 +15,9 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package io.rubrica.crl;
+package ec.gob.firmadigital.crl;
 
-import io.rubrica.utils.HttpClient;
+import ec.gob.firmadigital.utils.HttpClient;
 import java.io.ByteArrayInputStream;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509CRL;

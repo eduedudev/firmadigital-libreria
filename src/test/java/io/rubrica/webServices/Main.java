@@ -15,9 +15,9 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package io.rubrica.webServices;
+package ec.gob.firmadigital.webServices;
 
-import io.rubrica.utils.PropertiesUtils;
+import ec.gob.firmadigital.utils.PropertiesUtils;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;

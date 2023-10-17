@@ -15,9 +15,9 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package io.rubrica.certificate.ec.uanataca;
+package ec.gob.firmadigital.certificate.ec.uanataca;
 
-import io.rubrica.certificate.base.RubricaCertificate;
+import ec.gob.firmadigital.certificate.base.RubricaCertificate;
 
 /**
  * Certificado subordinado raiz 1 del Uanataca Ecuador, representado como un

@@ -17,7 +17,7 @@
  */
 
 
-package io.rubrica.sign;
+package ec.gob.firmadigital.sign;
 
 import java.security.Key;
 

@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package io.rubrica.validaciones;
+package ec.gob.firmadigital.validaciones;
 
 /**
  * Utilidades para Fichero
@@ -29,7 +29,7 @@ public class Fichero {
         javax.swing.JFileChooser elegirRuta = new javax.swing.JFileChooser(
                 new java.io.File(System.getProperty("user.home")));
         elegirRuta.setAcceptAllFileFilterUsed(false);
-        elegirRuta.setFileFilter(new io.rubrica.validaciones.FiltrarArchivosPdf());
+        elegirRuta.setFileFilter(new ec.gob.firmadigital.validaciones.FiltrarArchivosPdf());
 
         int opcionElegida = elegirRuta.showSaveDialog(null);
         if (opcionElegida == javax.swing.JFileChooser.APPROVE_OPTION) {
@@ -59,7 +59,7 @@ public class Fichero {
         // elegirRuta.setCurrentDirectory(java.io.File.pathSeparator);
         elegirRuta.setAcceptAllFileFilterUsed(false);
         if (extencion.equals(".pdf")) {
-            elegirRuta.setFileFilter(new io.rubrica.validaciones.FiltrarArchivosPdf());
+            elegirRuta.setFileFilter(new ec.gob.firmadigital.validaciones.FiltrarArchivosPdf());
         }
         int opcionElegida = elegirRuta.showSaveDialog(null);
         if (opcionElegida == javax.swing.JFileChooser.APPROVE_OPTION) {

@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package io.rubrica.sign;
+package ec.gob.firmadigital.sign;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -24,8 +24,8 @@ import java.security.cert.Certificate;
 import java.util.List;
 import java.util.Properties;
 
-import io.rubrica.exceptions.InvalidFormatException;
-import io.rubrica.exceptions.RubricaException;
+import ec.gob.firmadigital.exceptions.InvalidFormatException;
+import ec.gob.firmadigital.exceptions.RubricaException;
 import java.io.InputStream;
 
 /**

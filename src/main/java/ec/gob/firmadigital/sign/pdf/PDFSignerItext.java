@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package io.rubrica.sign.pdf;
+package ec.gob.firmadigital.sign.pdf;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -62,18 +62,18 @@ import com.itextpdf.signatures.PdfSigner;
 import com.itextpdf.signatures.PrivateKeySignature;
 import com.itextpdf.signatures.SignatureUtil;
 
-import io.rubrica.certificate.CertEcUtils;
-import io.rubrica.certificate.to.DatosUsuario;
-import io.rubrica.exceptions.HoraServidorException;
-import io.rubrica.exceptions.InvalidFormatException;
-import io.rubrica.exceptions.RubricaException;
-import io.rubrica.model.Document;
-import io.rubrica.model.InMemoryDocument;
-import io.rubrica.sign.SignInfo;
-import io.rubrica.sign.Signer;
-import io.rubrica.utils.BouncyCastleUtils;
-import io.rubrica.utils.FileUtils;
-import io.rubrica.utils.Utils;
+import ec.gob.firmadigital.certificate.CertEcUtils;
+import ec.gob.firmadigital.certificate.to.DatosUsuario;
+import ec.gob.firmadigital.exceptions.HoraServidorException;
+import ec.gob.firmadigital.exceptions.InvalidFormatException;
+import ec.gob.firmadigital.exceptions.RubricaException;
+import ec.gob.firmadigital.model.Document;
+import ec.gob.firmadigital.model.InMemoryDocument;
+import ec.gob.firmadigital.sign.SignInfo;
+import ec.gob.firmadigital.sign.Signer;
+import ec.gob.firmadigital.utils.BouncyCastleUtils;
+import ec.gob.firmadigital.utils.FileUtils;
+import ec.gob.firmadigital.utils.Utils;
 import java.util.logging.Level;
 
 @Deprecated
@@ -111,7 +111,7 @@ public class PDFSignerItext implements Signer {
      * @param base64
      * @return
      * @throws java.io.IOException
-     * @throws io.rubrica.exceptions.RubricaException
+     * @throws ec.gob.firmadigital.exceptions.RubricaException
      */
     @Override
     public byte[] sign(byte[] data, String algorithm, PrivateKey key, Certificate[] certChain, Properties xParams, String base64)
@@ -244,7 +244,7 @@ public class PDFSignerItext implements Signer {
                     text = text + "FECHA: " + signTime + "\n";
                     text = text + infoQR;
                     try {
-                        byteQR = io.rubrica.utils.QRCode.generateQR(text,
+                        byteQR = ec.gob.firmadigital.utils.QRCode.generateQR(text,
                                 (int) signaturePositionOnPage.getHeight(), (int) signaturePositionOnPage.getHeight());
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -425,7 +425,7 @@ public class PDFSignerItext implements Signer {
             // } catch (ExceptionConverter ec) {
             // logger.severe("Problemas con el driver\n" + ec);
             // throw new
-            // RubricaException(io.rubrica.utils.PropertiesUtils.getMessages().getProperty("mensaje.error.driver_problemas")
+            // RubricaException(ec.gob.firmadigital.utils.PropertiesUtils.getMessages().getProperty("mensaje.error.driver_problemas")
             // + "\n", ec);
             // } catch (DocumentException | InvalidPdfException de) {
             // logger.severe("Error al estampar la firma\n" + de);

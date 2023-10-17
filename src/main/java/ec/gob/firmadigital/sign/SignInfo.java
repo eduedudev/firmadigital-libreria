@@ -15,13 +15,13 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package io.rubrica.sign;
+package ec.gob.firmadigital.sign;
 
 import java.security.cert.X509Certificate;
 import java.text.DateFormat;
 import java.util.Date;
 
-import io.rubrica.utils.Utils;
+import ec.gob.firmadigital.utils.Utils;
 
 /**
  * Representa una firma digital sobre un documento PDF.

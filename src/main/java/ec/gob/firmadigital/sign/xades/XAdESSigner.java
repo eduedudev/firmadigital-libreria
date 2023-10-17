@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.rubrica.sign.xades;
+package ec.gob.firmadigital.sign.xades;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -41,12 +41,12 @@ import org.w3c.dom.NodeList;
 
 import es.uji.crypto.xades.jxades.util.Base64;
 import es.uji.crypto.xades.jxades.util.XMLUtils;
-import io.rubrica.exceptions.RubricaException;
-import io.rubrica.exceptions.InvalidFormatException;
-import io.rubrica.sign.SignInfo;
-import io.rubrica.sign.Signer;
-import io.rubrica.sign.XMLConstants;
-import io.rubrica.xml.Utils;
+import ec.gob.firmadigital.exceptions.RubricaException;
+import ec.gob.firmadigital.exceptions.InvalidFormatException;
+import ec.gob.firmadigital.sign.SignInfo;
+import ec.gob.firmadigital.sign.Signer;
+import ec.gob.firmadigital.sign.XMLConstants;
+import ec.gob.firmadigital.xml.Utils;
 
 /**
  * Manejador de firmas XML XAdES

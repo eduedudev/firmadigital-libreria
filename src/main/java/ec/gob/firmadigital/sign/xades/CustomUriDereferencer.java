@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.rubrica.sign.xades;
+package ec.gob.firmadigital.sign.xades;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;

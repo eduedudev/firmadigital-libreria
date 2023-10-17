@@ -15,20 +15,20 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package io.rubrica.utils;
+package ec.gob.firmadigital.utils;
 
-import io.rubrica.exceptions.CRLValidationException;
-import io.rubrica.exceptions.CertificadoInvalidoException;
-import io.rubrica.exceptions.ConexionValidarCRLException;
-import io.rubrica.certificate.CertEcUtils;
-import io.rubrica.certificate.CrlUtils;
-import io.rubrica.certificate.ValidationResult;
-import io.rubrica.exceptions.RubricaException;
-import io.rubrica.exceptions.ConexionApiException;
-import io.rubrica.exceptions.ConexionException;
-import io.rubrica.exceptions.EntidadCertificadoraNoValidaException;
+import ec.gob.firmadigital.exceptions.CRLValidationException;
+import ec.gob.firmadigital.exceptions.CertificadoInvalidoException;
+import ec.gob.firmadigital.exceptions.ConexionValidarCRLException;
+import ec.gob.firmadigital.certificate.CertEcUtils;
+import ec.gob.firmadigital.certificate.CrlUtils;
+import ec.gob.firmadigital.certificate.ValidationResult;
+import ec.gob.firmadigital.exceptions.RubricaException;
+import ec.gob.firmadigital.exceptions.ConexionApiException;
+import ec.gob.firmadigital.exceptions.ConexionException;
+import ec.gob.firmadigital.exceptions.EntidadCertificadoraNoValidaException;
 
-import io.rubrica.ocsp.ValidadorOCSP;
+import ec.gob.firmadigital.ocsp.ValidadorOCSP;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -69,9 +69,9 @@ public class UtilsCrlOcsp {
      * @throws IOException
      * @throws RubricaException si hay un error de conexion con el CRL bota
      * esto, si es por OCSP y falla la conexion intenta por CRL
-     * @throws io.rubrica.exceptions.CRLValidationException
-     * @throws io.rubrica.exceptions.EntidadCertificadoraNoValidaException
-     * @throws io.rubrica.exceptions.ConexionValidarCRLException
+     * @throws ec.gob.firmadigital.exceptions.CRLValidationException
+     * @throws ec.gob.firmadigital.exceptions.EntidadCertificadoraNoValidaException
+     * @throws ec.gob.firmadigital.exceptions.ConexionValidarCRLException
      */
     public static String validarCertificado(X509Certificate cert, String apiUrl) throws EntidadCertificadoraNoValidaException, IOException, RubricaException, ConexionValidarCRLException, CRLValidationException {
         String fechaRevocado = null;

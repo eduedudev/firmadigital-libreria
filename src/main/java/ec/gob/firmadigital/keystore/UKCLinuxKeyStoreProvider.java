@@ -3,7 +3,7 @@
  * development@appshandler.com
  * http://www.appshandler.com
  */
-package io.rubrica.keystore;
+package ec.gob.firmadigital.keystore;
 
 import java.io.File;
 

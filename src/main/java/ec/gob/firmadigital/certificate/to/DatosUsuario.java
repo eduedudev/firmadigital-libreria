@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package io.rubrica.certificate.to;
+package ec.gob.firmadigital.certificate.to;
 
 /**
  * Datos del usuario para contruir la validacion CMS.

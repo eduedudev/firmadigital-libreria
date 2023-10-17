@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package io.rubrica.certificate.ec.securitydata;
+package ec.gob.firmadigital.certificate.ec.securitydata;
 
 import java.security.KeyStore;
 import java.security.KeyStore.PrivateKeyEntry;
@@ -23,10 +23,10 @@ import java.security.cert.X509Certificate;
 import java.util.Arrays;
 import java.util.List;
 
-import io.rubrica.certificate.CrlUtils;
-import io.rubrica.certificate.ValidationResult;
-import io.rubrica.utils.CertificateUtils;
-import io.rubrica.utils.OcspUtils;
+import ec.gob.firmadigital.certificate.CrlUtils;
+import ec.gob.firmadigital.certificate.ValidationResult;
+import ec.gob.firmadigital.utils.CertificateUtils;
+import ec.gob.firmadigital.utils.OcspUtils;
 
 public class TestSecurityDataCertificate {
 

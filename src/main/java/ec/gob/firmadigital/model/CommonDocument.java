@@ -1,4 +1,4 @@
-package io.rubrica.model;
+package ec.gob.firmadigital.model;
 
 import java.io.FileOutputStream;
 import java.io.IOException;

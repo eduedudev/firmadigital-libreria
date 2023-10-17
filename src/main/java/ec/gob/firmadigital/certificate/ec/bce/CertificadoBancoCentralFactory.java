@@ -15,13 +15,13 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package io.rubrica.certificate.ec.bce;
+package ec.gob.firmadigital.certificate.ec.bce;
 
-import static io.rubrica.certificate.ec.bce.CertificadoBancoCentral.OID_SELLADO_TIEMPO;
-import static io.rubrica.certificate.ec.bce.CertificadoBancoCentral.OID_CERTIFICADO_FUNCIONARIO_PUBLICO;
-import static io.rubrica.certificate.ec.bce.CertificadoBancoCentral.OID_CERTIFICADO_PERSONA_JURIDICA;
-import static io.rubrica.certificate.ec.bce.CertificadoBancoCentral.OID_CERTIFICADO_PERSONA_NATURAL;
-import static io.rubrica.utils.BouncyCastleUtils.certificateHasPolicy;
+import static ec.gob.firmadigital.certificate.ec.bce.CertificadoBancoCentral.OID_SELLADO_TIEMPO;
+import static ec.gob.firmadigital.certificate.ec.bce.CertificadoBancoCentral.OID_CERTIFICADO_FUNCIONARIO_PUBLICO;
+import static ec.gob.firmadigital.certificate.ec.bce.CertificadoBancoCentral.OID_CERTIFICADO_PERSONA_JURIDICA;
+import static ec.gob.firmadigital.certificate.ec.bce.CertificadoBancoCentral.OID_CERTIFICADO_PERSONA_NATURAL;
+import static ec.gob.firmadigital.utils.BouncyCastleUtils.certificateHasPolicy;
 
 import java.security.cert.X509Certificate;
 

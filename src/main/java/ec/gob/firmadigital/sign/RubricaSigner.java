@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.rubrica.sign;
+package ec.gob.firmadigital.sign;
 
 import java.security.GeneralSecurityException;
 

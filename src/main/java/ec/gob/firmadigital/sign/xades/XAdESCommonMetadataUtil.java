@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.rubrica.sign.xades;
+package ec.gob.firmadigital.sign.xades;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.Properties;
@@ -32,7 +32,7 @@ import es.uji.crypto.xades.jxades.security.xml.XAdES.SignatureProductionPlaceImp
 import es.uji.crypto.xades.jxades.security.xml.XAdES.SignerRole;
 import es.uji.crypto.xades.jxades.security.xml.XAdES.SignerRoleImpl;
 import es.uji.crypto.xades.jxades.security.xml.XAdES.XAdES_EPES;
-import io.rubrica.exceptions.RubricaException;
+import ec.gob.firmadigital.exceptions.RubricaException;
 
 final class XAdESCommonMetadataUtil {
 

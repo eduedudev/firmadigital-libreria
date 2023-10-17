@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package io.rubrica.certificate;
+package ec.gob.firmadigital.certificate;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -41,9 +41,9 @@ import org.bouncycastle.asn1.DEROctetString;
 import org.bouncycastle.asn1.DERTaggedObject;
 import org.bouncycastle.asn1.DLTaggedObject;
 
-import io.rubrica.exceptions.RubricaException;
-import io.rubrica.keystore.Alias;
-import io.rubrica.keystore.KeyStoreUtilities;
+import ec.gob.firmadigital.exceptions.RubricaException;
+import ec.gob.firmadigital.keystore.Alias;
+import ec.gob.firmadigital.keystore.KeyStoreUtilities;
 
 /**
  * Utilidades para trabajar con Certificados.

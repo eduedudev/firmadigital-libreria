@@ -15,17 +15,17 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package io.rubrica.certificate.ec.securitydata;
+package ec.gob.firmadigital.certificate.ec.securitydata;
 
-import static io.rubrica.certificate.ec.securitydata.CertificadoSecurityData.OID_CEDULA_PASAPORTE;
-import static io.rubrica.certificate.ec.securitydata.CertificadoSecurityData.OID_TIPO_FUNCIONARIO_PUBLICO;
-import static io.rubrica.certificate.ec.securitydata.CertificadoSecurityData.OID_TIPO_MIEMBRO_EMPRESA;
-import static io.rubrica.certificate.ec.securitydata.CertificadoSecurityData.OID_TIPO_PERSONA_JURIDICA_EMPRESA;
-import static io.rubrica.certificate.ec.securitydata.CertificadoSecurityData.OID_TIPO_PERSONA_NATURAL;
-import static io.rubrica.certificate.ec.securitydata.CertificadoSecurityData.OID_TIPO_PERSONA_NATURAL_PROFESIONAL;
-import static io.rubrica.certificate.ec.securitydata.CertificadoSecurityData.OID_TIPO_PRUEBA;
-import static io.rubrica.certificate.ec.securitydata.CertificadoSecurityData.OID_TIPO_REPRESENTANTE_LEGAL;
-import static io.rubrica.utils.BouncyCastleUtils.certificateHasPolicy;
+import static ec.gob.firmadigital.certificate.ec.securitydata.CertificadoSecurityData.OID_CEDULA_PASAPORTE;
+import static ec.gob.firmadigital.certificate.ec.securitydata.CertificadoSecurityData.OID_TIPO_FUNCIONARIO_PUBLICO;
+import static ec.gob.firmadigital.certificate.ec.securitydata.CertificadoSecurityData.OID_TIPO_MIEMBRO_EMPRESA;
+import static ec.gob.firmadigital.certificate.ec.securitydata.CertificadoSecurityData.OID_TIPO_PERSONA_JURIDICA_EMPRESA;
+import static ec.gob.firmadigital.certificate.ec.securitydata.CertificadoSecurityData.OID_TIPO_PERSONA_NATURAL;
+import static ec.gob.firmadigital.certificate.ec.securitydata.CertificadoSecurityData.OID_TIPO_PERSONA_NATURAL_PROFESIONAL;
+import static ec.gob.firmadigital.certificate.ec.securitydata.CertificadoSecurityData.OID_TIPO_PRUEBA;
+import static ec.gob.firmadigital.certificate.ec.securitydata.CertificadoSecurityData.OID_TIPO_REPRESENTANTE_LEGAL;
+import static ec.gob.firmadigital.utils.BouncyCastleUtils.certificateHasPolicy;
 
 import java.security.cert.X509Certificate;
 

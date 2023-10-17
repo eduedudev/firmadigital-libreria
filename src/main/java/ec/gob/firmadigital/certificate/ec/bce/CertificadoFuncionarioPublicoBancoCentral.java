@@ -15,11 +15,11 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package io.rubrica.certificate.ec.bce;
+package ec.gob.firmadigital.certificate.ec.bce;
 
 import java.security.cert.X509Certificate;
 
-import io.rubrica.certificate.ec.CertificadoFuncionarioPublico;
+import ec.gob.firmadigital.certificate.ec.CertificadoFuncionarioPublico;
 
 /**
  * Certificado de Funcionario Publico emitido por el Banco Central del Ecuador.

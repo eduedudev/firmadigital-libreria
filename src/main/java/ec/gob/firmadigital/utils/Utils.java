@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package io.rubrica.utils;
+package ec.gob.firmadigital.utils;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
@@ -69,28 +69,28 @@ import com.itextpdf.kernel.pdf.PdfReader;
 import com.itextpdf.signatures.PdfPKCS7;
 import com.itextpdf.signatures.SignatureUtil;
 
-import io.rubrica.certificate.CertEcUtils;
-import io.rubrica.certificate.to.Certificado;
-import io.rubrica.certificate.to.DatosUsuario;
-import io.rubrica.certificate.to.Documento;
-import io.rubrica.core.Util;
-import io.rubrica.exceptions.CRLValidationException;
-import io.rubrica.exceptions.CertificadoInvalidoException;
-import io.rubrica.exceptions.ConexionException;
-import io.rubrica.exceptions.ConexionInvalidaOCSPException;
-import io.rubrica.exceptions.ConexionValidarCRLException;
-import io.rubrica.exceptions.DocumentoException;
-import io.rubrica.exceptions.EntidadCertificadoraNoValidaException;
-import io.rubrica.exceptions.HoraServidorException;
-import io.rubrica.exceptions.InvalidFormatException;
-import io.rubrica.exceptions.OcspValidationException;
-import io.rubrica.exceptions.RubricaException;
-import io.rubrica.exceptions.SignatureVerificationException;
-import io.rubrica.sign.SignInfo;
-import io.rubrica.sign.Signer;
-import io.rubrica.sign.cms.VerificadorCMS;
-import io.rubrica.sign.pdf.PDFSignerItext;
-import io.rubrica.sign.xades.XAdESSigner;
+import ec.gob.firmadigital.certificate.CertEcUtils;
+import ec.gob.firmadigital.certificate.to.Certificado;
+import ec.gob.firmadigital.certificate.to.DatosUsuario;
+import ec.gob.firmadigital.certificate.to.Documento;
+import ec.gob.firmadigital.core.Util;
+import ec.gob.firmadigital.exceptions.CRLValidationException;
+import ec.gob.firmadigital.exceptions.CertificadoInvalidoException;
+import ec.gob.firmadigital.exceptions.ConexionException;
+import ec.gob.firmadigital.exceptions.ConexionInvalidaOCSPException;
+import ec.gob.firmadigital.exceptions.ConexionValidarCRLException;
+import ec.gob.firmadigital.exceptions.DocumentoException;
+import ec.gob.firmadigital.exceptions.EntidadCertificadoraNoValidaException;
+import ec.gob.firmadigital.exceptions.HoraServidorException;
+import ec.gob.firmadigital.exceptions.InvalidFormatException;
+import ec.gob.firmadigital.exceptions.OcspValidationException;
+import ec.gob.firmadigital.exceptions.RubricaException;
+import ec.gob.firmadigital.exceptions.SignatureVerificationException;
+import ec.gob.firmadigital.sign.SignInfo;
+import ec.gob.firmadigital.sign.Signer;
+import ec.gob.firmadigital.sign.cms.VerificadorCMS;
+import ec.gob.firmadigital.sign.pdf.PDFSignerItext;
+import ec.gob.firmadigital.sign.xades.XAdESSigner;
 
 /**
  * M&eacute;todos generales de utilidad para toda la aplicaci&oacute;n.
@@ -1072,7 +1072,7 @@ public class Utils {
      * @param certificate The X509Certificate which is to be checked
      * @return True, if the verification was successful, false otherwise
      * @throws java.security.InvalidKeyException
-     * @throws io.rubrica.exceptions.EntidadCertificadoraNoValidaException
+     * @throws ec.gob.firmadigital.exceptions.EntidadCertificadoraNoValidaException
      */
     public static boolean verifySignature(X509Certificate certificate) throws java.security.InvalidKeyException, EntidadCertificadoraNoValidaException {
         return verifySignature(certificate, CertEcUtils.getRootCertificate(certificate));

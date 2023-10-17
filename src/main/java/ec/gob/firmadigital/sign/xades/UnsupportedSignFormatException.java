@@ -16,9 +16,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.rubrica.sign.xades;
+package ec.gob.firmadigital.sign.xades;
 
-import io.rubrica.exceptions.RubricaException;
+import ec.gob.firmadigital.exceptions.RubricaException;
 
 /**
  * Excepci&oacute;n lanzada cuando se detecta una firma con un formato no

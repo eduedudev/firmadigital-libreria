@@ -1,4 +1,4 @@
-package io.rubrica.model;
+package ec.gob.firmadigital.model;
 
 /**
  * Representa un error en la aplicación.

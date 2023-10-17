@@ -15,11 +15,11 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package io.rubrica.certificate.ec.cj;
+package ec.gob.firmadigital.certificate.ec.cj;
 
 import java.security.cert.X509Certificate;
 
-import io.rubrica.certificate.ec.CertificadoPersonaJuridica;
+import ec.gob.firmadigital.certificate.ec.CertificadoPersonaJuridica;
 
 /**
  * Certificado de Persona Juridica emitido por el Consejo de la Judicatura.

@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.rubrica.sign.pdf;
+package ec.gob.firmadigital.sign.pdf;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -29,8 +29,8 @@ import com.itextpdf.signatures.BouncyCastleDigest;
 import com.itextpdf.signatures.IExternalSignature;
 import com.itextpdf.signatures.PdfSigner.CryptoStandard;
 
-import io.rubrica.sign.RubricaSigner;
-import io.rubrica.sign.pdf.itext.ITextSignerAdapter;
+import ec.gob.firmadigital.sign.RubricaSigner;
+import ec.gob.firmadigital.sign.pdf.itext.ITextSignerAdapter;
 
 /**
  * PaDES Basic Signer

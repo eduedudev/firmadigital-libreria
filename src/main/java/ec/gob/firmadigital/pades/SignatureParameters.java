@@ -1,4 +1,4 @@
-package io.rubrica.pades;
+package ec.gob.firmadigital.pades;
 
 import java.security.cert.Certificate;
 

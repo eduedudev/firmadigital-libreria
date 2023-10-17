@@ -16,13 +16,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.rubrica.sign.pdf.itext;
+package ec.gob.firmadigital.sign.pdf.itext;
 
 import java.security.GeneralSecurityException;
 
 import com.itextpdf.signatures.IExternalSignature;
 
-import io.rubrica.sign.RubricaSigner;
+import ec.gob.firmadigital.sign.RubricaSigner;
 
 public class ITextSignerAdapter implements IExternalSignature {
 

@@ -16,9 +16,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.rubrica.sign.xades;
+package ec.gob.firmadigital.sign.xades;
 
-import io.rubrica.exceptions.FormatFileException;
+import ec.gob.firmadigital.exceptions.FormatFileException;
 
 /**
  * Excepci&oacute;n para notificar que se ha encontrado un objeto que no es un

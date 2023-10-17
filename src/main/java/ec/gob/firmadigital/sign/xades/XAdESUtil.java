@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.rubrica.sign.xades;
+package ec.gob.firmadigital.sign.xades;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -52,8 +52,8 @@ import es.uji.crypto.xades.jxades.security.xml.XAdES.CommitmentTypeIdImpl;
 import es.uji.crypto.xades.jxades.security.xml.XAdES.CommitmentTypeIndication;
 import es.uji.crypto.xades.jxades.security.xml.XAdES.CommitmentTypeIndicationImpl;
 import es.uji.crypto.xades.jxades.security.xml.XAdES.XAdES_EPES;
-import io.rubrica.exceptions.RubricaException;
-import io.rubrica.sign.SignConstants;
+import ec.gob.firmadigital.exceptions.RubricaException;
+import ec.gob.firmadigital.sign.SignConstants;
 
 /**
  * Utilidades varias para firmas XAdES.

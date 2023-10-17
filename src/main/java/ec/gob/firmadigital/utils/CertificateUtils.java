@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package io.rubrica.utils;
+package ec.gob.firmadigital.utils;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

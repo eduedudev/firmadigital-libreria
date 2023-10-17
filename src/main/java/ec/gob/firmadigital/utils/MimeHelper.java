@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package io.rubrica.utils;
+package ec.gob.firmadigital.utils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,7 +23,7 @@ import java.lang.reflect.Method;
 import java.util.Properties;
 import java.util.logging.Logger;
 
-import io.rubrica.xml.FileUtils;
+import ec.gob.firmadigital.xml.FileUtils;
 
 /**
  * M&eacute;todos de utilidad para la gesti&oacute;n de MimeType y OID

@@ -15,9 +15,9 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package io.rubrica.utils;
+package ec.gob.firmadigital.utils;
 
-import io.rubrica.exceptions.HoraServidorException;
+import ec.gob.firmadigital.exceptions.HoraServidorException;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.time.Instant;

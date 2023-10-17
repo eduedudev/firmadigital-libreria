@@ -15,10 +15,10 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package io.rubrica.certificate.ec.lazzate;
+package ec.gob.firmadigital.certificate.ec.lazzate;
 
-import static io.rubrica.certificate.ec.lazzate.CertificadoLazzate.*;
-import static io.rubrica.utils.BouncyCastleUtils.certificateHasPolicy;
+import static ec.gob.firmadigital.certificate.ec.lazzate.CertificadoLazzate.*;
+import static ec.gob.firmadigital.utils.BouncyCastleUtils.certificateHasPolicy;
 
 import java.security.cert.X509Certificate;
 

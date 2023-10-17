@@ -1,6 +1,6 @@
-package io.rubrica.pdf;
+package ec.gob.firmadigital.pdf;
 
-import io.rubrica.model.Document;
+import ec.gob.firmadigital.model.Document;
 
 public interface PdfSignature {
 

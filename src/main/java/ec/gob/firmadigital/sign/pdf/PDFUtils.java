@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.rubrica.sign.pdf;
+package ec.gob.firmadigital.sign.pdf;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -38,8 +38,8 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.logging.Logger;
 
-import io.rubrica.exceptions.AliasesNotFoundException;
-import io.rubrica.core.PrivateKeyAndCertificateChain;
+import ec.gob.firmadigital.exceptions.AliasesNotFoundException;
+import ec.gob.firmadigital.core.PrivateKeyAndCertificateChain;
 
 /**
  * Clase utilitaria para firmar PDFs.

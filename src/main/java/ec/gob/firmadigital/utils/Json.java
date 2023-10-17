@@ -3,16 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package io.rubrica.utils;
+package ec.gob.firmadigital.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import java.text.SimpleDateFormat;
 
-import io.rubrica.certificate.to.Certificado;
-import io.rubrica.certificate.to.DatosUsuario;
-import io.rubrica.certificate.to.Documento;
+import ec.gob.firmadigital.certificate.to.Certificado;
+import ec.gob.firmadigital.certificate.to.DatosUsuario;
+import ec.gob.firmadigital.certificate.to.Documento;
 
 /**
  *

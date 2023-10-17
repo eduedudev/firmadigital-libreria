@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.rubrica.sign.xades;
+package ec.gob.firmadigital.sign.xades;
 
 import java.io.ByteArrayInputStream;
 import java.net.URI;
@@ -53,11 +53,11 @@ import es.uji.crypto.xades.jxades.security.xml.XAdES.DataObjectFormatImpl;
 import es.uji.crypto.xades.jxades.security.xml.XAdES.ObjectIdentifierImpl;
 import es.uji.crypto.xades.jxades.security.xml.XAdES.XAdES;
 import es.uji.crypto.xades.jxades.security.xml.XAdES.XAdES_EPES;
-import io.rubrica.exceptions.RubricaException;
-import io.rubrica.core.Util;
-import io.rubrica.sign.XMLConstants;
-import io.rubrica.utils.MimeHelper;
-import io.rubrica.xml.Utils;
+import ec.gob.firmadigital.exceptions.RubricaException;
+import ec.gob.firmadigital.core.Util;
+import ec.gob.firmadigital.sign.XMLConstants;
+import ec.gob.firmadigital.utils.MimeHelper;
+import ec.gob.firmadigital.xml.Utils;
 
 /**
  * Firmador simple XAdES.

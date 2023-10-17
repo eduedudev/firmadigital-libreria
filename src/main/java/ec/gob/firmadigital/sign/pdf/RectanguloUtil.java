@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.rubrica.sign.pdf;
+package ec.gob.firmadigital.sign.pdf;
 
 import com.itextpdf.kernel.geom.Rectangle;
 import java.util.Properties;

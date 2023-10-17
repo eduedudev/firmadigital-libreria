@@ -1,7 +1,7 @@
 /**
  *
  */
-package io.rubrica.webServices;
+package ec.gob.firmadigital.webServices;
 
 import java.io.StringReader;
 import java.util.Collection;

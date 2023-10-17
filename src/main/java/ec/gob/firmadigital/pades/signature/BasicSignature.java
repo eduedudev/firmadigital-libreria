@@ -1,4 +1,4 @@
-package io.rubrica.pades.signature;
+package ec.gob.firmadigital.pades.signature;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -21,12 +21,12 @@ import com.itextpdf.signatures.OcspClientBouncyCastle;
 import com.itextpdf.signatures.PdfSigner;
 import com.itextpdf.signatures.TSAClientBouncyCastle;
 
-import io.rubrica.model.Document;
-import io.rubrica.model.InMemoryDocument;
-import io.rubrica.model.RubricaRuntimeException;
-import io.rubrica.pades.SignatureParameters;
-import io.rubrica.sign.RubricaSigner;
-import io.rubrica.sign.pdf.itext.ITextSignerAdapter;
+import ec.gob.firmadigital.model.Document;
+import ec.gob.firmadigital.model.InMemoryDocument;
+import ec.gob.firmadigital.model.RubricaRuntimeException;
+import ec.gob.firmadigital.pades.SignatureParameters;
+import ec.gob.firmadigital.sign.RubricaSigner;
+import ec.gob.firmadigital.sign.pdf.itext.ITextSignerAdapter;
 
 public class BasicSignature {
 

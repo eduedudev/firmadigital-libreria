@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.rubrica.sign.pdf.appearance;
+package ec.gob.firmadigital.sign.pdf.appearance;
 
 import java.io.IOException;
 import java.util.logging.Logger;
@@ -38,7 +38,7 @@ import com.itextpdf.layout.property.HorizontalAlignment;
 import com.itextpdf.layout.property.VerticalAlignment;
 import com.itextpdf.signatures.PdfSignatureAppearance;
 
-import io.rubrica.utils.QRCode;
+import ec.gob.firmadigital.utils.QRCode;
 
 public class QrAppereance implements CustomAppearance {
 

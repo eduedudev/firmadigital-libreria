@@ -15,11 +15,11 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package io.rubrica.certificate.ec.digercic;
+package ec.gob.firmadigital.certificate.ec.digercic;
 
 import java.security.cert.X509Certificate;
 
-import io.rubrica.certificate.ec.CertificadoPersonaNatural;
+import ec.gob.firmadigital.certificate.ec.CertificadoPersonaNatural;
 
 /**
  * Certificado de persona natural emitido por la Dirección General de Registro Civil, Identificación y Cedulación.

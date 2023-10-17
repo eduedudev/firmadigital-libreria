@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package io.rubrica.keystore;
+package ec.gob.firmadigital.keystore;
 
 import java.lang.reflect.Field;
 import java.security.KeyStore;
@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import io.rubrica.utils.CertificateUtils;
+import ec.gob.firmadigital.utils.CertificateUtils;
 
 /**
  * Tratamos los alias repetidos, situacion problematica afectada por el bug
