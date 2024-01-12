@@ -25,7 +25,9 @@ import ec.gob.firmadigital.libreria.certificate.ec.argosdata.ArgosDataCaCert;
 import ec.gob.firmadigital.libreria.certificate.ec.bce.BceCaCert;
 import ec.gob.firmadigital.libreria.certificate.ec.cj.ConsejoJudicaturaCaCert;
 import ec.gob.firmadigital.libreria.certificate.ec.corpnewbest.CorpNewBestCaCert;
+import ec.gob.firmadigital.libreria.certificate.ec.corpnewbest.CorpNewBestCaCert2024011020330619;
 import ec.gob.firmadigital.libreria.certificate.ec.datil.DatilCaCert;
+import ec.gob.firmadigital.libreria.certificate.ec.firmasegura.FirmaSeguraCaCert;
 import ec.gob.firmadigital.libreria.certificate.ec.lazzate.LazzateCaCert;
 import ec.gob.firmadigital.libreria.certificate.ec.securitydata.SecurityDataCaCert;
 import ec.gob.firmadigital.libreria.certificate.ec.uanataca.UanatacaCaCert;
@@ -95,6 +97,8 @@ public class OcspUtils {
         X509Certificate rootCACert9 = new LazzateCaCert();
         X509Certificate rootCACert10 = new AlphaTechnologiesCaCert();
         X509Certificate rootCACert11 = new CorpNewBestCaCert();
+        X509Certificate rootCACert12 = new CorpNewBestCaCert2024011020330619();
+        X509Certificate rootCACert13 = new FirmaSeguraCaCert();
 
         // init root trusted certs
         TrustAnchor ta1 = new TrustAnchor(rootCACert1, null);
@@ -108,6 +112,8 @@ public class OcspUtils {
         TrustAnchor ta9 = new TrustAnchor(rootCACert9, null);
         TrustAnchor ta10 = new TrustAnchor(rootCACert10, null);
         TrustAnchor ta11 = new TrustAnchor(rootCACert11, null);
+        TrustAnchor ta12 = new TrustAnchor(rootCACert12, null);
+        TrustAnchor ta13 = new TrustAnchor(rootCACert13, null);
 
         Set<TrustAnchor> trustedCertsSet = new HashSet<TrustAnchor>();
         trustedCertsSet.add(ta1);
@@ -121,6 +127,8 @@ public class OcspUtils {
         trustedCertsSet.add(ta9);
         trustedCertsSet.add(ta10);
         trustedCertsSet.add(ta11);
+        trustedCertsSet.add(ta12);
+        trustedCertsSet.add(ta13);
 
         // init PKIX parameters
         PKIXParameters params;

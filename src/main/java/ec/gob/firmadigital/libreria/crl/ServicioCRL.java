@@ -46,6 +46,7 @@ public class ServicioCRL {
     public static final String LAZZATE_CRL = "http://www.enext.site:8777/adss/crls/lazzate.crl";
     public static final String ALPHATECHNOLOGIES_CRL = "http://crl.globalsign.com/ca/alphatechnologiesatlassigningca2023.crl";
     public static final String CORPNEWBEST_CRL = "http://ejbca.newbest.tech/ejbca/publicweb/webdist/certdist?cmd=crl&issuer=CN%3DAUTORIDAD+DE+CERTIFICACION+SUBCA-1+CORPNEWBEST%2COU%3DENTIDAD+DE+CERTIFICACION+DE+INFORMACION%2CO%3DCORPNEWBEST+CIA.+LTDA.%2CC%3DEC";
+    public static final String FIRMASEGURA_CRL = "http://crl.firmaseguraec.com/crl/ccce5a4f-6b68-46fc-a620-4abcc4c4a690.crl";
 
     public static X509CRL downloadCrl(String url) throws Exception {
         byte[] content;

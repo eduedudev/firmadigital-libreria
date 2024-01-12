@@ -55,8 +55,11 @@ import ec.gob.firmadigital.libreria.certificate.ec.cj.ConsejoJudicaturaSubCaCert
 import ec.gob.firmadigital.libreria.certificate.ec.corpnewbest.CertificadoCorpNewBest;
 import ec.gob.firmadigital.libreria.certificate.ec.corpnewbest.CertificadoCorpNewBestDataFactory;
 import ec.gob.firmadigital.libreria.certificate.ec.corpnewbest.CorpNewBestSubCa1_20232033Cert;
+import ec.gob.firmadigital.libreria.certificate.ec.corpnewbest.CorpNewBestSubCa1_2024011020330619Cert;
 import ec.gob.firmadigital.libreria.certificate.ec.corpnewbest.CorpNewBestSubCa2_20232033Cert;
+import ec.gob.firmadigital.libreria.certificate.ec.corpnewbest.CorpNewBestSubCa2_2024011020330619Cert;
 import ec.gob.firmadigital.libreria.certificate.ec.corpnewbest.CorpNewBestSubCa3_20232033Cert;
+import ec.gob.firmadigital.libreria.certificate.ec.corpnewbest.CorpNewBestSubCa3_2024011020330619Cert;
 import ec.gob.firmadigital.libreria.certificate.ec.datil.CertificadoDatil;
 import ec.gob.firmadigital.libreria.certificate.ec.datil.CertificadoDatilDataFactory;
 import ec.gob.firmadigital.libreria.certificate.ec.datil.CertificadoMiembroEmpresaDatil;
@@ -73,6 +76,10 @@ import ec.gob.firmadigital.libreria.certificate.ec.eclipsoft.CertificadoMiembroE
 import ec.gob.firmadigital.libreria.certificate.ec.eclipsoft.CertificadoPersonaJuridicaPrivadaEclipsoft;
 import ec.gob.firmadigital.libreria.certificate.ec.eclipsoft.CertificadoPersonalNaturalEclipsoft;
 import ec.gob.firmadigital.libreria.certificate.ec.eclipsoft.CertificadoRepresentanteLegalEclipsoft;
+import ec.gob.firmadigital.libreria.certificate.ec.firmasegura.CertificadoFirmaSegura;
+import ec.gob.firmadigital.libreria.certificate.ec.firmasegura.CertificadoFirmaSeguraFactory;
+import ec.gob.firmadigital.libreria.certificate.ec.firmasegura.CertificadoRepresentanteLegalFirmaSegura;
+import ec.gob.firmadigital.libreria.certificate.ec.firmasegura.FirmaSeguraSubCaCert20232043;
 import ec.gob.firmadigital.libreria.certificate.ec.lazzate.CertificadoLazzate;
 import ec.gob.firmadigital.libreria.certificate.ec.lazzate.CertificadoLazzateDataFactory;
 import ec.gob.firmadigital.libreria.certificate.ec.lazzate.LazzateSubCaCert;
@@ -112,6 +119,7 @@ public class CertEcUtils {
     public static final String LAZZATE_NAME = "LAZZATE CIA. LTDA";
     public static final String ALPHATECHNOLOGIES_NAME = "ALPHA TECHNOLOGIES";
     public static final String CORPNEWBEST_NAME = "CORPNEWBEST CIA. LTDA.";
+    public static final String FIRMASEGURA_NAME = "FIRMASEGURA S.A.S.";
 
     public static X509Certificate getRootCertificate(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         String entidadCertStr = getNombreCA(certificado);
@@ -208,6 +216,18 @@ public class CertEcUtils {
                         System.out.println("CorpNewBestSubCa3Cert");
                         return new CorpNewBestSubCa3_20232033Cert();
                     }
+                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new CorpNewBestSubCa1_2024011020330619Cert())) {
+                        System.out.println("CorpNewBestSubCa1_2024011020330619Cert");
+                        return new CorpNewBestSubCa1_2024011020330619Cert();
+                    }
+                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new CorpNewBestSubCa2_2024011020330619Cert())) {
+                        System.out.println("CorpNewBestSubCa2_2024011020330619Cert");
+                        return new CorpNewBestSubCa2_2024011020330619Cert();
+                    }
+                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new CorpNewBestSubCa3_2024011020330619Cert())) {
+                        System.out.println("CorpNewBestSubCa3_2024011020330619Cert");
+                        return new CorpNewBestSubCa3_2024011020330619Cert();
+                    }
                     return null;
                 } catch (java.security.InvalidKeyException ex) {
                     //TODO
@@ -218,6 +238,17 @@ public class CertEcUtils {
                     if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new AlphaTechnologiesSubCaCert20232026())) {
                         System.out.println("AlphaTechnologiesSubCaCert 2023-2026");
                         return new AlphaTechnologiesSubCaCert20232026();
+                    }
+                    return null;
+                } catch (java.security.InvalidKeyException ex) {
+                    //TODO
+                }
+            }
+            case FIRMASEGURA_NAME: {
+                try {
+                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new FirmaSeguraSubCaCert20232043())) {
+                        System.out.println("FirmaSeguraSubCaCert2023-2043");
+                        return new FirmaSeguraSubCaCert20232043();
                     }
                     return null;
                 } catch (java.security.InvalidKeyException ex) {
@@ -264,6 +295,9 @@ public class CertEcUtils {
         }
         if (certificado.getIssuerX500Principal().getName().toUpperCase().contains(CORPNEWBEST_NAME)) {
             return CORPNEWBEST_NAME;
+        }
+        if (certificado.getIssuerX500Principal().getName().toUpperCase().contains(FIRMASEGURA_NAME)) {
+            return FIRMASEGURA_NAME;
         }
 
         return "Entidad no reconocida " + certificado.getIssuerX500Principal().getName();
@@ -752,6 +786,28 @@ public class CertEcUtils {
                 datosUsuario.setSerial(certificado.getSerialNumber().toString());
             }
             datosUsuario.setEntidadCertificadora(CORPNEWBEST_NAME);
+            datosUsuario.setCertificadoDigitalValido(true);
+            return datosUsuario;
+        }
+        if (CertificadoFirmaSeguraFactory.esCertificadoDeFirmaSegura(certificado)) {
+            CertificadoFirmaSegura certificadoFirmaSegura = CertificadoFirmaSeguraFactory.construir(certificado);
+            if (certificadoFirmaSegura instanceof CertificadoPersonaNatural) {
+                CertificadoPersonaNatural certificadoPersonaNatural = (CertificadoPersonaNatural) certificadoFirmaSegura;
+                datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
+                datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
+                datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido() + " "
+                        + certificadoPersonaNatural.getSegundoApellido());
+                datosUsuario.setSerial(certificado.getSerialNumber().toString());
+            } else if (certificadoFirmaSegura instanceof CertificadoRepresentanteLegalFirmaSegura) {
+                CertificadoRepresentanteLegalFirmaSegura certificadoRepresentanteLegal = (CertificadoRepresentanteLegalFirmaSegura) certificadoFirmaSegura;
+                datosUsuario.setCedula(certificadoRepresentanteLegal.getCedulaPasaporte());
+                datosUsuario.setNombre(certificadoRepresentanteLegal.getNombres());
+                datosUsuario.setApellido(certificadoRepresentanteLegal.getPrimerApellido() + " "
+                        + certificadoRepresentanteLegal.getSegundoApellido());
+                datosUsuario.setCargo(certificadoRepresentanteLegal.getCargo());
+                datosUsuario.setSerial(certificado.getSerialNumber().toString());
+            }
+            datosUsuario.setEntidadCertificadora(FIRMASEGURA_NAME);
             datosUsuario.setCertificadoDigitalValido(true);
             return datosUsuario;
         }

@@ -72,8 +72,6 @@ import java.io.InputStream;
 public class Main {
 
     // ARCHIVO
-//    private static final String PKCS12 = "/home/mfernandez/Firmas/Argos Data/revocado/keystore_14-11-2022T162203.p12";
-//    private static final String PASSWORD = "Sistemas01*";
     private static final String PKCS12 = "/home/mfernandez/appFirmaEC/prueba.p12";
     private static final String PASSWORD = "123456";
 //    private static final String FILE = "/home/mfernandez/Descargas/Manual Usuario FirmaEC v3.pdf";
@@ -82,10 +80,10 @@ public class Main {
     private static String hashAlgorithm = "SHA512";
 
     public static void main(String args[]) throws KeyStoreException, Exception {
-        firmarDocumentoTrifasica(FILE);
+//        firmarDocumentoTrifasica(FILE);
 //        firmarDocumentoPDF(FILE);
 //        firmarDocumentoXML(FILE);
-//        validarCertificado();
+        validarCertificado();
 //        verificarDocumento(FILE);
 //        fechaHora(240);//espera en segundos
     }
