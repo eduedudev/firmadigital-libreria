@@ -25,77 +25,19 @@ import ec.gob.firmadigital.libreria.certificate.ec.CertificadoPersonaJuridica;
 import ec.gob.firmadigital.libreria.certificate.ec.CertificadoPersonaNatural;
 import ec.gob.firmadigital.libreria.certificate.ec.CertificadoRepresentanteLegal;
 import ec.gob.firmadigital.libreria.certificate.ec.CertificadoSelladoTiempo;
-import ec.gob.firmadigital.libreria.certificate.ec.alphatechnologies.AlphaTechnologiesSubCaCert20232026;
-import ec.gob.firmadigital.libreria.certificate.ec.alphatechnologies.CertificadoAlphaTechnologies;
-import ec.gob.firmadigital.libreria.certificate.ec.alphatechnologies.CertificadoAlphaTechnologiesFactory;
-import ec.gob.firmadigital.libreria.certificate.ec.anfac.AnfAc18332SubCaCert20162032;
-import ec.gob.firmadigital.libreria.certificate.ec.anfac.AnfAc37442SubCaCert20192029;
-import ec.gob.firmadigital.libreria.certificate.ec.anfac.CertificadoAnfAc18332;
-import ec.gob.firmadigital.libreria.certificate.ec.anfac.CertificadoAnfAc18332Factory;
-import ec.gob.firmadigital.libreria.certificate.ec.anfac.CertificadoAnfAc37442;
-import ec.gob.firmadigital.libreria.certificate.ec.anfac.CertificadoAnfAc37442Factory;
-import ec.gob.firmadigital.libreria.certificate.ec.argosdata.ArgosDataSubCaCert;
-import ec.gob.firmadigital.libreria.certificate.ec.argosdata.CertificadoArgosData;
-import ec.gob.firmadigital.libreria.certificate.ec.argosdata.CertificadoArgosDataFactory;
-import ec.gob.firmadigital.libreria.certificate.ec.argosdata.CertificadoPersonaNaturalArgosData;
-import ec.gob.firmadigital.libreria.certificate.ec.argosdata.CertificadoRepresentanteLegalArgosData;
-import ec.gob.firmadigital.libreria.certificate.ec.bce.BceSubCaCert20112021;
-import ec.gob.firmadigital.libreria.certificate.ec.bce.BceSubCaCert20192029;
-import ec.gob.firmadigital.libreria.certificate.ec.bce.CertificadoBancoCentral;
-import ec.gob.firmadigital.libreria.certificate.ec.bce.CertificadoBancoCentralFactory;
-import ec.gob.firmadigital.libreria.certificate.ec.cj.CertificadoConsejoJudicatura;
-import ec.gob.firmadigital.libreria.certificate.ec.cj.CertificadoConsejoJudicaturaDataFactory;
-import ec.gob.firmadigital.libreria.certificate.ec.cj.CertificadoDepartamentoEmpresaConsejoJudicatura;
-import ec.gob.firmadigital.libreria.certificate.ec.cj.CertificadoEmpresaConsejoJudicatura;
-import ec.gob.firmadigital.libreria.certificate.ec.cj.CertificadoMiembroEmpresaConsejoJudicatura;
-import ec.gob.firmadigital.libreria.certificate.ec.cj.CertificadoPersonaJuridicaPrivadaConsejoJudicatura;
-import ec.gob.firmadigital.libreria.certificate.ec.cj.CertificadoPersonaJuridicaPublicaConsejoJudicatura;
-import ec.gob.firmadigital.libreria.certificate.ec.cj.CertificadoPersonaNaturalConsejoJudicatura;
-import ec.gob.firmadigital.libreria.certificate.ec.cj.ConsejoJudicaturaSubCaCert;
-import ec.gob.firmadigital.libreria.certificate.ec.corpnewbest.CertificadoCorpNewBest;
-import ec.gob.firmadigital.libreria.certificate.ec.corpnewbest.CertificadoCorpNewBestDataFactory;
-import ec.gob.firmadigital.libreria.certificate.ec.corpnewbest.CorpNewBestSubCa1_20232033Cert;
-import ec.gob.firmadigital.libreria.certificate.ec.corpnewbest.CorpNewBestSubCa1_2024011020330619Cert;
-import ec.gob.firmadigital.libreria.certificate.ec.corpnewbest.CorpNewBestSubCa2_20232033Cert;
-import ec.gob.firmadigital.libreria.certificate.ec.corpnewbest.CorpNewBestSubCa2_2024011020330619Cert;
-import ec.gob.firmadigital.libreria.certificate.ec.corpnewbest.CorpNewBestSubCa3_20232033Cert;
-import ec.gob.firmadigital.libreria.certificate.ec.corpnewbest.CorpNewBestSubCa3_2024011020330619Cert;
-import ec.gob.firmadigital.libreria.certificate.ec.datil.CertificadoDatil;
-import ec.gob.firmadigital.libreria.certificate.ec.datil.CertificadoDatilDataFactory;
-import ec.gob.firmadigital.libreria.certificate.ec.datil.CertificadoMiembroEmpresaDatil;
-import ec.gob.firmadigital.libreria.certificate.ec.datil.CertificadoPersonaJuridicaPrivadaDatil;
-import ec.gob.firmadigital.libreria.certificate.ec.datil.CertificadoPersonaNaturalDatil;
-import ec.gob.firmadigital.libreria.certificate.ec.datil.CertificadoRepresentanteLegalDatil;
-import ec.gob.firmadigital.libreria.certificate.ec.datil.DatilSubCaCert20212031;
-import ec.gob.firmadigital.libreria.certificate.ec.digercic.CertificadoDigercic;
-import ec.gob.firmadigital.libreria.certificate.ec.digercic.CertificadoDigercicFactory;
-import ec.gob.firmadigital.libreria.certificate.ec.digercic.DigercicSubCaCert20212031;
-import ec.gob.firmadigital.libreria.certificate.ec.eclipsoft.CertificadoEclipsoft;
-import ec.gob.firmadigital.libreria.certificate.ec.eclipsoft.CertificadoEclipsoftDataFactory;
-import ec.gob.firmadigital.libreria.certificate.ec.eclipsoft.CertificadoMiembroEmpresaEclipsoft;
-import ec.gob.firmadigital.libreria.certificate.ec.eclipsoft.CertificadoPersonaJuridicaPrivadaEclipsoft;
-import ec.gob.firmadigital.libreria.certificate.ec.eclipsoft.CertificadoPersonalNaturalEclipsoft;
-import ec.gob.firmadigital.libreria.certificate.ec.eclipsoft.CertificadoRepresentanteLegalEclipsoft;
-import ec.gob.firmadigital.libreria.certificate.ec.firmasegura.CertificadoFirmaSegura;
-import ec.gob.firmadigital.libreria.certificate.ec.firmasegura.CertificadoFirmaSeguraFactory;
-import ec.gob.firmadigital.libreria.certificate.ec.firmasegura.CertificadoRepresentanteLegalFirmaSegura;
-import ec.gob.firmadigital.libreria.certificate.ec.firmasegura.FirmaSeguraSubCaCert20232043;
-import ec.gob.firmadigital.libreria.certificate.ec.lazzate.CertificadoLazzate;
-import ec.gob.firmadigital.libreria.certificate.ec.lazzate.CertificadoLazzateDataFactory;
-import ec.gob.firmadigital.libreria.certificate.ec.lazzate.LazzateSubCaCert;
-import ec.gob.firmadigital.libreria.certificate.ec.securitydata.CertificadoSecurityData;
-import ec.gob.firmadigital.libreria.certificate.ec.securitydata.CertificadoSecurityDataFactory;
-import ec.gob.firmadigital.libreria.certificate.ec.securitydata.SecurityDataSubCaCert20112026;
-import ec.gob.firmadigital.libreria.certificate.ec.securitydata.SecurityDataSubCaCert20192031;
-import ec.gob.firmadigital.libreria.certificate.ec.securitydata.SecurityDataSubCaCert20202039;
-import ec.gob.firmadigital.libreria.certificate.ec.uanataca.CertificadoMiembroEmpresaUanataca;
-import ec.gob.firmadigital.libreria.certificate.ec.uanataca.CertificadoPersonaJuridicaPrivadaUanataca;
-import ec.gob.firmadigital.libreria.certificate.ec.uanataca.CertificadoPersonaNaturalUanataca;
-import ec.gob.firmadigital.libreria.certificate.ec.uanataca.CertificadoRepresentanteLegalUanataca;
-import ec.gob.firmadigital.libreria.certificate.ec.uanataca.CertificadoUanataca;
-import ec.gob.firmadigital.libreria.certificate.ec.uanataca.CertificadoUanatacaDataFactory;
-import ec.gob.firmadigital.libreria.certificate.ec.uanataca.UanatacaSubCaCert0120162029;
-import ec.gob.firmadigital.libreria.certificate.ec.uanataca.UanatacaSubCaCert0220162029;
+import ec.gob.firmadigital.libreria.certificate.ec.alphatechnologies.*;
+import ec.gob.firmadigital.libreria.certificate.ec.anfac.*;
+import ec.gob.firmadigital.libreria.certificate.ec.argosdata.*;
+import ec.gob.firmadigital.libreria.certificate.ec.bce.*;
+import ec.gob.firmadigital.libreria.certificate.ec.cj.*;
+import ec.gob.firmadigital.libreria.certificate.ec.corpnewbest.*;
+import ec.gob.firmadigital.libreria.certificate.ec.datil.*;
+import ec.gob.firmadigital.libreria.certificate.ec.digercic.*;
+import ec.gob.firmadigital.libreria.certificate.ec.eclipsoft.*;
+import ec.gob.firmadigital.libreria.certificate.ec.firmasegura.*;
+import ec.gob.firmadigital.libreria.certificate.ec.lazzate.*;
+import ec.gob.firmadigital.libreria.certificate.ec.securitydata.*;
+import ec.gob.firmadigital.libreria.certificate.ec.uanataca.*;
 import ec.gob.firmadigital.libreria.certificate.to.DatosUsuario;
 import ec.gob.firmadigital.libreria.exceptions.EntidadCertificadoraNoValidaException;
 import ec.gob.firmadigital.libreria.utils.Utils;
@@ -200,7 +142,27 @@ public class CertEcUtils {
                 return new ArgosDataSubCaCert();
             }
             case LAZZATE_NAME: {
-                return new LazzateSubCaCert();
+                try {
+                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new LazzateSubCaCert())) {
+                        System.out.println("LazzateCA 2022-2037");
+                        return new LazzateSubCaCert();
+                    }
+                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new LazzateSubCa1Cert())) {
+                        System.out.println("LazzateCA1 2023-2053");
+                        return new LazzateSubCa1Cert();
+                    }
+                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new LazzateSubCa2Cert())) {
+                        System.out.println("LazzateCA2 2023-2053");
+                        return new LazzateSubCa2Cert();
+                    }
+                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new LazzateSubCaWeGoCert())) {
+                        System.out.println("LazzateCAWeGo 2023-2053");
+                        return new LazzateSubCaWeGoCert();
+                    }
+                } catch (java.security.InvalidKeyException ex) {
+                    //TODO
+                }
+//                return new LazzateSubCaCert();
             }
             case CORPNEWBEST_NAME: {
                 try {
@@ -704,8 +666,14 @@ public class CertEcUtils {
                 CertificadoPersonaNatural certificadoPersonaNatural = (CertificadoPersonaNatural) certificadoLazzate;
 
                 datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
-                datosUsuario.setNombre(Utils.getCN(certificado));
-                datosUsuario.setApellido("");
+                if (certificadoPersonaNatural.getNombres().isEmpty()) {
+                    datosUsuario.setNombre(Utils.getCN(certificado));
+                    datosUsuario.setApellido("");
+                } else {
+                    datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
+                    datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido() + " "
+                            + certificadoPersonaNatural.getSegundoApellido());
+                }
                 datosUsuario.setSerial(certificado.getSerialNumber().toString());
             }
             if (certificadoLazzate instanceof CertificadoPersonaJuridica) {
@@ -714,8 +682,14 @@ public class CertEcUtils {
                 datosUsuario.setCedula(certificadoPersonaJuridica.getCedulaPasaporte());
                 datosUsuario.setInstitucion(certificadoPersonaJuridica.getRazonSocial());
                 datosUsuario.setCargo(certificadoPersonaJuridica.getCargo());
-                datosUsuario.setNombre(Utils.getCN(certificado));
-                datosUsuario.setApellido("");
+                if (certificadoPersonaJuridica.getNombres().isEmpty()) {
+                    datosUsuario.setNombre(Utils.getCN(certificado));
+                    datosUsuario.setApellido("");
+                } else {
+                    datosUsuario.setNombre(certificadoPersonaJuridica.getNombres());
+                    datosUsuario.setApellido(certificadoPersonaJuridica.getPrimerApellido() + " "
+                            + certificadoPersonaJuridica.getSegundoApellido());
+                }
                 datosUsuario.setSerial(certificado.getSerialNumber().toString());
             }
             datosUsuario.setEntidadCertificadora(LAZZATE_NAME);

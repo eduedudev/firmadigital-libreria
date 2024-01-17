@@ -46,10 +46,10 @@ import org.glassfish.jersey.client.ClientProperties;
  */
 public class Main {
 
-//    private static final String URLAPI = "https://impapi.firmadigital.gob.ec/api";//servidor
-    private static final String URLAPI = "http://testapi.firmadigital.gob.ec:8080/api";//local
-//    private static final String URLWS = "https://impws.firmadigital.gob.ec/servicio";//servidor
-    private static final String URLWS = "http://testws.firmadigital.gob.ec:8080/servicio";//local
+    private static final String URLAPI = "https://impapi.firmadigital.gob.ec/api";//servidor
+//    private static final String URLAPI = "http://testapi.firmadigital.gob.ec:8080/api";//local
+    private static final String URLWS = "https://impws.firmadigital.gob.ec/servicio";//servidor
+//    private static final String URLWS = "http://testws.firmadigital.gob.ec:8080/servicio";//local
     private static final String PKCS12 = "/home/mfernandez/appFirmaEC/prueba.p12";
     private static final String PASSWORD = "123456";
 //    private static final String FILE = "/home/mfernandez/appFirmaEC/Casos QA/ACTA DE 65 FIMAS-signed-signed-signed-signed.pdf";
@@ -60,8 +60,8 @@ public class Main {
     public static void main(String args[]) throws Exception {
 //        appFirmarDocumento();
 //        appVerificarDocumento();
-//        appValidarCertificado();
-        appFirmarDocumentoTransversal();
+        appValidarCertificado();
+//        appFirmarDocumentoTransversal();
     }
 
     private static void appFirmarDocumento() throws IOException, KeyStoreException, Exception {

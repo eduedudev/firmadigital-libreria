@@ -789,7 +789,7 @@ public class Utils {
      * @param signCert
      * @return
      */
-    private static String validacionKeyUsages(X509Certificate signCert) throws CertificateParsingException {
+    public static String validacionKeyUsages(X509Certificate signCert) throws CertificateParsingException {
         String keyUsages = "";
         boolean[] keyUsage = signCert.getKeyUsage();
         if (keyUsage[0]) {

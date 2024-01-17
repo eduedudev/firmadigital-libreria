@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2020 
- * Authors: Ricardo Arguello, Misael Fernández
+ * Copyright (C) 2022
+ * Authors: Henry Carrera
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -26,7 +26,7 @@ import java.security.cert.X509Certificate;
  * Permite construir certificados tipo CertificadoLazzate a partir de
  * certificados X509Certificate.
  *
- * @author mfernandez
+ * @author Henry Carrera <henry@hyrserv.com>
  */
 public class CertificadoLazzateDataFactory {
 

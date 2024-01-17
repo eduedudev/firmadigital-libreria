@@ -28,7 +28,10 @@ import ec.gob.firmadigital.libreria.certificate.ec.corpnewbest.CorpNewBestCaCert
 import ec.gob.firmadigital.libreria.certificate.ec.corpnewbest.CorpNewBestCaCert2024011020330619;
 import ec.gob.firmadigital.libreria.certificate.ec.datil.DatilCaCert;
 import ec.gob.firmadigital.libreria.certificate.ec.firmasegura.FirmaSeguraCaCert;
+import ec.gob.firmadigital.libreria.certificate.ec.lazzate.LazzateCa1Cert;
+import ec.gob.firmadigital.libreria.certificate.ec.lazzate.LazzateCa2Cert;
 import ec.gob.firmadigital.libreria.certificate.ec.lazzate.LazzateCaCert;
+import ec.gob.firmadigital.libreria.certificate.ec.lazzate.LazzateCaWeGoCert;
 import ec.gob.firmadigital.libreria.certificate.ec.securitydata.SecurityDataCaCert;
 import ec.gob.firmadigital.libreria.certificate.ec.uanataca.UanatacaCaCert;
 import ec.gob.firmadigital.libreria.exceptions.EntidadCertificadoraNoValidaException;
@@ -99,6 +102,9 @@ public class OcspUtils {
         X509Certificate rootCACert11 = new CorpNewBestCaCert();
         X509Certificate rootCACert12 = new CorpNewBestCaCert2024011020330619();
         X509Certificate rootCACert13 = new FirmaSeguraCaCert();
+        X509Certificate rootCACert14 = new LazzateCa1Cert();
+        X509Certificate rootCACert15 = new LazzateCa2Cert();
+        X509Certificate rootCACert16 = new LazzateCaWeGoCert();
 
         // init root trusted certs
         TrustAnchor ta1 = new TrustAnchor(rootCACert1, null);
@@ -114,6 +120,9 @@ public class OcspUtils {
         TrustAnchor ta11 = new TrustAnchor(rootCACert11, null);
         TrustAnchor ta12 = new TrustAnchor(rootCACert12, null);
         TrustAnchor ta13 = new TrustAnchor(rootCACert13, null);
+        TrustAnchor ta14 = new TrustAnchor(rootCACert14, null);
+        TrustAnchor ta15 = new TrustAnchor(rootCACert15, null);
+        TrustAnchor ta16 = new TrustAnchor(rootCACert16, null);
 
         Set<TrustAnchor> trustedCertsSet = new HashSet<TrustAnchor>();
         trustedCertsSet.add(ta1);
@@ -129,6 +138,9 @@ public class OcspUtils {
         trustedCertsSet.add(ta11);
         trustedCertsSet.add(ta12);
         trustedCertsSet.add(ta13);
+        trustedCertsSet.add(ta14);
+        trustedCertsSet.add(ta15);
+        trustedCertsSet.add(ta16);
 
         // init PKIX parameters
         PKIXParameters params;

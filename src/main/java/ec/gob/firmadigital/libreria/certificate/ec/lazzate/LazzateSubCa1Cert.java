@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022
+ * Copyright (C) 2024
  * Authors: Henry Carrera
  *
  * This program is free software: you can redistribute it and/or modify
@@ -38,47 +38,46 @@ import java.util.Date;
 import java.util.Set;
 
 /**
- * Certificado raiz de Lazzate, representado como un objeto
+ * Certificado intermedio de Lazzate, representado como un objeto
  * <code>X509Certificate</code>.
  *
  * @author Henry Carrera <henry@hyrserv.com>
  */
-public class LazzateCaCert extends X509Certificate {
+public class LazzateSubCa1Cert extends X509Certificate {
 
     private X509Certificate certificate;
 
-    public LazzateCaCert() {
+    public LazzateSubCa1Cert() {
         super();
 
         StringBuilder cer = new StringBuilder();
         cer.append("-----BEGIN CERTIFICATE-----\n");
-        cer.append("MIIEyzCCA7OgAwIBAgIUTWuFyYRCM4bAog3Hy1L3GOcMGcswDQYJKoZIhvcNAQEL\n");
-        cer.append("BQAwgbYxCzAJBgNVBAYTAkVDMRowGAYDVQQIExFRdWl0byAtIFBpY2hpbmNoYTEO\n");
-        cer.append("MAwGA1UEBxMFUXVpdG8xJDAiBgkqhkiG9w0BCQEWFWNlcnRpZmljYWRvc0BlbmV4\n");
-        cer.append("dC5lYzEbMBkGA1UEChMSTGF6emF0ZSBDaWEuIEx0ZGEuMR4wHAYDVQQLExVFbnRl\n");
-        cer.append("IGRlIENlcnRpZmljYWNpb24xGDAWBgNVBAMTD0xhenphdGUgUm9vdCBDQTAgFw0y\n");
-        cer.append("MjEwMTMxNjAzNTFaGA8yMDUyMTAxMzE2MDM1MVowgbYxCzAJBgNVBAYTAkVDMRow\n");
-        cer.append("GAYDVQQIExFRdWl0byAtIFBpY2hpbmNoYTEOMAwGA1UEBxMFUXVpdG8xJDAiBgkq\n");
-        cer.append("hkiG9w0BCQEWFWNlcnRpZmljYWRvc0BlbmV4dC5lYzEbMBkGA1UEChMSTGF6emF0\n");
-        cer.append("ZSBDaWEuIEx0ZGEuMR4wHAYDVQQLExVFbnRlIGRlIENlcnRpZmljYWNpb24xGDAW\n");
-        cer.append("BgNVBAMTD0xhenphdGUgUm9vdCBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCC\n");
-        cer.append("AQoCggEBAMW9RmxCvmsrgpc5UGnISJKR4j9h3nuxx/BYt60Ew9oEmE6Wi13xzyhB\n");
-        cer.append("aJ3CHTZKSkMd+pDb2BlIW5Y2bAeRjcEEFJIDLfqHsm/nOG3BOt31FKqYiaicYMfM\n");
-        cer.append("gKJfnSh4KtyeVcrsPWeK6npruLyQvnNj14CTkgFSwZXOFejI8rwcH5f1/AuvjAzw\n");
-        cer.append("K+EWcsFxfVwW+RxPI4enmriFZktSvXoAPmT918jU2jvydUCZi71poQw2On6WXOVa\n");
-        cer.append("GxKHk9YX5OWy6abLWNgbDhdWVf7hMsQTuO+lml2+qEll7rwYDt+o/CLzLbX3FeRt\n");
-        cer.append("fPzPVRz/TvzDKN+69Ntk9ToV28LBwjcCAwEAAaOBzDCByTAOBgNVHQ8BAf8EBAMC\n");
-        cer.append("AQYwDwYDVR0TAQH/BAUwAwEB/zCBhgYDVR0gBH8wfTB7BgkrBgEEAYPPdgEwbjBs\n");
-        cer.append("BggrBgEFBQcCAjBgDF5FbCBwcmVzZW50ZSBjZXJ0aWZpY2FkbyBlcyBlbWl0aWRv\n");
-        cer.append("IGVuIGJhc2UgYSBsYXMgcG9sw610aWNhcyBkZSBzZWd1cmlkYWQgZGUgTGF6emF0\n");
-        cer.append("ZSBDaWEuIEx0ZGEuMB0GA1UdDgQWBBTglvbH1objRpAwR55drZ9Nz0TVsDANBgkq\n");
-        cer.append("hkiG9w0BAQsFAAOCAQEAVneZ4igXcgT8zVhiVLMmkfgdggC7W+Y5/+p1WNb5cvtY\n");
-        cer.append("XuTzp0A5KTxVIaSvzdWeFhX59EkTJByC1UkopTU0JmbdlWCFoS6QLccX9gjYRqqp\n");
-        cer.append("WQ0tm983a6+bl4mjR34jOHS+nFawDGSAPXzbGTk93OuiMMH/nsPX9wC7lltZK7+/\n");
-        cer.append("O4VXwOcB/3KgaC4kzI+VVGz9ejB424G7zLy6W+fvn4RqWADW+QCC5Hmd6Apy9IyD\n");
-        cer.append("owE05uoE5MCA0yAsEN5eZEq3XbvsdzfKOuJp9Uxh9MgnuKvU7ptG/Wvh27b0MmKA\n");
-        cer.append("n/RnpZEaz2BYnOrDkyEubpwTHkYFIq9oojwwrcLd1A==\n");
-        cer.append("-----END CERTIFICATE-----");
+        cer.append("MIIEpzCCA4+gAwIBAgIUUWAln6vY4VwosF6dy6AZz+XbasAwDQYJKoZIhvcNAQEL\n");
+        cer.append("BQAwgbcxCzAJBgNVBAYTAkVDMRowGAYDVQQIDBFRdWl0byAtIFBpY2hpbmNoYTEO\n");
+        cer.append("MAwGA1UEBwwFUXVpdG8xGzAZBgNVBAoMEkxhenphdGUgQ2lhLiBMdGRhLjEeMBwG\n");
+        cer.append("A1UECwwVRW50ZSBkZSBDZXJ0aWZpY2FjaW9uMRkwFwYDVQQDDBBMYXp6YXRlIFJv\n");
+        cer.append("b3QgQ0ExMSQwIgYJKoZIhvcNAQkBFhVjZXJ0aWZpY2Fkb3NAZW5leHQuZWMwHhcN\n");
+        cer.append("MjMxMTEwMjAzMTI3WhcNMzMxMTA3MjAzMTI3WjCBgzELMAkGA1UEBhMCRUMxGjAY\n");
+        cer.append("BgNVBAgMEVF1aXRvIC0gUGljaGluY2hhMRswGQYDVQQKDBJMYXp6YXRlIENpYS4g\n");
+        cer.append("THRkYS4xHjAcBgNVBAsMFUVudGUgZGUgQ2VydGlmaWNhY2lvbjEbMBkGA1UEAwwS\n");
+        cer.append("TGF6emF0ZSBFbWlzb3IgQ0ExMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC\n");
+        cer.append("AQEAx2sZgdZmUTbUlqTUZPCe2foZ/j63j+YeJamT+FBqgl9YJLpk+Ofwxb0N70ws\n");
+        cer.append("LJjrxihG6kdAGddvy13L9VoDEsBodLnd/3FutgzdLXloL3AY4GYj7OKgauWLHbUN\n");
+        cer.append("lRrysNZzIQVC9NyxDWIHojvuc+6NjmZGQzsDNd0Pwr/D6gv3X/A2e8Ez3uzRvOLv\n");
+        cer.append("7C/nkWjd1UEmnT6Bmzh/eIhU8b8z2yWq20QocNcRiX4xftSgON3V0XbIY/4iFa18\n");
+        cer.append("6Rg19/7Yzp2VK9pSX8s5s7mw1/bE6s3rNW7maspwcL/yJtdMnITCLXCpLKSoTGBN\n");
+        cer.append("8Q390h+kBpYunarwIl2teWhOfwIDAQABo4HcMIHZMB0GA1UdDgQWBBQTjc4bTPpP\n");
+        cer.append("aQvsN7GCuplET0rQoDAfBgNVHSMEGDAWgBTGO5ACzh1g+jK62vfikx2rbTJxszAS\n");
+        cer.append("BgNVHRMBAf8ECDAGAQH/AgEAMA4GA1UdDwEB/wQEAwIBhjA1BgNVHR8ELjAsMCqg\n");
+        cer.append("KKAmhiRodHRwOi8vZW5leHQxLnh5ei9jcmwvbGF6emF0ZUNBMS5jcmwwPAYIKwYB\n");
+        cer.append("BQUHAQEEMDAuMCwGCCsGAQUFBzABhiBodHRwOi8vZW5leHQxLnh5ejo4Nzc3L2Fk\n");
+        cer.append("c3Mvb2NzcDANBgkqhkiG9w0BAQsFAAOCAQEAXm6upbz29J4HGzKjGtZJe3wM2WmE\n");
+        cer.append("BzQmOZFDc0T9M+dkNtZyQzYrasaa6q4rbY2ZryaqLS/vW6nh7wzh8GnRkiOj6It9\n");
+        cer.append("4qNwGYBy+EFk24tRh/1HRW2PyHLB+K1X9OtyBnZ/Glh4XmiSjQfp4uJYbf2pTb1Z\n");
+        cer.append("QKb7ZFhavekvM7o8GbkGAn2EjDHGSmUX+eRUNjHgCFLIoBB5YwmSU48CY3Q3Vb1a\n");
+        cer.append("W3CP13GxTDWqdgzheb2rTg/WfS3Rlrdy9A3yCzA9ZUHZRtSxhrkRw/pv0zl4mnHw\n");
+        cer.append("heELwCXqCHRX7Z9UWfSpouv3XetDz80luLDwty7o1CS0q1FZpMFyCqaTGg==\n");
+        cer.append("-----END CERTIFICATE-----\n");
 
         try {
             InputStream is = new ByteArrayInputStream(cer.toString().getBytes("UTF-8"));
@@ -220,4 +219,5 @@ public class LazzateCaCert extends X509Certificate {
     public boolean hasUnsupportedCriticalExtension() {
         return certificate.hasUnsupportedCriticalExtension();
     }
+
 }

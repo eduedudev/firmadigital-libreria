@@ -152,7 +152,7 @@ public class Main {
         PrivateKey key = (PrivateKey) keyStore.getKey(alias, PASSWORD.toCharArray());
 
         X509CertificateUtils x509CertificateUtils = new X509CertificateUtils();
-        System.out.println("x509CertificateUtils: "+x509CertificateUtils);
+        System.out.println("x509CertificateUtils: " + x509CertificateUtils);
         // if (x509CertificateUtils.validarX509Certificate((X509Certificate) keyStore.getCertificate(alias), null)) {//validación de firmaEC
         Certificate[] certChain = keyStore.getCertificateChain(alias);
         Properties properties = parametros();
@@ -164,7 +164,7 @@ public class Main {
         ////// Permite guardar el archivo en el equipo y luego lo abre
         String nombreDocumento = FileUtils.crearNombreFirmado(new File(file), FileUtils.getExtension(signed));
         FileOutputStream fos = new java.io.FileOutputStream(nombreDocumento);
-        System.out.println("fos: "+fos);
+        System.out.println("fos: " + fos);
         //Abrir documento
         new java.util.Timer().schedule(new java.util.TimerTask() {
             @Override
@@ -268,6 +268,8 @@ public class Main {
                 dateToCalendar(UtilsCrlOcsp.validarFechaRevocado(x509Certificate, null)),
                 null,
                 datosUsuario);
+        certificado.setKeyUsages(Utils.validacionKeyUsages(x509Certificate));
+        
         System.out.println("Certificado: " + certificado);
         System.out.println(Json.generarJsonCertificado(certificado));
     }

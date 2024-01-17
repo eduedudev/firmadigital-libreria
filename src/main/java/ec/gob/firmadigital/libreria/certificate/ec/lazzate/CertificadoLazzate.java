@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2020 
- * Authors: Ricardo Arguello, Misael Fernández
+ * Copyright (C) 2022
+ * Authors: Henry Carrera
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -25,7 +25,7 @@ import ec.gob.firmadigital.libreria.certificate.CertUtils;
 /**
  * Certificado emitido por Lazzate.
  *
- * @author mfernandez
+ * @author Henry Carrera <henry@hyrserv.com>
  */
 public abstract class CertificadoLazzate {
 

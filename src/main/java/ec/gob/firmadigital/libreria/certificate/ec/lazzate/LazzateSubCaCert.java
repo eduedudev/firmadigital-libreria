@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2020 
- * Authors: Ricardo Arguello, Misael Fernández
+ * Copyright (C) 2022
+ * Authors: Henry Carrera
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -41,7 +41,7 @@ import java.util.Set;
  * Certificado intermedio de Lazzate, representado como un objeto
  * <code>X509Certificate</code>.
  *
- * @author mfernandez
+ * @author Henry Carrera <henry@hyrserv.com>
  */
 public class LazzateSubCaCert extends X509Certificate {
 

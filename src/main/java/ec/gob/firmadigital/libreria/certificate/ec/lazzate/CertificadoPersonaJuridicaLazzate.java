@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022
+ * Copyright (C) 2024
  * Authors: Henry Carrera
  *
  * This program is free software: you can redistribute it and/or modify
@@ -19,38 +19,59 @@ package ec.gob.firmadigital.libreria.certificate.ec.lazzate;
 
 import java.security.cert.X509Certificate;
 
-import ec.gob.firmadigital.libreria.certificate.ec.CertificadoPersonaNatural;
+import ec.gob.firmadigital.libreria.exceptions.DatoCertificadoNoIncluidoException;
+import ec.gob.firmadigital.libreria.certificate.ec.CertificadoPersonaJuridica;
 
 /**
- * Certificado de persona natural emitido por el Consejo de la Judicatura.
+ * Certificado de persona jurídica emitido por el Lazzate.
  *
  * @author Henry Carrera <henry@hyrserv.com>
  */
-public class CertificadoPersonaNaturalLazzate extends CertificadoLazzate
-        implements CertificadoPersonaNatural {
+public class CertificadoPersonaJuridicaLazzate extends CertificadoLazzate
+        implements CertificadoPersonaJuridica {
 
-    public CertificadoPersonaNaturalLazzate(X509Certificate certificado) {
+    public CertificadoPersonaJuridicaLazzate(X509Certificate certificado) {
         super(certificado);
     }
 
     @Override
+    public String getRazonSocial() {
+        return obtenerExtension(OID_RAZON_SOCIAL);
+    }
+
+    @Override
+    public String getRuc() {
+        return obtenerExtension(OID_RUC);
+    }
+
+    @Override
     public String getCedulaPasaporte() {
-        return obtenerExtension(OID_CEDULA_PASAPORTE);
+        throw new DatoCertificadoNoIncluidoException(
+                "Los certificados de Persona Juridica de Security Data no incluyen cedula o pasaporte");
     }
 
     @Override
     public String getNombres() {
-        return obtenerExtension(OID_NOMBRES);
+        throw new DatoCertificadoNoIncluidoException(
+                "Los certificados de Persona Juridica de Security Data no incluyen nombre(s)");
     }
 
     @Override
     public String getPrimerApellido() {
-        return obtenerExtension(OID_APELLIDO_1);
+        throw new DatoCertificadoNoIncluidoException(
+                "Los certificados de Persona Juridica de Security Data no incluyen primer apellido");
     }
 
     @Override
     public String getSegundoApellido() {
-        return obtenerExtension(OID_APELLIDO_2);
+        throw new DatoCertificadoNoIncluidoException(
+                "Los certificados de Persona Juridica de Security Data no incluyen segundo apellido");
+    }
+
+    @Override
+    public String getCargo() {
+        throw new DatoCertificadoNoIncluidoException(
+                "Los certificados de Persona Juridica de Security Data no incluyen cargo");
     }
 
     @Override
@@ -71,10 +92,5 @@ public class CertificadoPersonaNaturalLazzate extends CertificadoLazzate
     @Override
     public String getPais() {
         return obtenerExtension(OID_PAIS);
-    }
-
-    @Override
-    public String getRuc() {
-        return obtenerExtension(OID_RUC);
     }
 }
