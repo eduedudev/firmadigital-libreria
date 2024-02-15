@@ -21,6 +21,7 @@ import static ec.gob.firmadigital.libreria.certificate.ec.bce.CertificadoBancoCe
 import static ec.gob.firmadigital.libreria.certificate.ec.bce.CertificadoBancoCentral.OID_CERTIFICADO_FUNCIONARIO_PUBLICO;
 import static ec.gob.firmadigital.libreria.certificate.ec.bce.CertificadoBancoCentral.OID_CERTIFICADO_PERSONA_JURIDICA;
 import static ec.gob.firmadigital.libreria.certificate.ec.bce.CertificadoBancoCentral.OID_CERTIFICADO_PERSONA_NATURAL;
+import ec.gob.firmadigital.libreria.exceptions.EntidadCertificadoraNoValidaException;
 import static ec.gob.firmadigital.libreria.utils.BouncyCastleUtils.certificateHasPolicy;
 
 import java.security.cert.X509Certificate;
@@ -40,7 +41,7 @@ public class CertificadoBancoCentralFactory {
                 || certificateHasPolicy(certificado, OID_SELLADO_TIEMPO));
     }
 
-    public static CertificadoBancoCentral construir(X509Certificate certificado) {
+    public static CertificadoBancoCentral construir(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         if (certificateHasPolicy(certificado, OID_CERTIFICADO_PERSONA_NATURAL)) {
             return new CertificadoPersonaNaturalBancoCentral(certificado);
         } else if (certificateHasPolicy(certificado, OID_CERTIFICADO_PERSONA_JURIDICA)) {
@@ -50,7 +51,7 @@ public class CertificadoBancoCentralFactory {
         } else if (certificateHasPolicy(certificado, OID_SELLADO_TIEMPO)) {
             return new CertificadoPersonaNaturalBancoCentral(certificado);
         } else {
-            throw new RuntimeException("Certificado del Banco Central del Ecuador de tipo desconocido!");
+            throw new EntidadCertificadoraNoValidaException("Certificado del Banco Central del Ecuador de tipo desconocido!");
         }
     }
 }

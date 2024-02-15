@@ -83,8 +83,8 @@ public class Main {
 //        firmarDocumentoTrifasica(FILE);
 //        firmarDocumentoPDF(FILE);
 //        firmarDocumentoXML(FILE);
-        validarCertificado();
-//        verificarDocumento(FILE);
+//        validarCertificado();
+        verificarDocumento(FILE);
 //        fechaHora(240);//espera en segundos
     }
 

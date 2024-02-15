@@ -47,4 +47,9 @@ public class SafenetIKey2032LinuxKeyStoreProvider extends PKCS11KeyStoreProvider
         File driver = new File(DRIVER_FILE);
         return driver.exists();
     }
+
+    @Override
+    public String getCfg() {
+        return System.getProperty("user.home") + "/cfg/SafenetIKey2032LinuxKeyStoreProvider.cfg";
+    }
 }

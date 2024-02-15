@@ -24,6 +24,7 @@ import static ec.gob.firmadigital.libreria.certificate.ec.cj.CertificadoConsejoJ
 import static ec.gob.firmadigital.libreria.certificate.ec.cj.CertificadoConsejoJudicatura.OID_CERTIFICADO_PERSONA_JURIDICA_PUBLICA;
 import static ec.gob.firmadigital.libreria.certificate.ec.cj.CertificadoConsejoJudicatura.OID_CERTIFICADO_PERSONA_NATURAL;
 import static ec.gob.firmadigital.libreria.certificate.ec.cj.CertificadoConsejoJudicatura.OID_SELLADO_TIEMPO;
+import ec.gob.firmadigital.libreria.exceptions.EntidadCertificadoraNoValidaException;
 import static ec.gob.firmadigital.libreria.utils.BouncyCastleUtils.certificateHasPolicy;
 
 import java.security.cert.X509Certificate;
@@ -46,7 +47,7 @@ public class CertificadoConsejoJudicaturaDataFactory {
                 || certificateHasPolicy(certificado, OID_SELLADO_TIEMPO));
     }
 
-    public static CertificadoConsejoJudicatura construir(X509Certificate certificado) {
+    public static CertificadoConsejoJudicatura construir(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         if (certificateHasPolicy(certificado, OID_CERTIFICADO_PERSONA_NATURAL)) {
             return new CertificadoPersonaNaturalConsejoJudicatura(certificado);
         } else if (certificateHasPolicy(certificado, OID_CERTIFICADO_PERSONA_JURIDICA_PRIVADA)) {
@@ -62,7 +63,7 @@ public class CertificadoConsejoJudicaturaDataFactory {
         } else if (certificateHasPolicy(certificado, OID_SELLADO_TIEMPO)) {
             return new CertificadoPersonaNaturalConsejoJudicatura(certificado);
         } else {
-            throw new RuntimeException("Certificado del Consejo de la Judicatura de tipo desconocido!");
+            throw new EntidadCertificadoraNoValidaException("Certificado del Consejo de la Judicatura de tipo desconocido!");
         }
     }
 }

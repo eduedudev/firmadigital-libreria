@@ -822,7 +822,7 @@ public class Utils {
         return keyUsages;
     }
 
-    public static Documento signInfosToCertificados(List<SignInfo> signInfos) throws DocumentoException, CertificadoInvalidoException, IOException, ConexionException {
+    public static Documento signInfosToCertificados(List<SignInfo> signInfos) throws DocumentoException, CertificadoInvalidoException, IOException, ConexionException, EntidadCertificadoraNoValidaException {
         Documento documento = null;
         List<Certificado> certificados = new ArrayList<>();
         if (signInfos == null || signInfos.isEmpty()) {
@@ -875,7 +875,7 @@ public class Utils {
         return datosUsuario;
     }
 
-    public static Certificado signInfoToCertificado(SignInfo signInfo) throws CertificadoInvalidoException, IOException, ConexionException {
+    public static Certificado signInfoToCertificado(SignInfo signInfo) throws CertificadoInvalidoException, IOException, ConexionException, EntidadCertificadoraNoValidaException {
         signInfo.getCerts();
         Certificado certificado = null;
         DatosUsuario datosUsuario = CertEcUtils.getDatosUsuarios(signInfo.getCerts()[0]);
@@ -1072,7 +1072,8 @@ public class Utils {
      * @param certificate The X509Certificate which is to be checked
      * @return True, if the verification was successful, false otherwise
      * @throws java.security.InvalidKeyException
-     * @throws ec.gob.firmadigital.libreria.exceptions.EntidadCertificadoraNoValidaException
+     * @throws
+     * ec.gob.firmadigital.libreria.exceptions.EntidadCertificadoraNoValidaException
      */
     public static boolean verifySignature(X509Certificate certificate) throws java.security.InvalidKeyException, EntidadCertificadoraNoValidaException {
         return verifySignature(certificate, CertEcUtils.getRootCertificate(certificate));

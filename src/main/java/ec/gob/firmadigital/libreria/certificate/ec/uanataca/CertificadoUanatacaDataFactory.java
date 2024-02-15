@@ -22,6 +22,7 @@ import static ec.gob.firmadigital.libreria.certificate.ec.uanataca.CertificadoUa
 import static ec.gob.firmadigital.libreria.certificate.ec.uanataca.CertificadoUanataca.OID_CERTIFICADO_PERSONA_NATURAL;
 import static ec.gob.firmadigital.libreria.certificate.ec.uanataca.CertificadoUanataca.OID_CERTIFICADO_REPRESENTANTE_EMPRESA;
 import static ec.gob.firmadigital.libreria.certificate.ec.uanataca.CertificadoUanataca.OID_SELLADO_TIEMPO;
+import ec.gob.firmadigital.libreria.exceptions.EntidadCertificadoraNoValidaException;
 import static ec.gob.firmadigital.libreria.utils.BouncyCastleUtils.certificateHasPolicy;
 
 import java.security.cert.X509Certificate;
@@ -42,7 +43,7 @@ public class CertificadoUanatacaDataFactory {
                 || certificateHasPolicy(certificado, OID_SELLADO_TIEMPO));
     }
 
-    public static CertificadoUanataca construir(X509Certificate certificado) {
+    public static CertificadoUanataca construir(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         if (certificateHasPolicy(certificado, OID_CERTIFICADO_PERSONA_NATURAL)) {
             return new CertificadoPersonaNaturalUanataca(certificado);
         } else if (certificateHasPolicy(certificado, OID_CERTIFICADO_PERSONA_JURIDICA)) {
@@ -54,7 +55,7 @@ public class CertificadoUanatacaDataFactory {
         } else if (certificateHasPolicy(certificado, OID_SELLADO_TIEMPO)) {
             return new CertificadoSelladoTiempoUanataca(certificado);
         } else {
-            throw new RuntimeException("Certificado del Unataca S.A. de tipo desconocido!");
+            throw new EntidadCertificadoraNoValidaException("Certificado del Unataca S.A. de tipo desconocido!");
         }
     }
 

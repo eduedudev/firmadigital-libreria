@@ -18,6 +18,7 @@
 package ec.gob.firmadigital.libreria.certificate.ec.digercic;
 
 import static ec.gob.firmadigital.libreria.certificate.ec.digercic.CertificadoDigercic.OID_CERTIFICADO_PERSONA_NATURAL;
+import ec.gob.firmadigital.libreria.exceptions.EntidadCertificadoraNoValidaException;
 import static ec.gob.firmadigital.libreria.utils.BouncyCastleUtils.certificateHasPolicy;
 
 import java.security.cert.X509Certificate;
@@ -34,11 +35,11 @@ public class CertificadoDigercicFactory {
         return (certificateHasPolicy(certificado, OID_CERTIFICADO_PERSONA_NATURAL));
     }
 
-    public static CertificadoDigercic construir(X509Certificate certificado) {
+    public static CertificadoDigercic construir(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         if (certificateHasPolicy(certificado, OID_CERTIFICADO_PERSONA_NATURAL)) {
             return new CertificadoPersonaNaturalDigercic(certificado);
         } else {
-            throw new RuntimeException("Certificado de la Dirección General de Registro Civil, Identificación y Cedulación de tipo desconocido!");
+            throw new EntidadCertificadoraNoValidaException("Certificado de la Dirección General de Registro Civil, Identificación y Cedulación de tipo desconocido!");
         }
     }
 }

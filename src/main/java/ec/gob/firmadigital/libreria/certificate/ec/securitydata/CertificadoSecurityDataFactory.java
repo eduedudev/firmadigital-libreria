@@ -25,6 +25,7 @@ import static ec.gob.firmadigital.libreria.certificate.ec.securitydata.Certifica
 import static ec.gob.firmadigital.libreria.certificate.ec.securitydata.CertificadoSecurityData.OID_TIPO_PERSONA_NATURAL_PROFESIONAL;
 import static ec.gob.firmadigital.libreria.certificate.ec.securitydata.CertificadoSecurityData.OID_TIPO_PRUEBA;
 import static ec.gob.firmadigital.libreria.certificate.ec.securitydata.CertificadoSecurityData.OID_TIPO_REPRESENTANTE_LEGAL;
+import ec.gob.firmadigital.libreria.exceptions.EntidadCertificadoraNoValidaException;
 import static ec.gob.firmadigital.libreria.utils.BouncyCastleUtils.certificateHasPolicy;
 
 import java.security.cert.X509Certificate;
@@ -42,7 +43,7 @@ public class CertificadoSecurityDataFactory {
         return (valor != null);
     }
 
-    public static CertificadoSecurityData construir(X509Certificate certificado) {
+    public static CertificadoSecurityData construir(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         if (certificateHasPolicy(certificado, OID_TIPO_PERSONA_NATURAL)) {
             return new CertificadoPersonaNaturalSecurityData(certificado);
         } else if (certificateHasPolicy(certificado, OID_TIPO_PERSONA_JURIDICA_EMPRESA)) {
@@ -58,7 +59,7 @@ public class CertificadoSecurityDataFactory {
         } else if (certificateHasPolicy(certificado, OID_TIPO_PRUEBA)) {
             return new CertificadoPruebaSecurityData(certificado);
         } else {
-            throw new RuntimeException("Tipo Certificado de SecurityData desconocido!");
+            throw new EntidadCertificadoraNoValidaException("Tipo Certificado de SecurityData desconocido!");
         }
     }
 }

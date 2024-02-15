@@ -38,13 +38,13 @@ public class FileKeyStoreProvider implements KeyStoreProvider {
     private static final Logger log = Logger.getLogger(FileKeyStoreProvider.class.getName());
 
     private File keyStoreFile;
-    
+
     private InputStream keyStoreFileIS;
 
     public FileKeyStoreProvider(File keyStoreFile) {
         this.keyStoreFile = keyStoreFile;
     }
-    
+
     public FileKeyStoreProvider(InputStream keyStoreFileIS) {
         this.keyStoreFileIS = keyStoreFileIS;
     }
@@ -62,12 +62,14 @@ public class FileKeyStoreProvider implements KeyStoreProvider {
     public KeyStore getKeystore(char[] password) throws KeyStoreException {
         InputStream input = null;
         try {
-            if (keyStoreFile != null)
+            if (keyStoreFile != null) {
                 input = new FileInputStream(keyStoreFile);
-            
-            if (keyStoreFileIS != null)
+            }
+
+            if (keyStoreFileIS != null) {
                 input = keyStoreFileIS;
-            
+            }
+
             KeyStore keyStore = KeyStore.getInstance("JKS");
             keyStore.load(input, password);
             return keyStore;

@@ -64,6 +64,7 @@ import com.itextpdf.signatures.SignatureUtil;
 
 import ec.gob.firmadigital.libreria.certificate.CertEcUtils;
 import ec.gob.firmadigital.libreria.certificate.to.DatosUsuario;
+import ec.gob.firmadigital.libreria.exceptions.EntidadCertificadoraNoValidaException;
 import ec.gob.firmadigital.libreria.exceptions.HoraServidorException;
 import ec.gob.firmadigital.libreria.exceptions.InvalidFormatException;
 import ec.gob.firmadigital.libreria.exceptions.RubricaException;
@@ -143,7 +144,7 @@ public class PDFSignerItext implements Signer {
     }
 
     public String emptySignature(String src, String dest, Certificate[] certChain, Properties xParams)
-            throws IOException, GeneralSecurityException, RubricaException {
+            throws IOException, GeneralSecurityException, RubricaException, EntidadCertificadoraNoValidaException {
         Properties extraParams = xParams != null ? xParams : new Properties();
         X509Certificate x509Certificate = (X509Certificate) certChain[0];
 

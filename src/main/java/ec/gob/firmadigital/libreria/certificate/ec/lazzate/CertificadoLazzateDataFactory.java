@@ -18,6 +18,7 @@
 package ec.gob.firmadigital.libreria.certificate.ec.lazzate;
 
 import static ec.gob.firmadigital.libreria.certificate.ec.lazzate.CertificadoLazzate.*;
+import ec.gob.firmadigital.libreria.exceptions.EntidadCertificadoraNoValidaException;
 import static ec.gob.firmadigital.libreria.utils.BouncyCastleUtils.certificateHasPolicy;
 
 import java.security.cert.X509Certificate;
@@ -40,7 +41,7 @@ public class CertificadoLazzateDataFactory {
                 || certificateHasPolicy(certificado, OID_CERTIFICADO_PERSONA_NATURAL_PROFESIONAL));
     }
 
-    public static CertificadoLazzate construir(X509Certificate certificado) {
+    public static CertificadoLazzate construir(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         if (certificateHasPolicy(certificado, OID_CERTIFICADO_PERSONA_NATURAL)) {
             return new CertificadoPersonaNaturalLazzate(certificado);
         } else if (certificateHasPolicy(certificado, OID_CERTIFICADO_PERSONA_JURIDICA_EMPRESA)) {
@@ -56,7 +57,7 @@ public class CertificadoLazzateDataFactory {
         } else if (certificateHasPolicy(certificado, OID_CERTIFICADO_PERSONA_NATURAL_PROFESIONAL)) {
             return new CertificadoPersonaNaturalLazzate(certificado);
         } else {
-            throw new RuntimeException("Certificado de Lazzate de tipo desconocido!");
+            throw new EntidadCertificadoraNoValidaException("Certificado de Lazzate de tipo desconocido!");
         }
     }
 }

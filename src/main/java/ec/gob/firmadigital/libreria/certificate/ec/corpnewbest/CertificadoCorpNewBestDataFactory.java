@@ -21,6 +21,7 @@ import static ec.gob.firmadigital.libreria.certificate.ec.corpnewbest.Certificad
 import static ec.gob.firmadigital.libreria.certificate.ec.corpnewbest.CertificadoCorpNewBest.OID_TIPO_MIEMBRO_EMPRESA;
 import static ec.gob.firmadigital.libreria.certificate.ec.corpnewbest.CertificadoCorpNewBest.OID_TIPO_PERSONA_JURIDICA;
 import static ec.gob.firmadigital.libreria.certificate.ec.corpnewbest.CertificadoCorpNewBest.OID_TIPO_PERSONA_NATURAL;
+import ec.gob.firmadigital.libreria.exceptions.EntidadCertificadoraNoValidaException;
 import static ec.gob.firmadigital.libreria.utils.BouncyCastleUtils.certificateHasPolicy;
 
 import java.security.cert.X509Certificate;
@@ -38,7 +39,7 @@ public class CertificadoCorpNewBestDataFactory {
         return (valor != null);
     }
 
-    public static CertificadoCorpNewBest construir(X509Certificate certificado) {
+    public static CertificadoCorpNewBest construir(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         if (certificateHasPolicy(certificado, OID_TIPO_PERSONA_NATURAL)) {
             return new CertificadoPersonaNaturalCorpNewBest(certificado);
         } else if (certificateHasPolicy(certificado, OID_TIPO_PERSONA_JURIDICA)) {
@@ -46,7 +47,7 @@ public class CertificadoCorpNewBestDataFactory {
         } else if (certificateHasPolicy(certificado, OID_TIPO_MIEMBRO_EMPRESA)) {
             return new CertificadoMiembroEmpresaCorpNewBest(certificado);
         } else {
-            throw new RuntimeException("Tipo Certificado de CorpNewBest desconocido!");
+            throw new EntidadCertificadoraNoValidaException("Tipo Certificado de CorpNewBest desconocido!");
         }
     }
 }

@@ -21,6 +21,7 @@ import static ec.gob.firmadigital.libreria.certificate.ec.datil.CertificadoDatil
 import static ec.gob.firmadigital.libreria.certificate.ec.datil.CertificadoDatil.OID_CERTIFICADO_PERSONA_JURIDICA;
 import static ec.gob.firmadigital.libreria.certificate.ec.datil.CertificadoDatil.OID_CERTIFICADO_PERSONA_NATURAL;
 import static ec.gob.firmadigital.libreria.certificate.ec.datil.CertificadoDatil.OID_CERTIFICADO_REPRESENTANTE_EMPRESA;
+import ec.gob.firmadigital.libreria.exceptions.EntidadCertificadoraNoValidaException;
 import static ec.gob.firmadigital.libreria.utils.BouncyCastleUtils.certificateHasPolicy;
 
 import java.security.cert.X509Certificate;
@@ -40,7 +41,7 @@ public class CertificadoDatilDataFactory {
                 || certificateHasPolicy(certificado, OID_CERTIFICADO_REPRESENTANTE_EMPRESA));
     }
 
-    public static CertificadoDatil construir(X509Certificate certificado) {
+    public static CertificadoDatil construir(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         if (certificateHasPolicy(certificado, OID_CERTIFICADO_PERSONA_NATURAL)) {
             return new CertificadoPersonaNaturalDatil(certificado);
         } else if (certificateHasPolicy(certificado, OID_CERTIFICADO_PERSONA_JURIDICA)) {
@@ -50,7 +51,7 @@ public class CertificadoDatilDataFactory {
         } else if (certificateHasPolicy(certificado, OID_CERTIFICADO_REPRESENTANTE_EMPRESA)) {
             return new CertificadoRepresentanteLegalDatil(certificado);
         } else {
-            throw new RuntimeException("Certificado del Datilmedia S.A. de tipo desconocido!");
+            throw new EntidadCertificadoraNoValidaException("Certificado del Datilmedia S.A. de tipo desconocido!");
         }
     }
 

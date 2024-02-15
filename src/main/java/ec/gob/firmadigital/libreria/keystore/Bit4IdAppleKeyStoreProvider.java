@@ -20,7 +20,7 @@ package ec.gob.firmadigital.libreria.keystore;
 import java.io.File;
 
 /**
- * KeyStoreProvider para tokens de Bit4id.
+ * KeyStoreProvider para tokens Bit4id.
  *
  * @author mfernandez
  */
@@ -45,5 +45,10 @@ public class Bit4IdAppleKeyStoreProvider extends PKCS11KeyStoreProvider {
     public boolean existeDriver() {
         File driver = new File(DRIVER_FILE);
         return driver.exists();
+    }
+
+    @Override
+    public String getCfg() {
+        return System.getProperty("user.home") + "/cfg/Bit4IdAppleKeyStoreProvider.cfg";
     }
 }

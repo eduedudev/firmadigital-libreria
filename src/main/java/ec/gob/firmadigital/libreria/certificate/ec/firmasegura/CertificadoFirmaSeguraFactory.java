@@ -20,6 +20,7 @@ package ec.gob.firmadigital.libreria.certificate.ec.firmasegura;
 import static ec.gob.firmadigital.libreria.certificate.ec.firmasegura.CertificadoFirmaSegura.OID_CEDULA_PASAPORTE;
 import static ec.gob.firmadigital.libreria.certificate.ec.firmasegura.CertificadoFirmaSegura.OID_TIPO_PERSONA_NATURAL;
 import static ec.gob.firmadigital.libreria.certificate.ec.firmasegura.CertificadoFirmaSegura.OID_TIPO_REPRESENTANTE_LEGAL;
+import ec.gob.firmadigital.libreria.exceptions.EntidadCertificadoraNoValidaException;
 import static ec.gob.firmadigital.libreria.utils.BouncyCastleUtils.certificateHasPolicy;
 
 import java.security.cert.X509Certificate;
@@ -37,13 +38,13 @@ public class CertificadoFirmaSeguraFactory {
         return (valor != null);
     }
 
-    public static CertificadoFirmaSegura construir(X509Certificate certificado) {
+    public static CertificadoFirmaSegura construir(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         if (certificateHasPolicy(certificado, OID_TIPO_PERSONA_NATURAL)) {
             return new CertificadoPersonaNaturalFirmaSegura(certificado);
         } else if (certificateHasPolicy(certificado, OID_TIPO_REPRESENTANTE_LEGAL)) {
             return new CertificadoRepresentanteLegalFirmaSegura(certificado);
         } else {
-            throw new RuntimeException("Tipo Certificado de SecurityData desconocido!");
+            throw new EntidadCertificadoraNoValidaException("Tipo Certificado de FirmaSegura desconocido!");
         }
     }
 }

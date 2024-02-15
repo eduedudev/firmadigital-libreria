@@ -266,7 +266,7 @@ public class CertEcUtils {
     }
 
     //TODO poner los nombres como constantes
-    public static DatosUsuario getDatosUsuarios(X509Certificate certificado) {
+    public static DatosUsuario getDatosUsuarios(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         DatosUsuario datosUsuario = new DatosUsuario();
         datosUsuario.setSelladoTiempo(false);
         if (CertificadoBancoCentralFactory.esCertificadoDelBancoCentral(certificado)) {

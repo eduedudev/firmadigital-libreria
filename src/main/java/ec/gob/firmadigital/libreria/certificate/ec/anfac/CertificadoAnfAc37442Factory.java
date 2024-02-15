@@ -17,6 +17,7 @@
  */
 package ec.gob.firmadigital.libreria.certificate.ec.anfac;
 
+import ec.gob.firmadigital.libreria.exceptions.EntidadCertificadoraNoValidaException;
 import static ec.gob.firmadigital.libreria.utils.BouncyCastleUtils.certificateHasPolicy;
 
 import java.security.cert.X509Certificate;
@@ -34,7 +35,7 @@ public class CertificadoAnfAc37442Factory {
         return (valor != null);
     }
 
-    public static CertificadoAnfAc37442 construir(X509Certificate certificado) {
+    public static CertificadoAnfAc37442 construir(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         if (!esCertificadoDeAnfAc37442(certificado)) {
             throw new IllegalStateException("Este no es un certificado emitido por ANF AC Ecuador");
         }
@@ -46,7 +47,7 @@ public class CertificadoAnfAc37442Factory {
         } else if (certificateHasPolicy(certificado, CertificadoAnfAc37442.OID_CERTIFICADO_FUNCIONARIO_PUBLICO) || certificateHasPolicy(certificado, CertificadoAnfAc37442.OID_CERTIFICADO_FUNCIONARIO_PUBLICO_TOKEN)) {
             return new CertificadoFuncionarioPublicoAnfAc37442(certificado);
         } else {
-            throw new RuntimeException("Certificado ANF AC Ecuador de tipo desconocido!");
+            throw new EntidadCertificadoraNoValidaException("Certificado ANF AC Ecuador de tipo desconocido!");
         }
     }
 }

@@ -19,6 +19,7 @@ package ec.gob.firmadigital.libreria.sign.cms;
 
 import ec.gob.firmadigital.libreria.certificate.to.DatosUsuario;
 import ec.gob.firmadigital.libreria.certificate.CertEcUtils;
+import ec.gob.firmadigital.libreria.exceptions.EntidadCertificadoraNoValidaException;
 import java.security.GeneralSecurityException;
 import java.security.cert.X509Certificate;
 import java.text.ParseException;
@@ -67,7 +68,7 @@ public class VerificadorCMS {
     public VerificadorCMS() {
     }
 
-    public byte[] verify(byte[] signedBytes) throws SignatureVerificationException {
+    public byte[] verify(byte[] signedBytes) throws SignatureVerificationException, EntidadCertificadoraNoValidaException {
         try {
             CMSSignedData signedData = new CMSSignedData(signedBytes);
 

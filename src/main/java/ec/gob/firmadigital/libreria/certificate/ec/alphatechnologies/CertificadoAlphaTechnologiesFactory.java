@@ -18,6 +18,7 @@
 package ec.gob.firmadigital.libreria.certificate.ec.alphatechnologies;
 
 import static ec.gob.firmadigital.libreria.certificate.ec.alphatechnologies.CertificadoAlphaTechnologies.*;
+import ec.gob.firmadigital.libreria.exceptions.EntidadCertificadoraNoValidaException;
 import static ec.gob.firmadigital.libreria.utils.BouncyCastleUtils.certificateHasPolicy;
 import java.security.cert.X509Certificate;
 
@@ -35,7 +36,7 @@ public class CertificadoAlphaTechnologiesFactory {
                 || certificateHasPolicy(certificado, OID_CERTIFICADO_MIEMBRO_EMPRESA));
     }
 
-    public static CertificadoAlphaTechnologies construir(X509Certificate certificado) {
+    public static CertificadoAlphaTechnologies construir(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         if (certificateHasPolicy(certificado, OID_CERTIFICADO_PERSONA_NATURAL)) {
             return new CertificadoPersonaNaturalAlphaTechnologies(certificado);
         } else if (certificateHasPolicy(certificado, OID_CERTIFICADO_PERSONA_JURIDICA)) {
@@ -43,7 +44,7 @@ public class CertificadoAlphaTechnologiesFactory {
         } else if (certificateHasPolicy(certificado, OID_CERTIFICADO_MIEMBRO_EMPRESA)) {
             return new CertificadoMiembroEmpresaAlphaTechnologies(certificado);
         } else {
-            throw new RuntimeException("Certificado de Alpha Technologies Cia. Ltda. sin categorizar!");
+            throw new EntidadCertificadoraNoValidaException("Certificado de Alpha Technologies Cia. Ltda. sin categorizar!");
         }
     }
     

@@ -27,7 +27,7 @@ import ec.gob.firmadigital.libreria.certificate.CertUtils;
  *
  * @author Edison Lomas Almeida
  */
-public class CertificadoUanataca {
+public abstract class CertificadoUanataca {
 
     // OIDs de tipo de certificado:
     public static final String OID_CERTIFICADO_PERSONA_NATURAL = "1.3.6.1.4.1.47286.102.2.1";

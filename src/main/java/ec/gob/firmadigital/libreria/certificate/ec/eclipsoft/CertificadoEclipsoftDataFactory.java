@@ -21,6 +21,7 @@ import static ec.gob.firmadigital.libreria.certificate.ec.eclipsoft.CertificadoE
 import static ec.gob.firmadigital.libreria.certificate.ec.eclipsoft.CertificadoEclipsoft.OID_CERTIFICADO_PERSONA_JURIDICA;
 import static ec.gob.firmadigital.libreria.certificate.ec.eclipsoft.CertificadoEclipsoft.OID_CERTIFICADO_PERSONA_NATURAL;
 import static ec.gob.firmadigital.libreria.certificate.ec.eclipsoft.CertificadoEclipsoft.OID_CERTIFICADO_REPRESENTANTE_EMPRESA;
+import ec.gob.firmadigital.libreria.exceptions.EntidadCertificadoraNoValidaException;
 import static ec.gob.firmadigital.libreria.utils.BouncyCastleUtils.certificateHasPolicy;
 
 import java.security.cert.X509Certificate;
@@ -38,7 +39,7 @@ public class CertificadoEclipsoftDataFactory {
                 || certificateHasPolicy(certificado, OID_CERTIFICADO_MIEMBRO_EMPRESA) || certificateHasPolicy(certificado, OID_CERTIFICADO_REPRESENTANTE_EMPRESA));
     }
 
-    public static CertificadoEclipsoft construir(X509Certificate certificado) {
+    public static CertificadoEclipsoft construir(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         if (certificateHasPolicy(certificado, OID_CERTIFICADO_PERSONA_NATURAL)) {
             return new CertificadoPersonalNaturalEclipsoft(certificado);
         } else if (certificateHasPolicy(certificado, OID_CERTIFICADO_MIEMBRO_EMPRESA)) {
@@ -48,7 +49,7 @@ public class CertificadoEclipsoftDataFactory {
         } else if (certificateHasPolicy(certificado, OID_CERTIFICADO_PERSONA_JURIDICA)) {
             return new CertificadoPersonaJuridicaPrivadaEclipsoft(certificado);
         } else {
-            throw new RuntimeException("Certificado del EclipSoft de tipo desconocido!");
+            throw new EntidadCertificadoraNoValidaException("Certificado del EclipSoft de tipo desconocido!");
         }
     }
 

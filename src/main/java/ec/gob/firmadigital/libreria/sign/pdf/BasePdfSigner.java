@@ -35,6 +35,7 @@ import com.itextpdf.signatures.PdfSignatureAppearance;
 
 import ec.gob.firmadigital.libreria.certificate.CertEcUtils;
 import ec.gob.firmadigital.libreria.certificate.to.DatosUsuario;
+import ec.gob.firmadigital.libreria.exceptions.EntidadCertificadoraNoValidaException;
 import ec.gob.firmadigital.libreria.sign.RubricaSigner;
 import ec.gob.firmadigital.libreria.sign.pdf.appearance.CustomAppearance;
 import ec.gob.firmadigital.libreria.sign.pdf.appearance.Information1Appearance;
@@ -42,6 +43,7 @@ import ec.gob.firmadigital.libreria.sign.pdf.appearance.Information2Appearance;
 import ec.gob.firmadigital.libreria.sign.pdf.appearance.QrAppereance;
 import ec.gob.firmadigital.libreria.utils.BouncyCastleUtils;
 import ec.gob.firmadigital.libreria.utils.Utils;
+import java.util.logging.Level;
 
 public abstract class BasePdfSigner implements PdfSigner {
 
@@ -157,7 +159,12 @@ public abstract class BasePdfSigner implements PdfSigner {
                 signatureAppearance.setPageRect(signaturePositionOnPage).setPageNumber(page);
 
                 if (signaturePositionOnPage != null) {
-                    DatosUsuario datosUsuario = CertEcUtils.getDatosUsuarios(x509Certificate);
+                    DatosUsuario datosUsuario = null;
+                    try {
+                        datosUsuario = CertEcUtils.getDatosUsuarios(x509Certificate);
+                    } catch (EntidadCertificadoraNoValidaException ex) {
+                        Logger.getLogger(BasePdfSigner.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     String nombreFirmante = (datosUsuario.getNombre() + " " + datosUsuario.getApellido()).toUpperCase();
                     String informacionCertificado = x509Certificate.getSubjectDN().getName();
 

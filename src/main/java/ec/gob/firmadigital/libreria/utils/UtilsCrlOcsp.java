@@ -61,7 +61,7 @@ public class UtilsCrlOcsp {
     }
 
     /**
-     * Valida primero por OSCP, si falla lo hace por CRL
+     * Valida primero por OCSP, si falla lo hace por CRL
      *
      * @param cert
      * @param apiUrl

@@ -20,6 +20,7 @@ package ec.gob.firmadigital.libreria.certificate.ec.argosdata;
 import static ec.gob.firmadigital.libreria.certificate.ec.argosdata.CertificadoArgosData.OID_CEDULA_PASAPORTE;
 import static ec.gob.firmadigital.libreria.certificate.ec.argosdata.CertificadoArgosData.OID_TIPO_PERSONA_NATURAL;
 import static ec.gob.firmadigital.libreria.certificate.ec.argosdata.CertificadoArgosData.OID_TIPO_REPRESENTANTE_LEGAL;
+import ec.gob.firmadigital.libreria.exceptions.EntidadCertificadoraNoValidaException;
 import static ec.gob.firmadigital.libreria.utils.BouncyCastleUtils.certificateHasPolicy;
 
 import java.security.cert.X509Certificate;
@@ -37,13 +38,13 @@ public class CertificadoArgosDataFactory {
         return (valor != null);
     }
 
-    public static CertificadoArgosData construir(X509Certificate certificado) {
+    public static CertificadoArgosData construir(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         if (certificateHasPolicy(certificado, OID_TIPO_PERSONA_NATURAL)) {
             return new CertificadoPersonaNaturalArgosData(certificado);
         } else if (certificateHasPolicy(certificado, OID_TIPO_REPRESENTANTE_LEGAL)) {
             return new CertificadoRepresentanteLegalArgosData(certificado);
         } else {
-            throw new RuntimeException("Tipo Certificado de ArgosData desconocido!");
+            throw new EntidadCertificadoraNoValidaException("Tipo Certificado de ArgosData desconocido!");
         }
     }
 }
