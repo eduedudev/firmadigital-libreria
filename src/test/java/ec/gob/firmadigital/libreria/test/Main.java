@@ -199,34 +199,41 @@ public class Main {
         PrivateKey key = (PrivateKey) keyStore.getKey(alias, PASSWORD.toCharArray());
 
         X509CertificateUtils x509CertificateUtils = new X509CertificateUtils();
-
-        if (x509CertificateUtils.validarX509Certificate((X509Certificate) keyStore.getCertificate(alias), null, PropertiesUtils.versionBase64())) {//validación de firmaEC
-            Certificate[] certChain = keyStore.getCertificateChain(alias);
-            XAdESSigner signer = new XAdESSigner();
-            signed = signer.sign(docByteArry, SignConstants.SIGN_ALGORITHM_SHA512WITHRSA, key, certChain, null, PropertiesUtils.versionBase64());
-            System.out.println("final firma\n-------");
-            ////// Permite guardar el archivo en el equipo y luego lo abre
-            String nombreDocumento = FileUtils.crearNombreFirmado(new File(file), FileUtils.getExtension(signed));
-            FileOutputStream fos = new java.io.FileOutputStream(nombreDocumento);
-            //Abrir documento
-            new java.util.Timer().schedule(new java.util.TimerTask() {
-                @Override
-                public void run() {
-                    try {
-                        FileUtils.abrirDocumento(nombreDocumento);
-                        System.out.println(nombreDocumento);
-                        // verificarDocumento(nombreDocumento);
-                    } catch (java.lang.Exception ex) {
-                        ex.printStackTrace();
-                    } finally {
-                        System.exit(0);
+        try {
+            if (x509CertificateUtils.validarX509Certificate((X509Certificate) keyStore.getCertificate(alias), null, PropertiesUtils.versionBase64())) {//validación de firmaEC
+                Certificate[] certChain = keyStore.getCertificateChain(alias);
+                XAdESSigner signer = new XAdESSigner();
+                signed = signer.sign(docByteArry, SignConstants.SIGN_ALGORITHM_SHA512WITHRSA, key, certChain, null, PropertiesUtils.versionBase64());
+                System.out.println("final firma\n-------");
+                ////// Permite guardar el archivo en el equipo y luego lo abre
+                String nombreDocumento = FileUtils.crearNombreFirmado(new File(file), FileUtils.getExtension(signed));
+                FileOutputStream fos = new java.io.FileOutputStream(nombreDocumento);
+                //Abrir documento
+                new java.util.Timer().schedule(new java.util.TimerTask() {
+                    @Override
+                    public void run() {
+                        try {
+                            FileUtils.abrirDocumento(nombreDocumento);
+                            System.out.println(nombreDocumento);
+                            // verificarDocumento(nombreDocumento);
+                        } catch (java.lang.Exception ex) {
+                            ex.printStackTrace();
+                        } finally {
+                            System.exit(0);
+                        }
                     }
-                }
-            }, 3000); //espera 3 segundos
-            fos.write(signed);
-            fos.close();
-        } else {
-            System.out.println("Entidad Certificadora no reconocida");
+                }, 3000); //espera 3 segundos
+                fos.write(signed);
+                fos.close();
+            } else {
+                System.out.println("Entidad Certificadora no reconocida");
+            }
+        } catch (Exception e) {
+            if (e.getClass() == IllegalArgumentException.class) {
+                System.out.println("Problemas con la emisión del certificado digital");
+            } else {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -269,7 +276,7 @@ public class Main {
                 null,
                 datosUsuario);
         certificado.setKeyUsages(Utils.validacionKeyUsages(x509Certificate));
-        
+
         System.out.println("Certificado: " + certificado);
         System.out.println(Json.generarJsonCertificado(certificado));
     }
