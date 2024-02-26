@@ -37,6 +37,7 @@ import java.math.BigInteger;
 import java.net.HttpURLConnection;
 import java.net.SocketException;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.security.cert.X509Certificate;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -70,32 +71,31 @@ public class UtilsCrlOcsp {
      * @throws RubricaException si hay un error de conexion con el CRL bota
      * esto, si es por OCSP y falla la conexion intenta por CRL
      * @throws ec.gob.firmadigital.libreria.exceptions.CRLValidationException
-     * @throws ec.gob.firmadigital.libreria.exceptions.EntidadCertificadoraNoValidaException
-     * @throws ec.gob.firmadigital.libreria.exceptions.ConexionValidarCRLException
+     * @throws
+     * ec.gob.firmadigital.libreria.exceptions.EntidadCertificadoraNoValidaException
+     * @throws
+     * ec.gob.firmadigital.libreria.exceptions.ConexionValidarCRLException
      */
     public static String validarCertificado(X509Certificate cert, String apiUrl) throws EntidadCertificadoraNoValidaException, IOException, RubricaException, ConexionValidarCRLException, CRLValidationException {
         String fechaRevocado = null;
         try {
             BigInteger serial = cert.getSerialNumber();
             fechaRevocado = validarCrlServidorAPI(serial, apiUrl);
-        } catch (SocketException ex) {
-            LOGGER.log(Level.SEVERE, "SocketException: +{0}", ex.getCause());
+        } catch (UnknownHostException | SocketException | ConexionApiException ex) {
+            System.out.println("Fallo la validacion por el servicio del API");
+            LOGGER.log(Level.SEVERE, "SocketException: ", ex.getCause());
             fechaRevocado = "errorRed";
-        } catch (IOException | ConexionApiException ex) {
-            System.out.println("Fallo la validacion por el servicio del API, Ahora intentamos por OCSP");
-            try {
-                fechaRevocado = validarOCSP(cert);
-                if (fechaRevocado.equals("unknownStatus")) {
-                    fechaRevocado = null;
-                }
+//            try {
+//                System.out.println("Fallo la validacion por el servicio del API, Ahora intentamos por CRL");
+//                fechaRevocado = validarCRL(cert);
+//            } catch (IOException | RubricaException ex1) {
+//                System.out.println("Fallo la validacion por OCSP, Ahora intentamos por CRL");
+//                fechaRevocado = validarOCSP(cert);
 //                if (fechaRevocado.equals("unknownStatus")) {
-//                    System.out.println("Fallo la validacion por OCSP, Ahora intentamos por CRL");
-//                    fechaRevocado = validarCRL(cert);
+//                    System.out.println("Fallo la validacion por OCSP");
+//                    fechaRevocado = null;
 //                }
-            } catch (IOException | RubricaException ex1) {
-                System.out.println("Fallo la validacion por OCSP, Ahora intentamos por CRL");
-                fechaRevocado = validarCRL(cert);
-            }
+//            }
         } finally {
             return fechaRevocado;
         }
@@ -122,6 +122,7 @@ public class UtilsCrlOcsp {
                 throw new ConexionException("Problemas en la red, no es posible conectarse");
             } else {
                 fechaRevocado = fechaString_Date(revocado);
+//            fechaRevocado = fechaString_Date(validarCertificado(cert));
             }
 //            fechaRevocado = fechaString_Date(validarCertificado(cert, apiUrl));
         } catch (RubricaException | ConexionValidarCRLException | CRLValidationException | EntidadCertificadoraNoValidaException ex) {
@@ -130,6 +131,17 @@ public class UtilsCrlOcsp {
         }
         return fechaRevocado;
     }
+//    
+//    public static Date validarFechaRevocado(X509Certificate cert) throws CertificadoInvalidoException, IOException {
+//        Date fechaRevocado = null;
+//        try {
+//            fechaRevocado = fechaString_Date(validarCertificado(cert));
+//        } catch (ParseException | RubricaException | ConexionValidarCRLException | CRLValidationException | EntidadCertificadoraNoValidaException ex) {
+//            LOGGER.getLogger(UtilsCrlOcsp.class.getName()).log(Level.SEVERE, null, ex);
+////            throw new ConexionFirmadorApiException("Fallo la validacion por el servicio del API");
+//        }
+//        return fechaRevocado;
+//    }
 
     public static Date validarOCSPDate(X509Certificate cert) throws IOException, RubricaException, EntidadCertificadoraNoValidaException {
         List<String> ocspUrls = CertificateUtils.getAuthorityInformationAccess(cert);
