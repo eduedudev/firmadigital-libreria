@@ -52,16 +52,39 @@ public class Main {
 //    private static final String URLWS = "http://testws.firmadigital.gob.ec:8080/servicio";//local
     private static final String PKCS12 = "/home/mfernandez/appFirmaEC/prueba.p12";
     private static final String PASSWORD = "123456";
-//    private static final String FILE = "/home/mfernandez/appFirmaEC/Casos QA/ACTA DE 65 FIMAS-signed-signed-signed-signed.pdf";
     private static final String FILE = "/home/mfernandez/Test/documento_blanco.pdf";
     private static String cedula = "1234567890";
     private static final int TIME_OUT = 5000; //set timeout to 5 seconds
 
+    //Variables JWT
+    private static final String sistema = "pruebas";
+    private static final String apiKey = "pruebas";
+    private static final String tipoEstampado = "QR";//QR, information1, information2
+    private static final int pagina = 1;//pagina en donde se estampa la firma (sin el parametro, se estampa en la ultima hoja)
+    //ubicación de la estampa 
+    //SUPERIOR IZQUIERDA
+    private static final String llx = "10";
+    private static final String lly = "830";
+    //INFERIOR IZQUIERDA
+    //private static final String llx = "100";
+    //private static final String lly = "91";
+    //INFERIOR DERECHA
+    //private static final String llx = "419";
+    //private static final String lly = "91";
+    //INFERIOR CENTRADO
+    //private static final String llx = "260";
+    //private static final String lly = "91";
+    //Variantes
+    private static int certificado = 2;//1 token 2 archivo
+    private static int numeroCopias = 1;
+    //Variables JWT
+
     public static void main(String args[]) throws Exception {
 //        appFirmarDocumento();
 //        appVerificarDocumento();
-        appValidarCertificado();
+//        appValidarCertificado();
 //        appFirmarDocumentoTransversal();
+        generarJWT(sistema, apiKey, tipoEstampado, pagina, llx, lly, certificado, cedula, numeroCopias, new File(FILE));
     }
 
     private static void appFirmarDocumento() throws IOException, KeyStoreException, Exception {
@@ -204,49 +227,29 @@ public class Main {
 
         // send a JSON data
         post.setEntity(new StringEntity(entity.toString()));
-        try (CloseableHttpClient httpClient = HttpClients.createDefault();
-                CloseableHttpResponse response = httpClient.execute(post)) {
+        try (CloseableHttpClient httpClient = HttpClients.createDefault(); CloseableHttpResponse response = httpClient.execute(post)) {
             result = EntityUtils.toString(response.getEntity());
             //presentar por consola la respuesta
             System.out.println(response.getStatusLine().getStatusCode() + " - " + response.getStatusLine().getReasonPhrase());
             httpClient.close();
         }
 
-        //presentar por consola el JWT (Json Web Token)
+        System.out.println("JWT (Json Web Token)");
         System.out.println("JWT: " + result);
 
-        //presentar por consola la url para ejecutar desde navegador
+        System.out.println("url para ejecutar desde navegador (Centralizado)");
+        System.out.println("firmaec://" + sistema + "/firmar?token=" + result + "&tipo_certificado=" + certificado + "&llx=" + llx + "&lly=" + lly + "&estampado=" + tipoEstampado + "&pagina=" + pagina + "&pre=true");
+
+        System.out.println("url para ejecutar desde navegador (Descentralizado)");
         System.out.println("firmaec://" + sistema + "/firmar?token=" + result + "&tipo_certificado=" + certificado + "&llx=" + llx + "&lly=" + lly + "&estampado=" + tipoEstampado + "&pagina=" + pagina + "&pre=true&url=" + URLAPI);
 
-        //presentar por consola la url para ejecutar desde navegador (URLEncoder)
+        System.out.println("url para ejecutar desde navegador (URLEncoder)");
         System.out.println("firmaec://" + sistema + "/firmar?token=" + result + "&tipo_certificado=" + certificado + "&llx=" + llx + "&lly=" + lly + "&estampado=" + tipoEstampado + "&pagina=" + pagina + "&pre=true&url=" + URLEncoder.encode(URLAPI, StandardCharsets.UTF_8));
 
         return result;
     }
 
     private static void appFirmarDocumentoTransversal() throws KeyStoreException, Exception {
-        String sistema = "pruebas";
-        String apiKey = "pruebas";
-        String tipoEstampado = "QR";//QR, information1, information2
-        int pagina = 1;//pagina en donde se estampa la firma (sin el parametro, se estampa en la ultima hoja)
-        //ubicación de la estampa 
-        //SUPERIOR IZQUIERDA
-        String llx = "10";
-        String lly = "830";
-        //INFERIOR IZQUIERDA
-        //String llx = "100";
-        //String lly = "91";
-        //INFERIOR DERECHA
-        //String llx = "419";
-        //String lly = "91";
-        //INFERIOR CENTRADO
-        //String llx = "260";
-        //String lly = "91";
-
-        //Variantes
-        int certificado = 2;//1 token 2 archivo
-        int numeroCopias = 1;
-        
         File documento = new File(FILE);
 
         //creacion del JSON
