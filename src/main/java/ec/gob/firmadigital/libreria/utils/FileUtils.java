@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import javax.swing.JRootPane;
 import org.apache.tika.config.TikaConfig;
 import org.apache.tika.detect.DefaultDetector;
 import org.apache.tika.detect.Detector;
@@ -155,14 +156,14 @@ public class FileUtils {
         }
     }
 
-    public static String rutaFichero(javax.swing.filechooser.FileNameExtensionFilter filtro) {
+    public static String rutaFichero(javax.swing.filechooser.FileNameExtensionFilter filtro, JRootPane jRootPane) {
         String ruta = "";
         javax.swing.JFileChooser jFileChooser = new javax.swing.JFileChooser(new java.io.File(System.getProperty("user.home")));
         jFileChooser.setAcceptAllFileFilterUsed(false);
         jFileChooser.setEnabled(false);
         jFileChooser.setFileFilter(filtro);
 
-        int resultado = jFileChooser.showOpenDialog(null);
+        int resultado = jFileChooser.showOpenDialog(jRootPane);
         if (resultado == javax.swing.JFileChooser.APPROVE_OPTION) {
             java.io.File file = new java.io.File(jFileChooser.getSelectedFile().toString());
             if (file.exists() && file.isFile()) {
@@ -176,15 +177,15 @@ public class FileUtils {
         return ruta;
     }
 
-    public static java.util.List<String> rutaFicheros(javax.swing.filechooser.FileNameExtensionFilter filtro) {
+    public static java.util.List<String> rutaFicheros(javax.swing.filechooser.FileNameExtensionFilter filtro, JRootPane jRootPane) {
         java.util.List<String> ruta = new java.util.ArrayList<>();
         javax.swing.JFileChooser jFileChooser = new javax.swing.JFileChooser(new java.io.File(System.getProperty("user.home")));
         jFileChooser.setAcceptAllFileFilterUsed(false);
         jFileChooser.setEnabled(false);
         jFileChooser.setFileFilter(filtro);
         jFileChooser.setMultiSelectionEnabled(true);
-
-        int resultado = jFileChooser.showOpenDialog(null);
+        
+        int resultado = jFileChooser.showOpenDialog(jRootPane);
         if (resultado == javax.swing.JFileChooser.APPROVE_OPTION) {
             java.io.File[] files = jFileChooser.getSelectedFiles();
             for (File file : files) {
