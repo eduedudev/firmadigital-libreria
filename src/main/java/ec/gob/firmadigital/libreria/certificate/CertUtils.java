@@ -44,6 +44,7 @@ import org.bouncycastle.asn1.DLTaggedObject;
 import ec.gob.firmadigital.libreria.exceptions.RubricaException;
 import ec.gob.firmadigital.libreria.keystore.Alias;
 import ec.gob.firmadigital.libreria.keystore.KeyStoreUtilities;
+import javax.swing.JRootPane;
 
 /**
  * Utilidades para trabajar con Certificados.
@@ -224,7 +225,7 @@ public class CertUtils {
         return identities;
     }
 
-    public static String seleccionarAlias(KeyStore keyStore) throws RubricaException {
+    public static String seleccionarAlias(KeyStore keyStore, JRootPane jRootPane) throws RubricaException {
         String aliasString = null;
         // Con que certificado firmar?
         List<Alias> signingAliases = KeyStoreUtilities.getSigningAliases(keyStore);
@@ -236,23 +237,13 @@ public class CertUtils {
         if (signingAliases.size() == 1) {
             aliasString = signingAliases.get(0).getAlias();
         } else {
-            Alias alias = (Alias) JOptionPane.showInputDialog(null, "Escoja...", "Certificado para firmar",
+            Alias alias = (Alias) JOptionPane.showInputDialog(jRootPane == null ? null : jRootPane, "Escoja...", "Certificado para firmar",
                     JOptionPane.QUESTION_MESSAGE, null, signingAliases.toArray(), signingAliases.get(0));
             if (alias != null) {
                 aliasString = alias.getAlias();
             }
         }
         return aliasString;
-    }
-
-    public static X509Certificate getCert(KeyStore ks) throws KeyStoreException, RubricaException {
-        String alias = seleccionarAlias(ks);
-        if (alias != null) {
-            X509Certificate cert = (X509Certificate) ks.getCertificate(alias);
-            return cert;
-        } else {
-            return null;
-        }
     }
 
     public static X509Certificate getCert(KeyStore ks, String alias) throws KeyStoreException, RubricaException {

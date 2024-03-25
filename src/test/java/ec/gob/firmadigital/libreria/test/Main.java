@@ -96,7 +96,7 @@ public class Main {
         byte[] docByteArry = DocumentoUtils.loadFile(file);
 
         byte[] signed = null;
-        String alias = seleccionarAlias(keyStore);
+        String alias = seleccionarAlias(keyStore, null);
         PrivateKey key = (PrivateKey) keyStore.getKey(alias, PASSWORD.toCharArray());
         Certificate[] certChain = keyStore.getCertificateChain(alias);
         //////////////////////////////////////////////////////
@@ -148,7 +148,7 @@ public class Main {
         byte[] docByteArry = DocumentoUtils.loadFile(file);
 
         byte[] signed = null;
-        String alias = seleccionarAlias(keyStore);
+        String alias = seleccionarAlias(keyStore, null);
         PrivateKey key = (PrivateKey) keyStore.getKey(alias, PASSWORD.toCharArray());
 
         X509CertificateUtils x509CertificateUtils = new X509CertificateUtils();
@@ -195,7 +195,7 @@ public class Main {
         byte[] docByteArry = DocumentoUtils.loadFile(file);
 
         byte[] signed = null;
-        String alias = seleccionarAlias(keyStore);
+        String alias = seleccionarAlias(keyStore, null);
         PrivateKey key = (PrivateKey) keyStore.getKey(alias, PASSWORD.toCharArray());
 
         X509CertificateUtils x509CertificateUtils = new X509CertificateUtils();
@@ -240,7 +240,7 @@ public class Main {
     private static void validarCertificado() throws IOException, KeyStoreException, Exception {
         KeyStore keyStore = getKeyStore(PKCS12, PASSWORD, null);
 //        KeyStore keyStore = getKeyStore(null, PASSWORD, "TOKEN");"TOKEN", "PCSC"
-        String alias = seleccionarAlias(keyStore);
+        String alias = seleccionarAlias(keyStore, null);
         X509Certificate x509Certificate = (X509Certificate) keyStore.getCertificate(alias);
         System.out.println("UID: " + Utils.getUID(x509Certificate));
         System.out.println("CN: " + Utils.getCN(x509Certificate));
