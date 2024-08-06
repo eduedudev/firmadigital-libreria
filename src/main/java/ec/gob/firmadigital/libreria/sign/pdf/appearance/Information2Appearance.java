@@ -15,7 +15,6 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-
 package ec.gob.firmadigital.libreria.sign.pdf.appearance;
 
 import java.io.IOException;

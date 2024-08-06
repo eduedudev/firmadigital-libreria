@@ -50,6 +50,7 @@ public class PrivateKeyAndCertificateChain {
         return certificateChain;
     }
 
+    @Override
     public String toString() {
         return alias;
     }

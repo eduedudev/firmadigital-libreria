@@ -15,7 +15,6 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-
 package ec.gob.firmadigital.libreria.sign;
 
 public abstract class BaseSigner implements RubricaSigner {
@@ -23,11 +22,11 @@ public abstract class BaseSigner implements RubricaSigner {
     protected DigestAlgorithm digestAlgorithm;
     protected EncryptionAlgorithm encryptionAlgorithm;
 
-    protected BaseSigner(DigestAlgorithm digestAlgorithm,EncryptionAlgorithm encryptionAlgorithm) {
+    protected BaseSigner(DigestAlgorithm digestAlgorithm, EncryptionAlgorithm encryptionAlgorithm) {
         this.digestAlgorithm = digestAlgorithm;
         this.encryptionAlgorithm = encryptionAlgorithm;
     }
-    
+
     @Override
     public DigestAlgorithm getDigestAlgorithm() {
         return digestAlgorithm;

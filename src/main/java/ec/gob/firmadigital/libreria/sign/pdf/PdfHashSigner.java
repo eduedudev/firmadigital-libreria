@@ -15,16 +15,27 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package ec.gob.firmadigital.libreria.sign.pdf.appearance;
+package ec.gob.firmadigital.libreria.sign.pdf;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.security.GeneralSecurityException;
+import java.security.PrivateKey;
+import java.security.cert.Certificate;
+import java.util.Properties;
 
-import com.itextpdf.kernel.geom.Rectangle;
-import com.itextpdf.kernel.pdf.PdfDocument;
-import com.itextpdf.signatures.PdfSignatureAppearance;
+public interface PdfHashSigner {
 
-public interface CustomAppearance {
+    void emptySignature(InputStream is, Certificate[] certChain, Properties params)
+            throws IOException;
 
-    void createCustomAppearance(PdfSignatureAppearance signatureAppearance, int pageNumber, PdfDocument pdfDocument,
-            Rectangle signaturePositionOnPage) throws IOException;
+    void createSignature(ByteArrayOutputStream baos, String fieldName, PrivateKey pk, Certificate[] chain)
+            throws IOException, GeneralSecurityException;
+
+    String getFieldName();
+    
+    ByteArrayOutputStream getDocumentoFirmado();
+
+    ByteArrayOutputStream getDocumentoPorFirmar();
 }

@@ -15,18 +15,20 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-
-
 package ec.gob.firmadigital.libreria.sign;
 
 import java.security.Key;
 
 public enum EncryptionAlgorithm {
 
-    /** RSA */
+    /**
+     * RSA
+     */
     RSA("RSA");
 
-    /** The name of the algorithm */
+    /**
+     * The name of the algorithm
+     */
     private String name;
 
     /**
@@ -40,7 +42,7 @@ public enum EncryptionAlgorithm {
 
     /**
      * Get the algorithm name
-     * 
+     *
      * @return the name
      */
     public String getName() {

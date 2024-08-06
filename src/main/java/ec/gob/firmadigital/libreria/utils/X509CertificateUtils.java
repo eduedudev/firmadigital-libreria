@@ -58,7 +58,7 @@ public class X509CertificateUtils {
     public String getRevocado() {
         return revocado;
     }
-    
+
     public String getError() {
         return error;
     }
