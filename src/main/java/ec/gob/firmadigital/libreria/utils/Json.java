@@ -1,12 +1,26 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2024 
+ * Authors: Misael Fernández
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.*
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 package ec.gob.firmadigital.libreria.utils;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import java.text.SimpleDateFormat;
 
@@ -24,7 +38,7 @@ public class Json {
 
     public static String generarJsonVersion(String sistemaOperativo, String aplicacion, String versionApp, String sha) {
         if (sistemaOperativo != null && versionApp != null && sha != null) {
-            com.google.gson.JsonObject gsonObject = new com.google.gson.JsonObject();
+            JsonObject gsonObject = new JsonObject();
             gsonObject.addProperty("sistemaOperativo", sistemaOperativo);
             gsonObject.addProperty("aplicacion", aplicacion);
             gsonObject.addProperty("versionApp", versionApp);
@@ -41,9 +55,9 @@ public class Json {
 
     public static String generarJsonDocumentoFirmado(byte[] byteDocumentoSigned, Documento documento) {
         //creacion del JSON
-        com.google.gson.JsonArray gsonArray = new com.google.gson.JsonArray();
-        com.google.gson.JsonObject jsonObjectDocumento = null;
-        jsonObjectDocumento = new com.google.gson.JsonObject();
+        JsonArray gsonArray = new JsonArray();
+        JsonObject jsonObjectDocumento = null;
+        jsonObjectDocumento = new JsonObject();
         jsonObjectDocumento.addProperty("signValidate", documento.getSignValidate());
         jsonObjectDocumento.addProperty("docValidate", documento.getDocValidate());
         if (byteDocumentoSigned != null) {
@@ -52,10 +66,10 @@ public class Json {
         jsonObjectDocumento.addProperty("error", documento.getError());
 
         //Arreglo de Certificado(s)
-        com.google.gson.JsonArray jsonDocumentoArray = new com.google.gson.JsonArray();
-        com.google.gson.JsonObject jsonObjectCertificado = null;
+        JsonArray jsonDocumentoArray = new JsonArray();
+        JsonObject jsonObjectCertificado = null;
         for (Certificado certificado : documento.getCertificados()) {
-            jsonObjectCertificado = new com.google.gson.JsonObject();
+            jsonObjectCertificado = new JsonObject();
             jsonObjectCertificado.addProperty("issuedTo", certificado.getIssuedTo());
             jsonObjectCertificado.addProperty("issuedBy", certificado.getIssuedBy());
             jsonObjectCertificado.addProperty("validFrom", simpleDateFormatISO8601.format(certificado.getValidFrom().getTime()));
@@ -79,17 +93,17 @@ public class Json {
 
             jsonDocumentoArray.add(jsonObjectCertificado);
         }
-        jsonObjectDocumento.add("certificado", new com.google.gson.JsonParser()
-                .parse(new com.google.gson.Gson().toJson(jsonDocumentoArray)).getAsJsonArray());
+        jsonObjectDocumento.add("certificado", new JsonParser()
+                .parse(new Gson().toJson(jsonDocumentoArray)).getAsJsonArray());
         gsonArray.add(jsonObjectDocumento);
         return gsonArray.toString();
     }
 
     public static String generarJsonCertificado(Certificado certificado) {
         //creacion del JSON
-        com.google.gson.JsonArray gsonArray = new com.google.gson.JsonArray();
-        com.google.gson.JsonObject jsonObjectCertificado = null;
-        jsonObjectCertificado = new com.google.gson.JsonObject();
+        JsonArray gsonArray = new JsonArray();
+        JsonObject jsonObjectCertificado = null;
+        jsonObjectCertificado = new JsonObject();
         jsonObjectCertificado.addProperty("issuedTo", certificado.getIssuedTo());
         jsonObjectCertificado.addProperty("issuedBy", certificado.getIssuedBy());
         jsonObjectCertificado.addProperty("validFrom", simpleDateFormatISO8601.format(certificado.getValidFrom().getTime()));
@@ -121,8 +135,8 @@ public class Json {
     }
 
     public static String generarJsonDatosUsuario(DatosUsuario datosUsuario) {
-        com.google.gson.JsonObject jsonObjectDatosUsuario = null;
-        jsonObjectDatosUsuario = new com.google.gson.JsonObject();
+        JsonObject jsonObjectDatosUsuario = null;
+        jsonObjectDatosUsuario = new JsonObject();
         jsonObjectDatosUsuario.addProperty("cedula", datosUsuario.getCedula());
         jsonObjectDatosUsuario.addProperty("nombre", datosUsuario.getNombre());
         jsonObjectDatosUsuario.addProperty("apellido", datosUsuario.getApellido());

@@ -17,6 +17,8 @@
  */
 package ec.gob.firmadigital.libreria.webServices;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import ec.gob.firmadigital.libreria.utils.PropertiesUtils;
 import java.io.File;
 import java.io.IOException;
@@ -37,8 +39,6 @@ import jakarta.ws.rs.client.Invocation;
 import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.Form;
 import jakarta.ws.rs.core.Response;
-import java.util.Arrays;
-import java.util.Base64;
 import org.glassfish.jersey.client.ClientProperties;
 
 /**
@@ -49,10 +49,10 @@ import org.glassfish.jersey.client.ClientProperties;
 public class Main {
 
     private static final String API_KEY_HEADER_PARAMETER = "X-API-KEY";
-    private static final String URLAPI = "https://impapi.firmadigital.gob.ec/api";//servidor
-//    private static final String URLAPI = "http://testapi.firmadigital.gob.ec:8080/api";//local
-    private static final String URLWS = "https://impws.firmadigital.gob.ec/servicio";//servidor
-//    private static final String URLWS = "http://testws.firmadigital.gob.ec:8080/servicio";//local
+//    private static final String URLAPI = "https://impapi.firmadigital.gob.ec/api";//servidor
+    private static final String URLAPI = "http://testapi.firmadigital.gob.ec:8080/api";//local
+//    private static final String URLWS = "https://impws.firmadigital.gob.ec/servicio";//servidor
+    private static final String URLWS = "http://testws.firmadigital.gob.ec:8080/servicio";//local
     private static final String PKCS12 = "/home/mfernandez/appFirmaEC/pruebaPre2024.p12";
 //    private static final String PKCS12 = "/home/mfernandez/appFirmaEC/pruebaPro.p12";
     private static final String PASSWORD = "123456";
@@ -84,8 +84,8 @@ public class Main {
     //Variables JWT
 
     public static void main(String args[]) throws Exception {
-//         generarJWT(sistema, apiKey);
-        transversalFirmarDocumento();
+        generarJWT(sistema, apiKey);
+//        transversalFirmarDocumento();
 //        transversalValidarCertificado();
 //        appFirmarDocumento();
 //        appVerificarDocumento();
@@ -116,6 +116,23 @@ public class Main {
         int status = response.getStatus();
         String result = response.readEntity(String.class);
         System.out.println("Status: " + status + "\nResult: " + result);
+
+        JsonObject jsonObject = new Gson().fromJson(result, JsonObject.class);
+        if (result != null) {
+            if (jsonObject.get("statusCode").getAsInt() == 200) {
+                result = jsonObject.get("response").getAsString();
+            } else {
+                result = jsonObject.get("error").getAsString();
+            }
+        }
+        System.out.println("result: " + result);
+
+//        try {
+//            //Ponemos a "Dormir" el programa durante los ms que queremos
+//            Thread.sleep(6 * 1000);
+//        } catch (Exception e) {
+//            System.out.println(e);
+//        }
         return result;
     }
 
