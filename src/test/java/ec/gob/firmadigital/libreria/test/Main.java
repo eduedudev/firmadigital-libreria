@@ -431,7 +431,7 @@ public class Main {
         //String ury = String.valueOf(Integer.parseInt(lly) - 36);
         //INFERIOR CENTRADO (ancho pie pagina)
         //String llx = "100";
-        //String lly = "80";&
+        //String lly = "85";
         //String urx = String.valueOf(Integer.parseInt(llx) + 430);
         //String ury = String.valueOf(Integer.parseInt(lly) - 25);
         //INFERIOR DERECHA
@@ -444,7 +444,7 @@ public class Main {
         params.setProperty(PDFSignerItext.SIGNING_LOCATION, "Teletrabajo");
         params.setProperty(PDFSignerItext.SIGNING_REASON, "Firmado digitalmente con RUBRICA");
         params.setProperty(PDFSignerItext.SIGN_TIME, TiempoUtils.getFechaHoraServidor(null, PropertiesUtils.versionBase64()));
-        params.setProperty(PDFSignerItext.LAST_PAGE, "1");
+        params.setProperty(PDFSignerItext.LAST_PAGE, "6");
         params.setProperty(PDFSignerItext.TYPE_SIG, "QR");
         params.setProperty(PDFSignerItext.INFO_QR, "Firmado digitalmente con RUBRICA\nhttps://minka.gob.ec/rubrica/rubrica");
         //params.setProperty(PDFSignerItext.TYPE_SIG, "information2");

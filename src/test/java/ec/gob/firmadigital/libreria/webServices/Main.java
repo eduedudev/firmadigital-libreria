@@ -49,10 +49,10 @@ import org.glassfish.jersey.client.ClientProperties;
 public class Main {
 
     private static final String API_KEY_HEADER_PARAMETER = "X-API-KEY";
-//    private static final String URLAPI = "https://impapi.firmadigital.gob.ec/api";//servidor
-    private static final String URLAPI = "http://testapi.firmadigital.gob.ec:8080/api";//local
-//    private static final String URLWS = "https://impws.firmadigital.gob.ec/servicio";//servidor
-    private static final String URLWS = "http://testws.firmadigital.gob.ec:8080/servicio";//local
+    private static final String URLAPI = "https://impapi.firmadigital.gob.ec/api";//servidor
+//    private static final String URLAPI = "http://testapi.firmadigital.gob.ec:8080/api";//local
+    private static final String URLWS = "https://impws.firmadigital.gob.ec/servicio";//servidor
+//    private static final String URLWS = "http://testws.firmadigital.gob.ec:8080/servicio";//local
     private static final String PKCS12 = "/home/mfernandez/appFirmaEC/pruebaPre2024.p12";
 //    private static final String PKCS12 = "/home/mfernandez/appFirmaEC/pruebaPro.p12";
     private static final String PASSWORD = "123456";
@@ -84,7 +84,7 @@ public class Main {
     //Variables JWT
 
     public static void main(String args[]) throws Exception {
-        generarJWT(sistema, apiKey);
+//        generarJWT(sistema, apiKey);
 //        transversalFirmarDocumento();
 //        transversalValidarCertificado();
 //        appFirmarDocumento();

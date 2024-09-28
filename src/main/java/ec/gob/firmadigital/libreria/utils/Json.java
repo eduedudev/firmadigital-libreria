@@ -99,6 +99,43 @@ public class Json {
         return gsonArray.toString();
     }
 
+    public static String generarJsonDocumentoFirmadoTransversal(byte[] byteDocumentoSigned, Documento documento) {
+        //creacion del JSON
+        JsonArray gsonArray = new JsonArray();
+        JsonObject jsonObjectDocumento = null;
+        jsonObjectDocumento = new JsonObject();
+        jsonObjectDocumento.addProperty("validarFirma", documento.getSignValidate());
+        jsonObjectDocumento.addProperty("validarDocumento", documento.getDocValidate());
+        if (byteDocumentoSigned != null) {
+            jsonObjectDocumento.addProperty("documentoFirmado", java.util.Base64.getEncoder().encodeToString(byteDocumentoSigned));
+        }
+        jsonObjectDocumento.addProperty("error", documento.getError());
+
+        //Arreglo de Certificado(s)
+        JsonArray jsonDocumentoArray = new JsonArray();
+        JsonObject jsonObjectCertificado = null;
+        for (Certificado certificado : documento.getCertificados()) {
+            jsonObjectCertificado = new JsonObject();
+            jsonObjectCertificado.addProperty("cedula", certificado.getDatosUsuario().getCedula());
+            jsonObjectCertificado.addProperty("nombresApeilldos", certificado.getIssuedTo());
+            jsonObjectCertificado.addProperty("emitidoPor", certificado.getIssuedBy());
+            jsonObjectCertificado.addProperty("validoDesde", simpleDateFormatISO8601.format(certificado.getValidFrom().getTime()));
+            jsonObjectCertificado.addProperty("validoHasta", simpleDateFormatISO8601.format(certificado.getValidTo().getTime()));
+            jsonObjectCertificado.addProperty("fechaRevocado", certificado.getRevocated() != null ? simpleDateFormatISO8601.format(certificado.getRevocated().getTime()):null);
+            jsonObjectCertificado.addProperty("certificadoDigitalValido", certificado.getDatosUsuario().isCertificadoDigitalValido());
+            jsonObjectCertificado.addProperty("fechaDocumentoFirmado", simpleDateFormatISO8601.format(certificado.getGenerated().getTime()));
+            jsonObjectCertificado.addProperty("razon", certificado.getDocReason());
+            jsonObjectCertificado.addProperty("localizacion", certificado.getDocLocation());
+            jsonObjectCertificado.addProperty("selladoTiempo", certificado.getDatosUsuario().getSelladoTiempo());
+
+            jsonDocumentoArray.add(jsonObjectCertificado);
+        }
+        jsonObjectDocumento.add("certificado", new JsonParser()
+                .parse(new Gson().toJson(jsonDocumentoArray)).getAsJsonArray());
+        gsonArray.add(jsonObjectDocumento);
+        return gsonArray.toString();
+    }
+
     public static String generarJsonCertificado(Certificado certificado) {
         //creacion del JSON
         JsonArray gsonArray = new JsonArray();
@@ -130,6 +167,23 @@ public class Json {
         JsonObject jsonObjectDatosUsuario = new Gson().fromJson(json, JsonObject.class);
         jsonObjectCertificado.add("datosUsuario", jsonObjectDatosUsuario);
 
+        gsonArray.add(jsonObjectCertificado);
+        return gsonArray.toString();
+    }
+
+    public static String generarJsonCertificadoTransversal(Certificado certificado) {
+        //creacion del JSON
+        JsonArray gsonArray = new JsonArray();
+        JsonObject jsonObjectCertificado = null;
+        if (certificado.getDatosUsuario() != null) {
+            jsonObjectCertificado = new JsonObject();
+            jsonObjectCertificado.addProperty("cedula", certificado.getDatosUsuario().getCedula());
+            jsonObjectCertificado.addProperty("nombresApeilldos", certificado.getIssuedTo());
+            jsonObjectCertificado.addProperty("emitidoPor", certificado.getIssuedBy());
+            jsonObjectCertificado.addProperty("validoDesde", simpleDateFormatISO8601.format(certificado.getValidFrom().getTime()));
+            jsonObjectCertificado.addProperty("validoHasta", simpleDateFormatISO8601.format(certificado.getValidTo().getTime()));
+            jsonObjectCertificado.addProperty("fechaRevocado", certificado.getRevocated() != null ? simpleDateFormatISO8601.format(certificado.getRevocated().getTime()):null);
+        }
         gsonArray.add(jsonObjectCertificado);
         return gsonArray.toString();
     }
