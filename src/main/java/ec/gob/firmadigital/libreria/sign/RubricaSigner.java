@@ -15,7 +15,6 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-
 package ec.gob.firmadigital.libreria.sign;
 
 import java.security.GeneralSecurityException;
@@ -42,13 +41,13 @@ public interface RubricaSigner {
     EncryptionAlgorithm getEncryptionAlgorithm();
 
     /**
-     * Signs the given message using the encryption algorithm in combination with
-     * the hash algorithm.
-     * 
+     * Signs the given message using the encryption algorithm in combination
+     * with the hash algorithm.
+     *
      * @param message The message you want to be hashed and signed.
      * @return A signed message digest.
-     * @throws GeneralSecurityException when requested cryptographic algorithm or
-     *                                  security provider is not available
+     * @throws GeneralSecurityException when requested cryptographic algorithm
+     * or security provider is not available
      */
     byte[] sign(byte[] message) throws GeneralSecurityException;
 }

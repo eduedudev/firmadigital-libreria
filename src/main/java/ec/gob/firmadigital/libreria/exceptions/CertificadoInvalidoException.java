@@ -27,7 +27,11 @@ public class CertificadoInvalidoException extends Exception {
 
     private static final long serialVersionUID = 1L;
 
-    public CertificadoInvalidoException(String msg) {
-        super(msg);
+    public CertificadoInvalidoException() {
+        super();
+    }
+
+    public CertificadoInvalidoException(String message) {
+        super(message);
     }
 }

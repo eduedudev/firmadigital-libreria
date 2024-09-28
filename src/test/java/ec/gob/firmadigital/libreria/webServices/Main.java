@@ -17,6 +17,8 @@
  */
 package ec.gob.firmadigital.libreria.webServices;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import ec.gob.firmadigital.libreria.utils.PropertiesUtils;
 import java.io.File;
 import java.io.IOException;
@@ -46,11 +48,13 @@ import org.glassfish.jersey.client.ClientProperties;
  */
 public class Main {
 
+    private static final String API_KEY_HEADER_PARAMETER = "X-API-KEY";
     private static final String URLAPI = "https://impapi.firmadigital.gob.ec/api";//servidor
 //    private static final String URLAPI = "http://testapi.firmadigital.gob.ec:8080/api";//local
     private static final String URLWS = "https://impws.firmadigital.gob.ec/servicio";//servidor
 //    private static final String URLWS = "http://testws.firmadigital.gob.ec:8080/servicio";//local
-    private static final String PKCS12 = "/home/mfernandez/appFirmaEC/prueba.p12";
+    private static final String PKCS12 = "/home/mfernandez/appFirmaEC/pruebaPre2024.p12";
+//    private static final String PKCS12 = "/home/mfernandez/appFirmaEC/pruebaPro.p12";
     private static final String PASSWORD = "123456";
     private static final String FILE = "/home/mfernandez/Test/documento_blanco.pdf";
     private static String cedula = "1234567890";
@@ -80,11 +84,125 @@ public class Main {
     //Variables JWT
 
     public static void main(String args[]) throws Exception {
+//        generarJWT(sistema, apiKey);
+//        transversalFirmarDocumento();
+//        transversalValidarCertificado();
 //        appFirmarDocumento();
 //        appVerificarDocumento();
 //        appValidarCertificado();
 //        appFirmarDocumentoTransversal();
-        generarJWT(sistema, apiKey, tipoEstampado, pagina, llx, lly, certificado, cedula, numeroCopias, new File(FILE));
+//        generarJWTDocumento(sistema, apiKey, tipoEstampado, pagina, llx, lly, certificado, cedula, numeroCopias, new File(FILE));
+    }
+
+    private static String generarJWT(String sistema, String apiKey) throws Exception {
+        String urlapi = URLAPI + "/getjwt";
+
+        Client client = ClientBuilder.newClient();
+        client.property(ClientProperties.CONNECT_TIMEOUT, TIME_OUT);
+        client.property(ClientProperties.READ_TIMEOUT, TIME_OUT);
+        WebTarget target = client.target(urlapi);
+        Invocation.Builder builder = target.request().header(API_KEY_HEADER_PARAMETER, apiKey);
+
+        //creacion del JSON
+        com.google.gson.JsonObject gsonObject = null;
+        gsonObject = new com.google.gson.JsonObject();
+        gsonObject.addProperty("sistemaTransversal", sistema);
+
+        Form form = new Form();
+        form.param("base64", java.util.Base64.getEncoder().encodeToString(gsonObject.toString().getBytes()));
+
+        Invocation invocation = builder.buildPost(Entity.form(form));
+        Response response = invocation.invoke();
+        int status = response.getStatus();
+        String result = response.readEntity(String.class);
+        System.out.println("Status: " + status + "\nResult: " + result);
+
+        JsonObject jsonObject = new Gson().fromJson(result, JsonObject.class);
+        if (result != null) {
+            if (jsonObject.get("statusCode").getAsInt() == 200) {
+                result = jsonObject.get("response").getAsString();
+            } else {
+                result = jsonObject.get("error").getAsString();
+            }
+        }
+        System.out.println("result: " + result);
+
+//        try {
+//            //Ponemos a "Dormir" el programa durante los ms que queremos
+//            Thread.sleep(6 * 1000);
+//        } catch (Exception e) {
+//            System.out.println(e);
+//        }
+        return result;
+    }
+
+    private static void transversalFirmarDocumento() throws IOException, KeyStoreException, Exception {
+        String tipoEstampado = "QR";//QR, information1, information2
+        int pagina = 1;//pagina en donde se estampa la firma (sin el parametro, se estampa en la ultima hoja)
+        //SUPERIOR IZQUIERDA
+        String llx = "10";
+        String lly = "830";
+        //FIRMAR
+        String urlws = URLAPI + "/transversalfirmardocumento";
+        String passwordBase64 = java.util.Base64.getEncoder().encodeToString(PASSWORD.getBytes());
+        File pkcs12 = new File(PKCS12);
+        String pkcs12Base64 = java.util.Base64.getEncoder().encodeToString(Files.readAllBytes(pkcs12.toPath()));
+        File file = new File(FILE);
+        String fileBase64 = java.util.Base64.getEncoder().encodeToString(Files.readAllBytes(file.toPath()));
+
+        Client client = ClientBuilder.newClient();
+        client.property(ClientProperties.CONNECT_TIMEOUT, TIME_OUT);
+        client.property(ClientProperties.READ_TIMEOUT, TIME_OUT);
+        WebTarget target = client.target(urlws);
+        Invocation.Builder builder = target.request();
+
+        //creacion del JSON
+        com.google.gson.JsonObject gsonObject = new com.google.gson.JsonObject();
+        gsonObject = new com.google.gson.JsonObject();
+        gsonObject.addProperty("versionFirmaEC", "RUBRICA");
+        gsonObject.addProperty("formatoDocumento", "PDF");
+        gsonObject.addProperty("llx", llx);
+        gsonObject.addProperty("lly", lly);
+        gsonObject.addProperty("pagina", pagina);
+        gsonObject.addProperty("tipoEstampado", tipoEstampado);
+        System.out.println("gsonObject: " + gsonObject.toString());
+
+        Form form = new Form();
+        form.param("jwt", generarJWT(sistema, apiKey));
+        form.param("pkcs12", pkcs12Base64);
+        form.param("password", passwordBase64);
+        form.param("documento", fileBase64);
+        form.param("json", gsonObject.toString());
+        form.param("base64", PropertiesUtils.versionBase64());
+
+        Invocation invocation = builder.buildPost(Entity.form(form));
+        Response response = invocation.invoke();
+        System.out.println("Status: " + response.getStatus() + "\nResult: " + response.readEntity(String.class));
+    }
+
+    private static void transversalValidarCertificado() throws IOException, KeyStoreException, Exception {
+        String urlws = URLAPI + "/transversalvalidarcertificadodigital";
+        String passwordBase64 = java.util.Base64.getEncoder().encodeToString(PASSWORD.getBytes());
+        File pkcs12 = new File(PKCS12);
+        String pkcs12Base64 = java.util.Base64.getEncoder().encodeToString(Files.readAllBytes(pkcs12.toPath()));
+
+        Client client = ClientBuilder.newClient();
+        client.property(ClientProperties.CONNECT_TIMEOUT, TIME_OUT);
+        client.property(ClientProperties.READ_TIMEOUT, TIME_OUT);
+        WebTarget target = client.target(urlws);
+        Invocation.Builder builder = target.request();
+
+        Form form = new Form();
+        form.param("jwt", generarJWT(sistema, apiKey));
+        form.param("pkcs12", pkcs12Base64);
+        form.param("password", passwordBase64);
+        form.param("base64", PropertiesUtils.versionBase64());
+
+        Invocation invocation = builder.buildPost(Entity.form(form));
+        Response response = invocation.invoke();
+        int status = response.getStatus();
+        String result = response.readEntity(String.class);
+        System.out.println("Status: " + status + "\nResult: " + result);
     }
 
     private static void appFirmarDocumento() throws IOException, KeyStoreException, Exception {
@@ -175,13 +293,13 @@ public class Main {
         System.out.println("Status: " + status + "\nResult: " + result);
     }
 
-    private static String generarJWT(String sistema, String apiKey, String tipoEstampado, int pagina, String llx, String lly, int certificado, String cedula, int numeroCopias, File documento) throws KeyStoreException, Exception {
+    private static String generarJWTDocumento(String sistema, String apiKey, String tipoEstampado, int pagina, String llx, String lly, int certificado, String cedula, int numeroCopias, File documento) throws KeyStoreException, Exception {
         String result = null;
 
         //configuracion de cabecera
         HttpPost post = new HttpPost(URLWS + "/documentos");
         post.addHeader("content-type", "application/json");
-        post.addHeader("X-API-KEY", apiKey);
+        post.addHeader(API_KEY_HEADER_PARAMETER, apiKey);
 
         StringBuilder entity = new StringBuilder();
 
@@ -259,7 +377,7 @@ public class Main {
         String jwt = null;
         //PRUEBAS GENERANDO JWT
         if (documento.exists() == true) {
-            jwt = generarJWT(sistema, apiKey, tipoEstampado, pagina, llx, lly, certificado, cedula, numeroCopias, documento);
+            jwt = generarJWTDocumento(sistema, apiKey, tipoEstampado, pagina, llx, lly, certificado, cedula, numeroCopias, documento);
         } else {
             System.out.println("No se encontró el documento: " + documento.getPath());
         }

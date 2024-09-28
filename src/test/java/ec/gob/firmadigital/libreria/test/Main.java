@@ -34,6 +34,7 @@ import java.time.temporal.TemporalAccessor;
 import java.util.Date;
 import java.util.Properties;
 import com.itextpdf.signatures.DigestAlgorithms;
+import com.itextpdf.signatures.TSAClientBouncyCastle;
 import ec.gob.firmadigital.libreria.certificate.CertEcUtils;
 import ec.gob.firmadigital.libreria.certificate.to.Certificado;
 import ec.gob.firmadigital.libreria.certificate.to.DatosUsuario;
@@ -52,16 +53,20 @@ import ec.gob.firmadigital.libreria.sign.PrivateKeySigner;
 import ec.gob.firmadigital.libreria.sign.SignConstants;
 import ec.gob.firmadigital.libreria.sign.pdf.PDFSignerItext;
 import ec.gob.firmadigital.libreria.sign.pdf.PadesBasicSigner;
+import ec.gob.firmadigital.libreria.sign.pdf.PadesHashSigner;
 import ec.gob.firmadigital.libreria.sign.pdf.RectanguloUtil;
 import ec.gob.firmadigital.libreria.sign.xades.XAdESSigner;
 import ec.gob.firmadigital.libreria.utils.FileUtils;
 import ec.gob.firmadigital.libreria.utils.Json;
+import ec.gob.firmadigital.libreria.utils.PropertiesTsa;
 import ec.gob.firmadigital.libreria.utils.PropertiesUtils;
 import ec.gob.firmadigital.libreria.utils.TiempoUtils;
 import ec.gob.firmadigital.libreria.utils.Utils;
 import ec.gob.firmadigital.libreria.utils.UtilsCrlOcsp;
 import ec.gob.firmadigital.libreria.utils.X509CertificateUtils;
 import ec.gob.firmadigital.libreria.validaciones.DocumentoUtils;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
 /**
@@ -72,23 +77,24 @@ import java.io.InputStream;
 public class Main {
 
     // ARCHIVO
-    private static final String PKCS12 = "/home/mfernandez/appFirmaEC/prueba.p12";
+    private static final String PKCS12 = "/home/mfernandez/appFirmaEC/pruebaPre2024.p12";
     private static final String PASSWORD = "123456";
 //    private static final String FILE = "/home/mfernandez/Descargas/Manual Usuario FirmaEC v3.pdf";
 //    private static final String FILE = "/home/mfernandez/Test/Verify/09.pdf";
-    private static final String FILE = "/home/mfernandez/Test/documento_blanco.pdf";
-    private static String hashAlgorithm = "SHA512";
+    private static final String FILE = "/home/mfernandez/appFirmaEC/documento_blanco.pdf";
+    private static final String HASH_ALGORITHM = "SHA512";
 
     public static void main(String args[]) throws KeyStoreException, Exception {
-//        firmarDocumentoTrifasica(FILE);
+//        firmarDocumentoHashTrifasica(FILE);
+        firmarDocumentoTrifasica(FILE);
 //        firmarDocumentoPDF(FILE);
 //        firmarDocumentoXML(FILE);
 //        validarCertificado();
-        verificarDocumento(FILE);
+//        verificarDocumento(FILE);
 //        fechaHora(240);//espera en segundos
     }
 
-    private static void firmarDocumentoTrifasica(String file) throws KeyStoreException, Exception {
+    private static void firmarDocumentoHashTrifasica(String file) throws KeyStoreException, Exception {
         KeyStore keyStore = getKeyStore(PKCS12, PASSWORD, null);
 //        KeyStore keyStore = getKeyStore(null, PASSWORD, "TOKEN");"TOKEN", "PCSC"
 
@@ -103,7 +109,88 @@ public class Main {
         Document document = new InMemoryDocument(docByteArry);
         try (InputStream is = document.openStream()) {
             // Crear un RubricaSigner para firmar el MessageDigest del documento
-            PrivateKeySigner signer = new PrivateKeySigner(key, DigestAlgorithm.forName(hashAlgorithm));
+            PrivateKeySigner signer = new PrivateKeySigner(key, DigestAlgorithm.forName(HASH_ALGORITHM));
+            // Crear un PdfSigner para firmar el documento
+            PadesHashSigner padesHashSigner = new PadesHashSigner(signer);
+            // Configurar el PdfSigner
+            Properties properties = parametros();
+            // Firmar el documento
+            padesHashSigner.emptySignature(is, certChain, properties);
+            String fieldName = padesHashSigner.getFieldName();
+            ByteArrayOutputStream documentoPorFirmar = padesHashSigner.getDocumentoPorFirmar();
+            padesHashSigner.createSignature(documentoPorFirmar, fieldName, key, certChain);
+            ByteArrayOutputStream documentoFirmado = padesHashSigner.getDocumentoFirmado();
+            signed = documentoFirmado.toByteArray();
+        }
+        //////////////////////////////////////////////////////
+        System.out.println("final firma\n-------");
+        ////// Permite guardar el archivo en el equipo y luego lo abre
+        String nombreDocumento = FileUtils.crearNombreFirmado(new File(file), FileUtils.getExtension(signed));
+        FileOutputStream fos = new java.io.FileOutputStream(nombreDocumento);
+        //Abrir documento
+        new java.util.Timer().schedule(new java.util.TimerTask() {
+            @Override
+            public void run() {
+                try {
+                    FileUtils.abrirDocumento(nombreDocumento);
+                    System.out.println(nombreDocumento);
+                    // verificarDocumento(nombreDocumento);
+                } catch (java.lang.Exception ex) {
+                    ex.printStackTrace();
+                } finally {
+                    System.exit(0);
+                }
+            }
+        }, 3000); //espera 3 segundos
+        fos.write(signed);
+        fos.close();
+    }
+
+    private static void firmarDocumentoTrifasica(String file) throws KeyStoreException, Exception {
+        KeyStore keyStore = getKeyStore(PKCS12, PASSWORD, null);
+//        KeyStore keyStore = getKeyStore(null, PASSWORD, "TOKEN");"TOKEN", "PCSC"
+
+        ////// LEER PDF:
+        byte[] docByteArry = DocumentoUtils.loadFile(file);
+
+        byte[] signed = null;
+        String alias = seleccionarAlias(keyStore, null);
+        PrivateKey key = (PrivateKey) keyStore.getKey(alias, PASSWORD.toCharArray());
+        Certificate[] certChain = keyStore.getCertificateChain(alias);
+/////////////////////
+//            // Calculate SHA256 hash of the PDF document
+//            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+//            byte[] hash = digest.digest(is.readAllBytes());
+//            String pdfHash = Base64.getEncoder().encodeToString(hash);
+//            System.out.println("pdfHash: " + pdfHash);
+//
+//            ICrlClient crlClient = new CrlClientOnline();
+//            OCSPVerifier ocspVerifier = new OCSPVerifier(null, null);
+//            IOcspClient ocspClient = new OcspClientBouncyCastle(ocspVerifier);
+//            ITSAClient tsc = new TSAClientBouncyCastle(tsaUrl, tsaUsername, tsaPassword);
+//            Collection<ICrlClient> crlClients = Collections.singleton(crlClient);
+/////////////////////
+//            // Create TSAClient with optional authentication
+//            PropertiesTsa propertiesTsa = new PropertiesTsa();
+//            TSAClientBouncyCastle tsaClient = new TSAClientBouncyCastle(propertiesTsa.getTsaUrl(), propertiesTsa.getTsaUsername(), propertiesTsa.getTsaPassword());
+//            // Send timestamping request and get response
+//            byte[] timestampToken;
+//            try (ByteArrayInputStream bais = new ByteArrayInputStream(docByteArry)) {
+//                timestampToken = tsaClient.getTimeStampToken(bais.readAllBytes());
+//            } catch (Exception e) {
+//                // Handle exception
+//                e.printStackTrace();
+//                return;
+//            }
+////            // Validate and process the timestamp token (use appropriate logic)
+////            FileUtils.saveByteArrayToDisc(timestampToken, "/home/mfernandez/timestampToken");
+////            System.out.println("Timestamp Token obtained!");
+/////////////////////
+        //////////////////////////////////////////////////////
+        Document document = new InMemoryDocument(docByteArry);
+        try (InputStream is = document.openStream()) {
+            // Crear un RubricaSigner para firmar el MessageDigest del documento
+            PrivateKeySigner signer = new PrivateKeySigner(key, DigestAlgorithm.forName(HASH_ALGORITHM));
 
             // Crear un PdfSigner para firmar el documento
             PadesBasicSigner pdfSigner = new PadesBasicSigner(signer);
@@ -238,8 +325,8 @@ public class Main {
     }
 
     private static void validarCertificado() throws IOException, KeyStoreException, Exception {
-        KeyStore keyStore = getKeyStore(PKCS12, PASSWORD, null);
-//        KeyStore keyStore = getKeyStore(null, PASSWORD, "TOKEN");"TOKEN", "PCSC"
+        KeyStore keyStore = getKeyStore(PKCS12, PASSWORD, null);//ARCHIVO
+//        KeyStore keyStore = getKeyStore(null, PASSWORD, "TOKEN");//"TOKEN", "PCSC"
         String alias = seleccionarAlias(keyStore, null);
         X509Certificate x509Certificate = (X509Certificate) keyStore.getCertificate(alias);
         System.out.println("UID: " + Utils.getUID(x509Certificate));
@@ -344,7 +431,7 @@ public class Main {
         //String ury = String.valueOf(Integer.parseInt(lly) - 36);
         //INFERIOR CENTRADO (ancho pie pagina)
         //String llx = "100";
-        //String lly = "80";&
+        //String lly = "85";
         //String urx = String.valueOf(Integer.parseInt(llx) + 430);
         //String ury = String.valueOf(Integer.parseInt(lly) - 25);
         //INFERIOR DERECHA
@@ -357,7 +444,7 @@ public class Main {
         params.setProperty(PDFSignerItext.SIGNING_LOCATION, "Teletrabajo");
         params.setProperty(PDFSignerItext.SIGNING_REASON, "Firmado digitalmente con RUBRICA");
         params.setProperty(PDFSignerItext.SIGN_TIME, TiempoUtils.getFechaHoraServidor(null, PropertiesUtils.versionBase64()));
-        params.setProperty(PDFSignerItext.LAST_PAGE, "1");
+        params.setProperty(PDFSignerItext.LAST_PAGE, "6");
         params.setProperty(PDFSignerItext.TYPE_SIG, "QR");
         params.setProperty(PDFSignerItext.INFO_QR, "Firmado digitalmente con RUBRICA\nhttps://minka.gob.ec/rubrica/rubrica");
         //params.setProperty(PDFSignerItext.TYPE_SIG, "information2");
@@ -371,12 +458,10 @@ public class Main {
     }
 
     private static KeyStore getKeyStore(String archivo, String password, String tipoKeyStoreProvider) throws KeyStoreException {
-        if (archivo != null) {
-            // ARCHIVO
+        if (archivo != null) { // ARCHIVO
             KeyStoreProvider ksp = new FileKeyStoreProvider(archivo);
             return ksp.getKeystore(password.toCharArray());
-        } // TOKEN
-        else {
+        } else { // TOKEN
             return KeyStoreProviderFactory.getKeyStore(password, tipoKeyStoreProvider);
         }
     }

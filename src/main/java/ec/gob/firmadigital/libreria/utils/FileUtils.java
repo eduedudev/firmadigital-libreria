@@ -38,7 +38,7 @@ import org.apache.tika.mime.MimeTypeException;
 
 /**
  * Utilidades para Archivos
- * 
+ *
  * @author jdc
  */
 public class FileUtils {
@@ -56,7 +56,7 @@ public class FileUtils {
         Path documentoPath = Paths.get(file.getAbsolutePath());
         return Files.readAllBytes(documentoPath);
     }
-    
+
     /**
      * Crea un fichero temporal con los datos.
      *
@@ -105,7 +105,7 @@ public class FileUtils {
         }
         return nombre + hora + extension;
     }
-    
+
     public static String crearNombreFirmado(File documento, String extension) throws IOException {
         String nombre = crearNombre(documento) + "-signed" + extension;
         if (new File(nombre).exists()) {
@@ -184,7 +184,7 @@ public class FileUtils {
         jFileChooser.setEnabled(false);
         jFileChooser.setFileFilter(filtro);
         jFileChooser.setMultiSelectionEnabled(true);
-        
+
         int resultado = jFileChooser.showOpenDialog(jRootPane);
         if (resultado == javax.swing.JFileChooser.APPROVE_OPTION) {
             java.io.File[] files = jFileChooser.getSelectedFiles();
@@ -200,8 +200,8 @@ public class FileUtils {
         }
         return ruta;
     }
-    
-        /**
+
+    /**
      * Elimina los archivos con una determinada extensión de una carpeta
      *
      * @param path Carpeta de la cual eliminar los archivosq
@@ -220,7 +220,7 @@ public class FileUtils {
             archivo.delete();
         }
     }
-    
+
     /**
      * Elimina los archivos con una determinada extensión de una carpeta
      *

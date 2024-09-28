@@ -45,18 +45,18 @@ public class OsUtils {
         logger.finer("Operating System:" + osName);
         return osName.toUpperCase();
     }
-    
+
     public static String getNameOs(String osName) {
         if (osName.toUpperCase().indexOf("WINDOWS") == 0) {
-            osName= "WINDOWS";
+            osName = "WINDOWS";
         } else if (osName.toUpperCase().contains("MAC")) {
-            osName= "MAC";
+            osName = "MAC";
         } else if (osName.toUpperCase().contains("LINUX")) {
-            osName="LINUX";
+            osName = "LINUX";
         } else if (osName.toUpperCase().contains("ANDROID ")) {
-            osName="ANDROID";
+            osName = "ANDROID";
         } else if (osName.toUpperCase().contains("IOS ")) {
-            osName="IOS";
+            osName = "IOS";
         }
         logger.finer("Operating System:" + osName);
         return osName;

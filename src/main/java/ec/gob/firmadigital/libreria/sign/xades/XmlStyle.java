@@ -15,7 +15,6 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-
 package ec.gob.firmadigital.libreria.sign.xades;
 
 import java.io.ByteArrayInputStream;
@@ -70,9 +69,6 @@ public final class XmlStyle {
      * del propio XML
      * @throws ReferenceIsNotXmlException Cuando el estilo referenciado no
      * est&aacute; en formato XML
-     * @throws jakarta.xml.transform.TransformerFactoryConfigurationError Cuando
-     * hay errores de configuraci&oacute; en la factor&iacute;a de
-     * transformaciones
      */
     public XmlStyle(byte[] data, boolean headless)
             throws IOException, CannotDereferenceException, IsInnerlException, ReferenceIsNotXmlException {

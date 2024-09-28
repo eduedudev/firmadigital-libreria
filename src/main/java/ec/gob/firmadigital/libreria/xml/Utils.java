@@ -73,6 +73,7 @@ public final class Utils {
     /**
      * A&ntilde;ade transformaciones seg&uacute; la sintaxis de
      * par&aacute;metros adicionales en fichero de propiedades del Cliente
+     *
      * @firma a una lista pre-existente.
      *
      * @param transforms Lista a la que a&ntilde;adir las transformaciones
@@ -477,9 +478,6 @@ public final class Utils {
      * @param node Nodo XML que queremos pasar a texto
      * @param props Propiedades del XML (<i>version</i>, <i>encoding</i>,
      * <i>standalone</i>)
-     * @param styleHref Referencia (enlace) a la hoja de estilo del XML (puede
-     * ser nulo)
-     * @param styleType Tipo de la hoja de estilo del XML (puede ser nulo)
      * @return Cadena de texto con el XML en forma de array de octetos
      */
     public static byte[] writeXML(Node node, Map<String, String> props) {
@@ -679,8 +677,6 @@ public final class Utils {
      * Instala el proveedor de firmas XMLDSig para el entorno de
      * ejecuci&oacute;n de Java en uso.
      *
-     * @param forceApacheProvider Indica si debe forzarse al uso de uno de los
-     * proveedores de Apache.
      */
     public static void installXmlDSigProvider() {
         Security.getProvider(XMLDSIG);
