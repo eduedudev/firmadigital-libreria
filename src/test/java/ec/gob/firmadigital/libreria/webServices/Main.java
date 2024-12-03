@@ -54,39 +54,29 @@ public class Main {
     private static final String URLWS = "https://impws.firmadigital.gob.ec/servicio";//servidor
 //    private static final String URLWS = "http://testws.firmadigital.gob.ec:8080/servicio";//local
     private static final String PKCS12 = "/home/mfernandez/appFirmaEC/pruebaPre2024.p12";
-//    private static final String PKCS12 = "/home/mfernandez/appFirmaEC/pruebaPro.p12";
     private static final String PASSWORD = "123456";
-    private static final String FILE = "/home/mfernandez/Test/documento_blanco.pdf";
-    private static String cedula = "1234567890";
+    private static final String FILE = "/home/mfernandez/appFirmaEC/documento_blanco.pdf";
+    private static final String CEDULA = "1234567890";
     private static final int TIME_OUT = 5000; //set timeout to 5 seconds
 
     //Variables JWT
-    private static final String sistema = "pruebas";
-    private static final String apiKey = "pruebas";
-    private static final String tipoEstampado = "QR";//QR, information1, information2
-    private static final int pagina = 1;//pagina en donde se estampa la firma (sin el parametro, se estampa en la ultima hoja)
+    private static final String SISTEMA = "pruebas";
+    private static final String API_KEY = "pruebas";
+    private static final String TIPO_ESTAMPADO = "QR";//QR, information1, information2
+    private static final int PAGINA = 1;//pagina en donde se estampa la firma (sin el parametro, se estampa en la ultima hoja)
     //ubicación de la estampa 
     //SUPERIOR IZQUIERDA
-    private static final String llx = "10";
-    private static final String lly = "830";
-    //INFERIOR IZQUIERDA
-    //private static final String llx = "100";
-    //private static final String lly = "91";
-    //INFERIOR DERECHA
-    //private static final String llx = "419";
-    //private static final String lly = "91";
-    //INFERIOR CENTRADO
-    //private static final String llx = "260";
-    //private static final String lly = "91";
+    private static final String LLX = "10";
+    private static final String LLY = "830";
     //Variantes
-    private static int certificado = 2;//1 token 2 archivo
-    private static int numeroCopias = 1;
+    private static final int CERTIFICADO = 2;//1 token 2 archivo
+    private static final int NUMERO_COPIAS = 1;
     //Variables JWT
 
     public static void main(String args[]) throws Exception {
 //        generarJWT(sistema, apiKey);
 //        transversalFirmarDocumento();
-//        transversalValidarCertificado();
+        transversalValidarCertificado();
 //        appFirmarDocumento();
 //        appVerificarDocumento();
 //        appValidarCertificado();
@@ -137,11 +127,6 @@ public class Main {
     }
 
     private static void transversalFirmarDocumento() throws IOException, KeyStoreException, Exception {
-        String tipoEstampado = "QR";//QR, information1, information2
-        int pagina = 1;//pagina en donde se estampa la firma (sin el parametro, se estampa en la ultima hoja)
-        //SUPERIOR IZQUIERDA
-        String llx = "10";
-        String lly = "830";
         //FIRMAR
         String urlws = URLAPI + "/transversalfirmardocumento";
         String passwordBase64 = java.util.Base64.getEncoder().encodeToString(PASSWORD.getBytes());
@@ -161,14 +146,14 @@ public class Main {
         gsonObject = new com.google.gson.JsonObject();
         gsonObject.addProperty("versionFirmaEC", "RUBRICA");
         gsonObject.addProperty("formatoDocumento", "PDF");
-        gsonObject.addProperty("llx", llx);
-        gsonObject.addProperty("lly", lly);
-        gsonObject.addProperty("pagina", pagina);
-        gsonObject.addProperty("tipoEstampado", tipoEstampado);
+        gsonObject.addProperty("llx", LLX);
+        gsonObject.addProperty("lly", LLY);
+        gsonObject.addProperty("pagina", PAGINA);
+        gsonObject.addProperty("tipoEstampado", TIPO_ESTAMPADO);
         System.out.println("gsonObject: " + gsonObject.toString());
 
         Form form = new Form();
-        form.param("jwt", generarJWT(sistema, apiKey));
+        form.param("jwt", generarJWT(SISTEMA, API_KEY));
         form.param("pkcs12", pkcs12Base64);
         form.param("password", passwordBase64);
         form.param("documento", fileBase64);
@@ -193,7 +178,7 @@ public class Main {
         Invocation.Builder builder = target.request();
 
         Form form = new Form();
-        form.param("jwt", generarJWT(sistema, apiKey));
+        form.param("jwt", generarJWT(SISTEMA, API_KEY));
         form.param("pkcs12", pkcs12Base64);
         form.param("password", passwordBase64);
         form.param("base64", PropertiesUtils.versionBase64());
@@ -206,11 +191,6 @@ public class Main {
     }
 
     private static void appFirmarDocumento() throws IOException, KeyStoreException, Exception {
-        String tipoEstampado = "QR";//QR, information1, information2
-        int pagina = 1;//pagina en donde se estampa la firma (sin el parametro, se estampa en la ultima hoja)
-        //SUPERIOR IZQUIERDA
-        String llx = "10";
-        String lly = "830";
         //FIRMAR
         String urlws = URLAPI + "/appfirmardocumento";
         File pkcs12 = new File(PKCS12);
@@ -229,10 +209,10 @@ public class Main {
         gsonObject = new com.google.gson.JsonObject();
         gsonObject.addProperty("versionFirmaEC", "RUBRICA");
         gsonObject.addProperty("formatoDocumento", "PDF");
-        gsonObject.addProperty("llx", llx);
-        gsonObject.addProperty("lly", lly);
-        gsonObject.addProperty("pagina", pagina);
-        gsonObject.addProperty("tipoEstampado", tipoEstampado);
+        gsonObject.addProperty("llx", LLX);
+        gsonObject.addProperty("lly", LLY);
+        gsonObject.addProperty("pagina", PAGINA);
+        gsonObject.addProperty("tipoEstampado", TIPO_ESTAMPADO);
         System.out.println("gsonObject: " + gsonObject.toString());
 
         Form form = new Form();
@@ -322,19 +302,6 @@ public class Main {
             gsonDocumentoArray.add(gsonDocumentoObject);
         }
 
-        //documentos por separado
-//        gsonDocumentoObject = new com.google.gson.JsonObject();
-//        //Generando documento en base64 y agregando en JSON
-//        File documento1 = new File("/home/mfernandez/testfirmaec/MINTEL-DIPSE-2021-0072-E.pdf");
-//        gsonDocumentoObject.addProperty("nombre", documento1.getName());
-//        gsonDocumentoObject.addProperty("documento", java.util.Base64.getEncoder().encodeToString(Files.readAllBytes(documento1.toPath())));
-//        gsonDocumentoArray.add(gsonDocumentoObject);
-//        
-//        gsonDocumentoObject = new com.google.gson.JsonObject();
-//        File documento2 = new File("/home/mfernandez/testfirmaec/MINTEL-DIPSE-2021-0150-O.pdf");
-//        gsonDocumentoObject.addProperty("nombre", documento2.getName());
-//        gsonDocumentoObject.addProperty("documento", java.util.Base64.getEncoder().encodeToString(Files.readAllBytes(documento2.toPath())));
-//        gsonDocumentoArray.add(gsonDocumentoObject);
         gsonObject.add("documentos", new com.google.gson.JsonParser()
                 .parse(new com.google.gson.Gson().toJson(gsonDocumentoArray)).getAsJsonArray());
         gsonArray.add(gsonObject);
@@ -377,7 +344,7 @@ public class Main {
         String jwt = null;
         //PRUEBAS GENERANDO JWT
         if (documento.exists() == true) {
-            jwt = generarJWTDocumento(sistema, apiKey, tipoEstampado, pagina, llx, lly, certificado, cedula, numeroCopias, documento);
+            jwt = generarJWTDocumento(SISTEMA, API_KEY, TIPO_ESTAMPADO, PAGINA, LLX, LLY, CERTIFICADO, CEDULA, NUMERO_COPIAS, documento);
         } else {
             System.out.println("No se encontró el documento: " + documento.getPath());
         }
@@ -400,19 +367,19 @@ public class Main {
 
             //creacion del JSON
             gsonObject = new com.google.gson.JsonObject();
-            gsonObject.addProperty("sistema", sistema);
+            gsonObject.addProperty("sistema", SISTEMA);
             gsonObject.addProperty("operacion", "firmar");
             gsonObject.addProperty("versionFirmaEC", "RUBRICA");
             gsonObject.addProperty("formatoDocumento", "PDF");
             gsonObject.addProperty("tokenJwt", jwt);
-            gsonObject.addProperty("llx", llx);
-            gsonObject.addProperty("lly", lly);
-            gsonObject.addProperty("tipoEstampado", tipoEstampado);
+            gsonObject.addProperty("llx", LLX);
+            gsonObject.addProperty("lly", LLY);
+            gsonObject.addProperty("tipoEstampado", TIPO_ESTAMPADO);
             gsonObject.addProperty("razon", "miska muska");
-            gsonObject.addProperty("pagina", pagina);
-//            gsonObject.addProperty("pre", true);//servidor
+            gsonObject.addProperty("pagina", PAGINA);
+            //gsonObject.addProperty("pre", true);//servidor
             gsonObject.addProperty("des", true);//local
-//            gsonObject.addProperty("url", URLAPI);
+            //gsonObject.addProperty("url", URLAPI);
             System.out.println("gsonObject: " + gsonObject.toString());
 
             Form form = new Form();

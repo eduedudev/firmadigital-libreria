@@ -35,7 +35,7 @@ import java.util.logging.Logger;
  */
 public class WindowsKeyStoreProvider implements KeyStoreProvider {
 
-    private static final Logger logger = Logger.getLogger(WindowsKeyStoreProvider.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(WindowsKeyStoreProvider.class.getName());
 
     @Override
     public KeyStore getKeystore() throws KeyStoreException {
@@ -45,7 +45,7 @@ public class WindowsKeyStoreProvider implements KeyStoreProvider {
 
             // Corregir bug en el MSCAPI
             if (KeyStoreUtilities.tieneAliasRepetidos(keyStore)) {
-                logger.fine("El KeyStore tiene alias repetidos, fixing...");
+                LOGGER.fine("El KeyStore tiene alias repetidos, fixing...");
                 KeyStoreUtilities.fixAliases(keyStore);
             }
 

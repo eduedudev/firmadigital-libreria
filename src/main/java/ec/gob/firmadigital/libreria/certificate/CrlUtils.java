@@ -1,4 +1,3 @@
-
 /*
  * Copyright (C) 2020 
  * Authors: Ricardo Arguello, Misael Fernández
@@ -42,6 +41,7 @@ import ec.gob.firmadigital.libreria.utils.HttpClient;
 import ec.gob.firmadigital.libreria.utils.OcspUtils;
 import java.security.cert.X509CRLEntry;
 import java.text.SimpleDateFormat;
+import java.util.logging.Level;
 
 /**
  * Utilidades para trabajar con CRL.
@@ -50,7 +50,7 @@ import java.text.SimpleDateFormat;
  */
 public class CrlUtils {
 
-    private static final Logger logger = Logger.getLogger(CrlUtils.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(CrlUtils.class.getName());
     private static String revocationDate;
 
     public CrlUtils() {
@@ -80,19 +80,18 @@ public class CrlUtils {
                     ? CertificateUtils.getCrlDistributionPoints(cert)
                     : overridingDistributionPoints;
         } catch (IOException e) {
-            logger.severe("Error obteniendo los puntos de distribucion de CRL: " + e);
+            LOGGER.log(Level.SEVERE, "Error obteniendo los puntos de distribucion de CRL: {0}", e);
             return ValidationResult.SERVER_ERROR;
         }
 
-        logger.fine("El certificado con serie '" + cert.getSerialNumber() + "' tiene asociadas las siguientes CRL: "
-                + crlDistPoints);
+        LOGGER.log(Level.FINE, "El certificado con serie ''{0}'' tiene asociadas las siguientes CRL: {1}", new Object[]{cert.getSerialNumber(), crlDistPoints});
 
         CertificateFactory cf;
 
         try {
             cf = CertificateFactory.getInstance("X.509");
         } catch (CertificateException e) {
-            logger.severe("Error instanciando la factoria de certificados: " + e);
+            LOGGER.log(Level.SEVERE, "Error instanciando la factoria de certificados: {0}", e);
             return ValidationResult.SERVER_ERROR;
         }
 
@@ -111,8 +110,7 @@ public class CrlUtils {
             try {
                 crlBytes = downloadCRL(crlDP);
             } catch (Exception e) {
-                logger.severe("No se ha podido descargar la CRL (" + crlDP
-                        + "), se continuara con el siguiente punto de distribucion: " + e);
+                LOGGER.log(Level.SEVERE, "No se ha podido descargar la CRL ({0}), se continuara con el siguiente punto de distribucion: {1}", new Object[]{crlDP, e});
                 cannotDownload = true;
                 continue;
             }
@@ -127,7 +125,7 @@ public class CrlUtils {
 //                System.out.println("revocation date = " + (String) new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entry.getRevocationDate()));
 //                System.out.println("extensions = " + entry.hasExtensions());
             } catch (Exception e) {
-                logger.warning("Error analizando la lista de revocacion: " + e);
+                LOGGER.log(Level.WARNING, "Error analizando la lista de revocacion: {0}", e);
                 return ValidationResult.SERVER_ERROR;
             }
 
@@ -136,7 +134,7 @@ public class CrlUtils {
                 try {
                     crl.verify(vaPublicKey);
                 } catch (Exception e) {
-                    logger.severe("No se ha podido comprobar la firma de la CRL: " + e);
+                    LOGGER.log(Level.SEVERE, "No se ha podido comprobar la firma de la CRL: {0}", e);
                     return ValidationResult.SERVER_ERROR;
                 }
             }

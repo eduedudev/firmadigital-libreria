@@ -44,7 +44,7 @@ public enum ValidationResult {
      */
     NOT_YET_VALID(3),
     /**
-     * Caducado.
+     * Expirado.
      */
     EXPIRED(4),
     /**
@@ -128,32 +128,21 @@ public enum ValidationResult {
      */
     public void check() throws CertificateException {
         switch (this.resultCode) {
-            case CODE_VALID:
+            case CODE_VALID -> {
                 return;
-            case CODE_CORRUPT:
-                throw new CertificateEncodingException();
-            case CODE_CA_NOT_SUPPORTED:
-                throw new CertificateException("El certificado no es de una CA soportada"); //$NON-NLS-1$
-            case CODE_NOT_YET_VALID:
-                throw new CertificateNotYetValidException();
-            case CODE_EXPIRED:
-                throw new CertificateExpiredException();
-            case CODE_REVOKED:
-                throw new CertificateException("Certificado revocado"); //$NON-NLS-1$
-            case CODE_UNKNOWN:
-                throw new CertificateException("Validez del certificado desconocida"); //$NON-NLS-1$
-            case CODE_SERVER_ERROR:
-                throw new CertificateException("Error interno o del servidor al validar el certificado"); //$NON-NLS-1$
-            case CODE_UNAUTHORIZED:
-                throw new CertificateException("No autorizado"); //$NON-NLS-1$
-            case CODE_MALFORMED_REQUEST:
-                throw new CertificateException("Peticion OCSP mal formada"); //$NON-NLS-1$
-            case CODE_SIG_REQUIRED:
-                throw new CertificateException("La peticion OCSP no esta firmada"); //$NON-NLS-1$
-            case CODE_CANNOT_DOWNLOAD_CRL:
-                throw new CertificateException("No se ha podido descargar la lista de certificados revocados"); //$NON-NLS-1$
-            default:
-                throw new IllegalStateException(
+            }
+            case CODE_CORRUPT -> throw new CertificateEncodingException();
+            case CODE_CA_NOT_SUPPORTED -> throw new CertificateException("El certificado no es de una CA soportada"); //$NON-NLS-1$
+            case CODE_NOT_YET_VALID -> throw new CertificateNotYetValidException();
+            case CODE_EXPIRED -> throw new CertificateExpiredException();
+            case CODE_REVOKED -> throw new CertificateException("Certificado revocado"); //$NON-NLS-1$
+            case CODE_UNKNOWN -> throw new CertificateException("Validez del certificado desconocida"); //$NON-NLS-1$
+            case CODE_SERVER_ERROR -> throw new CertificateException("Error interno o del servidor al validar el certificado"); //$NON-NLS-1$
+            case CODE_UNAUTHORIZED -> throw new CertificateException("No autorizado"); //$NON-NLS-1$
+            case CODE_MALFORMED_REQUEST -> throw new CertificateException("Peticion OCSP mal formada"); //$NON-NLS-1$
+            case CODE_SIG_REQUIRED -> throw new CertificateException("La peticion OCSP no esta firmada"); //$NON-NLS-1$
+            case CODE_CANNOT_DOWNLOAD_CRL -> throw new CertificateException("No se ha podido descargar la lista de certificados revocados"); //$NON-NLS-1$
+            default -> throw new IllegalStateException(
                         "El codigo de resultado debe estar comprendido entre 0 y 11: " + this.resultCode //$NON-NLS-1$
                 );
         }

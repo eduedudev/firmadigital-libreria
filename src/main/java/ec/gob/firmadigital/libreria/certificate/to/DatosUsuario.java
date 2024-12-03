@@ -29,10 +29,6 @@ public class DatosUsuario {
     private String apellido;
     private String institucion = "";
     private String cargo = "";
-    private String serial;
-    private String fechaFirmaArchivo;
-    private String entidadCertificadora;
-    private Boolean selladoTiempo;
     private boolean certificadoDigitalValido;
 
     public DatosUsuario() {
@@ -78,38 +74,6 @@ public class DatosUsuario {
         this.cargo = cargo;
     }
 
-    public String getSerial() {
-        return serial;
-    }
-
-    public void setSerial(String serial) {
-        this.serial = serial;
-    }
-
-    public String getFechaFirmaArchivo() {
-        return fechaFirmaArchivo;
-    }
-
-    public void setFechaFirmaArchivo(String fechaFirmaArchivo) {
-        this.fechaFirmaArchivo = fechaFirmaArchivo;
-    }
-
-    public String getEntidadCertificadora() {
-        return entidadCertificadora;
-    }
-
-    public void setEntidadCertificadora(String entidadCertificadora) {
-        this.entidadCertificadora = entidadCertificadora;
-    }
-
-    public Boolean getSelladoTiempo() {
-        return selladoTiempo;
-    }
-
-    public void setSelladoTiempo(Boolean selladoTiempo) {
-        this.selladoTiempo = selladoTiempo;
-    }
-
     public boolean isCertificadoDigitalValido() {
         return certificadoDigitalValido;
     }
@@ -120,14 +84,12 @@ public class DatosUsuario {
 
     @Override
     public String toString() {
-        return "\tDatosUsuario\n"
+        return "DatosUsuario\n"
                 + "\t\t[cedula=" + cedula + "\n"
                 + "\t\tnombre=" + nombre + "\n"
                 + "\t\tapellido=" + apellido + "\n"
                 + "\t\tinstitucion=" + institucion + "\n"
                 + "\t\tcargo=" + cargo + "\n"
-                + "\t\tentidadCertificadora=" + entidadCertificadora + "\n"
-                + "\t\tselladoTiempo=" + selladoTiempo + "\n"
                 + "\t\tcertificadoDigitalValido=" + certificadoDigitalValido + "\n"
                 + "\t\t]";
     }

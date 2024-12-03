@@ -55,18 +55,13 @@ import es.uji.crypto.xades.jxades.security.xml.XAdES.XAdES_EPES;
 import ec.gob.firmadigital.libreria.exceptions.RubricaException;
 import ec.gob.firmadigital.libreria.core.Util;
 import ec.gob.firmadigital.libreria.sign.XMLConstants;
-import ec.gob.firmadigital.libreria.utils.MimeHelper;
-import ec.gob.firmadigital.libreria.xml.Utils;
 
 /**
  * Firmador simple XAdES.
  */
 public final class FirmadorXAdES {
 
-    private static final String HTTP_PROTOCOL_PREFIX = "http://";
-    private static final String HTTPS_PROTOCOL_PREFIX = "https://";
-
-    private static final Logger logger = Logger.getLogger(FirmadorXAdES.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(FirmadorXAdES.class.getName());
 
     /**
      * Identificador de identificadores en los nodos XML.
@@ -185,7 +180,7 @@ public final class FirmadorXAdES {
      * @param xParams Par&aacute;metros adicionales para la firma
      * (<a href="doc-files/extraparams.html">detalle</a>)
      * @return Firma en formato XAdES
-     * @throws AOException Cuando ocurre cualquier problema durante el proceso
+     * @throws ec.gob.firmadigital.libreria.exceptions.RubricaException
      */
     public static byte[] sign(byte[] data, String algorithm, PrivateKey pk, Certificate[] certChain, Properties xParams)
             throws RubricaException {
@@ -205,12 +200,6 @@ public final class FirmadorXAdES {
         boolean avoidXpathExtraTransformsOnEnveloped = Boolean.parseBoolean(extraParams
                 .getProperty(XAdESExtraParams.AVOID_XPATH_EXTRA_TRANSFORMS_ON_ENVELOPED, Boolean.FALSE.toString()));
 
-        boolean onlySignningCert = Boolean.parseBoolean(
-                extraParams.getProperty(XAdESExtraParams.INCLUDE_ONLY_SIGNNING_CERTIFICATE, Boolean.FALSE.toString()));
-
-        String envelopedNodeXPath = extraParams
-                .getProperty(XAdESExtraParams.INSERT_ENVELOPED_SIGNATURE_ON_NODE_BY_XPATH);
-
         String nodeToSign = extraParams.getProperty(XAdESExtraParams.NODE_TOSIGN);
 
         String digestMethodAlgorithm = extraParams.getProperty(XAdESExtraParams.REFERENCES_DIGEST_METHOD,
@@ -227,15 +216,6 @@ public final class FirmadorXAdES {
         String signedPropertiesTypeUrl = extraParams.getProperty(XAdESExtraParams.SIGNED_PROPERTIES_TYPE_URL,
                 XAdESSigner.XADES_SIGNED_PROPERTIES_TYPE);
 
-        boolean ignoreStyleSheets = Boolean
-                .parseBoolean(extraParams.getProperty(XAdESExtraParams.IGNORE_STYLE_SHEETS, Boolean.FALSE.toString()));
-
-        boolean avoidBase64Transforms = Boolean.parseBoolean(
-                extraParams.getProperty(XAdESExtraParams.AVOID_BASE64_TRANSFORMS, Boolean.FALSE.toString()));
-
-        boolean headless = Boolean
-                .parseBoolean(extraParams.getProperty(XAdESExtraParams.HEADLESS, Boolean.TRUE.toString()));
-
         boolean addKeyInfoKeyValue = Boolean.parseBoolean(
                 extraParams.getProperty(XAdESExtraParams.ADD_KEY_INFO_KEY_VALUE, Boolean.TRUE.toString()));
 
@@ -244,8 +224,6 @@ public final class FirmadorXAdES {
 
         boolean addKeyInfoX509IssuerSerial = Boolean.parseBoolean(
                 extraParams.getProperty(XAdESExtraParams.ADD_KEY_INFO_X509_ISSUER_SERIAL, Boolean.FALSE.toString()));
-
-        String precalculatedHashAlgorithm = extraParams.getProperty(XAdESExtraParams.PRECALCULATED_HASH_ALGORITHM);
 
         boolean facturaeSign = Boolean
                 .parseBoolean(extraParams.getProperty(XAdESExtraParams.FACTURAE_SIGN, Boolean.FALSE.toString()));
@@ -283,7 +261,7 @@ public final class FirmadorXAdES {
                     ? Util.createURI(extraParams.getProperty(XAdESExtraParams.URI))
                     : null;
         } catch (final Exception e) {
-            logger.warning("Se ha pasado una URI invalida como referencia a los datos a firmar: " + e);
+            LOGGER.warning("Se ha pasado una URI invalida como referencia a los datos a firmar: " + e);
         }
 
         // Utils.checkIllegalParams(format,
@@ -302,13 +280,6 @@ public final class FirmadorXAdES {
 
         // Documento final de firma
         Document docSignature = null;
-
-        String contentId = XAdESSigner.DETACHED_CONTENT_ELEMENT_NAME + "-" + UUID.randomUUID().toString();
-        String styleId = XAdESSigner.DETACHED_STYLE_ELEMENT_NAME + "-" + UUID.randomUUID().toString();
-        boolean avoidDetachedContentInclusion = false;
-
-        // Elemento de estilo
-        XmlStyle xmlStyle = new XmlStyle();
 
         // Nodo donde insertar la firma
         Element signatureInsertionNode = null;
@@ -342,9 +313,6 @@ public final class FirmadorXAdES {
         // La URI de contenido a firmar puede ser el nodo especifico si asi se
         // indico o el
         // nodo de contenido completo
-        String tmpUri = "#" + contentId;
-        String tmpStyleUri = "#" + styleId;
-
         try {
             docSignature = dbf.newDocumentBuilder().newDocument();
             docSignature.appendChild(docSignature.adoptNode(dataElement));
@@ -456,7 +424,7 @@ public final class FirmadorXAdES {
             try {
                 oid = MimeHelper.transformMimeTypeToOid(mimeType);
             } catch (final Exception e) {
-                logger.warning("Error en la obtencion del OID del tipo de datos a partir del MimeType: " + e);
+                LOGGER.warning("Error en la obtencion del OID del tipo de datos a partir del MimeType: " + e);
             }
             // Si no se reconoce el MimeType se habra establecido el por
             // defecto. Evitamos este comportamiento

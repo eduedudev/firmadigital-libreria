@@ -22,7 +22,8 @@ import java.security.cert.X509Certificate;
 import ec.gob.firmadigital.libreria.certificate.ec.CertificadoPersonaNatural;
 
 /**
- * Certificado de persona natural emitido por la Dirección General de Registro Civil, Identificación y Cedulación.
+ * Certificado de persona natural emitido por la Dirección General de Registro
+ * Civil, Identificación y Cedulación.
  *
  * @author mfernandez
  */

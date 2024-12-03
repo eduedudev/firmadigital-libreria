@@ -35,7 +35,7 @@ import ec.gob.firmadigital.libreria.exceptions.RubricaException;
 
 final class XAdESCommonMetadataUtil {
 
-    private static final Logger logger = Logger.getLogger(XAdESCommonMetadataUtil.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(XAdESCommonMetadataUtil.class.getName());
 
     private XAdESCommonMetadataUtil() {
         // No instanciable
@@ -128,7 +128,7 @@ final class XAdESCommonMetadataUtil {
 
         String identifier;
         try {
-            logger.warning("Se proporciono directamente un OID como identificador de politica (" + new Oid(id)
+            LOGGER.warning("Se proporciono directamente un OID como identificador de politica (" + new Oid(id)
                     + "), se tranformara en URN con el prefijo 'urn:oid:'");
             identifier = "urn:oid:" + id;
         } catch (final Exception e1) {
@@ -143,7 +143,7 @@ final class XAdESCommonMetadataUtil {
         try {
             spi.setIdentifier(identifier, hashAlgo != null ? identifierHash : null, hashAlgo);
         } catch (final Exception e) {
-            logger.warning("No se ha podido acceder al identificador ('" + identifier
+            LOGGER.warning("No se ha podido acceder al identificador ('" + identifier
                     + "') de la politica de firma, no se anadira este campo: " + e);
             return null;
         }

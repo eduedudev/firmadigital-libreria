@@ -51,7 +51,7 @@ public class SignValidity {
          */
         CERTIFICATE_PROBLEM,
         /**
-         * Cuando existe un certificado de firma caducado.
+         * Cuando existe un certificado de firma expirado.
          */
         CERTIFICATE_EXPIRED,
         /**

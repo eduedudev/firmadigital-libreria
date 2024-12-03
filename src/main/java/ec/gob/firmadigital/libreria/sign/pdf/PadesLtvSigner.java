@@ -17,7 +17,11 @@
  */
 package ec.gob.firmadigital.libreria.sign.pdf;
 
-import java.io.ByteArrayInputStream;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfReader;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.kernel.pdf.StampingProperties;
+import com.itextpdf.signatures.BouncyCastleDigest;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -25,57 +29,84 @@ import java.security.cert.Certificate;
 import java.util.Properties;
 import java.util.logging.Logger;
 
-import com.itextpdf.kernel.pdf.PdfDocument;
-import com.itextpdf.kernel.pdf.PdfReader;
-import com.itextpdf.kernel.pdf.PdfWriter;
-import com.itextpdf.kernel.pdf.StampingProperties;
 import com.itextpdf.signatures.CrlClientOnline;
 import com.itextpdf.signatures.ICrlClient;
+import com.itextpdf.signatures.IExternalSignature;
 import com.itextpdf.signatures.IOcspClient;
 import com.itextpdf.signatures.ITSAClient;
 import com.itextpdf.signatures.LtvVerification;
 import com.itextpdf.signatures.OCSPVerifier;
 import com.itextpdf.signatures.OcspClientBouncyCastle;
-import com.itextpdf.signatures.PdfSigner;
+import com.itextpdf.signatures.PdfPKCS7;
+import com.itextpdf.signatures.PrivateKeySignature;
 import com.itextpdf.signatures.TSAClientBouncyCastle;
-
 import ec.gob.firmadigital.libreria.sign.RubricaSigner;
+import ec.gob.firmadigital.libreria.sign.pdf.itext.SignerAdapter;
+import ec.gob.firmadigital.libreria.utils.PropertiesTsa;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.security.PrivateKey;
+import java.util.logging.Level;
 
 /**
  * PAdES-LTV
  */
-public class PadesLtvSigner extends PadesEnhancedSigner {
+public class PadesLtvSigner extends BasePdfSigner {
 
-    private static final Logger logger = Logger.getLogger(PadesLtvSigner.class.getName());
+    private final IExternalSignature externalSignature;
+
+    private static final Logger LOGGER = Logger.getLogger(PadesLtvSigner.class.getName());
 
     public PadesLtvSigner(RubricaSigner signer) {
-        super(signer);
+        this.externalSignature = new SignerAdapter(signer);
     }
 
-    @Override
-    protected byte[] signInternal(ByteArrayOutputStream os, com.itextpdf.signatures.PdfSigner pdfSigner,
-            RubricaSigner signer, Certificate[] certChain, Properties params) throws IOException {
-        byte[] signedBytes = super.signInternal(os, pdfSigner, signer, certChain, params);
-        ByteArrayInputStream bis = new ByteArrayInputStream(signedBytes);
+    public byte[] sign(InputStream inputStream, PrivateKey privateKey, Certificate[] certificates, Properties properties) throws IOException {
+        try {
+            // Firmar el documento
+            byte[] hash = emptySignature(inputStream, certificates, properties, externalSignature.getHashAlgorithm());
+            ByteArrayOutputStream documentoPorFirmar = getDocumentoPorFirmar();
+            byte[] hashSigned = this.signed_hash(hash, privateKey, certificates);
+            createSignature(hashSigned, documentoPorFirmar, getFieldName(), privateKey, certificates);
+            return signLtv(getDocumentoFirmado().toByteArray());
+        } catch (GeneralSecurityException e) {
+            LOGGER.log(Level.SEVERE, "Error al firmar:{0}", e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+    private byte[] signed_hash(byte[] hash, PrivateKey pk, Certificate[] chain) throws GeneralSecurityException {
+        PrivateKeySignature signature = new PrivateKeySignature(pk, externalSignature.getHashAlgorithm(), "BC");
+        String hashAlgorithm = signature.getHashAlgorithm();
+
+        BouncyCastleDigest digest = new BouncyCastleDigest();
+        PdfPKCS7 sgn = new PdfPKCS7(null, chain, hashAlgorithm, null, digest, false);
+        byte[] sh = sgn.getAuthenticatedAttributeBytes(hash, com.itextpdf.signatures.PdfSigner.CryptoStandard.CMS, null, null);
+        byte[] extSignature = signature.sign(sh);
+        sgn.setExternalDigest(extSignature, null, signature.getEncryptionAlgorithm());
+        // Create TSAClient with optional authentication
+        PropertiesTsa propertiesTsa = new PropertiesTsa();
+        ITSAClient tsaClient = new TSAClientBouncyCastle(propertiesTsa.getTsaUrl(), propertiesTsa.getTsaUsername(), propertiesTsa.getTsaPassword());
+        ///////////
+        return sgn.getEncodedPKCS7(hash, com.itextpdf.signatures.PdfSigner.CryptoStandard.CMS, tsaClient, null, null);
+    }
+
+    private byte[] signLtv(byte[] signed) {
+        ByteArrayInputStream bis = new ByteArrayInputStream(signed);
 
         ICrlClient crlClient = new CrlClientOnline();
         OCSPVerifier ocspVerifier = new OCSPVerifier(null, null);
         IOcspClient ocspClient = new OcspClientBouncyCastle(ocspVerifier);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-        ITSAClient tsc = null;
+        PropertiesTsa propertiesTsa = new PropertiesTsa();
+        ITSAClient tsaClient = new TSAClientBouncyCastle(propertiesTsa.getTsaUrl(), propertiesTsa.getTsaUsername(), propertiesTsa.getTsaPassword());
 
-        if (params.getProperty("tsaUrl") != null && params.getProperty("tsaUsername") != null
-                && params.getProperty("tsaPassword") != null) {
-            tsc = new TSAClientBouncyCastle(params.getProperty("tsaUrl"), params.getProperty("tsaUsername"),
-                    params.getProperty("tsaPassword"));
-        }
-
-        ltvEnable(pdfSigner, bis, baos, pdfSigner.getFieldName(), ocspClient, crlClient, tsc);
+        ltvEnable(bis, baos, getFieldName(), ocspClient, crlClient, tsaClient);
         return baos.toByteArray();
     }
 
-    private void ltvEnable(PdfSigner signer, ByteArrayInputStream signedPdfInput, ByteArrayOutputStream baos,
+    private void ltvEnable(ByteArrayInputStream signedPdfInput, ByteArrayOutputStream baos,
             String name, IOcspClient ocspClient, ICrlClient crlClient, ITSAClient tsc) {
         try (PdfReader pdfReader = new PdfReader(signedPdfInput)) {
             PdfDocument document = new PdfDocument(pdfReader, new PdfWriter(baos),
@@ -89,7 +120,7 @@ public class PadesLtvSigner extends PadesEnhancedSigner {
             ltvVerification.merge();
             document.close();
         } catch (IOException | GeneralSecurityException e) {
-            logger.severe("Error while making signature ltv enabled");
+            LOGGER.severe("Error while making signature ltv enabled");
             throw new RuntimeException(e);
         }
     }

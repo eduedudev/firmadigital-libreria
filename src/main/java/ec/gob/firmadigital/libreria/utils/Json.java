@@ -74,16 +74,22 @@ public class Json {
             jsonObjectCertificado.addProperty("issuedBy", certificado.getIssuedBy());
             jsonObjectCertificado.addProperty("validFrom", simpleDateFormatISO8601.format(certificado.getValidFrom().getTime()));
             jsonObjectCertificado.addProperty("validTo", simpleDateFormatISO8601.format(certificado.getValidTo().getTime()));
-            jsonObjectCertificado.addProperty("generated", simpleDateFormatISO8601.format(certificado.getGenerated().getTime()));
+            jsonObjectCertificado.addProperty("generated", simpleDateFormatISO8601.format(certificado.getSignGenerated().getTime()));
             if (certificado.getRevocated() != null) {
                 jsonObjectCertificado.addProperty("revocated", simpleDateFormatISO8601.format(certificado.getRevocated().getTime()));
             }
-            jsonObjectCertificado.addProperty("validated", certificado.getValidated());
+            jsonObjectCertificado.addProperty("validated", certificado.getCertificateValidated());
             jsonObjectCertificado.addProperty("keyUsages", certificado.getKeyUsages());
             if (certificado.getDocTimeStamp() != null) {
                 jsonObjectCertificado.addProperty("docTimeStamp", simpleDateFormatISO8601.format(certificado.getDocTimeStamp()));
             }
+            if (certificado.getDocTimeStamp() != null) {
+                jsonObjectCertificado.addProperty("docTimeStamp", simpleDateFormatISO8601.format(certificado.getDocTimeStamp()));
+                jsonObjectCertificado.addProperty("docTimeStampIssuedBy", certificado.getDocTimeStampIssuedBy());
+                jsonObjectCertificado.addProperty("docValidTimeStamp", certificado.getDocValidTimeStamp());
+            }
             jsonObjectCertificado.addProperty("signVerify", certificado.getSignVerify());
+//            jsonObjectCertificado.addProperty("docVerify", certificado.getDocVerify());
             jsonObjectCertificado.addProperty("docReason", certificado.getDocReason());
             jsonObjectCertificado.addProperty("docLocation", certificado.getDocLocation());
 
@@ -121,13 +127,16 @@ public class Json {
             jsonObjectCertificado.addProperty("emitidoPor", certificado.getIssuedBy());
             jsonObjectCertificado.addProperty("validoDesde", simpleDateFormatISO8601.format(certificado.getValidFrom().getTime()));
             jsonObjectCertificado.addProperty("validoHasta", simpleDateFormatISO8601.format(certificado.getValidTo().getTime()));
-            jsonObjectCertificado.addProperty("fechaRevocado", certificado.getRevocated() != null ? simpleDateFormatISO8601.format(certificado.getRevocated().getTime()):null);
+            jsonObjectCertificado.addProperty("fechaRevocado", certificado.getRevocated() != null ? simpleDateFormatISO8601.format(certificado.getRevocated().getTime()) : null);
             jsonObjectCertificado.addProperty("certificadoDigitalValido", certificado.getDatosUsuario().isCertificadoDigitalValido());
-            jsonObjectCertificado.addProperty("fechaDocumentoFirmado", simpleDateFormatISO8601.format(certificado.getGenerated().getTime()));
+            jsonObjectCertificado.addProperty("fechaDocumentoFirmado", simpleDateFormatISO8601.format(certificado.getSignGenerated().getTime()));
             jsonObjectCertificado.addProperty("razon", certificado.getDocReason());
             jsonObjectCertificado.addProperty("localizacion", certificado.getDocLocation());
-            jsonObjectCertificado.addProperty("selladoTiempo", certificado.getDatosUsuario().getSelladoTiempo());
-
+            if (certificado.getDocTimeStamp() != null) {
+                jsonObjectCertificado.addProperty("selladoTiempoFecha", simpleDateFormatISO8601.format(certificado.getDocTimeStamp().getTime()));
+                jsonObjectCertificado.addProperty("selladoTiempoEmitidoPor", certificado.getDocTimeStampIssuedBy());
+                jsonObjectCertificado.addProperty("selladoTiempoValido", certificado.getDocValidTimeStamp());
+            }
             jsonDocumentoArray.add(jsonObjectCertificado);
         }
         jsonObjectDocumento.add("certificado", new JsonParser()
@@ -145,18 +154,21 @@ public class Json {
         jsonObjectCertificado.addProperty("issuedBy", certificado.getIssuedBy());
         jsonObjectCertificado.addProperty("validFrom", simpleDateFormatISO8601.format(certificado.getValidFrom().getTime()));
         jsonObjectCertificado.addProperty("validTo", simpleDateFormatISO8601.format(certificado.getValidTo().getTime()));
-        if (certificado.getGenerated() != null) {
-            jsonObjectCertificado.addProperty("generated", simpleDateFormatISO8601.format(certificado.getGenerated().getTime()));
+        if (certificado.getSignGenerated() != null) {
+            jsonObjectCertificado.addProperty("generated", simpleDateFormatISO8601.format(certificado.getSignGenerated().getTime()));
         }
         if (certificado.getRevocated() != null) {
             jsonObjectCertificado.addProperty("revocated", simpleDateFormatISO8601.format(certificado.getRevocated().getTime()));
         }
-        jsonObjectCertificado.addProperty("validated", certificado.getValidated());
+        jsonObjectCertificado.addProperty("validated", certificado.getCertificateValidated());
         jsonObjectCertificado.addProperty("keyUsages", certificado.getKeyUsages());
         if (certificado.getDocTimeStamp() != null) {
             jsonObjectCertificado.addProperty("docTimeStamp", simpleDateFormatISO8601.format(certificado.getDocTimeStamp()));
+            jsonObjectCertificado.addProperty("docTimeStampIssuedBy", certificado.getDocTimeStampIssuedBy());
+            jsonObjectCertificado.addProperty("docValidTimeStamp", certificado.getDocValidTimeStamp());
         }
         jsonObjectCertificado.addProperty("signVerify", certificado.getSignVerify());
+//        jsonObjectCertificado.addProperty("docVerify", certificado.getDocVerify());
         jsonObjectCertificado.addProperty("docReason", certificado.getDocReason());
         jsonObjectCertificado.addProperty("docLocation", certificado.getDocLocation());
 
@@ -182,7 +194,7 @@ public class Json {
             jsonObjectCertificado.addProperty("emitidoPor", certificado.getIssuedBy());
             jsonObjectCertificado.addProperty("validoDesde", simpleDateFormatISO8601.format(certificado.getValidFrom().getTime()));
             jsonObjectCertificado.addProperty("validoHasta", simpleDateFormatISO8601.format(certificado.getValidTo().getTime()));
-            jsonObjectCertificado.addProperty("fechaRevocado", certificado.getRevocated() != null ? simpleDateFormatISO8601.format(certificado.getRevocated().getTime()):null);
+            jsonObjectCertificado.addProperty("fechaRevocado", certificado.getRevocated() != null ? simpleDateFormatISO8601.format(certificado.getRevocated().getTime()) : null);
         }
         gsonArray.add(jsonObjectCertificado);
         return gsonArray.toString();
@@ -196,12 +208,6 @@ public class Json {
         jsonObjectDatosUsuario.addProperty("apellido", datosUsuario.getApellido());
         jsonObjectDatosUsuario.addProperty("institucion", datosUsuario.getInstitucion());
         jsonObjectDatosUsuario.addProperty("cargo", datosUsuario.getCargo());
-        jsonObjectDatosUsuario.addProperty("serial", datosUsuario.getSerial());
-        if (datosUsuario.getFechaFirmaArchivo() != null) {
-            jsonObjectDatosUsuario.addProperty("fechaFirmaArchivo", datosUsuario.getFechaFirmaArchivo());
-        }
-        jsonObjectDatosUsuario.addProperty("entidadCertificadora", datosUsuario.getEntidadCertificadora());
-        jsonObjectDatosUsuario.addProperty("selladoTiempo", datosUsuario.getSelladoTiempo());
         jsonObjectDatosUsuario.addProperty("certificadoDigitalValido", datosUsuario.isCertificadoDigitalValido());
         return jsonObjectDatosUsuario.toString();
     }

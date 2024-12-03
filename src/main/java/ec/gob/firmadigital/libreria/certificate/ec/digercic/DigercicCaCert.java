@@ -38,8 +38,8 @@ import java.util.Date;
 import java.util.Set;
 
 /**
- * Certificado raiz de la Dirección General de Registro Civil, Identificación y Cedulación, representado como un objeto
- * <code>X509Certificate</code>.
+ * Certificado raiz de la Dirección General de Registro Civil, Identificación y
+ * Cedulación, representado como un objeto <code>X509Certificate</code>.
  *
  * @author mfernandez
  */

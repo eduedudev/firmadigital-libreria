@@ -49,11 +49,11 @@ import ec.gob.firmadigital.libreria.utils.Utils;
  */
 public class CertEcUtils {
 
-    public static final String BCE_NAME = "Banco Central del Ecuador";
-    public static final String CJ_NAME = "Consejo de la Judicatura";
-    public static final String SECURITYDATA_NAME = "Security Data";
-    public static final String ANFAC_NAME = "Anf AC";
-    public static final String DIGERCIC_NAME = "Dirección General de Registro Civil, Identificación y Cedulación";
+    public static final String BCE_NAME = "BANCO CENTRAL DEL ECUADOR";
+    public static final String CJ_NAME = "CONSEJO DE LA JUDICATURA";
+    public static final String SECURITYDATA_NAME = "SECURITY DATA";
+    public static final String ANFAC_NAME = "ANFAC";
+    public static final String DIGERCIC_NAME = "DIRECCIÓN GENERAL DE REGISTRO CIVIL, IDENTIFICACIÓN Y CEDULACIÓN";
     public static final String UANATACA_NAME = "UANATACA S.A.";
     public static final String ECLIPSOFT_NAME = "ECLIPSOFT S.A.";
     public static final String DATIL_NAME = "DATILMEDIA S.A.";
@@ -162,7 +162,6 @@ public class CertEcUtils {
                 } catch (java.security.InvalidKeyException ex) {
                     //TODO
                 }
-//                return new LazzateSubCaCert();
             }
             case CORPNEWBEST_NAME: {
                 try {
@@ -217,7 +216,6 @@ public class CertEcUtils {
                     //TODO
                 }
             }
-
             default:
                 throw new EntidadCertificadoraNoValidaException("Entidad Certificadora no reconocida");
         }
@@ -225,19 +223,19 @@ public class CertEcUtils {
 
     //TODO poner los nombres como constantes
     public static String getNombreCA(X509Certificate certificado) {
-        if (certificado.getIssuerX500Principal().getName().toUpperCase().contains("BANCO CENTRAL DEL ECUADOR")) {
+        if (certificado.getIssuerX500Principal().getName().toUpperCase().contains(BCE_NAME)) {
             return BCE_NAME;
         }
-        if (certificado.getIssuerX500Principal().getName().toUpperCase().contains("SECURITY DATA")) {
+        if (certificado.getIssuerX500Principal().getName().toUpperCase().contains(SECURITYDATA_NAME)) {
             return SECURITYDATA_NAME;
         }
-        if (certificado.getIssuerX500Principal().getName().toUpperCase().contains("CONSEJO DE LA JUDICATURA")) {
+        if (certificado.getIssuerX500Principal().getName().toUpperCase().contains(CJ_NAME)) {
             return CJ_NAME;
         }
-        if (certificado.getIssuerX500Principal().getName().toUpperCase().contains("ANF")) {
+        if (certificado.getIssuerX500Principal().getName().toUpperCase().contains(ANFAC_NAME)) {
             return ANFAC_NAME;
         }
-        if (certificado.getIssuerX500Principal().getName().toUpperCase().contains("DIRECCIÓN GENERAL DE REGISTRO CIVIL")) {
+        if (certificado.getIssuerX500Principal().getName().toUpperCase().contains(DIGERCIC_NAME)) {
             return DIGERCIC_NAME;
         }
         if (certificado.getIssuerX500Principal().getName().toUpperCase().contains(UANATACA_NAME)) {
@@ -262,13 +260,12 @@ public class CertEcUtils {
             return FIRMASEGURA_NAME;
         }
 
-        return "Entidad no reconocida " + certificado.getIssuerX500Principal().getName();
+        return "Entidad no reconocida " + certificado.getIssuerDN().getName();
     }
 
     //TODO poner los nombres como constantes
     public static DatosUsuario getDatosUsuarios(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         DatosUsuario datosUsuario = new DatosUsuario();
-        datosUsuario.setSelladoTiempo(false);
         if (CertificadoBancoCentralFactory.esCertificadoDelBancoCentral(certificado)) {
             CertificadoBancoCentral certificadoBancoCentral = CertificadoBancoCentralFactory.construir(certificado);
             if (certificadoBancoCentral instanceof CertificadoFuncionarioPublico) {
@@ -279,7 +276,6 @@ public class CertEcUtils {
                         + certificadoFuncionarioPublico.getSegundoApellido());
                 datosUsuario.setInstitucion(certificadoFuncionarioPublico.getInstitucion());
                 datosUsuario.setCargo(certificadoFuncionarioPublico.getCargo());
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
             }
             if (certificadoBancoCentral instanceof CertificadoMiembroEmpresa) {
                 CertificadoMiembroEmpresa certificadoMiembroEmpresa = (CertificadoMiembroEmpresa) certificadoBancoCentral;
@@ -288,7 +284,6 @@ public class CertEcUtils {
                 datosUsuario.setApellido(certificadoMiembroEmpresa.getPrimerApellido() + " "
                         + certificadoMiembroEmpresa.getSegundoApellido());
                 datosUsuario.setCargo(certificadoMiembroEmpresa.getCargo());
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
             }
             if (certificadoBancoCentral instanceof CertificadoPersonaJuridica) {
                 CertificadoPersonaJuridica certificadoPersonaJuridica = (CertificadoPersonaJuridica) certificadoBancoCentral;
@@ -297,7 +292,6 @@ public class CertEcUtils {
                 datosUsuario.setApellido(certificadoPersonaJuridica.getPrimerApellido() + " "
                         + certificadoPersonaJuridica.getSegundoApellido());
                 datosUsuario.setCargo(certificadoPersonaJuridica.getCargo());
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
             }
             if (certificadoBancoCentral instanceof CertificadoPersonaNatural) {
                 CertificadoPersonaNatural certificadoPersonaNatural = (CertificadoPersonaNatural) certificadoBancoCentral;
@@ -305,7 +299,6 @@ public class CertEcUtils {
                 datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
                 datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido() + " "
                         + certificadoPersonaNatural.getSegundoApellido());
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
             }
             if (certificadoBancoCentral instanceof CertificadoRepresentanteLegal) {
                 CertificadoRepresentanteLegal certificadoRepresentanteLegal = (CertificadoRepresentanteLegal) certificadoBancoCentral;
@@ -314,12 +307,10 @@ public class CertEcUtils {
                 datosUsuario.setApellido(certificadoRepresentanteLegal.getPrimerApellido() + " "
                         + certificadoRepresentanteLegal.getSegundoApellido());
                 datosUsuario.setCargo(certificadoRepresentanteLegal.getCargo());
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
             }
             if (certificadoBancoCentral instanceof CertificadoSelladoTiempo) {
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
+                datosUsuario.setCertificadoDigitalValido(true);
             }
-            datosUsuario.setEntidadCertificadora(BCE_NAME);
             datosUsuario.setCertificadoDigitalValido(true);
             return datosUsuario;
         }
@@ -335,7 +326,6 @@ public class CertEcUtils {
                 datosUsuario.setApellido(certificadoDepartamentoEmpresaConsejoJudicatura.getPrimerApellido() + " "
                         + certificadoDepartamentoEmpresaConsejoJudicatura.getSegundoApellido());
                 datosUsuario.setCargo(certificadoDepartamentoEmpresaConsejoJudicatura.getCargo());
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
             }
             if (certificadoConsejoJudicatura instanceof CertificadoEmpresaConsejoJudicatura) {
                 CertificadoEmpresaConsejoJudicatura certificadoEmpresaConsejoJudicatura = (CertificadoEmpresaConsejoJudicatura) certificadoConsejoJudicatura;
@@ -344,7 +334,6 @@ public class CertEcUtils {
                 datosUsuario.setApellido(certificadoEmpresaConsejoJudicatura.getPrimerApellido() + " "
                         + certificadoEmpresaConsejoJudicatura.getSegundoApellido());
                 datosUsuario.setCargo(certificadoEmpresaConsejoJudicatura.getCargo());
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
             }
             if (certificadoConsejoJudicatura instanceof CertificadoMiembroEmpresaConsejoJudicatura) {
                 CertificadoMiembroEmpresaConsejoJudicatura certificadoMiembroEmpresaConsejoJudicatura = (CertificadoMiembroEmpresaConsejoJudicatura) certificadoConsejoJudicatura;
@@ -353,7 +342,6 @@ public class CertEcUtils {
                 datosUsuario.setApellido(certificadoMiembroEmpresaConsejoJudicatura.getPrimerApellido() + " "
                         + certificadoMiembroEmpresaConsejoJudicatura.getSegundoApellido());
                 datosUsuario.setCargo(certificadoMiembroEmpresaConsejoJudicatura.getCargo());
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
             }
             if (certificadoConsejoJudicatura instanceof CertificadoPersonaJuridicaPrivadaConsejoJudicatura) {
                 CertificadoPersonaJuridicaPrivadaConsejoJudicatura certificadoPersonaJuridicaPrivadaConsejoJudicatura = (CertificadoPersonaJuridicaPrivadaConsejoJudicatura) certificadoConsejoJudicatura;
@@ -362,7 +350,6 @@ public class CertEcUtils {
                 datosUsuario.setApellido(certificadoPersonaJuridicaPrivadaConsejoJudicatura.getPrimerApellido() + " "
                         + certificadoPersonaJuridicaPrivadaConsejoJudicatura.getSegundoApellido());
                 datosUsuario.setCargo(datosUsuario.getCargo());
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
             }
             if (certificadoConsejoJudicatura instanceof CertificadoPersonaJuridicaPublicaConsejoJudicatura) {
                 CertificadoPersonaJuridicaPublicaConsejoJudicatura certificadoPersonaJuridicaPublicaConsejoJudicatura = (CertificadoPersonaJuridicaPublicaConsejoJudicatura) certificadoConsejoJudicatura;
@@ -371,7 +358,6 @@ public class CertEcUtils {
                 datosUsuario.setApellido(certificadoPersonaJuridicaPublicaConsejoJudicatura.getPrimerApellido() + " "
                         + certificadoPersonaJuridicaPublicaConsejoJudicatura.getSegundoApellido());
                 datosUsuario.setCargo(certificadoPersonaJuridicaPublicaConsejoJudicatura.getCargo());
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
             }
             if (certificadoConsejoJudicatura instanceof CertificadoPersonaNaturalConsejoJudicatura) {
                 CertificadoPersonaNaturalConsejoJudicatura certificadoPersonaNaturalConsejoJudicatura = (CertificadoPersonaNaturalConsejoJudicatura) certificadoConsejoJudicatura;
@@ -379,12 +365,10 @@ public class CertEcUtils {
                 datosUsuario.setNombre(certificadoPersonaNaturalConsejoJudicatura.getNombres());
                 datosUsuario.setApellido(certificadoPersonaNaturalConsejoJudicatura.getPrimerApellido() + " "
                         + certificadoPersonaNaturalConsejoJudicatura.getSegundoApellido());
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
             }
             if (certificadoConsejoJudicatura instanceof CertificadoSelladoTiempo) {
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
+                datosUsuario.setCertificadoDigitalValido(true);
             }
-            datosUsuario.setEntidadCertificadora(CJ_NAME);
             datosUsuario.setCertificadoDigitalValido(true);
             return datosUsuario;
         }
@@ -399,7 +383,6 @@ public class CertEcUtils {
                         + certificadoFuncionarioPublico.getSegundoApellido());
                 datosUsuario.setCargo(certificadoFuncionarioPublico.getCargo());
                 datosUsuario.setInstitucion(certificadoFuncionarioPublico.getInstitucion());
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
             }
             if (certificadoSecurityData instanceof CertificadoPersonaJuridica) {
                 CertificadoPersonaJuridica certificadoPersonaJuridica = (CertificadoPersonaJuridica) certificadoSecurityData;
@@ -408,7 +391,6 @@ public class CertEcUtils {
                 datosUsuario.setApellido(certificadoPersonaJuridica.getPrimerApellido() + " "
                         + certificadoPersonaJuridica.getSegundoApellido());
                 datosUsuario.setCargo(certificadoPersonaJuridica.getCargo());
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
             }
 
             if (certificadoSecurityData instanceof CertificadoPersonaNatural) {
@@ -417,12 +399,10 @@ public class CertEcUtils {
                 datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
                 datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido() + " "
                         + certificadoPersonaNatural.getSegundoApellido());
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
             }
             if (certificadoSecurityData instanceof CertificadoSelladoTiempo) {
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
+                datosUsuario.setCertificadoDigitalValido(true);
             }
-            datosUsuario.setEntidadCertificadora(SECURITYDATA_NAME);
             datosUsuario.setCertificadoDigitalValido(true);
             return datosUsuario;
         }
@@ -438,7 +418,6 @@ public class CertEcUtils {
                         + certificadoFuncionarioPublico.getSegundoApellido());
                 datosUsuario.setCargo(certificadoFuncionarioPublico.getCargo());
                 datosUsuario.setInstitucion(certificadoFuncionarioPublico.getInstitucion());
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
             }
             if (certificadoAnfAc18332 instanceof CertificadoPersonaJuridica) {
                 CertificadoPersonaJuridica certificadoPersonaJuridica = (CertificadoPersonaJuridica) certificadoAnfAc18332;
@@ -447,7 +426,6 @@ public class CertEcUtils {
                 datosUsuario.setApellido(certificadoPersonaJuridica.getPrimerApellido() + " "
                         + certificadoPersonaJuridica.getSegundoApellido());
                 datosUsuario.setCargo(certificadoPersonaJuridica.getCargo());
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
             }
 
             if (certificadoAnfAc18332 instanceof CertificadoPersonaNatural) {
@@ -456,12 +434,10 @@ public class CertEcUtils {
                 datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
                 datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido() + " "
                         + certificadoPersonaNatural.getSegundoApellido());
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
             }
             if (certificadoAnfAc18332 instanceof CertificadoSelladoTiempo) {
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
+                datosUsuario.setCertificadoDigitalValido(true);
             }
-            datosUsuario.setEntidadCertificadora(ANFAC_NAME);
             datosUsuario.setCertificadoDigitalValido(true);
             return datosUsuario;
         }
@@ -477,7 +453,6 @@ public class CertEcUtils {
                         + certificadoFuncionarioPublico.getSegundoApellido());
                 datosUsuario.setCargo(certificadoFuncionarioPublico.getCargo());
                 datosUsuario.setInstitucion(certificadoFuncionarioPublico.getInstitucion());
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
             }
             if (certificadoAnfAc37442 instanceof CertificadoPersonaJuridica) {
                 CertificadoPersonaJuridica certificadoPersonaJuridica = (CertificadoPersonaJuridica) certificadoAnfAc37442;
@@ -486,7 +461,6 @@ public class CertEcUtils {
                 datosUsuario.setApellido(certificadoPersonaJuridica.getPrimerApellido() + " "
                         + certificadoPersonaJuridica.getSegundoApellido());
                 datosUsuario.setCargo(certificadoPersonaJuridica.getCargo());
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
             }
 
             if (certificadoAnfAc37442 instanceof CertificadoPersonaNatural) {
@@ -495,12 +469,10 @@ public class CertEcUtils {
                 datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
                 datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido() + " "
                         + certificadoPersonaNatural.getSegundoApellido());
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
             }
             if (certificadoAnfAc37442 instanceof CertificadoSelladoTiempo) {
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
+                datosUsuario.setCertificadoDigitalValido(true);
             }
-            datosUsuario.setEntidadCertificadora(ANFAC_NAME);
             datosUsuario.setCertificadoDigitalValido(true);
             return datosUsuario;
         }
@@ -512,9 +484,7 @@ public class CertEcUtils {
                 datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
                 datosUsuario.setNombre(Utils.getCN(certificado));
                 datosUsuario.setApellido("");
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
             }
-            datosUsuario.setEntidadCertificadora(DIGERCIC_NAME);
             datosUsuario.setCertificadoDigitalValido(true);
             return datosUsuario;
         }
@@ -527,7 +497,6 @@ public class CertEcUtils {
                 datosUsuario.setApellido(certificadoMiembroEmpresaUanataca.getPrimerApellido() + " "
                         + certificadoMiembroEmpresaUanataca.getSegundoApellido());
                 datosUsuario.setCargo(certificadoMiembroEmpresaUanataca.getCargo());
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
             } else if (certificadoUanataca instanceof CertificadoPersonaJuridicaPrivadaUanataca) {
                 CertificadoPersonaJuridicaPrivadaUanataca certificadoPersonaJuridicaUanataca = (CertificadoPersonaJuridicaPrivadaUanataca) certificadoUanataca;
                 datosUsuario.setCedula(certificadoPersonaJuridicaUanataca.getCedulaPasaporte());
@@ -535,14 +504,12 @@ public class CertEcUtils {
                 datosUsuario.setApellido(certificadoPersonaJuridicaUanataca.getPrimerApellido() + " "
                         + certificadoPersonaJuridicaUanataca.getSegundoApellido());
                 datosUsuario.setCargo(datosUsuario.getCargo());
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
             } else if (certificadoUanataca instanceof CertificadoPersonaNaturalUanataca) {
                 CertificadoPersonaNaturalUanataca certificadoPersonaNaturalU = (CertificadoPersonaNaturalUanataca) certificadoUanataca;
                 datosUsuario.setCedula(certificadoPersonaNaturalU.getCedulaPasaporte());
                 datosUsuario.setNombre(certificadoPersonaNaturalU.getNombres());
                 datosUsuario.setApellido(certificadoPersonaNaturalU.getPrimerApellido() + " "
                         + certificadoPersonaNaturalU.getSegundoApellido());
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
             } else if (certificadoUanataca instanceof CertificadoRepresentanteLegalUanataca) {
                 CertificadoRepresentanteLegalUanataca certificadoRepresentanteLegalUanataca = (CertificadoRepresentanteLegalUanataca) certificadoUanataca;
                 datosUsuario.setCedula(certificadoRepresentanteLegalUanataca.getCedulaPasaporte());
@@ -550,12 +517,9 @@ public class CertEcUtils {
                 datosUsuario.setApellido(certificadoRepresentanteLegalUanataca.getPrimerApellido() + " "
                         + certificadoRepresentanteLegalUanataca.getSegundoApellido());
                 datosUsuario.setCargo(certificadoRepresentanteLegalUanataca.getCargo());
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
             } else if (certificadoUanataca instanceof CertificadoSelladoTiempo) {
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
-                datosUsuario.setSelladoTiempo(true);
+                datosUsuario.setCertificadoDigitalValido(true);
             }
-            datosUsuario.setEntidadCertificadora(UANATACA_NAME);
             datosUsuario.setCertificadoDigitalValido(true);
             return datosUsuario;
         }
@@ -566,32 +530,27 @@ public class CertEcUtils {
                 datosUsuario.setCedula(certificadoPersonalNaturalEclipsoft.getCedulaPasaporte());
                 datosUsuario.setNombre(certificadoPersonalNaturalEclipsoft.getNombres());
                 datosUsuario.setApellido(certificadoPersonalNaturalEclipsoft.getPrimerApellido() + " " + certificadoPersonalNaturalEclipsoft.getSegundoApellido());
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
             } else if (certificadoEclipsoft instanceof CertificadoMiembroEmpresaEclipsoft) {
                 CertificadoMiembroEmpresaEclipsoft certificadoMiembroEmpresaEclipsoft = (CertificadoMiembroEmpresaEclipsoft) certificadoEclipsoft;
                 datosUsuario.setCedula(certificadoMiembroEmpresaEclipsoft.getCedulaPasaporte());
                 datosUsuario.setNombre(certificadoMiembroEmpresaEclipsoft.getNombres());
                 datosUsuario.setApellido(certificadoMiembroEmpresaEclipsoft.getPrimerApellido() + " " + certificadoMiembroEmpresaEclipsoft.getSegundoApellido());
                 datosUsuario.setCargo(certificadoMiembroEmpresaEclipsoft.getCargo());
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
             } else if (certificadoEclipsoft instanceof CertificadoRepresentanteLegalEclipsoft) {
                 CertificadoRepresentanteLegalEclipsoft certificadoRepresentanteLegalEclipsoft = (CertificadoRepresentanteLegalEclipsoft) certificadoEclipsoft;
                 datosUsuario.setCedula(certificadoRepresentanteLegalEclipsoft.getCedulaPasaporte());
                 datosUsuario.setNombre(certificadoRepresentanteLegalEclipsoft.getNombres());
                 datosUsuario.setApellido(certificadoRepresentanteLegalEclipsoft.getPrimerApellido() + " " + certificadoRepresentanteLegalEclipsoft.getSegundoApellido());
                 datosUsuario.setCargo(certificadoRepresentanteLegalEclipsoft.getCargo());
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
             } else if (certificadoEclipsoft instanceof CertificadoPersonaJuridicaPrivadaEclipsoft) {
                 CertificadoPersonaJuridicaPrivadaEclipsoft certificadoPersonaJuridicaPrivadaEclipsoft = (CertificadoPersonaJuridicaPrivadaEclipsoft) certificadoEclipsoft;
                 datosUsuario.setCedula(certificadoPersonaJuridicaPrivadaEclipsoft.getCedulaPasaporte());
                 datosUsuario.setNombre(certificadoPersonaJuridicaPrivadaEclipsoft.getNombres());
                 datosUsuario.setApellido(certificadoPersonaJuridicaPrivadaEclipsoft.getPrimerApellido() + " " + certificadoPersonaJuridicaPrivadaEclipsoft.getSegundoApellido());
                 datosUsuario.setCargo(datosUsuario.getCargo());
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
             } else if (certificadoEclipsoft instanceof CertificadoSelladoTiempo) {
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
+                datosUsuario.setCertificadoDigitalValido(true);
             }
-            datosUsuario.setEntidadCertificadora(ECLIPSOFT_NAME);
             datosUsuario.setCertificadoDigitalValido(true);
             return datosUsuario;
         }
@@ -603,7 +562,6 @@ public class CertEcUtils {
                 datosUsuario.setNombre(certificadoMiembroEmpresaDatil.getNombres());
                 datosUsuario.setApellido(certificadoMiembroEmpresaDatil.getPrimerApellido() + " " + certificadoMiembroEmpresaDatil.getSegundoApellido());
                 datosUsuario.setCargo(certificadoMiembroEmpresaDatil.getCargo());
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
             }
             if (certificadoDatil instanceof CertificadoPersonaJuridicaPrivadaDatil) {
                 CertificadoPersonaJuridicaPrivadaDatil certificadoPersonaJuridicaPrivadaDatil = (CertificadoPersonaJuridicaPrivadaDatil) certificadoDatil;
@@ -612,7 +570,6 @@ public class CertEcUtils {
                 datosUsuario.setApellido(certificadoPersonaJuridicaPrivadaDatil.getPrimerApellido() + " "
                         + certificadoPersonaJuridicaPrivadaDatil.getSegundoApellido());
                 datosUsuario.setCargo(certificadoPersonaJuridicaPrivadaDatil.getCargo());
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
             }
             if (certificadoDatil instanceof CertificadoRepresentanteLegalDatil) {
                 CertificadoRepresentanteLegalDatil certificadoRepresentanteLegalDatil = (CertificadoRepresentanteLegalDatil) certificadoDatil;
@@ -621,7 +578,6 @@ public class CertEcUtils {
                 datosUsuario.setApellido(certificadoRepresentanteLegalDatil.getPrimerApellido() + " "
                         + certificadoRepresentanteLegalDatil.getSegundoApellido());
                 datosUsuario.setCargo(certificadoRepresentanteLegalDatil.getCargo());
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
             }
             if (certificadoDatil instanceof CertificadoPersonaNaturalDatil) {
                 CertificadoPersonaNaturalDatil certificadoPersonaNaturalDatil = (CertificadoPersonaNaturalDatil) certificadoDatil;
@@ -629,12 +585,10 @@ public class CertEcUtils {
                 datosUsuario.setNombre(certificadoPersonaNaturalDatil.getNombres());
                 datosUsuario.setApellido(certificadoPersonaNaturalDatil.getPrimerApellido() + " "
                         + certificadoPersonaNaturalDatil.getSegundoApellido());
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
             }
             if (certificadoDatil instanceof CertificadoSelladoTiempo) {
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
+                datosUsuario.setCertificadoDigitalValido(true);
             }
-            datosUsuario.setEntidadCertificadora(DATIL_NAME);
             datosUsuario.setCertificadoDigitalValido(true);
             return datosUsuario;
         }
@@ -646,7 +600,6 @@ public class CertEcUtils {
                 datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
                 datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido() + " "
                         + certificadoPersonaNatural.getSegundoApellido());
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
             } else if (certificadoArgosData instanceof CertificadoRepresentanteLegalArgosData) {
                 CertificadoRepresentanteLegalArgosData certificadoRepresentanteLegal = (CertificadoRepresentanteLegalArgosData) certificadoArgosData;
                 datosUsuario.setCedula(certificadoRepresentanteLegal.getCedulaPasaporte());
@@ -654,9 +607,7 @@ public class CertEcUtils {
                 datosUsuario.setApellido(certificadoRepresentanteLegal.getPrimerApellido() + " "
                         + certificadoRepresentanteLegal.getSegundoApellido());
                 datosUsuario.setCargo(certificadoRepresentanteLegal.getCargo());
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
             }
-            datosUsuario.setEntidadCertificadora(AGOSDATA_NAME);
             datosUsuario.setCertificadoDigitalValido(true);
             return datosUsuario;
         }
@@ -664,7 +615,6 @@ public class CertEcUtils {
             CertificadoLazzate certificadoLazzate = CertificadoLazzateDataFactory.construir(certificado);
             if (certificadoLazzate instanceof CertificadoPersonaNatural) {
                 CertificadoPersonaNatural certificadoPersonaNatural = (CertificadoPersonaNatural) certificadoLazzate;
-
                 datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
                 if (certificadoPersonaNatural.getNombres().isEmpty()) {
                     datosUsuario.setNombre(Utils.getCN(certificado));
@@ -674,7 +624,6 @@ public class CertEcUtils {
                     datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido() + " "
                             + certificadoPersonaNatural.getSegundoApellido());
                 }
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
             }
             if (certificadoLazzate instanceof CertificadoPersonaJuridica) {
                 CertificadoPersonaJuridica certificadoPersonaJuridica = (CertificadoPersonaJuridica) certificadoLazzate;
@@ -690,9 +639,7 @@ public class CertEcUtils {
                     datosUsuario.setApellido(certificadoPersonaJuridica.getPrimerApellido() + " "
                             + certificadoPersonaJuridica.getSegundoApellido());
                 }
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
             }
-            datosUsuario.setEntidadCertificadora(LAZZATE_NAME);
             datosUsuario.setCertificadoDigitalValido(true);
             return datosUsuario;
         }
@@ -705,7 +652,6 @@ public class CertEcUtils {
                 datosUsuario.setApellido(certificadoMiembroEmpresa.getPrimerApellido() + " "
                         + certificadoMiembroEmpresa.getSegundoApellido());
                 datosUsuario.setCargo(certificadoMiembroEmpresa.getCargo());
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
             }
             if (certificadoAlphaTechnologies instanceof CertificadoPersonaJuridica) {
                 CertificadoPersonaJuridica certificadoPersonaJuridica = (CertificadoPersonaJuridica) certificadoAlphaTechnologies;
@@ -714,7 +660,6 @@ public class CertEcUtils {
                 datosUsuario.setApellido(certificadoPersonaJuridica.getPrimerApellido() + " "
                         + certificadoPersonaJuridica.getSegundoApellido());
                 datosUsuario.setCargo(certificadoPersonaJuridica.getCargo());
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
             }
             if (certificadoAlphaTechnologies instanceof CertificadoPersonaNatural) {
                 CertificadoPersonaNatural certificadoPersonaNatural = (CertificadoPersonaNatural) certificadoAlphaTechnologies;
@@ -722,9 +667,7 @@ public class CertEcUtils {
                 datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
                 datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido() + " "
                         + certificadoPersonaNatural.getSegundoApellido());
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
             }
-            datosUsuario.setEntidadCertificadora(ALPHATECHNOLOGIES_NAME);
             datosUsuario.setCertificadoDigitalValido(true);
             return datosUsuario;
         }
@@ -737,7 +680,6 @@ public class CertEcUtils {
                 datosUsuario.setApellido(certificadoPersonaJuridica.getPrimerApellido() + " "
                         + certificadoPersonaJuridica.getSegundoApellido());
                 datosUsuario.setCargo(certificadoPersonaJuridica.getCargo());
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
             }
             if (certificadoCorpNewBest instanceof CertificadoMiembroEmpresa) {
                 CertificadoMiembroEmpresa certificadoMiembroEmpresa = (CertificadoMiembroEmpresa) certificadoCorpNewBest;
@@ -746,7 +688,6 @@ public class CertEcUtils {
                 datosUsuario.setApellido(certificadoMiembroEmpresa.getPrimerApellido() + " "
                         + certificadoMiembroEmpresa.getSegundoApellido());
                 datosUsuario.setCargo(certificadoMiembroEmpresa.getCargo());
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
             }
             if (certificadoCorpNewBest instanceof CertificadoPersonaNatural) {
                 CertificadoPersonaNatural certificadoPersonaNatural = (CertificadoPersonaNatural) certificadoCorpNewBest;
@@ -754,12 +695,10 @@ public class CertEcUtils {
                 datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
                 datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido() + " "
                         + certificadoPersonaNatural.getSegundoApellido());
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
             }
             if (certificadoCorpNewBest instanceof CertificadoSelladoTiempo) {
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
+                datosUsuario.setCertificadoDigitalValido(true);
             }
-            datosUsuario.setEntidadCertificadora(CORPNEWBEST_NAME);
             datosUsuario.setCertificadoDigitalValido(true);
             return datosUsuario;
         }
@@ -771,7 +710,6 @@ public class CertEcUtils {
                 datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
                 datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido() + " "
                         + certificadoPersonaNatural.getSegundoApellido());
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
             } else if (certificadoFirmaSegura instanceof CertificadoRepresentanteLegalFirmaSegura) {
                 CertificadoRepresentanteLegalFirmaSegura certificadoRepresentanteLegal = (CertificadoRepresentanteLegalFirmaSegura) certificadoFirmaSegura;
                 datosUsuario.setCedula(certificadoRepresentanteLegal.getCedulaPasaporte());
@@ -779,9 +717,7 @@ public class CertEcUtils {
                 datosUsuario.setApellido(certificadoRepresentanteLegal.getPrimerApellido() + " "
                         + certificadoRepresentanteLegal.getSegundoApellido());
                 datosUsuario.setCargo(certificadoRepresentanteLegal.getCargo());
-                datosUsuario.setSerial(certificado.getSerialNumber().toString());
             }
-            datosUsuario.setEntidadCertificadora(FIRMASEGURA_NAME);
             datosUsuario.setCertificadoDigitalValido(true);
             return datosUsuario;
         }

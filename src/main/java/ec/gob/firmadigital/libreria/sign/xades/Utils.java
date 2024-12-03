@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package ec.gob.firmadigital.libreria.xml;
+package ec.gob.firmadigital.libreria.sign.xades;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -62,13 +62,15 @@ import ec.gob.firmadigital.libreria.core.Util;
 import ec.gob.firmadigital.libreria.sign.SignConstants;
 import ec.gob.firmadigital.libreria.sign.SignInfo;
 import ec.gob.firmadigital.libreria.sign.XMLConstants;
+import ec.gob.firmadigital.libreria.sign.xades.AOFileUtils;
+import java.util.logging.Level;
 
 /**
  * Utilidades para las firmas XML.
  */
 public final class Utils {
 
-    private static final Logger logger = Logger.getLogger(Utils.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(Utils.class.getName());
 
     /**
      * A&ntilde;ade transformaciones seg&uacute; la sintaxis de
@@ -104,8 +106,7 @@ public final class Utils {
                     transformParam = new XPathFilterParameterSpec(transformBody,
                             Collections.singletonMap(xmlSignaturePrefix, XMLSignature.XMLNS));
                 } catch (final Exception e) {
-                    logger.warning(
-                            "No se han podido crear los parametros para una transformacion XPATH, se omitira: " + e);
+                    LOGGER.log(Level.WARNING, "No se han podido crear los parametros para una transformacion XPATH, se omitira: {0}", e);
                     continue;
                 }
             } else if (Transform.XPATH2.equals(transformType) && transformBody != null) {
@@ -117,16 +118,14 @@ public final class Utils {
                 } else if ("union".equals(transformSubtype)) {
                     xPath2TransformFilter = Filter.UNION;
                 } else {
-                    logger.warning("Se ha solicitado aplicar una transformacion XPATH2 de un tipo no soportado: "
-                            + transformSubtype);
+                    LOGGER.log(Level.WARNING, "Se ha solicitado aplicar una transformacion XPATH2 de un tipo no soportado: {0}", transformSubtype);
                     continue;
                 }
                 try {
                     transformParam = new XPathFilter2ParameterSpec(
                             Collections.singletonList(new XPathType(transformBody, xPath2TransformFilter)));
                 } catch (final Exception e) {
-                    logger.warning(
-                            "No se han podido crear los parametros para una transformacion XPATH2, se omitira: " + e);
+                    LOGGER.log(Level.WARNING, "No se han podido crear los parametros para una transformacion XPATH2, se omitira: {0}", e);
                     continue;
                 }
             } else if (Transform.BASE64.equals(transformType)) {
@@ -136,7 +135,7 @@ public final class Utils {
                 // La transformacion Enveloped no necesita parametros
                 transformParam = null;
             } else {
-                logger.warning("Tipo de transformacion no soportada: " + transformType);
+                LOGGER.log(Level.WARNING, "Tipo de transformacion no soportada: {0}", transformType);
                 continue;
             }
 
@@ -145,7 +144,7 @@ public final class Utils {
             try {
                 transformList.add(Utils.getDOMFactory().newTransform(transformType, transformParam));
             } catch (final Exception e) {
-                logger.warning("No se ha podido aplicar la transformacion '" + transformType + "': " + e);
+                LOGGER.log(Level.WARNING, "No se ha podido aplicar la transformacion ''{0}'': {1}", new Object[]{transformType, e});
             }
         }
     }
@@ -493,7 +492,7 @@ public final class Utils {
         try {
             writer = new OutputStreamWriter(baos, xmlEncoding);
         } catch (UnsupportedEncodingException e) {
-            logger.warning("La codificacion '" + xmlEncoding + "' no es valida, se usara la por defecto: " + e);
+            LOGGER.log(Level.WARNING, "La codificacion ''{0}'' no es valida, se usara la por defecto: {1}", new Object[]{xmlEncoding, e});
             writer = new OutputStreamWriter(baos);
         }
 
@@ -502,7 +501,7 @@ public final class Utils {
 
         // Si no se trata de un XML completo y bien formado, devolvemos ya el
         // resultado
-        if (!FileUtils.isXML(baos.toByteArray())) {
+        if (!AOFileUtils.isXML(baos.toByteArray())) {
             return baos.toByteArray();
         }
 
@@ -511,8 +510,7 @@ public final class Utils {
         try {
             return new String(baos.toByteArray(), xmlEncoding).getBytes(xmlEncoding);
         } catch (Exception e) {
-            logger.warning(
-                    "La codificacion '" + xmlEncoding + "' no es valida, se usara la por defecto del sistema: " + e);
+            LOGGER.log(Level.WARNING, "La codificacion ''{0}'' no es valida, se usara la por defecto del sistema: {1}", new Object[]{xmlEncoding, e});
             return new String(baos.toByteArray()).getBytes();
         }
     }
@@ -555,7 +553,7 @@ public final class Utils {
                         .parse(((Element) signature.getElementsByTagNameNS(namespace, "SigningTime").item(0))
                                 .getTextContent());
             } catch (Exception e) {
-                logger.warning("No se ha podido recuperar la fecha de firma: " + e);
+                LOGGER.log(Level.WARNING, "No se ha podido recuperar la fecha de firma: {0}", e);
             }
         }
 
@@ -578,7 +576,7 @@ public final class Utils {
                     .replace("\t", "");
             pkcs1 = Base64.getDecoder().decode(base64);
         } catch (Exception e) {
-            logger.warning("No se pudo extraer el PKCS#1 de una firma: " + e);
+            LOGGER.log(Level.WARNING, "No se pudo extraer el PKCS#1 de una firma: {0}", e);
             pkcs1 = null;
         }
 
@@ -644,7 +642,7 @@ public final class Utils {
      */
     public static X509Certificate createCert(String b64Cert) {
         if (b64Cert == null || b64Cert.isEmpty()) {
-            logger.severe("Se ha proporcionado una cadena nula o vacia, se devolvera null");
+            LOGGER.severe("Se ha proporcionado una cadena nula o vacia, se devolvera null");
             return null;
         }
         X509Certificate cert;
@@ -653,10 +651,10 @@ public final class Utils {
             try {
                 isCert.close();
             } catch (Exception e) {
-                logger.warning("Error cerrando el flujo de lectura del certificado: " + e);
+                LOGGER.log(Level.WARNING, "Error cerrando el flujo de lectura del certificado: {0}", e);
             }
         } catch (Exception e) {
-            logger.severe("No se pudo decodificar el certificado en Base64, se devolvera null: " + e);
+            LOGGER.log(Level.SEVERE, "No se pudo decodificar el certificado en Base64, se devolvera null: {0}", e);
             return null;
         }
         return cert;

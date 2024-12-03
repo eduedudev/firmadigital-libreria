@@ -23,13 +23,14 @@ import static ec.gob.firmadigital.libreria.utils.BouncyCastleUtils.certificateHa
 import java.security.cert.X509Certificate;
 
 /**
- * Permite construir certificados tipo {@link CertificadoAlphaTechnologiesFactory} a partir de
- * certificados X509Certificate.
+ * Permite construir certificados tipo
+ * {@link CertificadoAlphaTechnologiesFactory} a partir de certificados
+ * X509Certificate.
  *
  * @author Steven Chiriboga <steven.chiriboga@alphaside.com>
  */
 public class CertificadoAlphaTechnologiesFactory {
-    
+
     public static boolean esCertificadoDeAlphaTechnologies(X509Certificate certificado) {
         return (certificateHasPolicy(certificado, OID_CERTIFICADO_PERSONA_NATURAL)
                 || certificateHasPolicy(certificado, OID_CERTIFICADO_PERSONA_JURIDICA)
@@ -47,5 +48,5 @@ public class CertificadoAlphaTechnologiesFactory {
             throw new EntidadCertificadoraNoValidaException("Certificado de Alpha Technologies Cia. Ltda. sin categorizar!");
         }
     }
-    
+
 }

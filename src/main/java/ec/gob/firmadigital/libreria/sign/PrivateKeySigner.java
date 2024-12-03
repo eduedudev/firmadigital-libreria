@@ -24,18 +24,18 @@ import java.security.Signature;
 
 public class PrivateKeySigner extends BaseSigner {
 
-    private PrivateKey pk;
+    private final PrivateKey privateKey;
 
-    public PrivateKeySigner(PrivateKey pk, DigestAlgorithm digestAlgorithm) {
-        super(digestAlgorithm, EncryptionAlgorithm.forName(pk.getAlgorithm()));
-        this.pk = pk;
+    public PrivateKeySigner(PrivateKey privateKey, DigestAlgorithm digestAlgorithm) {
+        super(digestAlgorithm, EncryptionAlgorithm.forName(privateKey.getAlgorithm()));
+        this.privateKey = privateKey;
     }
 
     @Override
     public byte[] sign(byte[] message) throws GeneralSecurityException {
         try {
             Signature sig = getSignature();
-            sig.initSign(pk);
+            sig.initSign(privateKey);
             sig.update(message);
             return sig.sign();
         } catch (NoSuchAlgorithmException e) {

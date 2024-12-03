@@ -25,8 +25,6 @@ import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.xml.crypto.MarshalException;
 import javax.xml.crypto.XMLStructure;
@@ -64,8 +62,6 @@ import es.uji.crypto.xades.jxades.security.xml.XAdES.XMLAdvancedSignature;
  * </ul>
  */
 public final class RubricaXMLAdvancedSignature extends XMLAdvancedSignature {
-
-    static final Logger logger = Logger.getLogger(RubricaXMLAdvancedSignature.class.getName());
 
     private RubricaXMLAdvancedSignature(final XAdES_BES xades) {
         super(xades);
@@ -176,18 +172,6 @@ public final class RubricaXMLAdvancedSignature extends XMLAdvancedSignature {
         this.signContext = new DOMSignContext(privateKey, this.baseElement);
         this.signContext.putNamespacePrefix(XMLSignature.XMLNS, this.xades.getXmlSignaturePrefix());
         this.signContext.putNamespacePrefix(this.xadesNamespace, this.xades.getXadesPrefix());
-
-        try {
-            // Obtenemos el dereferenciador por defecto por reflexion
-            // e instalamos uno nuevo que solo actua cuando falla el por defecto
-            this.signContext
-                    .setURIDereferencer(new CustomUriDereferencer(CustomUriDereferencer.getDefaultDereferencer()));
-        } catch (final Exception e) {
-            logger.log(Level.WARNING,
-                    "No se ha podido instalar un dereferenciador a medida, es posible que fallen las firmas de nodos concretos: "
-                    + e,
-                    e);
-        }
 
         this.signature.sign(this.signContext);
     }

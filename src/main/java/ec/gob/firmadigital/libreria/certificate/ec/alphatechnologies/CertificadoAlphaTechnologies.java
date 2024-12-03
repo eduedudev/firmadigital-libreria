@@ -28,12 +28,12 @@ import ec.gob.firmadigital.libreria.certificate.CertUtils;
  * @author Steven Chiriboga <steven.chiriboga@alphaside.com>
  */
 public class CertificadoAlphaTechnologies {
-    
+
     // OIDs de tipo de certificado:
     public static final String OID_CERTIFICADO_PERSONA_NATURAL = "1.3.6.1.4.1.56105.2.1";
     public static final String OID_CERTIFICADO_PERSONA_JURIDICA = "1.3.6.1.4.1.56105.2.2";
     public static final String OID_CERTIFICADO_MIEMBRO_EMPRESA = "1.3.6.1.4.1.56105.2.3";
-    
+
     // OIDs de Campos del Certificado:
     public static final String OID_CEDULA_PASAPORTE = "1.3.6.1.4.1.56105.3.1";
     public static final String OID_NOMBRES = "1.3.6.1.4.1.56105.3.2";
@@ -47,8 +47,7 @@ public class CertificadoAlphaTechnologies {
     public static final String OID_RAZON_SOCIAL = "1.3.6.1.4.1.56105.3.10";
     public static final String OID_RUC = "1.3.6.1.4.1.56105.3.11";
     public static final String OID_PAIS = "1.3.6.1.4.1.56105.3.12";
-    // public static final String OID_TIPO = "1.3.6.1.4.1.56105.3.18";
-    
+
     private final X509Certificate certificado;
 
     public CertificadoAlphaTechnologies(X509Certificate certificado) {
@@ -117,5 +116,5 @@ public class CertificadoAlphaTechnologies {
             throw new RuntimeException(e);
         }
     }
-    
+
 }

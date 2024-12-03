@@ -17,32 +17,25 @@
  */
 package ec.gob.firmadigital.libreria.utils;
 
-import java.util.logging.Logger;
-
 /**
- * Utilidades varias.
+ * Utilidades SO y Java.
  *
  * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
  */
 public class OsUtils {
 
-    private static final Logger logger = Logger.getLogger(OsUtils.class.getName());
-
     public static boolean isWindows() {
         String osName = System.getProperty("os.name");
-        logger.finer("Operating System:" + osName);
         return (osName.toUpperCase().indexOf("WINDOWS") == 0);
     }
 
     public static boolean isMac() {
         String osName = System.getProperty("os.name");
-        logger.finer("Operating System:" + osName);
         return osName.toUpperCase().contains("MAC");
     }
 
     public static String getOs() {
         String osName = System.getProperty("os.name");
-        logger.finer("Operating System:" + osName);
         return osName.toUpperCase();
     }
 
@@ -58,13 +51,11 @@ public class OsUtils {
         } else if (osName.toUpperCase().contains("IOS ")) {
             osName = "IOS";
         }
-        logger.finer("Operating System:" + osName);
         return osName;
     }
 
     public static String getJavaVersion() {
         String javaVersion = System.getProperty("java.version");
-        logger.finer("Java Version:" + javaVersion);
         return javaVersion.toUpperCase();
     }
 

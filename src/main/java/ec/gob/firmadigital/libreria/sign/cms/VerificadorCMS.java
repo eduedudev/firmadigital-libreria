@@ -83,22 +83,18 @@ public class VerificadorCMS {
             for (SignerInformation signer : collection) {
                 @SuppressWarnings("unchecked")
                 Collection<X509CertificateHolder> certCollection = certStore.getMatches(signer.getSID());
-
                 Iterator<X509CertificateHolder> certIt = certCollection.iterator();
                 X509CertificateHolder certificateHolder = certIt.next();
-
                 JcaX509CertificateConverter jcaX509CertificateConverter = new JcaX509CertificateConverter();
                 X509Certificate x509Certificate = jcaX509CertificateConverter.setProvider("BC")
                         .getCertificate(certificateHolder);
 
                 certificados.add(x509Certificate);
-
                 AttributeTable attributes = signer.getSignedAttributes();
 
                 if (attributes != null) {
                     Attribute messageDigestAttribute = attributes.get(CMSAttributes.signingTime);
                     ASN1UTCTime dt = (ASN1UTCTime) messageDigestAttribute.getAttrValues().getObjectAt(0);
-
                     try {
                         SimpleDateFormat f_DateTime = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
                         String dateStr = f_DateTime.format(dt.getDate());
@@ -118,8 +114,7 @@ public class VerificadorCMS {
                 }
 
                 DatosUsuario datosUsuario = CertEcUtils.getDatosUsuarios(x509Certificate);
-                datosUsuario.setSerial(x509Certificate.getSerialNumber().toString());
-                datosUsuario.setFechaFirmaArchivo(fechaFirma);
+//                datosUsuario.setFechaFirmaArchivo(fechaFirma);
                 listaDatosUsuario.add(datosUsuario);
             }
 

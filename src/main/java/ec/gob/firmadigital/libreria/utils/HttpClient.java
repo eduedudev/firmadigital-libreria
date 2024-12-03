@@ -25,6 +25,7 @@ import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.net.ssl.HostnameVerifier;
@@ -37,7 +38,7 @@ import javax.net.ssl.X509TrustManager;
 
 public class HttpClient {
 
-    private static final Logger logger = Logger.getLogger(HttpClient.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(HttpClient.class.getName());
 
     private static final String SSL_CONTEXT = "SSL";
     private static final String HTTPS = "https";
@@ -83,9 +84,7 @@ public class HttpClient {
             try {
                 disableSslChecks();
             } catch (Exception e) {
-                logger.warning(
-                        "No se ha podido ajustar la confianza SSL, es posible que no se pueda completar la conexion: "
-                        + e);
+                LOGGER.log(Level.WARNING, "No se ha podido ajustar la confianza SSL, es posible que no se pueda completar la conexion: {0}", e);
             }
         }
 
@@ -97,7 +96,7 @@ public class HttpClient {
 
         int resCode = conn.getResponseCode();
         String statusCode = Integer.toString(resCode);
-        logger.fine("Recibido: " + resCode + ": " + conn.getResponseMessage());
+        LOGGER.log(Level.FINE, "Recibido: {0}: {1}", new Object[]{resCode, conn.getResponseMessage()});
 
         if (statusCode.startsWith("4") || statusCode.startsWith("5")) {
             if (url.getProtocol().equals(HTTPS)) {

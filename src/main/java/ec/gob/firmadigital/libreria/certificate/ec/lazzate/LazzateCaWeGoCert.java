@@ -82,7 +82,7 @@ public class LazzateCaWeGoCert extends X509Certificate {
         cer.append("gW19+P97D/15mC3y4sFOENREvQjpOTtuNLsZPMkUcNTth/WmoThuXUNcA2av00+T\n");
         cer.append("wrtj3moaqJNEP0cM\n");
         cer.append("-----END CERTIFICATE-----\n");
-        
+
         try {
             InputStream is = new ByteArrayInputStream(cer.toString().getBytes("UTF-8"));
             CertificateFactory cf = CertificateFactory.getInstance("X.509");

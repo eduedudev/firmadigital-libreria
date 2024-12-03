@@ -41,14 +41,14 @@ public class X509CertificateUtils {
 
     private String error = null;
     private String revocado = null;
-    private boolean caducado = false;
+    private boolean expirado = false;
     private boolean desconocido = false;
 
     public X509CertificateUtils() {
     }
 
-    public boolean isCaducado() {
-        return caducado;
+    public boolean isExpirado() {
+        return expirado;
     }
 
     public boolean isDesconocido() {
@@ -75,7 +75,7 @@ public class X509CertificateUtils {
 
     public boolean validarX509Certificate(X509Certificate x509Certificate, String apiUrl, String base64) throws RubricaException, KeyStoreException, EntidadCertificadoraNoValidaException, InvalidKeyException, CertificadoInvalidoException, IOException, HoraServidorException, ConexionException {
         boolean retorno = false;
-        int diasAnticipacion = 30;
+        int diasAnticipacion = 0;
         if (x509Certificate != null) {
             String apiUrlFecha = null;
             String apiUrlRevocado = null;
@@ -90,14 +90,13 @@ public class X509CertificateUtils {
                 revocado = fechaRevocado.toString();
             }
             if (fechaHora.compareTo(x509Certificate.getNotBefore()) <= 0 || fechaHora.compareTo(x509Certificate.getNotAfter()) >= 0) {
-                caducado = true;
+                expirado = true;
             } else {
                 java.util.Calendar calendarRecordatorio = java.util.Calendar.getInstance(java.util.TimeZone.getTimeZone("America/Guayaquil"));
                 calendarRecordatorio.setTime(x509Certificate.getNotAfter());
                 calendarRecordatorio.add(java.util.Calendar.DATE, -diasAnticipacion);
                 if (calendarRecordatorio.getTime().compareTo(fechaHora) <= 0) {
                     java.text.SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    //jakarta.swing.JOptionPane.showMessageDialog(null, PropertiesUtils.getMessages().getProperty("mensaje.advertencia.certificado_advertencia") + simpleDateFormat.format(x509Certificate.getNotAfter().getTime()), "Advertencia", jakarta.swing.JOptionPane.INFORMATION_MESSAGE);
                     error = PropertiesUtils.getMessages().getProperty("mensaje.advertencia.certificado_advertencia") + simpleDateFormat.format(x509Certificate.getNotAfter().getTime());
                 }
             }
@@ -106,7 +105,7 @@ public class X509CertificateUtils {
                 desconocido = true;
             }
 
-            if ((revocado != null) || caducado || desconocido) {
+            if ((revocado != null) || expirado || desconocido) {
                 error = PropertiesUtils.getMessages().getProperty("mensaje.error.certificado_invalido");
                 retorno = false;
             } else {

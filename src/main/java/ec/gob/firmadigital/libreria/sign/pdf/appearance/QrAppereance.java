@@ -38,6 +38,7 @@ import com.itextpdf.layout.property.VerticalAlignment;
 import com.itextpdf.signatures.PdfSignatureAppearance;
 
 import ec.gob.firmadigital.libreria.utils.QRCode;
+import java.util.logging.Level;
 
 public class QrAppereance implements CustomAppearance {
 
@@ -47,7 +48,7 @@ public class QrAppereance implements CustomAppearance {
     private String signTime;
     private String infoQR;
 
-    private static final Logger logger = Logger.getLogger(QrAppereance.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(QrAppereance.class.getName());
 
     public QrAppereance(String nombreFirmante, String reason, String location, String signTime, String infoQR) {
         this.nombreFirmante = nombreFirmante;
@@ -84,7 +85,7 @@ public class QrAppereance implements CustomAppearance {
             byteQR = QRCode.generateQR(text, (int) signaturePositionOnPage.getHeight(),
                     (int) signaturePositionOnPage.getHeight());
         } catch (Exception e) {
-            logger.warning("Error al generar QR: " + e);
+            LOGGER.log(Level.WARNING, "Error al generar QR: {0}", e);
         }
 
         // QR

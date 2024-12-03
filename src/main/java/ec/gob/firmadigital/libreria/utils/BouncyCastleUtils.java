@@ -43,13 +43,14 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
  */
 public class BouncyCastleUtils {
 
-    private static final Logger logger = Logger.getLogger(BouncyCastleUtils.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(BouncyCastleUtils.class.getName());
 
     /**
      * Inicializa el Proveedor de Seguridad BouncyCastle
      */
     public static void initializeBouncyCastle() {
         AccessController.doPrivileged(new PrivilegedAction<Void>() {
+            @Override
             public Void run() {
                 Security.addProvider(new BouncyCastleProvider());
                 return null;
@@ -95,7 +96,7 @@ public class BouncyCastleUtils {
                 }
             }
         } catch (Exception ex) {
-            logger.severe("Error reading cert policies: " + ex);
+            LOGGER.severe("Error reading cert policies: " + ex);
         }
 
         return false;

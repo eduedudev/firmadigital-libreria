@@ -19,15 +19,16 @@ package ec.gob.firmadigital.libreria.utils;
 
 /**
  * Application Configuracion using System Properties.
- * 
- * Se debe almacenar en el archivo de configuracion del servidor 
- * WildFly (standalone.xml), asi:
  *
- *   <system-properties>
- *     <property name="tsaUrl" value= "xxx" />
- *     <property name="tsaUsername" value= "yyy" />
- *     <property name="tsaPassword" value= "zzz" />
- *   </system-properties>
+ * Se debe almacenar en el archivo de configuracion del servidor WildFly
+ * (standalone.xml), asi:
+ *
+ * <system-properties>
+ * <property name="tsaUrl" value= "xxx" />
+ * <property name="tsaUsername" value= "yyy" />
+ * <property name="tsaPassword" value= "zzz" />
+ * </system-properties>
+ *
  * @author mfernandez
  */
 public class PropertiesTsa {
@@ -61,7 +62,10 @@ public class PropertiesTsa {
     private String readSystemProperty(String propertyName) {
         String propertyValue = System.getProperty(propertyName);
         if (propertyValue == null) {
-            throw new RuntimeException("System property " + propertyName + " not found");
+            System.out.println("System property " + propertyName + " not found");
+            this.tsaUrl = "https://freetsa.org/tsr";
+            this.tsaUsername = null;
+            this.tsaPassword = null;
         }
         return propertyValue;
     }

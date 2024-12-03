@@ -44,7 +44,7 @@ import java.util.Set;
  * @author Steven Chiriboga <steven.chiriboga@alphaside.com>
  */
 public class AlphaTechnologiesCaCert extends X509Certificate {
-    
+
     private final X509Certificate certificate;
 
     public AlphaTechnologiesCaCert() {
@@ -215,7 +215,4 @@ public class AlphaTechnologiesCaCert extends X509Certificate {
     public boolean hasUnsupportedCriticalExtension() {
         return certificate.hasUnsupportedCriticalExtension();
     }
-    
-    
-    
 }

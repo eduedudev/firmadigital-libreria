@@ -46,7 +46,7 @@ import javax.security.auth.login.LoginException;
  */
 public abstract class PKCS11KeyStoreProvider implements KeyStoreProvider {
 
-    private static final Logger log = Logger.getLogger(PKCS11KeyStoreProvider.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(PKCS11KeyStoreProvider.class.getName());
 
     /**
      * Obtiene la configuracion para el Provider, segun el sistema operativo que
@@ -85,7 +85,7 @@ public abstract class PKCS11KeyStoreProvider implements KeyStoreProvider {
                 try {
                     configStream.close();
                 } catch (IOException e) {
-                    log.warning(e.getMessage());
+                    LOGGER.warning(e.getMessage());
                 }
             }
         }
@@ -133,7 +133,7 @@ public abstract class PKCS11KeyStoreProvider implements KeyStoreProvider {
                 try {
                     configStream.close();
                 } catch (IOException e) {
-                    log.warning(e.getMessage());
+                    LOGGER.warning(e.getMessage());
                 }
             }
         }

@@ -231,7 +231,7 @@ public class CertUtils {
         List<Alias> signingAliases = KeyStoreUtilities.getSigningAliases(keyStore);
 
         if (signingAliases.isEmpty()) {
-            throw new RubricaException("No se encuentran certificados para firmar\nPuede estar caducado o revocado");
+            throw new RubricaException("No se encuentran certificados para firmar\nPuede estar expirado o revocado");
         }
 
         if (signingAliases.size() == 1) {

@@ -94,6 +94,12 @@ public class ValidadorOCSP {
         InputStream in = (InputStream) con.getContent();
         OCSPResp ocspResponse = new OCSPResp(in);
 
+        //SUCCESSFUL = 0
+        //MALFORMED_REQUEST = 1
+        //INTERNAL_ERROR = 2
+        //TRY_LATER = 3
+        //SIG_REQUIRED = 5
+        //UNAUTHORIZED = 6
         if (ocspResponse.getStatus() != 0) {
             throw new RubricaException("Status HTTP inválido: " + ocspResponse.getStatus());
         }

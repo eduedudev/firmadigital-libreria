@@ -51,9 +51,9 @@ public class PdfVisibleSignatureTest {
         byte[] pdf = Files.readAllBytes(path);
 
         Properties params = new Properties();
-        params.setProperty(PDFSignerItext.SIGNING_REASON, "Razon de firma");
-        params.setProperty(PDFSignerItext.SIGNING_LOCATION, "Quito, Ecuador");
-        params.setProperty(PDFSignerItext.SIGNATURE_PAGE, "-2");
+        params.setProperty(BasePdfSigner.SIGNING_REASON, "Razon de firma");
+        params.setProperty(BasePdfSigner.SIGNING_LOCATION, "Quito, Ecuador");
+        params.setProperty(BasePdfSigner.LAST_PAGE, "-2");
 
         params.setProperty(RectanguloUtil.POSITION_ON_PAGE_LOWER_LEFT_X, "0");
         params.setProperty(RectanguloUtil.POSITION_ON_PAGE_LOWER_LEFT_Y, "0");
@@ -63,7 +63,7 @@ public class PdfVisibleSignatureTest {
         byte[] result;
 
         try (FileOutputStream fos = new FileOutputStream(tempFile)) {
-            Signer signer = new PDFSignerItext();
+            Signer signer = new BasePdfSigner();
             result = signer.sign(pdf, SignConstants.SIGN_ALGORITHM_SHA1WITHRSA, kp.getPrivate(), chain, params, PropertiesUtils.versionBase64());
 
             assertNotNull(result);
