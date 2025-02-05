@@ -221,7 +221,6 @@ public class CertEcUtils {
         }
     }
 
-    //TODO poner los nombres como constantes
     public static String getNombreCA(X509Certificate certificado) {
         if (certificado.getIssuerX500Principal().getName().toUpperCase().contains(BCE_NAME)) {
             return BCE_NAME;
@@ -263,7 +262,6 @@ public class CertEcUtils {
         return "Entidad no reconocida " + certificado.getIssuerDN().getName();
     }
 
-    //TODO poner los nombres como constantes
     public static DatosUsuario getDatosUsuarios(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         DatosUsuario datosUsuario = new DatosUsuario();
         if (CertificadoBancoCentralFactory.esCertificadoDelBancoCentral(certificado)) {

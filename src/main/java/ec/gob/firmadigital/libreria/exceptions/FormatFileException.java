@@ -24,8 +24,6 @@ package ec.gob.firmadigital.libreria.exceptions;
  */
 public class FormatFileException extends RubricaException {
 
-    private static final long serialVersionUID = 6773429868826011131L;
-
     public FormatFileException(String msg) {
         super(msg);
     }

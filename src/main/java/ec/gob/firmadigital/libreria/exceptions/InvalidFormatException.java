@@ -25,8 +25,6 @@ package ec.gob.firmadigital.libreria.exceptions;
  */
 public class InvalidFormatException extends RubricaException {
 
-    private static final long serialVersionUID = 3204897511735178462L;
-
     /**
      * Crea la excepci&oacute;n con un mensaje determinado.
      *

@@ -26,8 +26,6 @@ import java.net.URL;
  */
 public class OcspTimeoutException extends Exception {
 
-    private static final long serialVersionUID = 8593563176075864415L;
-
     private String url;
 
     public OcspTimeoutException(Exception e, URL url) {

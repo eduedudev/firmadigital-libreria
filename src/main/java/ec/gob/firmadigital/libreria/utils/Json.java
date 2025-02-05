@@ -36,13 +36,12 @@ public class Json {
 
     private static final SimpleDateFormat simpleDateFormatISO8601 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
 
-    public static String generarJsonVersion(String sistemaOperativo, String aplicacion, String versionApp, String sha) {
-        if (sistemaOperativo != null && versionApp != null && sha != null) {
+    public static String generarJsonVersion(String sistemaOperativo, String aplicacion, String versionApp) {
+        if (sistemaOperativo != null && versionApp != null) {
             JsonObject gsonObject = new JsonObject();
             gsonObject.addProperty("sistemaOperativo", sistemaOperativo);
             gsonObject.addProperty("aplicacion", aplicacion);
             gsonObject.addProperty("versionApp", versionApp);
-            gsonObject.addProperty("sha", sha);
             return gsonObject.toString();
         } else {
             return null;
@@ -78,7 +77,7 @@ public class Json {
             if (certificado.getRevocated() != null) {
                 jsonObjectCertificado.addProperty("revocated", simpleDateFormatISO8601.format(certificado.getRevocated().getTime()));
             }
-            jsonObjectCertificado.addProperty("validated", certificado.getCertificateValidated());
+            jsonObjectCertificado.addProperty("certificateValidated", certificado.getCertificateValidated());
             jsonObjectCertificado.addProperty("keyUsages", certificado.getKeyUsages());
             if (certificado.getDocTimeStamp() != null) {
                 jsonObjectCertificado.addProperty("docTimeStamp", simpleDateFormatISO8601.format(certificado.getDocTimeStamp()));

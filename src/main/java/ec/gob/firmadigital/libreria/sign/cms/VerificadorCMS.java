@@ -75,7 +75,6 @@ public class VerificadorCMS {
             Store<X509CertificateHolder> certStore = signedData.getCertificates();
             SignerInformationStore signerInformationStore = signedData.getSignerInfos();
             Collection<SignerInformation> collection = signerInformationStore.getSigners();
-            String fechaFirma = "";
 
             certificados = new ArrayList<>();
             fechasFirmados = new ArrayList<>();
@@ -96,11 +95,10 @@ public class VerificadorCMS {
                     Attribute messageDigestAttribute = attributes.get(CMSAttributes.signingTime);
                     ASN1UTCTime dt = (ASN1UTCTime) messageDigestAttribute.getAttrValues().getObjectAt(0);
                     try {
+                        fechasFirmados.add(dt.getDate());
                         SimpleDateFormat f_DateTime = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
                         String dateStr = f_DateTime.format(dt.getDate());
-                        fechasFirmados.add(dt.getDate());
-                        System.out.println("Fecha Firma:" + dateStr);
-                        fechaFirma = dateStr;
+                        System.out.println("Fecha Firma: " + dateStr);
                     } catch (ParseException ex) {
                         Logger.getLogger(VerificadorCMS.class.getName()).log(Level.SEVERE, null, ex);
                     }

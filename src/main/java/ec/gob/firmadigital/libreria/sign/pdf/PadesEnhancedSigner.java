@@ -33,6 +33,7 @@ import com.itextpdf.signatures.TSAClientBouncyCastle;
 
 import ec.gob.firmadigital.libreria.sign.RubricaSigner;
 import ec.gob.firmadigital.libreria.sign.pdf.itext.SignerAdapter;
+import ec.gob.firmadigital.libreria.utils.BouncyCastleUtils;
 import ec.gob.firmadigital.libreria.utils.PropertiesTsa;
 import java.io.InputStream;
 import java.security.PrivateKey;
@@ -52,6 +53,7 @@ public class PadesEnhancedSigner extends BasePdfSigner {
     }
 
     public byte[] sign(InputStream inputStream, PrivateKey privateKey, Certificate[] certificates, Properties properties) throws IOException {
+        BouncyCastleUtils.initializeBouncyCastle();
         try {
             // Firmar el documento
             byte[] hash = emptySignature(inputStream, certificates, properties, externalSignature.getHashAlgorithm());
@@ -65,7 +67,7 @@ public class PadesEnhancedSigner extends BasePdfSigner {
             throw new RuntimeException(e);
         }
     }
-    
+
     private byte[] signed_hash(byte[] hash, PrivateKey pk, Certificate[] chain) throws GeneralSecurityException {
         PrivateKeySignature signature = new PrivateKeySignature(pk, externalSignature.getHashAlgorithm(), "BC");
         String hashAlgorithm = signature.getHashAlgorithm();

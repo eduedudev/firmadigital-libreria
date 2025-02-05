@@ -198,7 +198,7 @@ public class Certificado {
                 + "\tvalidTo=" + (validTo == null ? null : (String) new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format((validTo.getTime()))) + "\n"
                 + "\trevocated=" + (revocated == null ? null : (String) new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format((revocated.getTime()))) + "\n"
                 + "\tkeyUsages=" + keyUsages + "\n"
-                + "\tvalidated=" + certificateValidated + "\n"
+                + "\tcertificateValidated=" + certificateValidated + "\n"
                 + "\tsignGenerated=" + (signGenerated == null ? null : (String) new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format((signGenerated.getTime()))) + "\n"
                 + "\tsignVerify=" + signVerify + "\n"
                 + "\tdocReason=" + docReason + "\n"

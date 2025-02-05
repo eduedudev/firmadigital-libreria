@@ -45,11 +45,11 @@ public class CertificadoLazzateDataFactory {
         if (certificateHasPolicy(certificado, OID_CERTIFICADO_PERSONA_NATURAL)) {
             return new CertificadoPersonaNaturalLazzate(certificado);
         } else if (certificateHasPolicy(certificado, OID_CERTIFICADO_PERSONA_JURIDICA_EMPRESA)) {
-            return new CertificadoPersonaNaturalLazzate(certificado);
+            return new CertificadoPersonaJuridicaLazzate(certificado);
         } else if (certificateHasPolicy(certificado, OID_CERTIFICADO_REPRESENTANTE_LEGAL)) {
-            return new CertificadoPersonaNaturalLazzate(certificado);
+            return new CertificadoPersonaJuridicaLazzate(certificado);
         } else if (certificateHasPolicy(certificado, OID_CERTIFICADO_MIEMBRO_EMPRESA)) {
-            return new CertificadoPersonaNaturalLazzate(certificado);
+            return new CertificadoPersonaJuridicaLazzate(certificado);
         } else if (certificateHasPolicy(certificado, OID_CERTIFICADO_FUNCIONARIO_PUBLICO)) {
             return new CertificadoPersonaNaturalLazzate(certificado);
         } else if (certificateHasPolicy(certificado, OID_CERTIFICADO_SSL)) {

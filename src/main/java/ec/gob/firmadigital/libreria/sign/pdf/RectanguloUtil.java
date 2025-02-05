@@ -46,7 +46,7 @@ public class RectanguloUtil {
                         Integer.parseInt(extraParams.getProperty(POSITION_ON_PAGE_LOWER_LEFT_Y).trim()),
                         Integer.parseInt(extraParams.getProperty(POSITION_ON_PAGE_UPPER_RIGHT_X).trim()),
                         Integer.parseInt(extraParams.getProperty(POSITION_ON_PAGE_UPPER_RIGHT_Y).trim()));
-            } catch (Exception e) {
+            } catch (NumberFormatException e) {
                 LOGGER.log(Level.SEVERE, "Se ha indicado una posicion invalida para la firma: {0}", e);
             }
         }
@@ -59,7 +59,7 @@ public class RectanguloUtil {
             try {
                 return new Rectangle(Integer.parseInt(extraParams.getProperty(POSITION_ON_PAGE_LOWER_LEFT_X).trim()),
                         Integer.parseInt(extraParams.getProperty(POSITION_ON_PAGE_LOWER_LEFT_Y).trim()) - 36, 110, 36);
-            } catch (Exception e) {
+            } catch (NumberFormatException e) {
                 LOGGER.log(Level.SEVERE, "Se ha indicado una posicion invalida para la firma: {0}", e);
             }
         }

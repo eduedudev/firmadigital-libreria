@@ -124,6 +124,11 @@ public class QrAppereance implements CustomAppearance {
         paragraph = new Paragraph().add(contenido).setFont(fontCourierBold).setMargin(0).setMultipliedLeading(0.9f)
                 .setFontSize(6.25f);
         textDiv.add(paragraph);
+        
+        Text info = new Text("\nValidar únicamente con FirmaEC");
+        paragraph = new Paragraph().add(info).setFont(fontCourier).setMargin(0).setMultipliedLeading(0.9f)
+                .setFontSize(3.25f);
+        textDiv.add(paragraph);
 
         Canvas textLayoutCanvas = new Canvas(canvas, signatureRect);
         textLayoutCanvas.add(textDiv);

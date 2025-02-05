@@ -18,13 +18,25 @@
 package ec.gob.firmadigital.libreria.exceptions;
 
 /**
- * Excepcion que se lanza en caso de problemas en la hora del servidor.
+ * Excepcion para cancelar.
  *
- * @author jdc
+ * @author mfernandez
  */
-public class HoraServidorException extends Exception {
+public class CancelException extends Exception {
 
-    public HoraServidorException(String msg) {
-        super(msg);
+    public CancelException() {
+        super();
+    }
+
+    public CancelException(String message) {
+        super(message);
+    }
+
+    public CancelException(String msg, Throwable cause) {
+        super(msg, cause);
+    }
+
+    public CancelException(Throwable cause) {
+        super(cause);
     }
 }

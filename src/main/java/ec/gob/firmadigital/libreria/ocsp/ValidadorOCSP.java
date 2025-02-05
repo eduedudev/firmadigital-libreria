@@ -132,6 +132,7 @@ public class ValidadorOCSP {
     private static OCSPReq generateOCSPRequest(X509Certificate issuerCert, BigInteger serialNumber)
             throws OperatorCreationException, CertificateEncodingException, OCSPException, IOException {
         // Add provider BC
+//        BouncyCastleUtils.initializeBouncyCastle();
         Provider prov = new BouncyCastleProvider();
         Security.addProvider(prov);
 

@@ -138,8 +138,6 @@ public class HttpClient {
 
 class HttpError extends IOException {
 
-    private static final long serialVersionUID = -5234088987681090845L;
-
     private int responseCode;
     private String responseDescription;
 

@@ -24,8 +24,6 @@ package ec.gob.firmadigital.libreria.exceptions;
  */
 public class ConexionApiException extends Exception {
 
-    private static final long serialVersionUID = 1L;
-
     public ConexionApiException(String msg) {
         super(msg);
     }

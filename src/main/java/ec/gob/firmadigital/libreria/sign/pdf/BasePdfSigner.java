@@ -50,6 +50,7 @@ import ec.gob.firmadigital.libreria.sign.pdf.appearance.CustomAppearance;
 import ec.gob.firmadigital.libreria.sign.pdf.appearance.Information1Appearance;
 import ec.gob.firmadigital.libreria.sign.pdf.appearance.Information2Appearance;
 import ec.gob.firmadigital.libreria.sign.pdf.appearance.QrAppereance;
+import ec.gob.firmadigital.libreria.utils.PropertiesUtils;
 import ec.gob.firmadigital.libreria.utils.Utils;
 import java.security.GeneralSecurityException;
 import java.security.PrivateKey;
@@ -109,7 +110,6 @@ public class BasePdfSigner implements Signer {
         String signTime = extraParams.getProperty(SIGN_TIME);
         // Tamaño letra
         float fontSize = 3;
-
         try {
             if (extraParams.getProperty(FONT_SIZE) == null) {
                 fontSize = 3;
@@ -119,24 +119,17 @@ public class BasePdfSigner implements Signer {
         } catch (NumberFormatException e) {
             LOGGER.log(Level.WARNING, "Se ha indicado un tama\u00f1o de letra invalida (''{0}''), se usara el tama\u00f1o por defecto: {1} {2}", new Object[]{extraParams.getProperty(FONT_SIZE), fontSize, e});
         }
-
         // Tipo de firma (Información, QR)
         String typeSig = extraParams.getProperty(TYPE_SIG);
-        if (typeSig == null) {
-            typeSig = "information1";
-        }
-
-        if (typeSig.equals("QR") && extraParams.getProperty(FONT_SIZE) == null) {
+        if (typeSig != null && (typeSig.equals("QR") && extraParams.getProperty(FONT_SIZE) == null)) {
             fontSize = 4.5f;
         }
-
         String infoQR = "";
         if (extraParams.getProperty(INFO_QR) == null) {
             infoQR = "";
         } else {
             infoQR = extraParams.getProperty(INFO_QR, "").trim();
         }
-
         // Pagina donde situar la firma visible
         int page = 0;
 
@@ -146,28 +139,29 @@ public class BasePdfSigner implements Signer {
             } else {
                 page = Integer.parseInt(extraParams.getProperty(LAST_PAGE).trim());
             }
-        } catch (Exception e) {
-            LOGGER.warning("Se ha indicado un numero de pagina invalido ('" + extraParams.getProperty(LAST_PAGE)
-                    + "'), se usara la ultima pagina: " + e);
+        } catch (NumberFormatException e) {
+            LOGGER.log(Level.WARNING, "Se ha indicado un numero de pagina invalido (''{0}''), se usara la ultima pagina: {1}", new Object[]{extraParams.getProperty(LAST_PAGE), e});
         }
-
-        Rectangle signaturePositionOnPage = RectanguloUtil.getPositionOnPage(extraParams);
 
         StampingProperties stampingProperties = new StampingProperties();
-        //TODO Edison Lomas Almeida: La línea siguiente genera error PdfException: Append mode requires a document without errors, even if recovery is possible.
         stampingProperties.useAppendMode();
 
-        PdfReader pdfReader = new PdfReader(is);
+        PdfReader pdfReader = new PdfReader(is) {
+            @Override
+            public boolean hasRebuiltXref() {
+                return false;
+            }
+        };
         com.itextpdf.signatures.PdfSigner pdfSigner = new com.itextpdf.signatures.PdfSigner(pdfReader, baos, stampingProperties);
 
-        if (page == 0 || page < 0 || page > pdfSigner.getDocument().getNumberOfPages()) {
-            page = pdfSigner.getDocument().getNumberOfPages();
-        }
-
         PdfSignatureAppearance signatureAppearance = pdfSigner.getSignatureAppearance();
-        signatureAppearance.setPageRect(signaturePositionOnPage).setPageNumber(page);
-
         if (typeSig != null) {
+            if (page == 0 || page < 0 || page > pdfSigner.getDocument().getNumberOfPages()) {
+                page = pdfSigner.getDocument().getNumberOfPages();
+            }
+
+            Rectangle signaturePositionOnPage = RectanguloUtil.getPositionOnPage(extraParams);
+            signatureAppearance.setPageRect(signaturePositionOnPage).setPageNumber(page);
 
             if (signaturePositionOnPage != null) {
                 DatosUsuario datosUsuario = null;
@@ -184,14 +178,14 @@ public class BasePdfSigner implements Signer {
                 CustomAppearance customAppearance;
 
                 switch (typeSig) {
-                    case "QR" ->  {
+                    case "QR" -> {
                         customAppearance = new QrAppereance(nombreFirmante, reason, location, signTime, infoQR);
                     }
-                    case "information1" ->  {
+                    case "information1" -> {
                         customAppearance = new Information1Appearance(nombreFirmante, informacionCertificado, reason,
                                 location, signTime);
                     }
-                    case "information2" ->  {
+                    case "information2" -> {
                         customAppearance = new Information2Appearance(nombreFirmante, reason, location, signTime);
                     }
                     default -> {
@@ -212,7 +206,7 @@ public class BasePdfSigner implements Signer {
             }
 
         }
-        signatureAppearance.setSignatureCreator("FirmaEC");
+        signatureAppearance.setSignatureCreator(PropertiesUtils.getConfig().getProperty("version"));
         signatureAppearance.setCertificate(certChain[0]);
 
         // Fecha y hora de la firma
@@ -237,7 +231,7 @@ public class BasePdfSigner implements Signer {
             // 8192 is the size of the empty signature placeholder.
             pdfSigner.signExternalContainer(external, 8192 * 2);
             hash = external.getHash();
-        } catch (Exception e) {
+        } catch (IOException | GeneralSecurityException e) {
             e.printStackTrace();
         }
         fieldName = pdfSigner.getFieldName();
@@ -322,7 +316,7 @@ public class BasePdfSigner implements Signer {
         }
         return signInfos;
     }
-    
+
     @Override
     public byte[] sign(byte[] data, String algorithm, PrivateKey key, Certificate[] certChain, Properties extraParams, String base64) throws RubricaException, IOException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody

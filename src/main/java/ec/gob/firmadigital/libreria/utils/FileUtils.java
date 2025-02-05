@@ -85,8 +85,6 @@ public class FileUtils {
         Long espacio = arc.getFreeSpace();
 
         if (archivo != null) {
-            System.out.println("bytes: " + archivo.length + " espacio " + espacio);
-
             if (espacio < archivo.length) {
                 throw new IOException("No se puede crear el archivo firmado. No hay espacio suficiente en el disco");
             }

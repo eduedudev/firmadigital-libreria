@@ -30,6 +30,7 @@ public class DatosUsuario {
     private String institucion = "";
     private String cargo = "";
     private boolean certificadoDigitalValido;
+    private String fechaFirmaArchivoP7M;
 
     public DatosUsuario() {
     }
@@ -82,15 +83,21 @@ public class DatosUsuario {
         this.certificadoDigitalValido = certificadoDigitalValido;
     }
 
+    public void setFechaFirmaArchivoP7M(String fechaFirmaArchivoP7M) {
+        this.fechaFirmaArchivoP7M = fechaFirmaArchivoP7M;
+    }
+
     @Override
     public String toString() {
-        return "DatosUsuario\n"
-                + "\t\t[cedula=" + cedula + "\n"
+        return """
+               DatosUsuario
+               \t\t[cedula=""" + cedula + "\n"
                 + "\t\tnombre=" + nombre + "\n"
                 + "\t\tapellido=" + apellido + "\n"
                 + "\t\tinstitucion=" + institucion + "\n"
                 + "\t\tcargo=" + cargo + "\n"
                 + "\t\tcertificadoDigitalValido=" + certificadoDigitalValido + "\n"
+                + "\t\tfechaFirmaArchivoP7M=" + fechaFirmaArchivoP7M + "\n"
                 + "\t\t]";
     }
 }

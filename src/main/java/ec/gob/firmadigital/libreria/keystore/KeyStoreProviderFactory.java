@@ -103,7 +103,6 @@ public class KeyStoreProviderFactory {
         } else if (isMac()) {
             return lista.get(MACOS);
         }
-
         throw new RuntimeException("Sistema operativo no soportado");
     }
 

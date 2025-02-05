@@ -24,8 +24,6 @@ package ec.gob.firmadigital.libreria.exceptions;
  */
 public class DatoCertificadoNoIncluidoException extends RuntimeException {
 
-    private static final long serialVersionUID = 5614921752347842642L;
-
     public DatoCertificadoNoIncluidoException(String message) {
         super(message);
     }

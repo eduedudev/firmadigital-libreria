@@ -24,8 +24,6 @@ package ec.gob.firmadigital.libreria.exceptions;
  */
 public class CRLValidationException extends Exception {
 
-    private static final long serialVersionUID = 1L;
-
     public CRLValidationException(String msg) {
         super(msg);
     }

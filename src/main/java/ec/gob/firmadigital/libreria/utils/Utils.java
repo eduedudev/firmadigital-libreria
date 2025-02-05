@@ -88,6 +88,7 @@ import ec.gob.firmadigital.libreria.sign.Signer;
 import ec.gob.firmadigital.libreria.sign.cms.VerificadorCMS;
 import ec.gob.firmadigital.libreria.sign.pdf.BasePdfSigner;
 import ec.gob.firmadigital.libreria.sign.xades.XAdESSigner;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Iterator;
 import org.bouncycastle.cert.X509CertificateHolder;
@@ -380,6 +381,12 @@ public class Utils {
             X509Certificate temp = certificados.get(i);
             Date fechaFirmado = fechasFirmados.get(i);
             DatosUsuario datosUsuario = CertEcUtils.getDatosUsuarios(temp);
+            if (datosUsuario == null) {//documentos del 2012 para atrás
+                datosUsuario = new DatosUsuario();
+                datosUsuario.setCedula("No se puede obtener");
+                datosUsuario.setNombre(Util.getCN(temp));
+            }
+            datosUsuario.setFechaFirmaArchivoP7M((String) new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format((dateToCalendar(fechaFirmado)).getTime()));
             Certificado certificado = new Certificado(
                     temp.getSerialNumber().toString(),
                     Util.getCN(temp),

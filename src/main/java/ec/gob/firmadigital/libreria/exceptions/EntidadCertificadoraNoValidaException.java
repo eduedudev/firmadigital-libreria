@@ -25,8 +25,6 @@ package ec.gob.firmadigital.libreria.exceptions;
  */
 public class EntidadCertificadoraNoValidaException extends Exception {
 
-    private static final long serialVersionUID = 1L;
-
     public EntidadCertificadoraNoValidaException(String msg) {
         super(msg);
     }

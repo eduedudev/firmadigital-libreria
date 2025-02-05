@@ -25,8 +25,6 @@ import ec.gob.firmadigital.libreria.exceptions.RubricaException;
  */
 public final class UnsupportedSignFormatException extends RubricaException {
 
-    private static final long serialVersionUID = -1;
-
     /**
      * Crea la excepci&oacute;n con un mensaje determinado.
      *

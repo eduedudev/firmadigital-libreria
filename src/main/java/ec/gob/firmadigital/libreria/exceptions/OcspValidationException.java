@@ -26,8 +26,6 @@ import java.util.Date;
  */
 public class OcspValidationException extends Exception {
 
-    private static final long serialVersionUID = -4371520182817375302L;
-
     private int revocationReason;
     private Date revocationTime;
 
