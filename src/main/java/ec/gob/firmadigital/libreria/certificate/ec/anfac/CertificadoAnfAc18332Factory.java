@@ -26,7 +26,7 @@ import java.security.cert.X509Certificate;
  * Permite construir certificados tipo Certificado ANF AC a partir de
  * certificados X509Certificate.
  *
- * @author mfernandez
+ * @author Misael Fernández
  */
 public class CertificadoAnfAc18332Factory {
 

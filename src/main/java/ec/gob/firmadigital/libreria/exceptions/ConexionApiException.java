@@ -20,7 +20,7 @@ package ec.gob.firmadigital.libreria.exceptions;
 /**
  * Excepcion que se lanza en caso de problemas con la conexión con el api
  *
- * @author mfernandez
+ * @author Misael Fernández
  */
 public class ConexionApiException extends Exception {
 

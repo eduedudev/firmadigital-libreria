@@ -22,7 +22,7 @@ import java.io.File;
 /**
  * Utilidades para Extensiones
  *
- * @author mfernandez
+ * @author Misael Fernández
  */
 public class Extensiones {
 

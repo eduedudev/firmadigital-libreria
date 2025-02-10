@@ -78,7 +78,6 @@ public class FileUtils {
     }
 
     public static void saveByteArrayToDisc(byte[] archivo, String rutaNombre) throws FileNotFoundException, IOException {
-        // TODO validar si hay otro archivo de momento lo sobre escribe
         FileOutputStream fos = new FileOutputStream(rutaNombre);
         File arc = new File(rutaNombre);
 

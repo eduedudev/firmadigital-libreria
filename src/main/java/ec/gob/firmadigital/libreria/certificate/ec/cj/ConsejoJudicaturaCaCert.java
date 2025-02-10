@@ -41,7 +41,7 @@ import java.util.Set;
  * Certificado raiz de Consejo de la Judicatura, representado como un objeto
  * <code>X509Certificate</code>.
  *
- * @author mfernandez
+ * @author Misael Fernández
  */
 public class ConsejoJudicaturaCaCert extends X509Certificate {
 

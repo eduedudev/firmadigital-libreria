@@ -24,7 +24,7 @@ import ec.gob.firmadigital.libreria.certificate.ec.CertificadoPersonaJuridica;
 /**
  * Certificado de Persona Juridica emitido por el Consejo de la Judicatura.
  *
- * @author mfernandez
+ * @author Misael Fernández
  */
 public class CertificadoEmpresaConsejoJudicatura extends CertificadoConsejoJudicatura
         implements CertificadoPersonaJuridica {

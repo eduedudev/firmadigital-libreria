@@ -20,7 +20,7 @@ package ec.gob.firmadigital.libreria.exceptions;
 /**
  * Excepcion que se lanza en caso de problemas de conexión
  *
- * @author mfernandez
+ * @author Misael Fernández
  */
 public class ConexionException extends Exception {
 

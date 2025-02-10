@@ -41,7 +41,7 @@ import java.util.Set;
  * Certificado intermedio del Banco Central del Ecuador, representado como un
  * objeto <code>X509Certificate</code>.
  *
- * @author mfernandez
+ * @author Misael Fernández
  */
 public class BceSubCaCert20192029 extends X509Certificate {
 

@@ -30,7 +30,7 @@ import ec.gob.firmadigital.libreria.certificate.to.Documento;
 
 /**
  *
- * @author mfernandez
+ * @author Misael Fernández
  */
 public class Json {
 

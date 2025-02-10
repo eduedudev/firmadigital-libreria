@@ -29,7 +29,7 @@ package ec.gob.firmadigital.libreria.utils;
  * <property name="tsaPassword" value= "zzz" />
  * </system-properties>
  *
- * @author mfernandez
+ * @author Misael Fernández
  */
 public class PropertiesTsa {
 

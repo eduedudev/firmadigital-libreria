@@ -25,7 +25,7 @@ import ec.gob.firmadigital.libreria.certificate.ec.CertificadoPersonaNatural;
  * Certificado de persona natural emitido por la Dirección General de Registro
  * Civil, Identificación y Cedulación.
  *
- * @author mfernandez
+ * @author Misael Fernández
  */
 public class CertificadoPersonaNaturalDigercic extends CertificadoDigercic
         implements CertificadoPersonaNatural {

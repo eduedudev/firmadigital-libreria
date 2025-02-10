@@ -51,7 +51,6 @@ public class CertificadoDatil {
     public static final String OID_CERTIFICADO = "1.3.6.1.4.1.52643.3.50";
     public static final String OID_CONTENEDOR = "1.3.6.1.4.1.52643.3.51";
     public static final String OID_RUP = "1.3.6.1.4.1.52643.3.52";
-    //TODO Subject del sujeto
     public static final String OID_PROFESION = "2.5.4.12";
     public static final String OID_DEPARTAMENTO = "2.5.4.11";
 

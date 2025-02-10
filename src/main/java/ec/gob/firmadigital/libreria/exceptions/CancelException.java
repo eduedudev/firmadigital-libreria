@@ -20,7 +20,7 @@ package ec.gob.firmadigital.libreria.exceptions;
 /**
  * Excepcion para cancelar.
  *
- * @author mfernandez
+ * @author Misael Fernández
  */
 public class CancelException extends Exception {
 

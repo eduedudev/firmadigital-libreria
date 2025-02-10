@@ -22,7 +22,7 @@ import java.io.File;
 /**
  * KeyStoreProvider para tokens ePass2003.
  *
- * @author mfernandez
+ * @author Misael Fernández
  */
 public class EPass2003LinuxKeyStoreProvider extends PKCS11KeyStoreProvider {
 

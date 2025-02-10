@@ -25,7 +25,7 @@ import ec.gob.firmadigital.libreria.certificate.CertUtils;
 /**
  * Certificado emitido por el Consejo de la Judicatura.
  *
- * @author mfernandez
+ * @author Misael Fernández
  */
 public abstract class CertificadoConsejoJudicatura {
 

@@ -45,7 +45,7 @@ import ec.gob.firmadigital.libreria.utils.Utils;
 /**
  * Validar diferentes certificados digitales acreditados por ARCOTEL
  *
- * @author mfernandez
+ * @author Misael Fernández
  */
 public class CertEcUtils {
 

@@ -32,7 +32,7 @@ import java.util.zip.ZipInputStream;
 
 /**
  *
- * @author mfernandez
+ * @author Misael Fernández
  */
 public class Download {
 

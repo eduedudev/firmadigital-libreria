@@ -25,7 +25,7 @@ import java.security.cert.X509CRL;
 /**
  * Se establecen url de consulta
  *
- * @author mfernandez
+ * @author Misael Fernández
  */
 public class ServicioCRL {
 

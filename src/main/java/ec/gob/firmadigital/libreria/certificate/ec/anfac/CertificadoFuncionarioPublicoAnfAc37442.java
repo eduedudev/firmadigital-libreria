@@ -24,7 +24,7 @@ import ec.gob.firmadigital.libreria.certificate.ec.CertificadoFuncionarioPublico
 /**
  * Certificado de Funcionario Publico emitido por ANf AC Ecuador
  *
- * @author mfernandez
+ * @author Misael Fernández
  */
 public class CertificadoFuncionarioPublicoAnfAc37442 extends CertificadoAnfAc37442
         implements CertificadoFuncionarioPublico {

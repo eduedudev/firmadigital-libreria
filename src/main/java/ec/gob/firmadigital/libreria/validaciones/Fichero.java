@@ -20,7 +20,7 @@ package ec.gob.firmadigital.libreria.validaciones;
 /**
  * Utilidades para Fichero
  *
- * @author mfernandez
+ * @author Misael Fernández
  */
 public class Fichero {
 

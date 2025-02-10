@@ -24,7 +24,7 @@ import javax.swing.filechooser.FileFilter;
 /**
  * Utilidades para Filtrar extensiones
  *
- * @author mfernandez
+ * @author Misael Fernández
  */
 public class FiltrarArchivosPdf extends FileFilter {
 

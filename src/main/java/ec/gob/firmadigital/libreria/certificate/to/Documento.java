@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * Objeto para acceder informacion legible del certificado digital
  *
- * @author mfernandez
+ * @author Misael Fernández
  */
 public class Documento {
 

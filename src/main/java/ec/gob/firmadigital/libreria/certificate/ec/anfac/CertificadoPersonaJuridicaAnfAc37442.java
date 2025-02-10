@@ -24,7 +24,7 @@ import ec.gob.firmadigital.libreria.certificate.ec.CertificadoPersonaJuridica;
 /**
  * Certificado de Persona Juridica por emitido por ANf AC Ecuador
  *
- * @author mfernandez
+ * @author Misael Fernández
  */
 public class CertificadoPersonaJuridicaAnfAc37442 extends CertificadoAnfAc37442
         implements CertificadoPersonaJuridica {

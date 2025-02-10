@@ -35,7 +35,7 @@ import java.util.Date;
 /**
  * Utilidades para X509Certificate.
  *
- * @author mfernandez
+ * @author Misael Fernández
  */
 public class X509CertificateUtils {
 

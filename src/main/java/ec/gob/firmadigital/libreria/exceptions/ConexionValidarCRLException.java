@@ -20,7 +20,7 @@ package ec.gob.firmadigital.libreria.exceptions;
 /**
  * Excepcion que se lanza en caso de problemas al validar CRL
  *
- * @author mfernandez
+ * @author Misael Fernández
  */
 public class ConexionValidarCRLException extends Exception {
 

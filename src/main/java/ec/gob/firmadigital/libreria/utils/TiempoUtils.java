@@ -40,7 +40,7 @@ import org.glassfish.jersey.client.ClientProperties;
 /**
  * Utilidades para manejar tiempos
  *
- * @author mfernandez
+ * @author Misael Fernández
  */
 public class TiempoUtils {
 

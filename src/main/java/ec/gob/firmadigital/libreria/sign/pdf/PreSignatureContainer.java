@@ -28,7 +28,7 @@ import java.security.GeneralSecurityException;
 
 /**
  *
- * @author mfernandez
+ * @author Misael Fernández
  */
 public class PreSignatureContainer implements IExternalSignatureContainer {
 

@@ -24,7 +24,7 @@ import java.util.Date;
 /**
  * Objeto para acceder informacion legible del certificado digital
  *
- * @author mfernandez
+ * @author Misael Fernández
  */
 public class Certificado {
 

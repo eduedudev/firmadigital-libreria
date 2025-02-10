@@ -42,7 +42,7 @@ import java.util.Set;
  * Identificación y Cedulación, representado como un objeto
  * <code>X509Certificate</code>.
  *
- * @author mfernandez
+ * @author Misael Fernández
  */
 public class DigercicSubCaCert20212031 extends X509Certificate {
 
