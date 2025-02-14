@@ -20,7 +20,7 @@ package ec.gob.firmadigital.libreria.exceptions;
 /**
  * Excepcion que se lanza en caso de que el certificado no incluya un campo.
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  */
 public class DatoCertificadoNoIncluidoException extends RuntimeException {
 

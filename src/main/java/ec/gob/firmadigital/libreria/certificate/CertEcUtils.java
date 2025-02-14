@@ -105,18 +105,18 @@ public class CertEcUtils {
                 return new ConsejoJudicaturaSubCaCert();
             case ANFAC_NAME:
                 try {
-                if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new AnfAc18332SubCaCert20162032())) {
-                    System.out.println("Anf 2016-2032");
-                    return new AnfAc18332SubCaCert20162032();
+                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new AnfAc18332SubCaCert20162032())) {
+                        System.out.println("Anf 2016-2032");
+                        return new AnfAc18332SubCaCert20162032();
+                    }
+                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new AnfAc37442SubCaCert20192029())) {
+                        System.out.println("Anf 2019-2029");
+                        return new AnfAc37442SubCaCert20192029();
+                    }
+                    return null;
+                } catch (java.security.InvalidKeyException ex) {
+                    //TODO
                 }
-                if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new AnfAc37442SubCaCert20192029())) {
-                    System.out.println("Anf 2019-2029");
-                    return new AnfAc37442SubCaCert20192029();
-                }
-                return null;
-            } catch (java.security.InvalidKeyException ex) {
-                //TODO
-            }
             case DIGERCIC_NAME: {
                 return new DigercicSubCaCert20212031();
             }
@@ -129,6 +129,10 @@ public class CertEcUtils {
                     if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new UanatacaSubCaCert0220162029())) {
                         System.out.println("Uanataca 2016-2029");
                         return new UanatacaSubCaCert0220162029();
+                    }
+                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new UanatacaSubCaCert0320212034())) {
+                        System.out.println("Uanataca 2021-2034");
+                        return new UanatacaSubCaCert0320212034();
                     }
                     return null;
                 } catch (java.security.InvalidKeyException ex) {

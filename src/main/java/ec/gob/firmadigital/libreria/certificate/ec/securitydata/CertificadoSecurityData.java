@@ -25,7 +25,7 @@ import ec.gob.firmadigital.libreria.certificate.CertUtils;
 /**
  * Certificado emitido por Security Data.
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  */
 public abstract class CertificadoSecurityData {
 

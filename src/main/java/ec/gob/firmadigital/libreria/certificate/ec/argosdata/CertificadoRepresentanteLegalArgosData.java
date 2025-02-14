@@ -24,7 +24,7 @@ import ec.gob.firmadigital.libreria.certificate.ec.CertificadoRepresentanteLegal
 /**
  * Certificado de Representante Legal emitido por Argos Data.
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  */
 public class CertificadoRepresentanteLegalArgosData extends CertificadoArgosData
         implements CertificadoRepresentanteLegal {

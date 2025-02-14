@@ -24,7 +24,7 @@ import ec.gob.firmadigital.libreria.certificate.ec.CertificadoFuncionarioPublico
 /**
  * Certificado de Funcionario Publico emitido por el Banco Central del Ecuador.
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  */
 public class CertificadoFuncionarioPublicoBancoCentral extends CertificadoBancoCentral
         implements CertificadoFuncionarioPublico {

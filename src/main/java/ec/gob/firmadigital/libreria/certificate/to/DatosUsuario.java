@@ -20,7 +20,7 @@ package ec.gob.firmadigital.libreria.certificate.to;
 /**
  * Datos del usuario para contruir la validacion CMS.
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  */
 public class DatosUsuario {
 

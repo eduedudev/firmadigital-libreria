@@ -46,7 +46,7 @@ import java.util.logging.Level;
 /**
  * Utilidades para trabajar con CRL.
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  */
 public class CrlUtils {
 

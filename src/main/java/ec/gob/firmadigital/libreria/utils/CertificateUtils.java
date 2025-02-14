@@ -42,7 +42,7 @@ import org.bouncycastle.x509.extension.X509ExtensionUtil;
 /**
  * Utilidades para trabajar con certificados.
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  */
 public class CertificateUtils {
 

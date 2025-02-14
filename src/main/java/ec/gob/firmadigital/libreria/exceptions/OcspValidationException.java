@@ -22,7 +22,7 @@ import java.util.Date;
 /**
  * Excepcion que se lanza en caso de haya un problema de validacion OCSP.
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  */
 public class OcspValidationException extends Exception {
 

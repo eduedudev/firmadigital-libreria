@@ -30,7 +30,7 @@ import java.security.GeneralSecurityException;
 /**
  * Permite la firma digital de documentos.
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  */
 public interface Signer {
 

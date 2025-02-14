@@ -53,7 +53,7 @@ import java.util.Date;
 /**
  * Verifica datos CMS.
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  */
 public class VerificadorCMS {
 

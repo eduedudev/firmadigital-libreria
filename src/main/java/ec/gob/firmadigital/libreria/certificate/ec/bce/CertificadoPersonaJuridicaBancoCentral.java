@@ -24,7 +24,7 @@ import ec.gob.firmadigital.libreria.certificate.ec.CertificadoPersonaJuridica;
 /**
  * Certificado de Persona Juridica emitido por el Banco Central del Ecuador.
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  */
 public class CertificadoPersonaJuridicaBancoCentral extends CertificadoBancoCentral
         implements CertificadoPersonaJuridica {

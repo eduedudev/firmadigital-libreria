@@ -20,7 +20,7 @@ package ec.gob.firmadigital.libreria.exceptions;
 /**
  * Excepcion lanzada si ocurre un error al verificar una firma.
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  */
 public class SignatureVerificationException extends Exception {
 

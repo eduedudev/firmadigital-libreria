@@ -24,7 +24,7 @@ import ec.gob.firmadigital.libreria.certificate.ec.CertificadoMiembroEmpresa;
 /**
  * Certificado de Miembro de Empresa emitido por Security Data.
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  */
 public class CertificadoMiembroEmpresaSecurityData extends CertificadoSecurityData
         implements CertificadoMiembroEmpresa {

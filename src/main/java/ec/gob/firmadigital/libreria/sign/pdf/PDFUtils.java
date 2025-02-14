@@ -44,7 +44,7 @@ import java.util.logging.Level;
 /**
  * Clase utilitaria para firmar PDFs.
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  * @deprecated
  */
 public class PDFUtils {

@@ -174,7 +174,6 @@ public class UtilsCrlOcsp {
 
     private static String validarCrlServidorAPI(BigInteger serial, String apiUrl) throws IOException, ConexionApiException {
         String certificado_revocado_url = apiUrl == null ? PropertiesUtils.getConfig().getProperty("certificado_revocado_url") : apiUrl;
-        System.out.println("certificado_revocado_url: " + certificado_revocado_url);
         if (!certificado_revocado_url.isEmpty()) {
             URL url = new URL(certificado_revocado_url + "/" + serial);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();

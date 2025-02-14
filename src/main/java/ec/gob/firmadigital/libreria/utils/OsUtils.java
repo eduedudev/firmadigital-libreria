@@ -20,7 +20,7 @@ package ec.gob.firmadigital.libreria.utils;
 /**
  * Utilidades SO y Java.
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  */
 public class OsUtils {
 

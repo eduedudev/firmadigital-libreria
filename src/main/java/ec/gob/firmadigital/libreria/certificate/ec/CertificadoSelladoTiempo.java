@@ -20,7 +20,7 @@ package ec.gob.firmadigital.libreria.certificate.ec;
 /**
  * Certificado de sellado de tiempo
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  */
 public interface CertificadoSelladoTiempo {
 

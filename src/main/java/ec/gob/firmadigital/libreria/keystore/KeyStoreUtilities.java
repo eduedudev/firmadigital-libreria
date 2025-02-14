@@ -41,7 +41,7 @@ import java.util.logging.Level;
  * http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6483657 Este solo se da
  * con SunMSCAPI
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  */
 public class KeyStoreUtilities {
 

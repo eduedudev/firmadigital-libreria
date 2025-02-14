@@ -25,7 +25,7 @@ import ec.gob.firmadigital.libreria.certificate.ec.CertificadoPersonaJuridica;
 /**
  * Certificado de Persona Juridica emitido por Security Data.
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  */
 public class CertificadoPersonaJuridicaSecurityData extends CertificadoSecurityData
         implements CertificadoPersonaJuridica {

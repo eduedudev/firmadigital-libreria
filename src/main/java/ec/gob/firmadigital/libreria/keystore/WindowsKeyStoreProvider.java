@@ -31,7 +31,7 @@ import java.util.logging.Logger;
  * Utiliza funcionalidad disponible desde el JDK6 en adelante para acceder al MS
  * CAPI.
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  */
 public class WindowsKeyStoreProvider implements KeyStoreProvider {
 

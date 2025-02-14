@@ -20,7 +20,7 @@ package ec.gob.firmadigital.libreria.exceptions;
 /**
  * Excepcion genérica de Rubrica.
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  */
 public class RubricaException extends Exception {
 

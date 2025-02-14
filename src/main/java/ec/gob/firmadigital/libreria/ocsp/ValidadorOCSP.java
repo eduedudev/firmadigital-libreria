@@ -56,7 +56,7 @@ import java.text.SimpleDateFormat;
 /**
  * Clase que permite la validacion de un certificado utilizando OCSP.
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  */
 public class ValidadorOCSP {
 

@@ -42,7 +42,7 @@ import javax.security.auth.login.LoginException;
  * acceder al API de PKCS#11 provisto en Java, por tanto funciona solo con el
  * JVM de Sun Microsystems.
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  */
 public abstract class PKCS11KeyStoreProvider implements KeyStoreProvider {
 

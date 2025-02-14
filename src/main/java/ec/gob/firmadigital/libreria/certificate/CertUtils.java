@@ -49,7 +49,7 @@ import javax.swing.JRootPane;
 /**
  * Utilidades para trabajar con Certificados.
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  */
 public class CertUtils {
 

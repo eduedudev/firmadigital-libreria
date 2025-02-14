@@ -22,7 +22,7 @@ import java.io.File;
 /**
  * KeyStoreProvider para tokens SafeNet
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  */
 public class SafenetAppleKeyStoreProvider extends PKCS11KeyStoreProvider {
 

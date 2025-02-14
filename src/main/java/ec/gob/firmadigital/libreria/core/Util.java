@@ -37,7 +37,7 @@ import java.util.logging.Logger;
 /**
  * M&eacute;todos generales de utilidad para toda la aplicaci&oacute;n.
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  */
 public final class Util {
 

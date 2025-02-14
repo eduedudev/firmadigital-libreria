@@ -21,7 +21,7 @@ package ec.gob.firmadigital.libreria.exceptions;
  * Excepci&oacute;n para notificar que se ha encontrado un objeto con un formato
  * inesperado.
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  */
 public class InvalidFormatException extends RubricaException {
 

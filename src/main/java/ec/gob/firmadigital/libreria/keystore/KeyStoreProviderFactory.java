@@ -29,7 +29,7 @@ import java.util.Map;
  * Clase utilitaria para instanciar las implementaciones de KeyStoreProvider
  * disponibles.
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  */
 public class KeyStoreProviderFactory {
 

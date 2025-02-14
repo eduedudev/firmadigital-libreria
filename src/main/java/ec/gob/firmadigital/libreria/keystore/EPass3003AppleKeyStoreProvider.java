@@ -22,7 +22,7 @@ import java.io.File;
 /**
  * KeyStoreProvider para tokens ePass3003.
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  */
 public class EPass3003AppleKeyStoreProvider extends PKCS11KeyStoreProvider {
 
