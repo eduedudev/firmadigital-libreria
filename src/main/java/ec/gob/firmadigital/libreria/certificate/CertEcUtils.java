@@ -270,8 +270,7 @@ public class CertEcUtils {
         DatosUsuario datosUsuario = new DatosUsuario();
         if (CertificadoBancoCentralFactory.esCertificadoDelBancoCentral(certificado)) {
             CertificadoBancoCentral certificadoBancoCentral = CertificadoBancoCentralFactory.construir(certificado);
-            if (certificadoBancoCentral instanceof CertificadoFuncionarioPublico) {
-                CertificadoFuncionarioPublico certificadoFuncionarioPublico = (CertificadoFuncionarioPublico) certificadoBancoCentral;
+            if (certificadoBancoCentral instanceof CertificadoFuncionarioPublico certificadoFuncionarioPublico) {
                 datosUsuario.setCedula(certificadoFuncionarioPublico.getCedulaPasaporte());
                 datosUsuario.setNombre(certificadoFuncionarioPublico.getNombres());
                 datosUsuario.setApellido(certificadoFuncionarioPublico.getPrimerApellido() + " "
@@ -279,31 +278,27 @@ public class CertEcUtils {
                 datosUsuario.setInstitucion(certificadoFuncionarioPublico.getInstitucion());
                 datosUsuario.setCargo(certificadoFuncionarioPublico.getCargo());
             }
-            if (certificadoBancoCentral instanceof CertificadoMiembroEmpresa) {
-                CertificadoMiembroEmpresa certificadoMiembroEmpresa = (CertificadoMiembroEmpresa) certificadoBancoCentral;
+            if (certificadoBancoCentral instanceof CertificadoMiembroEmpresa certificadoMiembroEmpresa) {
                 datosUsuario.setCedula(certificadoMiembroEmpresa.getCedulaPasaporte());
                 datosUsuario.setNombre(certificadoMiembroEmpresa.getNombres());
                 datosUsuario.setApellido(certificadoMiembroEmpresa.getPrimerApellido() + " "
                         + certificadoMiembroEmpresa.getSegundoApellido());
                 datosUsuario.setCargo(certificadoMiembroEmpresa.getCargo());
             }
-            if (certificadoBancoCentral instanceof CertificadoPersonaJuridica) {
-                CertificadoPersonaJuridica certificadoPersonaJuridica = (CertificadoPersonaJuridica) certificadoBancoCentral;
+            if (certificadoBancoCentral instanceof CertificadoPersonaJuridica certificadoPersonaJuridica) {
                 datosUsuario.setCedula(certificadoPersonaJuridica.getCedulaPasaporte());
                 datosUsuario.setNombre(certificadoPersonaJuridica.getNombres());
                 datosUsuario.setApellido(certificadoPersonaJuridica.getPrimerApellido() + " "
                         + certificadoPersonaJuridica.getSegundoApellido());
                 datosUsuario.setCargo(certificadoPersonaJuridica.getCargo());
             }
-            if (certificadoBancoCentral instanceof CertificadoPersonaNatural) {
-                CertificadoPersonaNatural certificadoPersonaNatural = (CertificadoPersonaNatural) certificadoBancoCentral;
+            if (certificadoBancoCentral instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
                 datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
                 datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
                 datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido() + " "
                         + certificadoPersonaNatural.getSegundoApellido());
             }
-            if (certificadoBancoCentral instanceof CertificadoRepresentanteLegal) {
-                CertificadoRepresentanteLegal certificadoRepresentanteLegal = (CertificadoRepresentanteLegal) certificadoBancoCentral;
+            if (certificadoBancoCentral instanceof CertificadoRepresentanteLegal certificadoRepresentanteLegal) {
                 datosUsuario.setCedula(certificadoRepresentanteLegal.getCedulaPasaporte());
                 datosUsuario.setNombre(certificadoRepresentanteLegal.getNombres());
                 datosUsuario.setApellido(certificadoRepresentanteLegal.getPrimerApellido() + " "
@@ -319,50 +314,42 @@ public class CertEcUtils {
 
         if (CertificadoConsejoJudicaturaDataFactory.esCertificadoDelConsejoJudicatura(certificado)) {
             CertificadoConsejoJudicatura certificadoConsejoJudicatura = CertificadoConsejoJudicaturaDataFactory.construir(certificado);
-            if (certificadoConsejoJudicatura instanceof CertificadoDepartamentoEmpresaConsejoJudicatura) {
-                CertificadoDepartamentoEmpresaConsejoJudicatura certificadoDepartamentoEmpresaConsejoJudicatura;
-                certificadoDepartamentoEmpresaConsejoJudicatura = (CertificadoDepartamentoEmpresaConsejoJudicatura) certificadoConsejoJudicatura;
-
+            if (certificadoConsejoJudicatura instanceof CertificadoDepartamentoEmpresaConsejoJudicatura certificadoDepartamentoEmpresaConsejoJudicatura) {
                 datosUsuario.setCedula(certificadoDepartamentoEmpresaConsejoJudicatura.getCedulaPasaporte());
                 datosUsuario.setNombre(certificadoDepartamentoEmpresaConsejoJudicatura.getNombres());
                 datosUsuario.setApellido(certificadoDepartamentoEmpresaConsejoJudicatura.getPrimerApellido() + " "
                         + certificadoDepartamentoEmpresaConsejoJudicatura.getSegundoApellido());
                 datosUsuario.setCargo(certificadoDepartamentoEmpresaConsejoJudicatura.getCargo());
             }
-            if (certificadoConsejoJudicatura instanceof CertificadoEmpresaConsejoJudicatura) {
-                CertificadoEmpresaConsejoJudicatura certificadoEmpresaConsejoJudicatura = (CertificadoEmpresaConsejoJudicatura) certificadoConsejoJudicatura;
+            if (certificadoConsejoJudicatura instanceof CertificadoEmpresaConsejoJudicatura certificadoEmpresaConsejoJudicatura) {
                 datosUsuario.setCedula(certificadoEmpresaConsejoJudicatura.getCedulaPasaporte());
                 datosUsuario.setNombre(certificadoEmpresaConsejoJudicatura.getNombres());
                 datosUsuario.setApellido(certificadoEmpresaConsejoJudicatura.getPrimerApellido() + " "
                         + certificadoEmpresaConsejoJudicatura.getSegundoApellido());
                 datosUsuario.setCargo(certificadoEmpresaConsejoJudicatura.getCargo());
             }
-            if (certificadoConsejoJudicatura instanceof CertificadoMiembroEmpresaConsejoJudicatura) {
-                CertificadoMiembroEmpresaConsejoJudicatura certificadoMiembroEmpresaConsejoJudicatura = (CertificadoMiembroEmpresaConsejoJudicatura) certificadoConsejoJudicatura;
+            if (certificadoConsejoJudicatura instanceof CertificadoMiembroEmpresaConsejoJudicatura certificadoMiembroEmpresaConsejoJudicatura) {
                 datosUsuario.setCedula(certificadoMiembroEmpresaConsejoJudicatura.getCedulaPasaporte());
                 datosUsuario.setNombre(certificadoMiembroEmpresaConsejoJudicatura.getNombres());
                 datosUsuario.setApellido(certificadoMiembroEmpresaConsejoJudicatura.getPrimerApellido() + " "
                         + certificadoMiembroEmpresaConsejoJudicatura.getSegundoApellido());
                 datosUsuario.setCargo(certificadoMiembroEmpresaConsejoJudicatura.getCargo());
             }
-            if (certificadoConsejoJudicatura instanceof CertificadoPersonaJuridicaPrivadaConsejoJudicatura) {
-                CertificadoPersonaJuridicaPrivadaConsejoJudicatura certificadoPersonaJuridicaPrivadaConsejoJudicatura = (CertificadoPersonaJuridicaPrivadaConsejoJudicatura) certificadoConsejoJudicatura;
+            if (certificadoConsejoJudicatura instanceof CertificadoPersonaJuridicaPrivadaConsejoJudicatura certificadoPersonaJuridicaPrivadaConsejoJudicatura) {
                 datosUsuario.setCedula(certificadoPersonaJuridicaPrivadaConsejoJudicatura.getCedulaPasaporte());
                 datosUsuario.setNombre(certificadoPersonaJuridicaPrivadaConsejoJudicatura.getNombres());
                 datosUsuario.setApellido(certificadoPersonaJuridicaPrivadaConsejoJudicatura.getPrimerApellido() + " "
                         + certificadoPersonaJuridicaPrivadaConsejoJudicatura.getSegundoApellido());
                 datosUsuario.setCargo(datosUsuario.getCargo());
             }
-            if (certificadoConsejoJudicatura instanceof CertificadoPersonaJuridicaPublicaConsejoJudicatura) {
-                CertificadoPersonaJuridicaPublicaConsejoJudicatura certificadoPersonaJuridicaPublicaConsejoJudicatura = (CertificadoPersonaJuridicaPublicaConsejoJudicatura) certificadoConsejoJudicatura;
+            if (certificadoConsejoJudicatura instanceof CertificadoPersonaJuridicaPublicaConsejoJudicatura certificadoPersonaJuridicaPublicaConsejoJudicatura) {
                 datosUsuario.setCedula(certificadoPersonaJuridicaPublicaConsejoJudicatura.getCedulaPasaporte());
                 datosUsuario.setNombre(certificadoPersonaJuridicaPublicaConsejoJudicatura.getNombres());
                 datosUsuario.setApellido(certificadoPersonaJuridicaPublicaConsejoJudicatura.getPrimerApellido() + " "
                         + certificadoPersonaJuridicaPublicaConsejoJudicatura.getSegundoApellido());
                 datosUsuario.setCargo(certificadoPersonaJuridicaPublicaConsejoJudicatura.getCargo());
             }
-            if (certificadoConsejoJudicatura instanceof CertificadoPersonaNaturalConsejoJudicatura) {
-                CertificadoPersonaNaturalConsejoJudicatura certificadoPersonaNaturalConsejoJudicatura = (CertificadoPersonaNaturalConsejoJudicatura) certificadoConsejoJudicatura;
+            if (certificadoConsejoJudicatura instanceof CertificadoPersonaNaturalConsejoJudicatura certificadoPersonaNaturalConsejoJudicatura) {
                 datosUsuario.setCedula(certificadoPersonaNaturalConsejoJudicatura.getCedulaPasaporte());
                 datosUsuario.setNombre(certificadoPersonaNaturalConsejoJudicatura.getNombres());
                 datosUsuario.setApellido(certificadoPersonaNaturalConsejoJudicatura.getPrimerApellido() + " "
@@ -377,8 +364,7 @@ public class CertEcUtils {
 
         if (CertificadoSecurityDataFactory.esCertificadoDeSecurityData(certificado)) {
             CertificadoSecurityData certificadoSecurityData = CertificadoSecurityDataFactory.construir(certificado);
-            if (certificadoSecurityData instanceof CertificadoFuncionarioPublico) {
-                CertificadoFuncionarioPublico certificadoFuncionarioPublico = (CertificadoFuncionarioPublico) certificadoSecurityData;
+            if (certificadoSecurityData instanceof CertificadoFuncionarioPublico certificadoFuncionarioPublico) {
                 datosUsuario.setCedula(certificadoFuncionarioPublico.getCedulaPasaporte());
                 datosUsuario.setNombre(certificadoFuncionarioPublico.getNombres());
                 datosUsuario.setApellido(certificadoFuncionarioPublico.getPrimerApellido() + " "
@@ -386,17 +372,14 @@ public class CertEcUtils {
                 datosUsuario.setCargo(certificadoFuncionarioPublico.getCargo());
                 datosUsuario.setInstitucion(certificadoFuncionarioPublico.getInstitucion());
             }
-            if (certificadoSecurityData instanceof CertificadoPersonaJuridica) {
-                CertificadoPersonaJuridica certificadoPersonaJuridica = (CertificadoPersonaJuridica) certificadoSecurityData;
+            if (certificadoSecurityData instanceof CertificadoPersonaJuridica certificadoPersonaJuridica) {
                 datosUsuario.setCedula(certificadoPersonaJuridica.getCedulaPasaporte());
                 datosUsuario.setNombre(certificadoPersonaJuridica.getNombres());
                 datosUsuario.setApellido(certificadoPersonaJuridica.getPrimerApellido() + " "
                         + certificadoPersonaJuridica.getSegundoApellido());
                 datosUsuario.setCargo(certificadoPersonaJuridica.getCargo());
             }
-
-            if (certificadoSecurityData instanceof CertificadoPersonaNatural) {
-                CertificadoPersonaNatural certificadoPersonaNatural = (CertificadoPersonaNatural) certificadoSecurityData;
+            if (certificadoSecurityData instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
                 datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
                 datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
                 datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido() + " "
@@ -411,9 +394,7 @@ public class CertEcUtils {
 
         if (CertificadoAnfAc18332Factory.esCertificadoDeAnfAc18332(certificado)) {
             CertificadoAnfAc18332 certificadoAnfAc18332 = CertificadoAnfAc18332Factory.construir(certificado);
-            if (certificadoAnfAc18332 instanceof CertificadoFuncionarioPublico) {
-                CertificadoFuncionarioPublico certificadoFuncionarioPublico = (CertificadoFuncionarioPublico) certificadoAnfAc18332;
-
+            if (certificadoAnfAc18332 instanceof CertificadoFuncionarioPublico certificadoFuncionarioPublico) {
                 datosUsuario.setCedula(certificadoFuncionarioPublico.getCedulaPasaporte());
                 datosUsuario.setNombre(certificadoFuncionarioPublico.getNombres());
                 datosUsuario.setApellido(certificadoFuncionarioPublico.getPrimerApellido() + " "
@@ -421,17 +402,14 @@ public class CertEcUtils {
                 datosUsuario.setCargo(certificadoFuncionarioPublico.getCargo());
                 datosUsuario.setInstitucion(certificadoFuncionarioPublico.getInstitucion());
             }
-            if (certificadoAnfAc18332 instanceof CertificadoPersonaJuridica) {
-                CertificadoPersonaJuridica certificadoPersonaJuridica = (CertificadoPersonaJuridica) certificadoAnfAc18332;
+            if (certificadoAnfAc18332 instanceof CertificadoPersonaJuridica certificadoPersonaJuridica) {
                 datosUsuario.setCedula(certificadoPersonaJuridica.getCedulaPasaporte());
                 datosUsuario.setNombre(certificadoPersonaJuridica.getNombres());
                 datosUsuario.setApellido(certificadoPersonaJuridica.getPrimerApellido() + " "
                         + certificadoPersonaJuridica.getSegundoApellido());
                 datosUsuario.setCargo(certificadoPersonaJuridica.getCargo());
             }
-
-            if (certificadoAnfAc18332 instanceof CertificadoPersonaNatural) {
-                CertificadoPersonaNatural certificadoPersonaNatural = (CertificadoPersonaNatural) certificadoAnfAc18332;
+            if (certificadoAnfAc18332 instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
                 datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
                 datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
                 datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido() + " "
@@ -446,9 +424,7 @@ public class CertEcUtils {
 
         if (CertificadoAnfAc37442Factory.esCertificadoDeAnfAc37442(certificado)) {
             CertificadoAnfAc37442 certificadoAnfAc37442 = CertificadoAnfAc37442Factory.construir(certificado);
-            if (certificadoAnfAc37442 instanceof CertificadoFuncionarioPublico) {
-                CertificadoFuncionarioPublico certificadoFuncionarioPublico = (CertificadoFuncionarioPublico) certificadoAnfAc37442;
-
+            if (certificadoAnfAc37442 instanceof CertificadoFuncionarioPublico certificadoFuncionarioPublico) {
                 datosUsuario.setCedula(certificadoFuncionarioPublico.getCedulaPasaporte());
                 datosUsuario.setNombre(certificadoFuncionarioPublico.getNombres());
                 datosUsuario.setApellido(certificadoFuncionarioPublico.getPrimerApellido() + " "
@@ -456,17 +432,14 @@ public class CertEcUtils {
                 datosUsuario.setCargo(certificadoFuncionarioPublico.getCargo());
                 datosUsuario.setInstitucion(certificadoFuncionarioPublico.getInstitucion());
             }
-            if (certificadoAnfAc37442 instanceof CertificadoPersonaJuridica) {
-                CertificadoPersonaJuridica certificadoPersonaJuridica = (CertificadoPersonaJuridica) certificadoAnfAc37442;
+            if (certificadoAnfAc37442 instanceof CertificadoPersonaJuridica certificadoPersonaJuridica) {
                 datosUsuario.setCedula(certificadoPersonaJuridica.getCedulaPasaporte());
                 datosUsuario.setNombre(certificadoPersonaJuridica.getNombres());
                 datosUsuario.setApellido(certificadoPersonaJuridica.getPrimerApellido() + " "
                         + certificadoPersonaJuridica.getSegundoApellido());
                 datosUsuario.setCargo(certificadoPersonaJuridica.getCargo());
             }
-
-            if (certificadoAnfAc37442 instanceof CertificadoPersonaNatural) {
-                CertificadoPersonaNatural certificadoPersonaNatural = (CertificadoPersonaNatural) certificadoAnfAc37442;
+            if (certificadoAnfAc37442 instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
                 datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
                 datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
                 datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido() + " "
@@ -480,9 +453,7 @@ public class CertEcUtils {
         }
         if (CertificadoDigercicFactory.esCertificadoDigercic(certificado)) {
             CertificadoDigercic certificadoDigercic = CertificadoDigercicFactory.construir(certificado);
-            if (certificadoDigercic instanceof CertificadoPersonaNatural) {
-                CertificadoPersonaNatural certificadoPersonaNatural = (CertificadoPersonaNatural) certificadoDigercic;
-
+            if (certificadoDigercic instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
                 datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
                 datosUsuario.setNombre(Utils.getCN(certificado));
                 datosUsuario.setApellido("");
@@ -492,34 +463,34 @@ public class CertEcUtils {
         }
         if (CertificadoUanatacaDataFactory.esCertificadoUanataca(certificado)) {
             CertificadoUanataca certificadoUanataca = CertificadoUanatacaDataFactory.construir(certificado);
-            if (certificadoUanataca instanceof CertificadoMiembroEmpresaUanataca) {
-                CertificadoMiembroEmpresaUanataca certificadoMiembroEmpresaUanataca = (CertificadoMiembroEmpresaUanataca) certificadoUanataca;
+            if (certificadoUanataca instanceof CertificadoMiembroEmpresaUanataca certificadoMiembroEmpresaUanataca) {
                 datosUsuario.setCedula(certificadoMiembroEmpresaUanataca.getCedulaPasaporte());
                 datosUsuario.setNombre(certificadoMiembroEmpresaUanataca.getNombres());
                 datosUsuario.setApellido(certificadoMiembroEmpresaUanataca.getPrimerApellido() + " "
                         + certificadoMiembroEmpresaUanataca.getSegundoApellido());
                 datosUsuario.setCargo(certificadoMiembroEmpresaUanataca.getCargo());
-            } else if (certificadoUanataca instanceof CertificadoPersonaJuridicaPrivadaUanataca) {
-                CertificadoPersonaJuridicaPrivadaUanataca certificadoPersonaJuridicaUanataca = (CertificadoPersonaJuridicaPrivadaUanataca) certificadoUanataca;
+            }
+            if (certificadoUanataca instanceof CertificadoPersonaJuridicaPrivadaUanataca certificadoPersonaJuridicaUanataca) {
                 datosUsuario.setCedula(certificadoPersonaJuridicaUanataca.getCedulaPasaporte());
                 datosUsuario.setNombre(certificadoPersonaJuridicaUanataca.getNombres());
                 datosUsuario.setApellido(certificadoPersonaJuridicaUanataca.getPrimerApellido() + " "
                         + certificadoPersonaJuridicaUanataca.getSegundoApellido());
                 datosUsuario.setCargo(datosUsuario.getCargo());
-            } else if (certificadoUanataca instanceof CertificadoPersonaNaturalUanataca) {
-                CertificadoPersonaNaturalUanataca certificadoPersonaNaturalU = (CertificadoPersonaNaturalUanataca) certificadoUanataca;
+            }
+            if (certificadoUanataca instanceof CertificadoPersonaNaturalUanataca certificadoPersonaNaturalU) {
                 datosUsuario.setCedula(certificadoPersonaNaturalU.getCedulaPasaporte());
                 datosUsuario.setNombre(certificadoPersonaNaturalU.getNombres());
                 datosUsuario.setApellido(certificadoPersonaNaturalU.getPrimerApellido() + " "
                         + certificadoPersonaNaturalU.getSegundoApellido());
-            } else if (certificadoUanataca instanceof CertificadoRepresentanteLegalUanataca) {
-                CertificadoRepresentanteLegalUanataca certificadoRepresentanteLegalUanataca = (CertificadoRepresentanteLegalUanataca) certificadoUanataca;
+            }
+            if (certificadoUanataca instanceof CertificadoRepresentanteLegalUanataca certificadoRepresentanteLegalUanataca) {
                 datosUsuario.setCedula(certificadoRepresentanteLegalUanataca.getCedulaPasaporte());
                 datosUsuario.setNombre(certificadoRepresentanteLegalUanataca.getNombres());
                 datosUsuario.setApellido(certificadoRepresentanteLegalUanataca.getPrimerApellido() + " "
                         + certificadoRepresentanteLegalUanataca.getSegundoApellido());
                 datosUsuario.setCargo(certificadoRepresentanteLegalUanataca.getCargo());
-            } else if (certificadoUanataca instanceof CertificadoSelladoTiempo) {
+            }
+            if (certificadoUanataca instanceof CertificadoSelladoTiempo) {
                 datosUsuario.setCertificadoDigitalValido(true);
             }
             datosUsuario.setCertificadoDigitalValido(true);
@@ -527,30 +498,30 @@ public class CertEcUtils {
         }
         if (CertificadoEclipsoftDataFactory.esCertificadoEclipsoft(certificado)) {
             CertificadoEclipsoft certificadoEclipsoft = CertificadoEclipsoftDataFactory.construir(certificado);
-            if (certificadoEclipsoft instanceof CertificadoPersonalNaturalEclipsoft) {
-                CertificadoPersonalNaturalEclipsoft certificadoPersonalNaturalEclipsoft = (CertificadoPersonalNaturalEclipsoft) certificadoEclipsoft;
+            if (certificadoEclipsoft instanceof CertificadoPersonalNaturalEclipsoft certificadoPersonalNaturalEclipsoft) {
                 datosUsuario.setCedula(certificadoPersonalNaturalEclipsoft.getCedulaPasaporte());
                 datosUsuario.setNombre(certificadoPersonalNaturalEclipsoft.getNombres());
                 datosUsuario.setApellido(certificadoPersonalNaturalEclipsoft.getPrimerApellido() + " " + certificadoPersonalNaturalEclipsoft.getSegundoApellido());
-            } else if (certificadoEclipsoft instanceof CertificadoMiembroEmpresaEclipsoft) {
-                CertificadoMiembroEmpresaEclipsoft certificadoMiembroEmpresaEclipsoft = (CertificadoMiembroEmpresaEclipsoft) certificadoEclipsoft;
+            }
+            if (certificadoEclipsoft instanceof CertificadoMiembroEmpresaEclipsoft certificadoMiembroEmpresaEclipsoft) {
                 datosUsuario.setCedula(certificadoMiembroEmpresaEclipsoft.getCedulaPasaporte());
                 datosUsuario.setNombre(certificadoMiembroEmpresaEclipsoft.getNombres());
                 datosUsuario.setApellido(certificadoMiembroEmpresaEclipsoft.getPrimerApellido() + " " + certificadoMiembroEmpresaEclipsoft.getSegundoApellido());
                 datosUsuario.setCargo(certificadoMiembroEmpresaEclipsoft.getCargo());
-            } else if (certificadoEclipsoft instanceof CertificadoRepresentanteLegalEclipsoft) {
-                CertificadoRepresentanteLegalEclipsoft certificadoRepresentanteLegalEclipsoft = (CertificadoRepresentanteLegalEclipsoft) certificadoEclipsoft;
+            }
+            if (certificadoEclipsoft instanceof CertificadoRepresentanteLegalEclipsoft certificadoRepresentanteLegalEclipsoft) {
                 datosUsuario.setCedula(certificadoRepresentanteLegalEclipsoft.getCedulaPasaporte());
                 datosUsuario.setNombre(certificadoRepresentanteLegalEclipsoft.getNombres());
                 datosUsuario.setApellido(certificadoRepresentanteLegalEclipsoft.getPrimerApellido() + " " + certificadoRepresentanteLegalEclipsoft.getSegundoApellido());
                 datosUsuario.setCargo(certificadoRepresentanteLegalEclipsoft.getCargo());
-            } else if (certificadoEclipsoft instanceof CertificadoPersonaJuridicaPrivadaEclipsoft) {
-                CertificadoPersonaJuridicaPrivadaEclipsoft certificadoPersonaJuridicaPrivadaEclipsoft = (CertificadoPersonaJuridicaPrivadaEclipsoft) certificadoEclipsoft;
+            }
+            if (certificadoEclipsoft instanceof CertificadoPersonaJuridicaPrivadaEclipsoft certificadoPersonaJuridicaPrivadaEclipsoft) {
                 datosUsuario.setCedula(certificadoPersonaJuridicaPrivadaEclipsoft.getCedulaPasaporte());
                 datosUsuario.setNombre(certificadoPersonaJuridicaPrivadaEclipsoft.getNombres());
                 datosUsuario.setApellido(certificadoPersonaJuridicaPrivadaEclipsoft.getPrimerApellido() + " " + certificadoPersonaJuridicaPrivadaEclipsoft.getSegundoApellido());
                 datosUsuario.setCargo(datosUsuario.getCargo());
-            } else if (certificadoEclipsoft instanceof CertificadoSelladoTiempo) {
+            }
+            if (certificadoEclipsoft instanceof CertificadoSelladoTiempo) {
                 datosUsuario.setCertificadoDigitalValido(true);
             }
             datosUsuario.setCertificadoDigitalValido(true);
@@ -558,31 +529,27 @@ public class CertEcUtils {
         }
         if (CertificadoDatilDataFactory.esCertificadoDatil(certificado)) {
             CertificadoDatil certificadoDatil = CertificadoDatilDataFactory.construir(certificado);
-            if (certificadoDatil instanceof CertificadoMiembroEmpresaDatil) {
-                CertificadoMiembroEmpresaDatil certificadoMiembroEmpresaDatil = (CertificadoMiembroEmpresaDatil) certificadoDatil;
+            if (certificadoDatil instanceof CertificadoMiembroEmpresaDatil certificadoMiembroEmpresaDatil) {
                 datosUsuario.setCedula(certificadoMiembroEmpresaDatil.getCedulaPasaporte());
                 datosUsuario.setNombre(certificadoMiembroEmpresaDatil.getNombres());
                 datosUsuario.setApellido(certificadoMiembroEmpresaDatil.getPrimerApellido() + " " + certificadoMiembroEmpresaDatil.getSegundoApellido());
                 datosUsuario.setCargo(certificadoMiembroEmpresaDatil.getCargo());
             }
-            if (certificadoDatil instanceof CertificadoPersonaJuridicaPrivadaDatil) {
-                CertificadoPersonaJuridicaPrivadaDatil certificadoPersonaJuridicaPrivadaDatil = (CertificadoPersonaJuridicaPrivadaDatil) certificadoDatil;
+            if (certificadoDatil instanceof CertificadoPersonaJuridicaPrivadaDatil certificadoPersonaJuridicaPrivadaDatil) {
                 datosUsuario.setCedula(certificadoPersonaJuridicaPrivadaDatil.getCedulaPasaporte());
                 datosUsuario.setNombre(certificadoPersonaJuridicaPrivadaDatil.getNombres());
                 datosUsuario.setApellido(certificadoPersonaJuridicaPrivadaDatil.getPrimerApellido() + " "
                         + certificadoPersonaJuridicaPrivadaDatil.getSegundoApellido());
                 datosUsuario.setCargo(certificadoPersonaJuridicaPrivadaDatil.getCargo());
             }
-            if (certificadoDatil instanceof CertificadoRepresentanteLegalDatil) {
-                CertificadoRepresentanteLegalDatil certificadoRepresentanteLegalDatil = (CertificadoRepresentanteLegalDatil) certificadoDatil;
+            if (certificadoDatil instanceof CertificadoRepresentanteLegalDatil certificadoRepresentanteLegalDatil) {
                 datosUsuario.setCedula(certificadoRepresentanteLegalDatil.getCedulaPasaporte());
                 datosUsuario.setNombre(certificadoRepresentanteLegalDatil.getNombres());
                 datosUsuario.setApellido(certificadoRepresentanteLegalDatil.getPrimerApellido() + " "
                         + certificadoRepresentanteLegalDatil.getSegundoApellido());
                 datosUsuario.setCargo(certificadoRepresentanteLegalDatil.getCargo());
             }
-            if (certificadoDatil instanceof CertificadoPersonaNaturalDatil) {
-                CertificadoPersonaNaturalDatil certificadoPersonaNaturalDatil = (CertificadoPersonaNaturalDatil) certificadoDatil;
+            if (certificadoDatil instanceof CertificadoPersonaNaturalDatil certificadoPersonaNaturalDatil) {
                 datosUsuario.setCedula(certificadoPersonaNaturalDatil.getCedulaPasaporte());
                 datosUsuario.setNombre(certificadoPersonaNaturalDatil.getNombres());
                 datosUsuario.setApellido(certificadoPersonaNaturalDatil.getPrimerApellido() + " "
@@ -596,14 +563,13 @@ public class CertEcUtils {
         }
         if (CertificadoArgosDataFactory.esCertificadoArgosData(certificado)) {
             CertificadoArgosData certificadoArgosData = CertificadoArgosDataFactory.construir(certificado);
-            if (certificadoArgosData instanceof CertificadoPersonaNaturalArgosData) {
-                CertificadoPersonaNaturalArgosData certificadoPersonaNatural = (CertificadoPersonaNaturalArgosData) certificadoArgosData;
+            if (certificadoArgosData instanceof CertificadoPersonaNaturalArgosData certificadoPersonaNatural) {
                 datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
                 datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
                 datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido() + " "
                         + certificadoPersonaNatural.getSegundoApellido());
-            } else if (certificadoArgosData instanceof CertificadoRepresentanteLegalArgosData) {
-                CertificadoRepresentanteLegalArgosData certificadoRepresentanteLegal = (CertificadoRepresentanteLegalArgosData) certificadoArgosData;
+            }
+            if (certificadoArgosData instanceof CertificadoRepresentanteLegalArgosData certificadoRepresentanteLegal) {
                 datosUsuario.setCedula(certificadoRepresentanteLegal.getCedulaPasaporte());
                 datosUsuario.setNombre(certificadoRepresentanteLegal.getNombres());
                 datosUsuario.setApellido(certificadoRepresentanteLegal.getPrimerApellido() + " "
@@ -615,8 +581,7 @@ public class CertEcUtils {
         }
         if (CertificadoLazzateDataFactory.esCertificadoLazzate(certificado)) {
             CertificadoLazzate certificadoLazzate = CertificadoLazzateDataFactory.construir(certificado);
-            if (certificadoLazzate instanceof CertificadoPersonaNatural) {
-                CertificadoPersonaNatural certificadoPersonaNatural = (CertificadoPersonaNatural) certificadoLazzate;
+            if (certificadoLazzate instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
                 datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
                 if (certificadoPersonaNatural.getNombres().isEmpty()) {
                     datosUsuario.setNombre(Utils.getCN(certificado));
@@ -627,8 +592,7 @@ public class CertEcUtils {
                             + certificadoPersonaNatural.getSegundoApellido());
                 }
             }
-            if (certificadoLazzate instanceof CertificadoPersonaJuridica) {
-                CertificadoPersonaJuridica certificadoPersonaJuridica = (CertificadoPersonaJuridica) certificadoLazzate;
+            if (certificadoLazzate instanceof CertificadoPersonaJuridica certificadoPersonaJuridica) {
 
                 datosUsuario.setCedula(certificadoPersonaJuridica.getCedulaPasaporte());
                 datosUsuario.setInstitucion(certificadoPersonaJuridica.getRazonSocial());
@@ -647,24 +611,21 @@ public class CertEcUtils {
         }
         if (CertificadoAlphaTechnologiesFactory.esCertificadoDeAlphaTechnologies(certificado)) {
             CertificadoAlphaTechnologies certificadoAlphaTechnologies = CertificadoAlphaTechnologiesFactory.construir(certificado);
-            if (certificadoAlphaTechnologies instanceof CertificadoMiembroEmpresa) {
-                CertificadoMiembroEmpresa certificadoMiembroEmpresa = (CertificadoMiembroEmpresa) certificadoAlphaTechnologies;
+            if (certificadoAlphaTechnologies instanceof CertificadoMiembroEmpresa certificadoMiembroEmpresa) {
                 datosUsuario.setCedula(certificadoMiembroEmpresa.getCedulaPasaporte());
                 datosUsuario.setNombre(certificadoMiembroEmpresa.getNombres());
                 datosUsuario.setApellido(certificadoMiembroEmpresa.getPrimerApellido() + " "
                         + certificadoMiembroEmpresa.getSegundoApellido());
                 datosUsuario.setCargo(certificadoMiembroEmpresa.getCargo());
             }
-            if (certificadoAlphaTechnologies instanceof CertificadoPersonaJuridica) {
-                CertificadoPersonaJuridica certificadoPersonaJuridica = (CertificadoPersonaJuridica) certificadoAlphaTechnologies;
+            if (certificadoAlphaTechnologies instanceof CertificadoPersonaJuridica certificadoPersonaJuridica) {
                 datosUsuario.setCedula(certificadoPersonaJuridica.getCedulaPasaporte());
                 datosUsuario.setNombre(certificadoPersonaJuridica.getNombres());
                 datosUsuario.setApellido(certificadoPersonaJuridica.getPrimerApellido() + " "
                         + certificadoPersonaJuridica.getSegundoApellido());
                 datosUsuario.setCargo(certificadoPersonaJuridica.getCargo());
             }
-            if (certificadoAlphaTechnologies instanceof CertificadoPersonaNatural) {
-                CertificadoPersonaNatural certificadoPersonaNatural = (CertificadoPersonaNatural) certificadoAlphaTechnologies;
+            if (certificadoAlphaTechnologies instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
                 datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
                 datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
                 datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido() + " "
@@ -675,24 +636,21 @@ public class CertEcUtils {
         }
         if (CertificadoCorpNewBestDataFactory.esCertificadoCorpNewBest(certificado)) {
             CertificadoCorpNewBest certificadoCorpNewBest = CertificadoCorpNewBestDataFactory.construir(certificado);
-            if (certificadoCorpNewBest instanceof CertificadoPersonaJuridica) {
-                CertificadoPersonaJuridica certificadoPersonaJuridica = (CertificadoPersonaJuridica) certificadoCorpNewBest;
+            if (certificadoCorpNewBest instanceof CertificadoPersonaJuridica certificadoPersonaJuridica) {
                 datosUsuario.setCedula(certificadoPersonaJuridica.getCedulaPasaporte());
                 datosUsuario.setNombre(certificadoPersonaJuridica.getNombres());
                 datosUsuario.setApellido(certificadoPersonaJuridica.getPrimerApellido() + " "
                         + certificadoPersonaJuridica.getSegundoApellido());
                 datosUsuario.setCargo(certificadoPersonaJuridica.getCargo());
             }
-            if (certificadoCorpNewBest instanceof CertificadoMiembroEmpresa) {
-                CertificadoMiembroEmpresa certificadoMiembroEmpresa = (CertificadoMiembroEmpresa) certificadoCorpNewBest;
+            if (certificadoCorpNewBest instanceof CertificadoMiembroEmpresa certificadoMiembroEmpresa) {
                 datosUsuario.setCedula(certificadoMiembroEmpresa.getCedulaPasaporte());
                 datosUsuario.setNombre(certificadoMiembroEmpresa.getNombres());
                 datosUsuario.setApellido(certificadoMiembroEmpresa.getPrimerApellido() + " "
                         + certificadoMiembroEmpresa.getSegundoApellido());
                 datosUsuario.setCargo(certificadoMiembroEmpresa.getCargo());
             }
-            if (certificadoCorpNewBest instanceof CertificadoPersonaNatural) {
-                CertificadoPersonaNatural certificadoPersonaNatural = (CertificadoPersonaNatural) certificadoCorpNewBest;
+            if (certificadoCorpNewBest instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
                 datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
                 datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
                 datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido() + " "
@@ -706,14 +664,13 @@ public class CertEcUtils {
         }
         if (CertificadoFirmaSeguraFactory.esCertificadoDeFirmaSegura(certificado)) {
             CertificadoFirmaSegura certificadoFirmaSegura = CertificadoFirmaSeguraFactory.construir(certificado);
-            if (certificadoFirmaSegura instanceof CertificadoPersonaNatural) {
-                CertificadoPersonaNatural certificadoPersonaNatural = (CertificadoPersonaNatural) certificadoFirmaSegura;
+            if (certificadoFirmaSegura instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
                 datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
                 datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
                 datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido() + " "
                         + certificadoPersonaNatural.getSegundoApellido());
-            } else if (certificadoFirmaSegura instanceof CertificadoRepresentanteLegalFirmaSegura) {
-                CertificadoRepresentanteLegalFirmaSegura certificadoRepresentanteLegal = (CertificadoRepresentanteLegalFirmaSegura) certificadoFirmaSegura;
+            }
+            if (certificadoFirmaSegura instanceof CertificadoRepresentanteLegalFirmaSegura certificadoRepresentanteLegal) {
                 datosUsuario.setCedula(certificadoRepresentanteLegal.getCedulaPasaporte());
                 datosUsuario.setNombre(certificadoRepresentanteLegal.getNombres());
                 datosUsuario.setApellido(certificadoRepresentanteLegal.getPrimerApellido() + " "

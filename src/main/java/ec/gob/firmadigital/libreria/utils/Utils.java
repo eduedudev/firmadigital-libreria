@@ -17,6 +17,7 @@
  */
 package ec.gob.firmadigital.libreria.utils;
 
+import com.itextpdf.kernel.pdf.PdfDate;
 import com.itextpdf.kernel.pdf.PdfDictionary;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
@@ -63,9 +64,11 @@ import org.w3c.dom.Node;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfName;
 import com.itextpdf.kernel.pdf.PdfReader;
+import com.itextpdf.kernel.utils.CompareTool;
 import com.itextpdf.signatures.PdfPKCS7;
 import com.itextpdf.signatures.SignatureUtil;
 
+import static ec.gob.firmadigital.libreria.utils.CheckPDF.checkPDF;
 import ec.gob.firmadigital.libreria.certificate.CertEcUtils;
 import ec.gob.firmadigital.libreria.certificate.to.Certificado;
 import ec.gob.firmadigital.libreria.certificate.to.DatosUsuario;
@@ -456,7 +459,7 @@ public class Utils {
                     try {
                         java.util.List<String> signatureNames = signatureUtil.getSignatureNames();
                         for (String signatureName : signatureNames) {
-                            PdfPKCS7 pdfPKCS7 = signatureUtil.verifySignature(signatureName);
+                            PdfPKCS7 pdfPKCS7 = signatureUtil.readSignatureData(signatureName);
                             for (X509Certificate certificate : signInfo.getCerts()) {
                                 if (pdfPKCS7.getSigningCertificate().equals(certificate)
                                         && certificado.getSignGenerated().getTime().equals(pdfPKCS7.getSignDate().getTime())) {
@@ -476,6 +479,7 @@ public class Utils {
                                             List<String> extendedKeyUsages = x509Certificate.getExtendedKeyUsage();
                                             for (String extendedKeyUsage : extendedKeyUsages) {
                                                 if (extendedKeyUsage.equals("1.3.6.1.5.5.7.3.8")) {//oid timestamping
+                                                    certificado.getDatosUsuario().setApellido("");
                                                     certificado.setDocTimeStamp(tsToken.getTimeStampInfo().getGenTime());
                                                     certificado.setDocTimeStampIssuedBy(CertEcUtils.getNombreCA(x509Certificate));
                                                     certificado.setDatosUsuario(infoCertificado(certificado.getDatosUsuario(), signInfo));
@@ -496,6 +500,13 @@ public class Utils {
                                     certificado.setSignVerify(pdfPKCS7.verifySignatureIntegrityAndAuthenticity());
                                     //documento sin ser modificado
                                     if (!documento.getDocValidate()) {
+//                                        System.out.println("--------------signatureName " + signatureName + "--------------");
+//                                        InputStream revisionStream = signatureUtil.extractRevision(signatureName);
+//                                        PdfReader pdfReaderRevision = new PdfReader(revisionStream);
+//                                        try (PdfDocument pdfDocumentRevision = new PdfDocument(pdfReaderRevision)) {
+//                                            infoPDF(pdfDocumentRevision);
+//                                            System.out.println("----------------------------");
+//                                        }
                                         documento.setDocValidate(signatureUtil.signatureCoversWholeDocument(signatureName));
                                     }
                                     // Obtiene KeyUsages
@@ -516,6 +527,76 @@ public class Utils {
             }
         }
         return documento;
+    }
+
+    private static void infoPDF(PdfDocument pdfDocument) {
+        try {
+            SignatureUtil signatureUtil = new SignatureUtil(pdfDocument);
+            List<String> signatureNames = signatureUtil.getSignatureNames();
+            if (signatureNames.isEmpty()) {
+                System.out.println("No signed revisions detected. (no AcroForm)");
+            } else {
+                CompareTool compareTool = new CompareTool();
+                PdfDocument currentDocument = null;
+                PdfDocument nextDocument = null;
+                for (int i = 1; i < signatureNames.size(); i++) {
+                    String currentRevision = signatureNames.get(i - 1);
+                    System.out.printf("* Signed revision (%d): %s\n", i, currentRevision);
+                    currentDocument = new PdfDocument(new PdfReader(signatureUtil.extractRevision(currentRevision)));
+
+                    String nextRevision = signatureNames.get(i);
+                    nextDocument = new PdfDocument(new PdfReader(signatureUtil.extractRevision(nextRevision)));
+
+                    if (signatureUtil.signatureCoversWholeDocument(nextRevision)) {
+                        System.out.printf("* Signed revision (%d): %s\n", i, "No unsigned updates.");
+                    }
+
+                    if (currentDocument.getNumberOfPages() != nextDocument.getNumberOfPages()) {
+                        System.out.printf("* Signed revision (%d): %s\n", i, "Distinto número de paginas.");
+                    }
+                    compareTool.disableCachedPagesComparison();
+                    compareTool.enableEncryptionCompare();
+                    CompareTool.CompareResult compareResult = compareTool.compareByCatalog(currentDocument, nextDocument);
+                    System.out.println("compareResult.getReport(): " + compareResult.getReport());
+                }
+                if (currentDocument != null && nextDocument != null) {
+                    currentDocument.close();
+                    nextDocument.close();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        //get metadata map
+        PdfDictionary trailerDictionary = pdfDocument.getTrailer();
+        trailerDictionary.entrySet().forEach(entry -> {
+            if (entry.getKey().getValue().equals("Prev")) {
+                System.out.println(entry.getKey().getValue() + " - " + entry.getValue());
+            }
+            if (entry.getKey().getValue().equals("XRefStm")) {
+                System.out.println(entry.getKey().getValue() + " - " + entry.getValue());
+            }
+        });
+        PdfDictionary infoDictionary = pdfDocument.getTrailer().getAsDictionary(PdfName.Info);
+        infoDictionary.entrySet().forEach(entry -> {
+            if (entry.getKey().getValue().equals("Author")) {
+                System.out.println(entry.getKey().getValue() + " - " + entry.getValue());
+            }
+            if (entry.getKey().getValue().equals("Creator")) {
+                System.out.println(entry.getKey().getValue() + " - " + entry.getValue());
+            }
+            if (entry.getKey().getValue().equals("Producer")) {
+                System.out.println(entry.getKey().getValue() + " - " + entry.getValue());
+            }
+            if (entry.getKey().getValue().equals("CreationDate")) {
+                System.out.println("CreationDate: " + PdfDate.decode(entry.getValue().toString()).getTime());
+            }
+            if (entry.getKey().getValue().equals("ModDate")) {
+                System.out.println("ModDate: " + PdfDate.decode(entry.getValue().toString()).getTime());
+            }
+        });
+        //get metadata map
     }
 
     /**
@@ -684,7 +765,16 @@ public class Utils {
                 return documento;
             }
             case ".pdf" -> {
-                return Utils.pdfToDocumento(file);
+                PdfReader pdfReader = new PdfReader(file);
+                try (PdfDocument pdfDocumentRevision = new PdfDocument(pdfReader)) {
+                    String mensajeAnalisisDocumento = checkPDF(pdfDocumentRevision);
+                    if (mensajeAnalisisDocumento != null) {
+                        List<Certificado> certificados = new ArrayList<>();
+                        return new Documento(false, false, certificados, mensajeAnalisisDocumento);
+                    } else {
+                        return Utils.pdfToDocumento(file);
+                    }
+                }
             }
             case ".xml" -> {
                 {

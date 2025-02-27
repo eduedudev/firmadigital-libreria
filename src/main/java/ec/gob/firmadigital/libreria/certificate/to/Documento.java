@@ -69,7 +69,7 @@ public class Documento {
         return error;
     }
 
-    public void setProcess(String error) {
+    public void setError(String error) {
         this.error = error;
     }
 

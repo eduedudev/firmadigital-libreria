@@ -63,17 +63,15 @@ public class PadesEnhancedSigner extends BasePdfSigner {
             createSignature(hashSigned, documentoPorFirmar, fieldName, privateKey, certificates);
             return getDocumentoFirmado().toByteArray();
         } catch (GeneralSecurityException e) {
-            LOGGER.log(Level.SEVERE, "Error al firmar:{0}", e.getMessage());
+            LOGGER.log(Level.SEVERE, "Error al firmar: {0}", e.getMessage());
             throw new RuntimeException(e);
         }
     }
 
     private byte[] signed_hash(byte[] hash, PrivateKey pk, Certificate[] chain) throws GeneralSecurityException {
-        PrivateKeySignature signature = new PrivateKeySignature(pk, externalSignature.getHashAlgorithm(), "BC");
-        String hashAlgorithm = signature.getHashAlgorithm();
-
+        PrivateKeySignature signature = new PrivateKeySignature(pk, externalSignature.getHashAlgorithm(), null);
         BouncyCastleDigest digest = new BouncyCastleDigest();
-        PdfPKCS7 sgn = new PdfPKCS7(null, chain, hashAlgorithm, null, digest, false);
+        PdfPKCS7 sgn = new PdfPKCS7(null, chain, externalSignature.getHashAlgorithm(), null, digest, false);
         byte[] sh = sgn.getAuthenticatedAttributeBytes(hash, com.itextpdf.signatures.PdfSigner.CryptoStandard.CMS, null, null);
         byte[] extSignature = signature.sign(sh);
         sgn.setExternalDigest(extSignature, null, signature.getEncryptionAlgorithm());
