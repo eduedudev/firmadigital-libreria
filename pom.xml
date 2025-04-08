@@ -9,7 +9,7 @@
 
     <name>firmadigital-libreria</name>
     <description>Una librería para firma digital</description>
-    <url>http://www.firmadigital.gob.ec</url>
+    <url>https://www.firmadigital.gob.ec</url>
     <licenses>
         <license>
             <name>GNU AFFERO GENERAL PUBLIC LICENSE, Version 3 (AGPL-3.0)</name>
@@ -22,7 +22,7 @@
             <name>Ricardo Arguello</name>
             <email>ricardo.arguello@soportelibre.com</email>
             <organization>Soporte Libre</organization>
-            <organizationUrl>http://www.soportelibre.com</organizationUrl>
+            <organizationUrl>https://www.soportelibre.com</organizationUrl>
         </developer>
         <developer>
             <name>Misael Fernández Correa</name>
@@ -68,11 +68,6 @@
             <groupId>com.github.jai-imageio</groupId>
             <artifactId>jai-imageio-jpeg2000</artifactId>
             <version>1.4.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.xerial</groupId>
-            <artifactId>sqlite-jdbc</artifactId>
-            <version>3.48.0.0</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
