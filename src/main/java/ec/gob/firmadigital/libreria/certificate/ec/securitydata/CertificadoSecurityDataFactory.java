@@ -17,13 +17,12 @@
  */
 package ec.gob.firmadigital.libreria.certificate.ec.securitydata;
 
-import static ec.gob.firmadigital.libreria.certificate.ec.securitydata.CertificadoSecurityData.OID_CEDULA_PASAPORTE;
+import static ec.gob.firmadigital.libreria.certificate.ec.securitydata.CertificadoSecurityData.OID_SELLADO_TIEMPO;
 import static ec.gob.firmadigital.libreria.certificate.ec.securitydata.CertificadoSecurityData.OID_TIPO_FUNCIONARIO_PUBLICO;
 import static ec.gob.firmadigital.libreria.certificate.ec.securitydata.CertificadoSecurityData.OID_TIPO_MIEMBRO_EMPRESA;
 import static ec.gob.firmadigital.libreria.certificate.ec.securitydata.CertificadoSecurityData.OID_TIPO_PERSONA_JURIDICA_EMPRESA;
 import static ec.gob.firmadigital.libreria.certificate.ec.securitydata.CertificadoSecurityData.OID_TIPO_PERSONA_NATURAL;
 import static ec.gob.firmadigital.libreria.certificate.ec.securitydata.CertificadoSecurityData.OID_TIPO_PERSONA_NATURAL_PROFESIONAL;
-import static ec.gob.firmadigital.libreria.certificate.ec.securitydata.CertificadoSecurityData.OID_TIPO_PRUEBA;
 import static ec.gob.firmadigital.libreria.certificate.ec.securitydata.CertificadoSecurityData.OID_TIPO_REPRESENTANTE_LEGAL;
 import ec.gob.firmadigital.libreria.exceptions.EntidadCertificadoraNoValidaException;
 import static ec.gob.firmadigital.libreria.utils.BouncyCastleUtils.certificateHasPolicy;
@@ -39,8 +38,13 @@ import java.security.cert.X509Certificate;
 public class CertificadoSecurityDataFactory {
 
     public static boolean esCertificadoDeSecurityData(X509Certificate certificado) {
-        byte[] valor = certificado.getExtensionValue(OID_CEDULA_PASAPORTE);
-        return (valor != null);
+        return (certificateHasPolicy(certificado, OID_TIPO_PERSONA_NATURAL)
+                || certificateHasPolicy(certificado, OID_TIPO_PERSONA_JURIDICA_EMPRESA)
+                || certificateHasPolicy(certificado, OID_TIPO_REPRESENTANTE_LEGAL)
+                || certificateHasPolicy(certificado, OID_TIPO_MIEMBRO_EMPRESA)
+                || certificateHasPolicy(certificado, OID_TIPO_FUNCIONARIO_PUBLICO)
+                || certificateHasPolicy(certificado, OID_TIPO_PERSONA_NATURAL_PROFESIONAL)
+                || certificateHasPolicy(certificado, OID_SELLADO_TIEMPO));
     }
 
     public static CertificadoSecurityData construir(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
@@ -56,8 +60,8 @@ public class CertificadoSecurityDataFactory {
             return new CertificadoFuncionarioPublicoSecurityData(certificado);
         } else if (certificateHasPolicy(certificado, OID_TIPO_PERSONA_NATURAL_PROFESIONAL)) {
             return new CertificadoPersonaNaturalSecurityData(certificado);
-        } else if (certificateHasPolicy(certificado, OID_TIPO_PRUEBA)) {
-            return new CertificadoPruebaSecurityData(certificado);
+        } else if (certificateHasPolicy(certificado, OID_SELLADO_TIEMPO)) {
+            return new CertificadoSelladoTiempoSecurityData(certificado);
         } else {
             throw new EntidadCertificadoraNoValidaException("Tipo Certificado de SecurityData desconocido!");
         }
