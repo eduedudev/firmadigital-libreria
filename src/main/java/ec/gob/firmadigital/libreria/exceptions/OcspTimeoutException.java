@@ -22,11 +22,9 @@ import java.net.URL;
 /**
  * Excepcion que se lanza en caso de que el servidor OCSP de timeout.
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  */
 public class OcspTimeoutException extends Exception {
-
-    private static final long serialVersionUID = 8593563176075864415L;
 
     private String url;
 

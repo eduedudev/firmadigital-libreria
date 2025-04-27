@@ -22,11 +22,9 @@ import java.util.Date;
 /**
  * Excepcion que se lanza en caso de haya un problema de validacion OCSP.
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  */
 public class OcspValidationException extends Exception {
-
-    private static final long serialVersionUID = -4371520182817375302L;
 
     private int revocationReason;
     private Date revocationTime;

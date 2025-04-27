@@ -24,7 +24,7 @@ import ec.gob.firmadigital.libreria.certificate.ec.CertificadoFuncionarioPublico
 /**
  * Certificado de Funcionario Publico emitido por Security Data.
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  */
 public class CertificadoFuncionarioPublicoSecurityData extends CertificadoSecurityData
         implements CertificadoFuncionarioPublico {

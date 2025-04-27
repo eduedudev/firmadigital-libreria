@@ -22,7 +22,7 @@ import java.io.File;
 /**
  * KeyStoreProvider para tokens Pcsc.
  *
- * @author mfernandez
+ * @author Misael Fernández
  */
 public class WindowsPcscKeyStoreProvider extends PKCS11KeyStoreProvider {
 

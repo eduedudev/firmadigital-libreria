@@ -15,11 +15,28 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package ec.gob.firmadigital.libreria.pdf;
+package ec.gob.firmadigital.libreria.exceptions;
 
-import ec.gob.firmadigital.libreria.model.Document;
+/**
+ * Excepcion para cancelar.
+ *
+ * @author Misael Fernández
+ */
+public class CancelException extends Exception {
 
-public interface PdfSignature {
+    public CancelException() {
+        super();
+    }
 
-    Document sign(final Document pdfData, final byte[] signatureValue, final SignatureParameters parameters);
+    public CancelException(String message) {
+        super(message);
+    }
+
+    public CancelException(String msg, Throwable cause) {
+        super(msg, cause);
+    }
+
+    public CancelException(Throwable cause) {
+        super(cause);
+    }
 }

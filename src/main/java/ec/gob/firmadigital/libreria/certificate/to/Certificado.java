@@ -24,36 +24,48 @@ import java.util.Date;
 /**
  * Objeto para acceder informacion legible del certificado digital
  *
- * @author mfernandez
+ * @author Misael Fernández
  */
 public class Certificado {
 
-    private String issuedTo;//DInformación del firmante
+    private String serial;//Serial del certificado digital
+    private String issuedTo;//Información del firmante
     private String issuedBy;//Información de la entidad certificadora
     private Calendar validFrom;//certificado digital válido desde
     private Calendar validTo;//certificado digital válido hasta
-    private Calendar generated;//fecha de firmar del documento
     private Calendar revocated;//fecha de revocado del certificado digital
-    private Boolean validated;//validación del certificado en las fecha de vigencia
     private String keyUsages;//llaves de uso
-    private DatosUsuario datosUsuario;
+    private Boolean certificateValidated;//validación del certificado en las fecha de vigencia
+    private Calendar signGenerated;//fecha de firmar del documento
     private Boolean signVerify;//Integridad Firma
-    private Date docTimeStamp;//Estampa de tiempo
     private String docReason;//Razón del documento
     private String docLocation;//Localización del documento
+    private Boolean docValidTimeStamp;//Estampa de tiempo
+    private String docTimeStampIssuedBy;//Información de la entidad certificadora (Estampa de tiempo)
+    private Date docTimeStamp;//Estampa de tiempo
+    private DatosUsuario datosUsuario;
 
     public Certificado() {
     }
 
-    public Certificado(String issuedTo, String issuedBy, Calendar validFrom, Calendar validTo, Calendar generated, Calendar revocated, Boolean validated, DatosUsuario datosUsuario) {
+    public Certificado(String serial, String issuedTo, String issuedBy, Calendar validFrom, Calendar validTo, Calendar signGenerated, Calendar revocated, Boolean certificateValidated, DatosUsuario datosUsuario) {
+        this.serial = serial;
         this.issuedTo = issuedTo;
         this.issuedBy = issuedBy;
         this.validFrom = validFrom;
         this.validTo = validTo;
-        this.generated = generated;
+        this.signGenerated = signGenerated;
         this.revocated = revocated;
-        this.validated = validated;
+        this.certificateValidated = certificateValidated;
         this.datosUsuario = datosUsuario;
+    }
+
+    public String getSerial() {
+        return serial;
+    }
+
+    public void setSerial(String serial) {
+        this.serial = serial;
     }
 
     public String getIssuedTo() {
@@ -88,20 +100,12 @@ public class Certificado {
         this.validTo = validTo;
     }
 
-    public Calendar getGenerated() {
-        return generated;
+    public Calendar getRevocated() {
+        return revocated;
     }
 
-    public void setGenerated(Calendar generated) {
-        this.generated = generated;
-    }
-
-    public Boolean getValidated() {
-        return validated;
-    }
-
-    public void setValidated(Boolean validated) {
-        this.validated = validated;
+    public void setRevocated(Calendar revocated) {
+        this.revocated = revocated;
     }
 
     public String getKeyUsages() {
@@ -112,16 +116,12 @@ public class Certificado {
         this.keyUsages = keyUsages;
     }
 
-    public Calendar getRevocated() {
-        return revocated;
+    public Boolean getCertificateValidated() {
+        return certificateValidated;
     }
 
-    public void setRevocated(Calendar revocated) {
-        this.revocated = revocated;
-    }
-
-    public DatosUsuario getDatosUsuario() {
-        return datosUsuario;
+    public void setCertificateValidated(Boolean validated) {
+        this.certificateValidated = validated;
     }
 
     public Boolean getSignVerify() {
@@ -132,12 +132,12 @@ public class Certificado {
         this.signVerify = signVerify;
     }
 
-    public Date getDocTimeStamp() {
-        return docTimeStamp;
+    public Calendar getSignGenerated() {
+        return signGenerated;
     }
 
-    public void setDocTimeStamp(Date docTimeStamp) {
-        this.docTimeStamp = docTimeStamp;
+    public void setSignGenerated(Calendar signGenerated) {
+        this.signGenerated = signGenerated;
     }
 
     public String getDocReason() {
@@ -156,6 +156,34 @@ public class Certificado {
         this.docLocation = docLocation;
     }
 
+    public Boolean getDocValidTimeStamp() {
+        return docValidTimeStamp;
+    }
+
+    public void setDocValidTimeStamp(Boolean docValidTimeStamp) {
+        this.docValidTimeStamp = docValidTimeStamp;
+    }
+
+    public String getDocTimeStampIssuedBy() {
+        return docTimeStampIssuedBy;
+    }
+
+    public void setDocTimeStampIssuedBy(String docTimeStampIssuedBy) {
+        this.docTimeStampIssuedBy = docTimeStampIssuedBy;
+    }
+
+    public Date getDocTimeStamp() {
+        return docTimeStamp;
+    }
+
+    public void setDocTimeStamp(Date docTimeStamp) {
+        this.docTimeStamp = docTimeStamp;
+    }
+
+    public DatosUsuario getDatosUsuario() {
+        return datosUsuario;
+    }
+
     public void setDatosUsuario(DatosUsuario datosUsuario) {
         this.datosUsuario = datosUsuario;
     }
@@ -163,19 +191,22 @@ public class Certificado {
     @Override
     public String toString() {
         return "\tCertificado\n"
-                + "\t[issuedTo=" + issuedTo + "\n"
+                + "\t[serial=" + serial + "\n"
+                + "\tissuedTo=" + issuedTo + "\n"
                 + "\tissuedBy=" + issuedBy + "\n"
                 + "\tvalidFrom=" + (validFrom == null ? null : (String) new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format((validFrom.getTime()))) + "\n"
                 + "\tvalidTo=" + (validTo == null ? null : (String) new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format((validTo.getTime()))) + "\n"
-                + "\tgenerated=" + (generated == null ? null : (String) new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format((generated.getTime()))) + "\n"
                 + "\trevocated=" + (revocated == null ? null : (String) new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format((revocated.getTime()))) + "\n"
-                + "\tvalidated=" + validated + "\n"
                 + "\tkeyUsages=" + keyUsages + "\n"
-                + "\tdocTimeStamp=" + (docTimeStamp == null ? null : (String) new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format((docTimeStamp))) + "\n"
+                + "\tcertificateValidated=" + certificateValidated + "\n"
+                + "\tsignGenerated=" + (signGenerated == null ? null : (String) new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format((signGenerated.getTime()))) + "\n"
                 + "\tsignVerify=" + signVerify + "\n"
                 + "\tdocReason=" + docReason + "\n"
                 + "\tdocLocation=" + docLocation + "\n"
-                + "\t" + (datosUsuario == null ? "\tDatosUsuario[Sin información de usuario]" : datosUsuario.toString()) + "\n"
+                + "\tdocValidTimeStamp=" + docValidTimeStamp + "\n"
+                + "\tdocTimeStampIssuedBy=" + docTimeStampIssuedBy + "\n"
+                + "\tdocTimeStamp=" + (docTimeStamp == null ? null : (String) new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format((docTimeStamp))) + "\n"
+                + "\t" + (datosUsuario == null ? "DatosUsuario[Sin información de usuario]" : datosUsuario.toString()) + "\n"
                 + "\t]"
                 + "\n----------";
     }

@@ -61,9 +61,9 @@ public class SelladoUnatacaTest {
                 dataCert.append("\nRazón / Localización:\t");
                 dataCert.append(certificado.getDocReason() + "\t" + certificado.getDocReason());
                 dataCert.append("\nEntidad Certificadora:\t");
-                dataCert.append(certificado.getDatosUsuario().getEntidadCertificadora());
+                dataCert.append(certificado.getDocTimeStampIssuedBy());
                 dataCert.append("\nFecha firmado:\t");
-                dataCert.append(simpleDateFormat.format(certificado.getGenerated().getTime()));
+                dataCert.append(simpleDateFormat.format(certificado.getSignGenerated().getTime()));
                 dataCert.append("\nFirma:\t");
                 String validez;
                 if (documento.getSignValidate().booleanValue()) {

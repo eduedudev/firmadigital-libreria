@@ -20,7 +20,7 @@ package ec.gob.firmadigital.libreria.certificate.to;
 /**
  * Datos del usuario para contruir la validacion CMS.
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  */
 public class DatosUsuario {
 
@@ -29,11 +29,8 @@ public class DatosUsuario {
     private String apellido;
     private String institucion = "";
     private String cargo = "";
-    private String serial;
-    private String fechaFirmaArchivo;
-    private String entidadCertificadora;
-    private Boolean selladoTiempo;
     private boolean certificadoDigitalValido;
+    private String fechaFirmaArchivoP7M;
 
     public DatosUsuario() {
     }
@@ -78,38 +75,6 @@ public class DatosUsuario {
         this.cargo = cargo;
     }
 
-    public String getSerial() {
-        return serial;
-    }
-
-    public void setSerial(String serial) {
-        this.serial = serial;
-    }
-
-    public String getFechaFirmaArchivo() {
-        return fechaFirmaArchivo;
-    }
-
-    public void setFechaFirmaArchivo(String fechaFirmaArchivo) {
-        this.fechaFirmaArchivo = fechaFirmaArchivo;
-    }
-
-    public String getEntidadCertificadora() {
-        return entidadCertificadora;
-    }
-
-    public void setEntidadCertificadora(String entidadCertificadora) {
-        this.entidadCertificadora = entidadCertificadora;
-    }
-
-    public Boolean getSelladoTiempo() {
-        return selladoTiempo;
-    }
-
-    public void setSelladoTiempo(Boolean selladoTiempo) {
-        this.selladoTiempo = selladoTiempo;
-    }
-
     public boolean isCertificadoDigitalValido() {
         return certificadoDigitalValido;
     }
@@ -118,17 +83,21 @@ public class DatosUsuario {
         this.certificadoDigitalValido = certificadoDigitalValido;
     }
 
+    public void setFechaFirmaArchivoP7M(String fechaFirmaArchivoP7M) {
+        this.fechaFirmaArchivoP7M = fechaFirmaArchivoP7M;
+    }
+
     @Override
     public String toString() {
-        return "\tDatosUsuario\n"
-                + "\t\t[cedula=" + cedula + "\n"
+        return """
+               DatosUsuario
+               \t\t[cedula=""" + cedula + "\n"
                 + "\t\tnombre=" + nombre + "\n"
                 + "\t\tapellido=" + apellido + "\n"
                 + "\t\tinstitucion=" + institucion + "\n"
                 + "\t\tcargo=" + cargo + "\n"
-                + "\t\tentidadCertificadora=" + entidadCertificadora + "\n"
-                + "\t\tselladoTiempo=" + selladoTiempo + "\n"
                 + "\t\tcertificadoDigitalValido=" + certificadoDigitalValido + "\n"
+                + "\t\tfechaFirmaArchivoP7M=" + fechaFirmaArchivoP7M + "\n"
                 + "\t\t]";
     }
 }

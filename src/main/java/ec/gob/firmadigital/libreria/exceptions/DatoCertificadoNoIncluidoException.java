@@ -20,11 +20,9 @@ package ec.gob.firmadigital.libreria.exceptions;
 /**
  * Excepcion que se lanza en caso de que el certificado no incluya un campo.
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  */
 public class DatoCertificadoNoIncluidoException extends RuntimeException {
-
-    private static final long serialVersionUID = 5614921752347842642L;
 
     public DatoCertificadoNoIncluidoException(String message) {
         super(message);

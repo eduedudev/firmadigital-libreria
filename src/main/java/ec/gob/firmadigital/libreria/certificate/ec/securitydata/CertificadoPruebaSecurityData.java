@@ -22,7 +22,7 @@ import java.security.cert.X509Certificate;
 /**
  * Certificado de Prueba emitido por Security Data.
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  */
 public class CertificadoPruebaSecurityData extends CertificadoSecurityData {
 

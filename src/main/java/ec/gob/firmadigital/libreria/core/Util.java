@@ -31,12 +31,13 @@ import java.nio.channels.FileChannel;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  * M&eacute;todos generales de utilidad para toda la aplicaci&oacute;n.
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  */
 public final class Util {
 
@@ -378,7 +379,7 @@ public final class Util {
             tempLibrary.deleteOnExit();
         }
 
-        LOGGER.info("Cargamos " + (tempLibrary == null ? path : tempLibrary.getAbsolutePath())); //$NON-NLS-1$
+        LOGGER.log(Level.INFO, "Cargamos {0}", tempLibrary == null ? path : tempLibrary.getAbsolutePath()); //$NON-NLS-1$
         System.load(tempLibrary != null ? tempLibrary.getAbsolutePath() : path);
 
     }

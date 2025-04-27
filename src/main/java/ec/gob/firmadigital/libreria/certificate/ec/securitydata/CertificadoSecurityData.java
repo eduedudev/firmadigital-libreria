@@ -25,7 +25,7 @@ import ec.gob.firmadigital.libreria.certificate.CertUtils;
 /**
  * Certificado emitido por Security Data.
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  */
 public abstract class CertificadoSecurityData {
 
@@ -35,8 +35,8 @@ public abstract class CertificadoSecurityData {
     public static final String OID_TIPO_REPRESENTANTE_LEGAL = "1.3.6.1.4.1.37746.2.9";
     public static final String OID_TIPO_MIEMBRO_EMPRESA = "1.3.6.1.4.1.37746.2.10";
     public static final String OID_TIPO_FUNCIONARIO_PUBLICO = "1.3.6.1.4.1.37746.2.11";
-    public static final String OID_TIPO_PRUEBA = "1.3.6.1.4.1.37746.2.13";
     public static final String OID_TIPO_PERSONA_NATURAL_PROFESIONAL = "1.3.6.1.4.1.37746.2.15"; // uh?
+    public static final String OID_SELLADO_TIEMPO = "1.3.6.1.4.1.37746.3.28";
 
     // OIDs de Campos del Certificado:
     public static final String OID_CEDULA_PASAPORTE = "1.3.6.1.4.1.37746.3.1";

@@ -20,7 +20,7 @@ package ec.gob.firmadigital.libreria.validaciones;
 /**
  * Utilidades para Fichero
  *
- * @author mfernandez
+ * @author Misael Fernández
  */
 public class Fichero {
 
@@ -179,19 +179,6 @@ public class Fichero {
             e.printStackTrace();
         }
         return columnas;
-    }
-
-    public static void main(String[] args) {
-        java.util.List<String> lista = new java.util.ArrayList();
-        try {
-            // lista.add(new String("Misael\t\n".getBytes("UTF-8"),"ISO-8859-1"));
-            // lista.add(new
-            // String("Fernández\r\n".getBytes("ASCII"),"ISO-8859-1"));//windows//
-            // lista.add(new String("Misael\n".getBytes("ASCII"),"ISO-8859-1"));//windows
-            guardarFichero("/home/desarrollo/fichero.txt", lista);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public static void abrirFichero(String rutaFichero) {

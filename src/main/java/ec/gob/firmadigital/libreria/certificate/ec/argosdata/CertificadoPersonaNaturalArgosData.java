@@ -24,7 +24,7 @@ import ec.gob.firmadigital.libreria.certificate.ec.CertificadoPersonaNatural;
 /**
  * Certificado de Persona Natural emitido por Argos Data.
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  */
 public class CertificadoPersonaNaturalArgosData extends CertificadoArgosData
         implements CertificadoPersonaNatural {

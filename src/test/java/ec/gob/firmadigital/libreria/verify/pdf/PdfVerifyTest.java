@@ -30,61 +30,51 @@ import org.junit.Test;
 
 public class PdfVerifyTest {
 
-    private static final String FILE01 = "/home/mfernandez/Test/Verify/01.jpg";
-    private static final String FILE02 = "/home/mfernandez/Test/Verify/02.pdf";
-    private static final String FILE03 = "/home/mfernandez/Test/Verify/03.pdf";
-    private static final String FILE04 = "/home/mfernandez/Test/Verify/04.pdf";
-    private static final String FILE05 = "/home/mfernandez/Test/Verify/05.pdf";
-    private static final String FILE06 = "/home/mfernandez/Test/Verify/06.pdf";
-    private static final String FILE07 = "/home/mfernandez/Test/Verify/07.pdf";
-    private static final String FILE08 = "/home/mfernandez/Test/Verify/08.pdf";
-    private static final String FILE09 = "/home/mfernandez/Test/Verify/09.pdf";
-    private static final String FILE10 = "/home/mfernandez/Test/Verify/10.pdf";
-    private static final String FILE11 = "/home/mfernandez/Test/Verify/11.pdf";
-    private static final String FILE12 = "/home/mfernandez/Test/Verify/12.pdf";
-    private static final String FILE13 = "/home/mfernandez/Test/Verify/13.pdf";
-    private static final String FILE14 = "/home/mfernandez/Test/Verify/14.pdf";
-    private static final String FILE15 = "/home/mfernandez/Test/Verify/15.pdf";
-    private static final String FILE16 = "/home/mfernandez/Test/Verify/16.pdf";
-    private static final String FILE17 = "/home/mfernandez/Test/Verify/17.pdf";
-    private static final String FILE18 = "/home/mfernandez/Test/Verify/18.pdf";
-    private static final String FILE19 = "/home/mfernandez/Test/Verify/19.pdf";
-    private static final String FILE20 = "/home/mfernandez/Test/Verify/20.pdf";
-    private static final String FILE21 = "/home/mfernandez/Test/Verify/21.pdf";
-    private static final String FILE22 = "/home/mfernandez/Test/Verify/22.pdf";
-    private static final String FILE23 = "/home/mfernandez/Test/Verify/23.pdf";
-    private static final String FILE24 = "/home/mfernandez/Test/Verify/24.pdf.p7m";
-    private static final String FILE25 = "/home/mfernandez/Test/Verify/25.xml";
+    private static final String PATH = "/home/mfernandez/Test/Verify/";
 
-    @Test
+//    @Test
     public void verifyPdf() throws Exception {
-//        testVerifyPdf01();
-//        testVerifyPdf02();
-//        testVerifyPdf03();
-//        testVerifyPdf04();
-//        testVerifyPdf05();
-//        testVerifyPdf06();
-//        testVerifyPdf07();
-//        testVerifyPdf08();
-//        testVerifyPdf09();
-//        testVerifyPdf10();//50 firmas
-//        testVerifyPdf11();
-//        testVerifyPdf12();
-//        testVerifyPdf13();
-//        testVerifyPdf14();
-//        testVerifyPdf15();
-//        testVerifyPdf16();
-//        testVerifyPdf17();
-//        testVerifyPdf18();
-//        testVerifyPdf19();
-//        testVerifyPdf20();
-//        testVerifyPdf21();
-//        testVerifyPdf22();
-//        testVerifyPdf23();
-//        testVerifyP7m24();
-//        testVerifyXml25();
+        testVerifyPdf01(PATH + "01.jpg");
+        testVerifyPdf02(PATH + "02.pdf");
+        testVerifyPdf03(PATH + "03.pdf");
+        testVerifyPdf04(PATH + "04.pdf");
+        testVerifyPdf05(PATH + "05.pdf");
+        testVerifyPdf06(PATH + "06.pdf");
+        testVerifyPdf07(PATH + "07.pdf");
+        testVerifyPdf08(PATH + "08.pdf");
+        testVerifyPdf09(PATH + "09.pdf");
+        testVerifyPdf10(PATH + "10.pdf");//50 firmas
+        testVerifyPdf11(PATH + "11.pdf");
+        testVerifyPdf12(PATH + "12.pdf");
+        testVerifyPdf13(PATH + "13.pdf");
+        testVerifyPdf14(PATH + "14.pdf");
+        testVerifyPdf15(PATH + "15.pdf");
+        testVerifyPdf16(PATH + "16.pdf");//
+        testVerifyPdf17(PATH + "17.pdf");
+        testVerifyPdf18(PATH + "18.pdf");
+        testVerifyPdf19(PATH + "19.pdf");
+        testVerifyPdf20(PATH + "20.pdf");
+        testVerifyPdf21(PATH + "21.pdf");
+        testVerifyPdf22(PATH + "22.pdf");
+        testVerifyPdf23(PATH + "23.pdf");//
+        testVerifyP7m24(PATH + "24.pdf.p7m");//
+        testVerifyXml25(PATH + "25.xml");//
     }
-    
+
+    private Documento verificarDocumento(String file) throws IOException, SignatureVerificationException, Exception {
+        File document = new File(file);
+        Documento documento = Utils.verificarDocumento(document, PropertiesUtils.versionBase64());
+        System.out.println("Documento: " + documento);
+        if (documento.getCertificados() != null) {
+            documento.getCertificados().forEach((certificado) -> {
+                System.out.println(certificado.toString());
+            });
+        } else {
+            throw new InvalidFormatException("Documento no soportado");
+        }
+        return documento;
+    }
+
     /*¿Es archivo PDF?
     NO
     ¿Tiene firma electrónica?
@@ -107,10 +97,10 @@ public class PdfVerifyTest {
     N/A
     Resultado DESEADO al final de la validación
     RECHAZADO*/
-    public void testVerifyPdf01() throws Exception {
+    public void testVerifyPdf01(String file) throws Exception {
         try {
             System.out.println("Archivo de imagen JPG");
-            Documento documento = verificarDocumento(FILE01);
+            Documento documento = verificarDocumento(file);
             if (documento.getError() != null) {
                 System.out.println("Se obtuvo resultado esperado");
             } else {
@@ -146,10 +136,10 @@ public class PdfVerifyTest {
     N/A
     Resultado DESEADO al final de la validación
     RECHAZADO*/
-    public void testVerifyPdf02() throws Exception {
+    public void testVerifyPdf02(String file) throws Exception {
         try {
             System.out.println("Documento que no es PDF pero tiene la extensión .pdf");
-            Documento documento = verificarDocumento(FILE02);
+            Documento documento = verificarDocumento(file);
             if (documento.getError() != null) {
                 System.out.println("Se obtuvo resultado esperado");
             } else {
@@ -185,10 +175,10 @@ public class PdfVerifyTest {
     N/A
     Resultado DESEADO al final de la validación
     RECHAZADO*/
-    public void testVerifyPdf03() throws Exception {
+    public void testVerifyPdf03(String file) throws Exception {
         try {
             System.out.println("Documento PDF sin firma electrónica");
-            Documento documento = verificarDocumento(FILE03);
+            Documento documento = verificarDocumento(file);
             if (documento.getError() != null) {
                 System.out.println("Se obtuvo resultado esperado");
             } else {
@@ -224,10 +214,10 @@ public class PdfVerifyTest {
     SI
     Resultado DESEADO al final de la validación
     ACEPTADO*/
-    public void testVerifyPdf04() throws Exception {
+    public void testVerifyPdf04(String file) throws Exception {
         try {
             System.out.println("PDF con una firma electrónica vigente de la entidad certificadora Consejo de la Judicatura");
-            Documento documento = verificarDocumento(FILE04);
+            Documento documento = verificarDocumento(file);
             if (documento.getDocValidate() == true && documento.getSignValidate() == true) {
                 System.out.println("Se obtuvo resultado esperado");
             } else {
@@ -263,10 +253,10 @@ public class PdfVerifyTest {
     SI
     Resultado DESEADO al final de la validación
     ACEPTADO*/
-    public void testVerifyPdf05() throws Exception {
+    public void testVerifyPdf05(String file) throws Exception {
         try {
             System.out.println("PDF con una firma electrónica vigente de la entidad certificadora ANF AC");
-            Documento documento = verificarDocumento(FILE05);
+            Documento documento = verificarDocumento(file);
             if (documento.getDocValidate() == true && documento.getSignValidate() == true) {
                 System.out.println("Se obtuvo resultado esperado");
             } else {
@@ -302,10 +292,10 @@ public class PdfVerifyTest {
     SI
     Resultado DESEADO al final de la validación
     ACEPTADO*/
-    public void testVerifyPdf06() throws Exception {
+    public void testVerifyPdf06(String file) throws Exception {
         try {
             System.out.println("PDF con una firma electrónica vigente de la entidad certificadora Banco Central del Ecuador");
-            Documento documento = verificarDocumento(FILE06);
+            Documento documento = verificarDocumento(file);
             if (documento.getDocValidate() == true && documento.getSignValidate() == true) {
                 System.out.println("Se obtuvo resultado esperado");
             } else {
@@ -341,10 +331,10 @@ public class PdfVerifyTest {
     SI
     Resultado DESEADO al final de la validación
     ACEPTADO*/
-    public void testVerifyPdf07() throws Exception {
+    public void testVerifyPdf07(String file) throws Exception {
         try {
             System.out.println("PDF con una firma electrónica vigente de la entidad certificadora Security Data");
-            Documento documento = verificarDocumento(FILE07);
+            Documento documento = verificarDocumento(file);
             if (documento.getDocValidate() == true && documento.getSignValidate() == true) {
                 System.out.println("Se obtuvo resultado esperado");
             } else {
@@ -380,10 +370,10 @@ public class PdfVerifyTest {
     SI
     Resultado DESEADO al final de la validación
     RECHAZADO*/
-    public void testVerifyPdf08() throws Exception {
+    public void testVerifyPdf08(String file) throws Exception {
         try {
             System.out.println("PDF con una firma electrónica no vigente de una entidad certificadora extranjera no autorizada en el Ecuador");
-            Documento documento = verificarDocumento(FILE08);
+            Documento documento = verificarDocumento(file);
             if (documento.getDocValidate() == true && documento.getSignValidate() != true) {
                 System.out.println("Se obtuvo resultado esperado");
             } else {
@@ -419,10 +409,10 @@ public class PdfVerifyTest {
     SI
     Resultado DESEADO al final de la validación
     ACEPTADO*/
-    public void testVerifyPdf09() throws Exception {
+    public void testVerifyPdf09(String file) throws Exception {
         try {
             System.out.println("PDF con tres firmas, una vigente y dos no vigentes, de la misma entidad certificadora");
-            Documento documento = verificarDocumento(FILE09);
+            Documento documento = verificarDocumento(file);
             if (documento.getDocValidate() == true && documento.getSignValidate() == true) {
                 System.out.println("Se obtuvo resultado esperado");
             } else {
@@ -458,10 +448,10 @@ public class PdfVerifyTest {
     SI
     Resultado DESEADO al final de la validación
     ACEPTADO*/
-    public void testVerifyPdf10() throws Exception {
+    public void testVerifyPdf10(String file) throws Exception {
         try {
             System.out.println("PDF que contiene 50 firmas electrónicas vigentes de diversas entidades certificadoras autorizadas");
-            Documento documento = verificarDocumento(FILE10);
+            Documento documento = verificarDocumento(file);
             if (documento.getDocValidate() == true && documento.getSignValidate() == true) {
                 System.out.println("Se obtuvo resultado esperado");
             } else {
@@ -497,10 +487,10 @@ public class PdfVerifyTest {
     SI
     Resultado DESEADO al final de la validación
     ACEPTADO*/
-    public void testVerifyPdf11() throws Exception {
+    public void testVerifyPdf11(String file) throws Exception {
         try {
             System.out.println("PDF con una firma no vigente de una entidad certificadora autorizada");
-            Documento documento = verificarDocumento(FILE11);
+            Documento documento = verificarDocumento(file);
             if (documento.getDocValidate() == true && documento.getSignValidate() == true) {
                 System.out.println("Se obtuvo resultado esperado");
             } else {
@@ -536,16 +526,17 @@ public class PdfVerifyTest {
     NO
     Resultado DESEADO al final de la validación
     RECHAZADO*/
-    public void testVerifyPdf12() throws Exception {
+    public void testVerifyPdf12(String file) throws Exception {
         try {
             System.out.println("PDF con una firma vigente de una entidad certificadora autorizada y modificado posterior a la firma");
-            Documento documento = verificarDocumento(FILE12);
+            Documento documento = verificarDocumento(file);
             if (documento.getDocValidate() != true && documento.getSignValidate() == true) {
                 System.out.println("Se obtuvo resultado esperado");
             } else {
-                fail("Problema en la validación de la clase " + new Object() {}.getClass().getEnclosingMethod().getName());
+                fail("Problema en la validación de la clase " + new Object() {
+                }.getClass().getEnclosingMethod().getName());
             }
-        System.out.println("*******************************************************************************************");
+            System.out.println("*******************************************************************************************");
         } catch (Exception e) {
             e.printStackTrace();
             fail("Problemas en el documento");
@@ -574,16 +565,17 @@ public class PdfVerifyTest {
     SI
     Resultado DESEADO al final de la validación
     ACEPTADO*/
-    public void testVerifyPdf13() throws Exception {
+    public void testVerifyPdf13(String file) throws Exception {
         try {
             System.out.println("PDF que contiene una firma revocada firmado durante su vigencia de la entidad certificadora autorizada (Consejo de la Judicatura)");
-            Documento documento = verificarDocumento(FILE13);
+            Documento documento = verificarDocumento(file);
             if (documento.getDocValidate() == true && documento.getSignValidate() == true) {
                 System.out.println("Se obtuvo resultado esperado");
             } else {
-                fail("Problema en la validación de la clase " + new Object() {}.getClass().getEnclosingMethod().getName());
+                fail("Problema en la validación de la clase " + new Object() {
+                }.getClass().getEnclosingMethod().getName());
             }
-        System.out.println("*******************************************************************************************");
+            System.out.println("*******************************************************************************************");
         } catch (Exception e) {
             e.printStackTrace();
             fail("Problemas en el documento");
@@ -612,16 +604,17 @@ public class PdfVerifyTest {
     SI
     Resultado DESEADO al final de la validación
     ACEPTADO*/
-    public void testVerifyPdf14() throws Exception {
+    public void testVerifyPdf14(String file) throws Exception {
         try {
             System.out.println("PDF que contiene una firma no vigente y una firma vigente con sellado de tiempo, de la misma  entidad certificadora autorizada (Consejo de la Judicatura)");
-            Documento documento = verificarDocumento(FILE14);
+            Documento documento = verificarDocumento(file);
             if (documento.getDocValidate() == true && documento.getSignValidate() == true) {
                 System.out.println("Se obtuvo resultado esperado");
             } else {
-                fail("Problema en la validación de la clase " + new Object() {}.getClass().getEnclosingMethod().getName());
+                fail("Problema en la validación de la clase " + new Object() {
+                }.getClass().getEnclosingMethod().getName());
             }
-        System.out.println("*******************************************************************************************");
+            System.out.println("*******************************************************************************************");
         } catch (Exception e) {
             e.printStackTrace();
             fail("Problemas en el documento");
@@ -650,16 +643,17 @@ public class PdfVerifyTest {
     SI
     Resultado DESEADO al final de la validación
     RECHAZADO*/
-    public void testVerifyPdf15() throws Exception {
+    public void testVerifyPdf15(String file) throws Exception {
         try {
             System.out.println("PDF que contiene sellado de tiempo vigente y además una firma no vigente de la misma entidad certificadora");
-            Documento documento = verificarDocumento(FILE15);
+            Documento documento = verificarDocumento(file);
             if (documento.getDocValidate() == true && documento.getSignValidate() != true) {
                 System.out.println("Se obtuvo resultado esperado");
             } else {
-                fail("Problema en la validación de la clase " + new Object() {}.getClass().getEnclosingMethod().getName());
+                fail("Problema en la validación de la clase " + new Object() {
+                }.getClass().getEnclosingMethod().getName());
             }
-        System.out.println("*******************************************************************************************");
+            System.out.println("*******************************************************************************************");
         } catch (Exception e) {
             e.printStackTrace();
             fail("Problemas en el documento");
@@ -688,16 +682,17 @@ public class PdfVerifyTest {
     NO
     Resultado DESEADO al final de la validación
     RECHAZADO*/
-    public void testVerifyPdf16() throws Exception {
+    public void testVerifyPdf16(String file) throws Exception {
         try {
             System.out.println("PDF que contiene solamente el sellado de tiempo vigente de una entidad certificadora y modificado posteriormente a dicho sellado");
-            Documento documento = verificarDocumento(FILE16);
+            Documento documento = verificarDocumento(file);
             if (documento.getDocValidate() != true && documento.getSignValidate() == true) {
                 System.out.println("Se obtuvo resultado esperado");
             } else {
-                fail("Problema en la validación de la clase " + new Object() {}.getClass().getEnclosingMethod().getName());
+                fail("Problema en la validación de la clase " + new Object() {
+                }.getClass().getEnclosingMethod().getName());
             }
-        System.out.println("*******************************************************************************************");
+            System.out.println("*******************************************************************************************");
         } catch (Exception e) {
             e.printStackTrace();
             fail("Problemas en el documento");
@@ -726,16 +721,17 @@ public class PdfVerifyTest {
     SI
     Resultado DESEADO al final de la validación
     RECHAZADO*/
-    public void testVerifyPdf17() throws Exception {
+    public void testVerifyPdf17(String file) throws Exception {
         try {
             System.out.println("PDF con dos firmas, una no vigente de una entidad no autorizada y otra vigente de una entidad autorizada");
-            Documento documento = verificarDocumento(FILE17);
+            Documento documento = verificarDocumento(file);
             if (documento.getDocValidate() == true && documento.getSignValidate() != true) {
                 System.out.println("Se obtuvo resultado esperado");
             } else {
-                fail("Problema en la validación de la clase " + new Object() {}.getClass().getEnclosingMethod().getName());
+                fail("Problema en la validación de la clase " + new Object() {
+                }.getClass().getEnclosingMethod().getName());
             }
-        System.out.println("*******************************************************************************************");
+            System.out.println("*******************************************************************************************");
         } catch (Exception e) {
             e.printStackTrace();
             fail("Problemas en el documento");
@@ -764,16 +760,17 @@ public class PdfVerifyTest {
     SI
     Resultado DESEADO al final de la validación
     RECHAZADO*/
-    public void testVerifyPdf18() throws Exception {
+    public void testVerifyPdf18(String file) throws Exception {
         try {
             System.out.println("PDF con una firma electrónica no vigente de una entidad certificadora extranjera no autorizada en el Ecuador y una firma de una entidad certificadora autorizada");
-            Documento documento = verificarDocumento(FILE18);
+            Documento documento = verificarDocumento(file);
             if (documento.getDocValidate() == true && documento.getSignValidate() != true) {
                 System.out.println("Se obtuvo resultado esperado");
             } else {
-                fail("Problema en la validación de la clase " + new Object() {}.getClass().getEnclosingMethod().getName());
+                fail("Problema en la validación de la clase " + new Object() {
+                }.getClass().getEnclosingMethod().getName());
             }
-        System.out.println("*******************************************************************************************");
+            System.out.println("*******************************************************************************************");
         } catch (Exception e) {
             e.printStackTrace();
             fail("Problemas en el documento");
@@ -802,16 +799,17 @@ public class PdfVerifyTest {
     NO
     Resultado DESEADO al final de la validación
     RECHAZADO*/
-    public void testVerifyPdf19() throws Exception {
+    public void testVerifyPdf19(String file) throws Exception {
         try {
             System.out.println("PDF con una firma electrónica no vigente de una entidad certificadora extranjera no autorizada en el Ecuador y una firma de una entidad certificadora autorizada");
-            Documento documento = verificarDocumento(FILE19);
+            Documento documento = verificarDocumento(file);
             if (documento.getDocValidate() != true && documento.getSignValidate() != true) {
                 System.out.println("Se obtuvo resultado esperado");
             } else {
-                fail("Problema en la validación de la clase " + new Object() {}.getClass().getEnclosingMethod().getName());
+                fail("Problema en la validación de la clase " + new Object() {
+                }.getClass().getEnclosingMethod().getName());
             }
-        System.out.println("*******************************************************************************************");
+            System.out.println("*******************************************************************************************");
         } catch (Exception e) {
             e.printStackTrace();
             fail("Problemas en el documento");
@@ -840,16 +838,17 @@ public class PdfVerifyTest {
     SI
     Resultado DESEADO al final de la validación
     RECHAZADO*/
-    public void testVerifyPdf20() throws Exception {
+    public void testVerifyPdf20(String file) throws Exception {
         try {
             System.out.println("PDF con una firma vigente de una entidad certificadora autorizada, una firma no vigente de una entidad certificadora autorizada y una firma no válida de entidad certificadora no autorizada");
-            Documento documento = verificarDocumento(FILE20);
+            Documento documento = verificarDocumento(file);
             if (documento.getDocValidate() == true && documento.getSignValidate() != true) {
                 System.out.println("Se obtuvo resultado esperado");
             } else {
-                fail("Problema en la validación de la clase " + new Object() {}.getClass().getEnclosingMethod().getName());
+                fail("Problema en la validación de la clase " + new Object() {
+                }.getClass().getEnclosingMethod().getName());
             }
-        System.out.println("*******************************************************************************************");
+            System.out.println("*******************************************************************************************");
         } catch (Exception e) {
             e.printStackTrace();
             fail("Problemas en el documento");
@@ -878,16 +877,17 @@ public class PdfVerifyTest {
     SI
     Resultado DESEADO al final de la validación
     RECHAZADO*/
-    public void testVerifyPdf21() throws Exception {
+    public void testVerifyPdf21(String file) throws Exception {
         try {
-            System.out.println("PDF con una firma invisible no vigente de una entidad certificadora autorizada y con sello de tiempo, firmado con un certificado que se encuentra caducado (fuera del plazo de vigencia)");
-            Documento documento = verificarDocumento(FILE21);
+            System.out.println("PDF con una firma invisible no vigente de una entidad certificadora autorizada y con sello de tiempo, firmado con un certificado que se encuentra expirado (fuera del plazo de vigencia)");
+            Documento documento = verificarDocumento(file);
             if (documento.getDocValidate() == true && documento.getSignValidate() != true) {
                 System.out.println("Se obtuvo resultado esperado");
             } else {
-                fail("Problema en la validación de la clase " + new Object() {}.getClass().getEnclosingMethod().getName());
+                fail("Problema en la validación de la clase " + new Object() {
+                }.getClass().getEnclosingMethod().getName());
             }
-        System.out.println("*******************************************************************************************");
+            System.out.println("*******************************************************************************************");
         } catch (Exception e) {
             e.printStackTrace();
             fail("Problemas en el documento");
@@ -916,16 +916,17 @@ public class PdfVerifyTest {
     SI
     Resultado DESEADO al final de la validación
     RECHAZADO*/
-    public void testVerifyPdf22() throws Exception {
+    public void testVerifyPdf22(String file) throws Exception {
         try {
             System.out.println("PDF con una firma invisible no vigente de una entidad certificadora autorizada y con sello de tiempo, firmado con un certificado que se encuentra revocado y fuera del plazo de vigencia");
-            Documento documento = verificarDocumento(FILE22);
+            Documento documento = verificarDocumento(file);
             if (documento.getDocValidate() == true && documento.getSignValidate() != true) {
                 System.out.println("Se obtuvo resultado esperado");
             } else {
-                fail("Problema en la validación de la clase " + new Object() {}.getClass().getEnclosingMethod().getName());
+                fail("Problema en la validación de la clase " + new Object() {
+                }.getClass().getEnclosingMethod().getName());
             }
-        System.out.println("*******************************************************************************************");
+            System.out.println("*******************************************************************************************");
         } catch (Exception e) {
             e.printStackTrace();
             fail("Problemas en el documento");
@@ -954,109 +955,98 @@ public class PdfVerifyTest {
     NO
     Resultado DESEADO al final de la validación
     RECHAZADO*/
-    public void testVerifyPdf23() throws Exception {
+    public void testVerifyPdf23(String file) throws Exception {
         try {
-            System.out.println("PDF con una firma invisible no vigente de una entidad certificadora autorizada y con sello de tiempo, firmado con un certificado que se encuentra caducado y luego archivo modificado");
-            Documento documento = verificarDocumento(FILE23);
+            System.out.println("PDF con una firma invisible no vigente de una entidad certificadora autorizada y con sello de tiempo, firmado con un certificado que se encuentra expirado y luego archivo modificado");
+            Documento documento = verificarDocumento(file);
             if (documento.getDocValidate() != true && documento.getSignValidate() != true) {
                 System.out.println("Se obtuvo resultado esperado");
             } else {
-                fail("Problema en la validación de la clase " + new Object() {}.getClass().getEnclosingMethod().getName());
+                fail("Problema en la validación de la clase " + new Object() {
+                }.getClass().getEnclosingMethod().getName());
             }
-        System.out.println("*******************************************************************************************");
-        } catch (Exception e) {
-            e.printStackTrace();
-            fail("Problemas en el documento");
-        }
-    }
-    
-    /*¿Es archivo P7M?
-    SI
-    ¿Tiene firma electrónica?
-    SI
-    ¿Es de entidad autorizada?
-    SI
-    ¿Tiene sello de tiempo? (característi-ca opcional)
-    NO
-    ¿Es un certificado íntegro?
-    SI
-    ¿Es un certificado vigente?
-    NO
-    ¿Es la firma íntegra?
-    SI
-    ¿El uso está autorizado para firma electrónica?
-    SI
-    ¿Tiene firma vigente? (al momento de firmar el documento)
-    SI
-    ¿El documento es íntegro?
-    SI
-    Resultado DESEADO al final de la validación
-    ACEPTADO*/
-    public void testVerifyP7m24() throws Exception {
-        try {
-            System.out.println("P7M con una firma electrónica vigente de la entidad certificadora BCE");
-            Documento documento = verificarDocumento(FILE24);
-            if (documento.getSignValidate()== true) {
-                System.out.println("Se obtuvo resultado esperado");
-            } else {
-                fail("Problema en la validación de la clase " + new Object() {}.getClass().getEnclosingMethod().getName());
-            }
-        System.out.println("*******************************************************************************************");
-        } catch (Exception e) {
-            e.printStackTrace();
-            fail("Problemas en el documento");
-        }
-    }
-    
-    /*¿Es archivo P7M?
-    SI
-    ¿Tiene firma electrónica?
-    SI
-    ¿Es de entidad autorizada?
-    SI
-    ¿Tiene sello de tiempo? (característi-ca opcional)
-    NO
-    ¿Es un certificado íntegro?
-    SI
-    ¿Es un certificado vigente?
-    NO
-    ¿Es la firma íntegra?
-    SI
-    ¿El uso está autorizado para firma electrónica?
-    SI
-    ¿Tiene firma vigente? (al momento de firmar el documento)
-    SI
-    ¿El documento es íntegro?
-    SI
-    Resultado DESEADO al final de la validación
-    ACEPTADO*/
-    public void testVerifyXml25() throws Exception {
-        try {
-            System.out.println("Xml con una firma electrónica vigente de la entidad certificadora ANF");
-            Documento documento = verificarDocumento(FILE25);
-            if (documento.getSignValidate()== true) {
-                System.out.println("Se obtuvo resultado esperado");
-            } else {
-                fail("Problema en la validación de la clase " + new Object() {}.getClass().getEnclosingMethod().getName());
-            }
-        System.out.println("*******************************************************************************************");
+            System.out.println("*******************************************************************************************");
         } catch (Exception e) {
             e.printStackTrace();
             fail("Problemas en el documento");
         }
     }
 
-    private Documento verificarDocumento(String file) throws IOException, SignatureVerificationException, Exception {
-        File document = new File(file);
-        Documento documento = Utils.verificarDocumento(document, PropertiesUtils.versionBase64());
-        System.out.println("Documento: " + documento);
-        if (documento.getCertificados() != null) {
-            documento.getCertificados().forEach((certificado) -> {
-                System.out.println(certificado.toString());
-            });
-        } else {
-            throw new InvalidFormatException("Documento no soportado");
+    /*¿Es archivo P7M?
+    SI
+    ¿Tiene firma electrónica?
+    SI
+    ¿Es de entidad autorizada?
+    SI
+    ¿Tiene sello de tiempo? (característi-ca opcional)
+    NO
+    ¿Es un certificado íntegro?
+    SI
+    ¿Es un certificado vigente?
+    NO
+    ¿Es la firma íntegra?
+    SI
+    ¿El uso está autorizado para firma electrónica?
+    SI
+    ¿Tiene firma vigente? (al momento de firmar el documento)
+    SI
+    ¿El documento es íntegro?
+    SI
+    Resultado DESEADO al final de la validación
+    ACEPTADO*/
+    public void testVerifyP7m24(String file) throws Exception {
+        try {
+            System.out.println("P7M con una firma electrónica vigente de la entidad certificadora BCE");
+            Documento documento = verificarDocumento(file);
+            if (documento.getSignValidate() == true) {
+                System.out.println("Se obtuvo resultado esperado");
+            } else {
+                fail("Problema en la validación de la clase " + new Object() {
+                }.getClass().getEnclosingMethod().getName());
+            }
+            System.out.println("*******************************************************************************************");
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("Problemas en el documento");
         }
-        return documento;
+    }
+
+    /*¿Es archivo P7M?
+    SI
+    ¿Tiene firma electrónica?
+    SI
+    ¿Es de entidad autorizada?
+    SI
+    ¿Tiene sello de tiempo? (característi-ca opcional)
+    NO
+    ¿Es un certificado íntegro?
+    SI
+    ¿Es un certificado vigente?
+    NO
+    ¿Es la firma íntegra?
+    SI
+    ¿El uso está autorizado para firma electrónica?
+    SI
+    ¿Tiene firma vigente? (al momento de firmar el documento)
+    SI
+    ¿El documento es íntegro?
+    SI
+    Resultado DESEADO al final de la validación
+    ACEPTADO*/
+    public void testVerifyXml25(String file) throws Exception {
+        try {
+            System.out.println("Xml con una firma electrónica vigente de la entidad certificadora ANF");
+            Documento documento = verificarDocumento(file);
+            if (documento.getSignValidate() == true) {
+                System.out.println("Se obtuvo resultado esperado");
+            } else {
+                fail("Problema en la validación de la clase " + new Object() {
+                }.getClass().getEnclosingMethod().getName());
+            }
+            System.out.println("*******************************************************************************************");
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("Problemas en el documento");
+        }
     }
 }

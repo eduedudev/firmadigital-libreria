@@ -41,7 +41,7 @@ import java.util.Set;
  * Certificado raiz de Argos Data, representado como un objeto
  * <code>X509Certificate</code>.
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  */
 public class ArgosDataCaCert extends X509Certificate {
 

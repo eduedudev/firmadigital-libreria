@@ -25,7 +25,7 @@ package ec.gob.firmadigital.libreria.certificate.ec;
  * calidad de todo lo que firmen dentro del ambito de su competencia y limites
  * de uso que correspondan.
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  */
 public interface CertificadoPersonaJuridica {
 

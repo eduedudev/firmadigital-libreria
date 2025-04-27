@@ -18,7 +18,6 @@
 package ec.gob.firmadigital.libreria.sign;
 
 import java.io.IOException;
-import java.security.GeneralSecurityException;
 import java.security.PrivateKey;
 import java.security.cert.Certificate;
 import java.util.List;
@@ -26,12 +25,12 @@ import java.util.Properties;
 
 import ec.gob.firmadigital.libreria.exceptions.InvalidFormatException;
 import ec.gob.firmadigital.libreria.exceptions.RubricaException;
-import java.io.InputStream;
+import java.security.GeneralSecurityException;
 
 /**
  * Permite la firma digital de documentos.
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  */
 public interface Signer {
 
@@ -60,13 +59,15 @@ public interface Signer {
      *
      * @return The hash algorithm (e.g. "SHA-1", "SHA-256,...").
      */
-    // String getHashAlgorithm();
+    String getHashAlgorithm();
+
     /**
      * Returns the encryption algorithm used for signing.
      *
      * @return The encryption algorithm ("RSA" or "DSA").
      */
-    // String getEncryptionAlgorithm();
+    String getEncryptionAlgorithm();
+
     /**
      * Signs the given message using the encryption algorithm in combination
      * with the hash algorithm.
@@ -76,5 +77,5 @@ public interface Signer {
      * @throws GeneralSecurityException when requested cryptographic algorithm
      * or security provider is not available
      */
-    //byte[] sign(byte[] message) throws GeneralSecurityException;
+    byte[] sign(byte[] message) throws GeneralSecurityException;
 }

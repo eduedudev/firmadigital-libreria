@@ -20,7 +20,7 @@ package ec.gob.firmadigital.libreria.keystore;
 /**
  * Alias de un certificado dentro de un KeyStore.
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  */
 public class Alias {
 

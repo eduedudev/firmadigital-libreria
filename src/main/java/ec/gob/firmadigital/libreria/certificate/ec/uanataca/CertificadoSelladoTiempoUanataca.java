@@ -23,14 +23,14 @@ import ec.gob.firmadigital.libreria.certificate.ec.CertificadoSelladoTiempo;
 
 /**
  * Certificado de Sellado de Tiempo
- * 
+ *
  * @author Edison Lomas Almeida
  * @since Mar 17, 2023
  */
 public class CertificadoSelladoTiempoUanataca extends CertificadoUanataca implements CertificadoSelladoTiempo {
 
-	public CertificadoSelladoTiempoUanataca(X509Certificate certificado) {
-		super(certificado);
-	}
+    public CertificadoSelladoTiempoUanataca(X509Certificate certificado) {
+        super(certificado);
+    }
 
 }

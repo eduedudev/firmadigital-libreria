@@ -27,9 +27,9 @@ import ec.gob.firmadigital.libreria.certificate.ec.CertificadoPersonaNatural;
  */
 public class CertificadoPersonaNaturalAlphaTechnologies extends CertificadoAlphaTechnologies
         implements CertificadoPersonaNatural {
-    
+
     public CertificadoPersonaNaturalAlphaTechnologies(X509Certificate certificado) {
         super(certificado);
     }
-    
+
 }

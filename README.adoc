@@ -10,25 +10,25 @@ Los siguientes pasos le permitirán obtener una copia del proyecto para correrla
 
 === Java
 
-Se necesita instalar _Java Development Kit (JDK) 11_ para compilar y correr la aplicación.
+Se necesita instalar _Java Development Kit (JDK) 17_ para compilar y correr la aplicación.
 
-En Fedora se debe instalar el paquete _java-11-openjdk-devel_:
-
-[source, bash]
-----
-$ sudo dnf -y install java-11-openjdk-devel
-----
-
-En Ubuntu se debe instalar el paquete _openjdk-11-jdk_.
+En Fedora se debe instalar el paquete _java-17-openjdk-devel_:
 
 [source, bash]
 ----
-$ sudo apt-get install openjdk-11-jdk
+$ sudo dnf -y install java-17-openjdk-devel
+----
+
+En Ubuntu se debe instalar el paquete _openjdk-17-jdk_.
+
+[source, bash]
+----
+$ sudo apt-get install openjdk-17-jdk
 ----
 
 === Maven
 
-Para compilar y empaquetar se utiliza http://maven.apache.org[Apache Maven].
+Para compilar y empaquetar se utiliza https://maven.apache.org[Apache Maven] versión 3.8.8.
 
 En _Microsoft Windows_ se debe descargar e instalar siguiendo las instrucciones de instalación de https://maven.apache.org/install.html[Apache Maven].
 
@@ -48,7 +48,7 @@ $ sudo apt-get install maven
 
 === NetBeans
 
-Se utilizó como entorno de desarrollo el IDE http://netbeans.org[Netbeans].
+Se utilizó como entorno de desarrollo el IDE https://netbeans.org[Netbeans].
 
 == Compilar
 
@@ -69,8 +69,9 @@ Usamos https://minka.gob.ec/mintel/ge/estandares/-/blob/master/versionamiento.md
 
 == Autores
 
-* *Ricardo Arguello* - *Desarrollo* - http://www.soportelibre.com[Soporte Libre]
+* *Ricardo Arguello* - *Desarrollo* - https://www.soportelibre.com[Soporte Libre]
 * *Misael Fernández* - *Desarrollo* - misael.fernandez.correa@gmail.com
+* *Diana Pujol* - deeperdigitalec@outlook.es
 
 == Licencia
 

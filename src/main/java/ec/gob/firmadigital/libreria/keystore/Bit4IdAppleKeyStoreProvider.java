@@ -22,7 +22,7 @@ import java.io.File;
 /**
  * KeyStoreProvider para tokens Bit4id.
  *
- * @author mfernandez
+ * @author Misael Fernández
  */
 public class Bit4IdAppleKeyStoreProvider extends PKCS11KeyStoreProvider {
 

@@ -28,12 +28,14 @@ public interface Document {
 
     /**
      * Obtener un InputStream del documento
-     * @return 
+     *
+     * @return
      */
     InputStream openStream();
 
     /**
      * Escribir un documento a un OutputStream
+     *
      * @param stream
      * @throws java.io.IOException
      */
@@ -41,18 +43,21 @@ public interface Document {
 
     /**
      * Obtener un nombre
-     * @return 
+     *
+     * @return
      */
     String getName();
 
     /**
      * Establecer un nombre
+     *
      * @param name
      */
     void setName(String name);
 
     /**
      * Grabar el documento
+     *
      * @param filePath
      * @throws java.io.IOException
      */

@@ -19,6 +19,7 @@ package ec.gob.firmadigital.libreria.sign.pdf;
 
 import com.itextpdf.kernel.geom.Rectangle;
 import java.util.Properties;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class RectanguloUtil {
@@ -28,11 +29,11 @@ public class RectanguloUtil {
     public static final String POSITION_ON_PAGE_UPPER_RIGHT_X = "PositionOnPageUpperRightX";
     public static final String POSITION_ON_PAGE_UPPER_RIGHT_Y = "PositionOnPageUpperRightY";
 
-    private static final Logger logger = Logger.getLogger(RectanguloUtil.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(RectanguloUtil.class.getName());
 
     public static Rectangle getPositionOnPage(Properties extraParams) {
         if (extraParams == null) {
-            logger.severe("Se ha pedido una posicion para un elemento grafico nulo");
+            LOGGER.severe("Se ha pedido una posicion para un elemento grafico nulo");
             return null;
         }
 
@@ -45,8 +46,8 @@ public class RectanguloUtil {
                         Integer.parseInt(extraParams.getProperty(POSITION_ON_PAGE_LOWER_LEFT_Y).trim()),
                         Integer.parseInt(extraParams.getProperty(POSITION_ON_PAGE_UPPER_RIGHT_X).trim()),
                         Integer.parseInt(extraParams.getProperty(POSITION_ON_PAGE_UPPER_RIGHT_Y).trim()));
-            } catch (Exception e) {
-                logger.severe("Se ha indicado una posicion invalida para la firma: " + e);
+            } catch (NumberFormatException e) {
+                LOGGER.log(Level.SEVERE, "Se ha indicado una posicion invalida para la firma: {0}", e);
             }
         }
 
@@ -58,8 +59,8 @@ public class RectanguloUtil {
             try {
                 return new Rectangle(Integer.parseInt(extraParams.getProperty(POSITION_ON_PAGE_LOWER_LEFT_X).trim()),
                         Integer.parseInt(extraParams.getProperty(POSITION_ON_PAGE_LOWER_LEFT_Y).trim()) - 36, 110, 36);
-            } catch (Exception e) {
-                logger.severe("Se ha indicado una posicion invalida para la firma: " + e);
+            } catch (NumberFormatException e) {
+                LOGGER.log(Level.SEVERE, "Se ha indicado una posicion invalida para la firma: {0}", e);
             }
         }
 

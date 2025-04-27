@@ -20,11 +20,9 @@ package ec.gob.firmadigital.libreria.exceptions;
 /**
  * Excepcion que se lanza en caso de problemas con la validación de CRL
  *
- * @author mfernandez
+ * @author Misael Fernández
  */
 public class CRLValidationException extends Exception {
-
-    private static final long serialVersionUID = 1L;
 
     public CRLValidationException(String msg) {
         super(msg);

@@ -43,7 +43,8 @@ import java.util.Set;
  *
  * @author Pedro Reyes
  */
-public class CorpNewBestSubCa1_20232033Cert extends X509Certificate  {
+public class CorpNewBestSubCa1_20232033Cert extends X509Certificate {
+
     private X509Certificate certificate;
 
     public CorpNewBestSubCa1_20232033Cert() {

@@ -20,8 +20,8 @@ package ec.gob.firmadigital.libreria.certificate.ec.datil;
 import ec.gob.firmadigital.libreria.certificate.base.RubricaCertificate;
 
 /**
- * Certificado subordinado raiz 1 de Datil, representado como un
- * objeto <code>X509Certificate</code>.
+ * Certificado subordinado raiz 1 de Datil, representado como un objeto
+ * <code>X509Certificate</code>.
  *
  * @author Eduardo Raad
  */

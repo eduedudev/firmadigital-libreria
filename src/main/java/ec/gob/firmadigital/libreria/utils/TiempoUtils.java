@@ -34,12 +34,13 @@ import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.Form;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import java.util.logging.Level;
 import org.glassfish.jersey.client.ClientProperties;
 
 /**
  * Utilidades para manejar tiempos
  *
- * @author mfernandez
+ * @author Misael Fernández
  */
 public class TiempoUtils {
 
@@ -54,14 +55,14 @@ public class TiempoUtils {
             fechaHora = getFechaHoraServidor(apiUrl, base64);
         } catch (IOException e) {
             e.printStackTrace();
-            LOGGER.severe("No se puede obtener la fecha del servidor: " + e.getMessage());
+            LOGGER.log(Level.SEVERE, "No se puede obtener la fecha del servidor: {0}", e.getMessage());
             throw new HoraServidorException(PropertiesUtils.getMessages().getProperty("mensaje.error.problema_red"));
         }
         try {
             TemporalAccessor accessor = DATE_TIME_FORMATTER.parse(fechaHora);
             return Date.from(Instant.from(accessor));
         } catch (DateTimeParseException e) {
-            LOGGER.severe("La fecha indicada ('" + fechaHora + "') no sigue el patron ISO-8601: " + e);
+            LOGGER.log(Level.SEVERE, "La fecha indicada (''{0}'') no sigue el patron ISO-8601: {1}", new Object[]{fechaHora, e});
             return new Date();
         }
     }
@@ -71,9 +72,7 @@ public class TiempoUtils {
         System.out.println("fecha_hora_url: " + fecha_hora_url);
         if (fecha_hora_url == null) {
             // La fecha actual en formato ISO-8601 (2017-08-27T17:54:43.562-05:00)
-            //return ZonedDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
             return null;
-//            throw new RuntimeException(PropertiesUtils.getMessages().getProperty("mensaje.error.fecha_hora_url"));
         } else {
             Client client = ClientBuilder.newClient();
             client.property(ClientProperties.CONNECT_TIMEOUT, TIME_OUT);

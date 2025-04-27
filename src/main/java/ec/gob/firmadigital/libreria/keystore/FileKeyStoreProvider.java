@@ -31,11 +31,11 @@ import java.util.logging.Logger;
 /**
  * Implementacion de KeyStoreProvider para leer de un archivo.
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  */
 public class FileKeyStoreProvider implements KeyStoreProvider {
 
-    private static final Logger log = Logger.getLogger(FileKeyStoreProvider.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(FileKeyStoreProvider.class.getName());
 
     private File keyStoreFile;
 
@@ -82,7 +82,7 @@ public class FileKeyStoreProvider implements KeyStoreProvider {
                 try {
                     input.close();
                 } catch (IOException e) {
-                    log.warning(e.getMessage());
+                    LOGGER.warning(e.getMessage());
                 }
             }
         }

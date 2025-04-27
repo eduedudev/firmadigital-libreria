@@ -53,7 +53,7 @@ import java.util.Date;
 /**
  * Verifica datos CMS.
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  */
 public class VerificadorCMS {
 
@@ -75,7 +75,6 @@ public class VerificadorCMS {
             Store<X509CertificateHolder> certStore = signedData.getCertificates();
             SignerInformationStore signerInformationStore = signedData.getSignerInfos();
             Collection<SignerInformation> collection = signerInformationStore.getSigners();
-            String fechaFirma = "";
 
             certificados = new ArrayList<>();
             fechasFirmados = new ArrayList<>();
@@ -83,28 +82,23 @@ public class VerificadorCMS {
             for (SignerInformation signer : collection) {
                 @SuppressWarnings("unchecked")
                 Collection<X509CertificateHolder> certCollection = certStore.getMatches(signer.getSID());
-
                 Iterator<X509CertificateHolder> certIt = certCollection.iterator();
                 X509CertificateHolder certificateHolder = certIt.next();
-
                 JcaX509CertificateConverter jcaX509CertificateConverter = new JcaX509CertificateConverter();
                 X509Certificate x509Certificate = jcaX509CertificateConverter.setProvider("BC")
                         .getCertificate(certificateHolder);
 
                 certificados.add(x509Certificate);
-
                 AttributeTable attributes = signer.getSignedAttributes();
 
                 if (attributes != null) {
                     Attribute messageDigestAttribute = attributes.get(CMSAttributes.signingTime);
                     ASN1UTCTime dt = (ASN1UTCTime) messageDigestAttribute.getAttrValues().getObjectAt(0);
-
                     try {
+                        fechasFirmados.add(dt.getDate());
                         SimpleDateFormat f_DateTime = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
                         String dateStr = f_DateTime.format(dt.getDate());
-                        fechasFirmados.add(dt.getDate());
-                        System.out.println("Fecha Firma:" + dateStr);
-                        fechaFirma = dateStr;
+                        System.out.println("Fecha Firma: " + dateStr);
                     } catch (ParseException ex) {
                         Logger.getLogger(VerificadorCMS.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -118,8 +112,7 @@ public class VerificadorCMS {
                 }
 
                 DatosUsuario datosUsuario = CertEcUtils.getDatosUsuarios(x509Certificate);
-                datosUsuario.setSerial(x509Certificate.getSerialNumber().toString());
-                datosUsuario.setFechaFirmaArchivo(fechaFirma);
+//                datosUsuario.setFechaFirmaArchivo(fechaFirma);
                 listaDatosUsuario.add(datosUsuario);
             }
 

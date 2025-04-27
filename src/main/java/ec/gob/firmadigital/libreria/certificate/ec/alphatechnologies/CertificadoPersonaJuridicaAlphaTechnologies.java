@@ -27,9 +27,9 @@ import java.security.cert.X509Certificate;
  */
 public class CertificadoPersonaJuridicaAlphaTechnologies extends CertificadoAlphaTechnologies
         implements CertificadoPersonaJuridica {
-    
+
     public CertificadoPersonaJuridicaAlphaTechnologies(X509Certificate certificado) {
         super(certificado);
     }
-    
+
 }

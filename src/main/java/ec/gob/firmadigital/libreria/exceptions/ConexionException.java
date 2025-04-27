@@ -20,11 +20,9 @@ package ec.gob.firmadigital.libreria.exceptions;
 /**
  * Excepcion que se lanza en caso de problemas de conexión
  *
- * @author mfernandez
+ * @author Misael Fernández
  */
 public class ConexionException extends Exception {
-
-    private static final long serialVersionUID = 1L;
 
     public ConexionException(String msg) {
         super(msg);

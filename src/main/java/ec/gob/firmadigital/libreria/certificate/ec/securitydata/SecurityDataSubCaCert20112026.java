@@ -41,7 +41,7 @@ import java.util.Set;
  * Certificado intermedio del Security Data, representado como un objeto
  * <code>X509Certificate</code>.
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  */
 public class SecurityDataSubCaCert20112026 extends X509Certificate {
 

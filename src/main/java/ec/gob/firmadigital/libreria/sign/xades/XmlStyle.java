@@ -30,13 +30,14 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import ec.gob.firmadigital.libreria.core.Util;
+import java.util.logging.Level;
 
 /**
  * Elemento de estilo XML (XSL) a firmar.
  */
 public final class XmlStyle {
 
-    private static final Logger logger = Logger.getLogger(XmlStyle.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(XmlStyle.class.getName());
 
     private static final String HTTP_PROTOCOL_PREFIX = "http://";
     private static final String HTTPS_PROTOCOL_PREFIX = "https://";
@@ -78,8 +79,7 @@ public final class XmlStyle {
 
         if (this.type != null && this.href != null) {
 
-            logger.info("Se ha encontrado una hoja de estilo asociada al XML a firmar: tipo=" + this.type
-                    + ", referencia=" + this.href);
+            LOGGER.log(Level.INFO, "Se ha encontrado una hoja de estilo asociada al XML a firmar: tipo={0}, referencia={1}", new Object[]{this.type, this.href});
 
             Document tmpDoc = dereferenceStyleSheet(this.href, headless);
 

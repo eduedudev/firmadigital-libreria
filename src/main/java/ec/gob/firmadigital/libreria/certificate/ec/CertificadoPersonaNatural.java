@@ -22,7 +22,7 @@ package ec.gob.firmadigital.libreria.certificate.ec;
  * sera responsable a titulo personal de todo lo que firme electronicamente,
  * dentro del ambito de su actividad y limites de uso que correspondan.
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  */
 public interface CertificadoPersonaNatural {
 

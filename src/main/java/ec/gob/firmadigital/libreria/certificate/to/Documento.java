@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * Objeto para acceder informacion legible del certificado digital
  *
- * @author mfernandez
+ * @author Misael Fernández
  */
 public class Documento {
 
@@ -69,13 +69,13 @@ public class Documento {
         return error;
     }
 
-    public void setProcess(String error) {
+    public void setError(String error) {
         this.error = error;
     }
 
     @Override
     public String toString() {
-        return "\tDocumento\n"
+        return "Documento\n"
                 + "\t[signValidate=" + signValidate + "\n"
                 + "\tdocValidate=" + docValidate + "\n"
                 + "\terror=" + error + "\n"

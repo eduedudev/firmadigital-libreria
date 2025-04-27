@@ -25,7 +25,7 @@ import java.io.InputStream;
 /**
  * Utilidades para Documentos
  *
- * @author mfernandez
+ * @author Misael Fernández
  */
 public class DocumentoUtils {
 

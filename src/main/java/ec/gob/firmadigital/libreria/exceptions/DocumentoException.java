@@ -24,8 +24,6 @@ package ec.gob.firmadigital.libreria.exceptions;
  */
 public class DocumentoException extends Exception {
 
-    private static final long serialVersionUID = 1L;
-
     public DocumentoException(String msg) {
         super(msg);
     }

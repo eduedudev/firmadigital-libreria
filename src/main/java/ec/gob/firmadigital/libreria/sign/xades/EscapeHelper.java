@@ -43,7 +43,7 @@ import javax.security.auth.x500.X500Principal;
 
 final class EscapeHelper {
 
-    private static final Logger logger = Logger.getLogger(EscapeHelper.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(EscapeHelper.class.getName());
 
     private EscapeHelper() {
         // No permitimos instanciar
@@ -244,7 +244,7 @@ final class EscapeHelper {
         try {
             name = new LdapName(in);
         } catch (final InvalidNameException e) {
-            logger.warning("No ha sido posible 'escapar' el nombre X.500 " + in + ": " + e); //$NON-NLS-1$ //$NON-NLS-2$
+            LOGGER.warning("No ha sido posible 'escapar' el nombre X.500 " + in + ": " + e); //$NON-NLS-1$ //$NON-NLS-2$
             return in;
         }
         final StringBuilder sb = new StringBuilder();

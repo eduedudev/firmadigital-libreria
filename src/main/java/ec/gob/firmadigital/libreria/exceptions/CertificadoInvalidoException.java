@@ -25,8 +25,6 @@ package ec.gob.firmadigital.libreria.exceptions;
  */
 public class CertificadoInvalidoException extends Exception {
 
-    private static final long serialVersionUID = 1L;
-
     public CertificadoInvalidoException() {
         super();
     }

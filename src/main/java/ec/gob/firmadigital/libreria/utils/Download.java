@@ -32,7 +32,7 @@ import java.util.zip.ZipInputStream;
 
 /**
  *
- * @author mfernandez
+ * @author Misael Fernández
  */
 public class Download {
 
@@ -128,7 +128,7 @@ public class Download {
         byte[] buffer = new byte[BUFFER_SIZE];
         int count;
         long size = con.getContentLength();
-        LOGGER.info("size=" + size);
+        LOGGER.log(Level.INFO, "size={0}", size);
 
         try (InputStream in = con.getInputStream(); ByteArrayOutputStream out = new ByteArrayOutputStream()) {
             while ((count = in.read(buffer)) != -1) {

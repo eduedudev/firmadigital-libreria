@@ -34,17 +34,18 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import ec.gob.firmadigital.libreria.utils.CertificateUtils;
+import java.util.logging.Level;
 
 /**
  * Tratamos los alias repetidos, situacion problematica afectada por el bug
  * http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6483657 Este solo se da
  * con SunMSCAPI
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  */
 public class KeyStoreUtilities {
 
-    private static final Logger logger = Logger.getLogger(KeyStoreUtilities.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(KeyStoreUtilities.class.getName());
 
     public static boolean tieneAliasRepetidos(KeyStore keyStore) {
         try {
@@ -103,7 +104,7 @@ public class KeyStoreUtilities {
                 }
             }
         } catch (Exception e) {
-            logger.severe(e.getMessage());
+            LOGGER.severe(e.getMessage());
         }
     }
 
@@ -119,8 +120,7 @@ public class KeyStoreUtilities {
                 try {
                     certificate.checkValidity();
                 } catch (CertificateExpiredException | CertificateNotYetValidException e) {
-                    logger.warning("Certificado expirado: " + certificate.getIssuerX500Principal().toString());
-                    //continue;
+                    LOGGER.log(Level.WARNING, "Certificado expirado: {0}", certificate.getIssuerX500Principal().toString());
                 }
 
                 String name = CertificateUtils.getCN(certificate);

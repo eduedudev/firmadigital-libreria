@@ -25,10 +25,11 @@ import java.util.logging.Logger;
 /**
  * Utilidad para menejar properties
  *
- * @author mfernandez
+ * @author Misael Fernández
  */
 public class PropertiesUtils {
 
+    private static final Logger LOGGER = Logger.getLogger(PropertiesUtils.class.getName());
     private static final String MESSAGES = "messages.rubrica.properties";
     private static final String CONFIG = "config.rubrica.properties";
     private static Properties messages;
@@ -39,7 +40,7 @@ public class PropertiesUtils {
         try {
             messages.load(PropertiesUtils.class.getClassLoader().getResourceAsStream(MESSAGES));
         } catch (IOException ex) {
-            Logger.getLogger(PropertiesUtils.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
         return messages;
     }
@@ -49,13 +50,13 @@ public class PropertiesUtils {
         try {
             config.load(PropertiesUtils.class.getClassLoader().getResourceAsStream(CONFIG));
         } catch (IOException ex) {
-            Logger.getLogger(PropertiesUtils.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
         return config;
     }
 
     public static String versionBase64() {
-        String jsonVersion = Json.generarJsonVersion(OsUtils.getOs(), "LIBRERIA", getConfig().getProperty("version"), "sha12313");
+        String jsonVersion = Json.generarJsonVersion(OsUtils.getOs(), "LIBRERIA", getConfig().getProperty("version"));
         String base64 = java.util.Base64.getEncoder().encodeToString(jsonVersion.getBytes());
         return base64;
     }

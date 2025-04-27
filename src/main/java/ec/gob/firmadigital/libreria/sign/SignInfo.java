@@ -26,7 +26,7 @@ import ec.gob.firmadigital.libreria.utils.Utils;
 /**
  * Representa una firma digital sobre un documento PDF.
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  */
 public class SignInfo {
 

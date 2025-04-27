@@ -14,7 +14,7 @@
 *
 * You should have received a copy of the GNU Affero General Public License
 * along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
+ */
 package ec.gob.firmadigital.libreria.certificate.ec.argosdata;
 
 import static ec.gob.firmadigital.libreria.certificate.ec.argosdata.CertificadoArgosData.OID_CEDULA_PASAPORTE;
@@ -29,7 +29,7 @@ import java.security.cert.X509Certificate;
  * Permite construir certificados tipo CertificadoArgosData a partir de
  * certificados X509Certificate.
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  */
 public class CertificadoArgosDataFactory {
 

@@ -25,7 +25,7 @@ import ec.gob.firmadigital.libreria.certificate.CertUtils;
 /**
  * Certificado emitido por ANF AC Ecuador
  *
- * @author mfernandez
+ * @author Misael Fernández
  */
 public abstract class CertificadoAnfAc37442 {
 

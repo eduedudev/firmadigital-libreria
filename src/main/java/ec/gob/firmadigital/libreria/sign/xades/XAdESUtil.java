@@ -21,31 +21,20 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Hashtable;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.UUID;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
-import javax.xml.crypto.XMLStructure;
 import javax.xml.crypto.dsig.DigestMethod;
-import javax.xml.crypto.dsig.Reference;
-import javax.xml.crypto.dsig.Transform;
-import javax.xml.crypto.dsig.XMLSignatureFactory;
 import javax.xml.transform.OutputKeys;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentType;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import es.uji.crypto.xades.jxades.security.xml.XAdES.CommitmentTypeIdImpl;
 import es.uji.crypto.xades.jxades.security.xml.XAdES.CommitmentTypeIndication;
@@ -53,6 +42,7 @@ import es.uji.crypto.xades.jxades.security.xml.XAdES.CommitmentTypeIndicationImp
 import es.uji.crypto.xades.jxades.security.xml.XAdES.XAdES_EPES;
 import ec.gob.firmadigital.libreria.exceptions.RubricaException;
 import ec.gob.firmadigital.libreria.sign.SignConstants;
+import java.util.logging.Level;
 
 /**
  * Utilidades varias para firmas XAdES.
@@ -63,7 +53,7 @@ public final class XAdESUtil {
         "http://uri.etsi.org/01903/v1.2.2#", "http://uri.etsi.org/01903/v1.3.2#",
         "http://uri.etsi.org/01903/v1.4.1#"};
 
-    private static final Logger logger = Logger.getLogger(XAdESUtil.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(XAdESUtil.class.getName());
 
     /**
      * Comprueba que los nodos de firma proporcionados sean firmas en formato
@@ -109,28 +99,6 @@ public final class XAdESUtil {
         return xmlSignature;
     }
 
-    static Element getFirstElmentFromXPath(String xpathExpression, Element sourceElement) throws RubricaException {
-        NodeList nodeList;
-        try {
-            nodeList = (NodeList) XPathFactory.newInstance().newXPath().evaluate(xpathExpression, sourceElement,
-                    XPathConstants.NODESET);
-        } catch (XPathExpressionException e1) {
-            throw new RubricaException(
-                    "No se ha podido evaluar la expresion indicada para la insercion de la firma Enveloped ('"
-                    + xpathExpression + "'): " + e1,
-                    e1);
-        }
-        if (nodeList.getLength() < 1) {
-            throw new RubricaException("La expresion indicada para la insercion de la firma Enveloped ('"
-                    + xpathExpression + "') no ha devuelto ningun nodo");
-        }
-        if (nodeList.getLength() > 1) {
-            logger.warning("La expresion indicada para la insercion de la firma Enveloped ('" + xpathExpression
-                    + "') ha devuelto varios nodos, se usara el primero");
-        }
-        return (Element) nodeList.item(0);
-    }
-
     /**
      * Obtiene la lista de <i>CommitmentTypeIndication</i> declarados en el
      * fichero de propiedades de par&aacute;metros adicionales.
@@ -162,9 +130,7 @@ public final class XAdESUtil {
                 throw new NumberFormatException();
             }
         } catch (Exception e) {
-            logger.severe(
-                    "El parametro adicional 'CommitmentTypeIndications' debe contener un valor numerico entero (el valor actual es "
-                    + tmpStr + "), no se anadira el CommitmentTypeIndication: " + e);
+            LOGGER.log(Level.SEVERE, "El parametro adicional ''CommitmentTypeIndications'' debe contener un valor numerico entero (el valor actual es {0}), no se anadira el CommitmentTypeIndication: {1}", new Object[]{tmpStr, e});
             return ret;
         }
 
@@ -182,8 +148,7 @@ public final class XAdESUtil {
             }
             identifier = XAdESExtraParams.COMMITMENT_TYPE_IDENTIFIERS.get(tmpStr);
             if (identifier == null) {
-                logger.severe("El identificador del CommitmentTypeIndication " + i + " no es un tipo soportado ("
-                        + tmpStr + "), se omitira y se continuara con el siguiente");
+                LOGGER.log(Level.SEVERE, "El identificador del CommitmentTypeIndication {0} no es un tipo soportado ({1}), se omitira y se continuara con el siguiente", new Object[]{i, tmpStr});
                 continue;
             }
 
@@ -203,9 +168,7 @@ public final class XAdESUtil {
                     try {
                         documentationReferences.add(new URL(docRef).toString());
                     } catch (final MalformedURLException e) {
-                        logger.severe("La referencia documental '" + docRef + "' del CommitmentTypeIndication " + i
-                                + " no es una URL, se omitira y se continuara con la siguiente referencia documental: "
-                                + e);
+                        LOGGER.log(Level.SEVERE, "La referencia documental ''{0}'' del CommitmentTypeIndication {1} no es una URL, se omitira y se continuara con la siguiente referencia documental: {2}", new Object[]{docRef, i, e});
                         continue;
                     }
                 }
@@ -263,62 +226,6 @@ public final class XAdESUtil {
             return DigestMethod.SHA512;
         }
         throw new NoSuchAlgorithmException("No se soporta el algoritmo: " + normalDigAlgo);
-    }
-
-    static Element getRootElement(Document docSignature, Properties extraParams) {
-        Properties xParams = extraParams != null ? extraParams : new Properties();
-        String nodeName = xParams.getProperty(XAdESExtraParams.ROOT_XML_NODE_NAME, XAdESSigner.AFIRMA);
-        String nodeNamespace = xParams.getProperty(XAdESExtraParams.ROOT_XML_NODE_NAMESPACE);
-        String nodeNamespacePrefix = xParams.getProperty(XAdESExtraParams.ROOT_XML_NODE_NAMESPACE_PREFIX);
-
-        Element afirmaRoot;
-        if (nodeNamespace == null) {
-            afirmaRoot = docSignature.createElement(nodeName);
-        } else {
-            afirmaRoot = docSignature.createElementNS(nodeNamespace, nodeName);
-            if (nodeNamespacePrefix != null) {
-                afirmaRoot.setAttribute(
-                        nodeNamespacePrefix.startsWith("xmlns:") ? nodeNamespacePrefix : "xmlns:" + nodeNamespacePrefix,
-                        nodeNamespace);
-            }
-        }
-        afirmaRoot.setAttributeNS(null, FirmadorXAdES.ID_IDENTIFIER,
-                nodeName + "-Root-" + UUID.randomUUID().toString());
-
-        return afirmaRoot;
-    }
-
-    static List<Reference> createManifest(final List<Reference> referenceList, final XMLSignatureFactory fac,
-            final RubricaXMLAdvancedSignature xmlSignature, final DigestMethod digestMethod,
-            final Transform canonicalizationTransform, final String referenceId) {
-
-        // Con Manifest vamos a incluir las referencias de "referencesList" en
-        // el Manifest y luego
-        // limpiar este mismo "referencesList" incluyendo posteriormente unica
-        // referencia al propio
-        // Manifest. Como es este "referencesList" lo que se firma, queda ya
-        // listo con el Manifest
-        // que contiene las referencias que de no usar Manifest estarian en
-        // "referencesList".
-        // Creamos un nodo padre donde insertar el Manifest
-        final List<XMLStructure> objectContent = new LinkedList<>();
-
-        final String manifestId = "Manifest-" + UUID.randomUUID().toString();
-        objectContent.add(fac.newManifest(new ArrayList<>(referenceList), manifestId));
-
-        final String manifestObjectId = "ManifestObject-" + UUID.nameUUIDFromBytes(referenceId.getBytes()).toString();
-        xmlSignature.addXMLObject(fac.newXMLObject(objectContent, manifestObjectId, null, null));
-
-        // Si usamos un manifest las referencias no van en la firma, sino en el
-        // Manifest, y se
-        // usa entonces en la firma una unica referencia a este Manifest
-        referenceList.clear();
-        referenceList.add(fac.newReference("#" + manifestId, digestMethod,
-                canonicalizationTransform != null ? Collections.singletonList(canonicalizationTransform)
-                        : new ArrayList<Transform>(0),
-                XAdESSigner.MANIFESTURI, "Manifest" + referenceId));
-
-        return referenceList;
     }
 
     static Map<String, String> getOriginalXMLProperties(Document docum, String outputXmlEncoding) {

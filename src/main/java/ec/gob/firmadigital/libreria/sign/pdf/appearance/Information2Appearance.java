@@ -75,6 +75,11 @@ public class Information2Appearance implements CustomAppearance {
         paragraph = new Paragraph().add(contenido).setFont(fontHelvetica).setMargin(0).setMultipliedLeading(0.9f)
                 .setFontSize(6.25f);
         textDiv.add(paragraph);
+        
+        Text info = new Text("\nValidar únicamente con FirmaEC");
+        paragraph = new Paragraph().add(info).setFont(fontHelvetica).setMargin(0).setMultipliedLeading(0.9f)
+                .setFontSize(3.25f);
+        textDiv.add(paragraph);
 
         contenido = new Text("Razón: " + reason);
         paragraph = new Paragraph().add(contenido).setFont(fontHelvetica).setMargin(0).setMultipliedLeading(0.9f)

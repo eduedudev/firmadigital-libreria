@@ -27,12 +27,10 @@ import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.QRCodeReader;
 import com.google.zxing.qrcode.QRCodeWriter;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.InputStream;
 import java.util.EnumMap;
 
 /**
@@ -41,27 +39,6 @@ import java.util.EnumMap;
  * https://github.com/zxing/zxing
  */
 public class QRCode {
-
-    public static void main(String[] args) {
-        QRCode qr = new QRCode();
-        File file = new File("qrCode.png");
-        String text = "Nombre firmante: MISAEL VLADIMIR FERNANDEZ CORREA\n"
-                + "Razón: Firmado digitalmente con RUBRICA\n" + "Fecha firmado: 2018-05-31T11:39:47.247-05:00\n"
-                + "Firmado digitalmente con RUBRICA\n" + "https://minka.gob.ec/rubrica/rubrica";
-
-        try {
-            InputStream is = new ByteArrayInputStream(qr.generateQR(text, 300, 300));
-            java.awt.image.BufferedImage bufferedImage = ImageIO.read(is);
-            ImageIO.write(bufferedImage, "png", file);
-            System.out.println("QRCode Generated: " + file.getAbsolutePath());
-
-            String qrString = qr.decoder(file);
-            System.out.println("Text QRCode: " + qrString);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     public static byte[] generateQR(String text, int h, int w) throws Exception {
         // Generamos el mapa de caracterìsticas que requerimos para el QR

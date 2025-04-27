@@ -44,7 +44,7 @@ import java.util.Set;
  * @author Steven Chiriboga <steven.chiriboga@alphaside.com>
  */
 public class AlphaTechnologiesSubCaCert20232026 extends X509Certificate {
-    
+
     private final X509Certificate certificate;
 
     public AlphaTechnologiesSubCaCert20232026() {

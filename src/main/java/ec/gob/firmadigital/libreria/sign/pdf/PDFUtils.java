@@ -39,16 +39,17 @@ import java.util.logging.Logger;
 
 import ec.gob.firmadigital.libreria.exceptions.AliasesNotFoundException;
 import ec.gob.firmadigital.libreria.core.PrivateKeyAndCertificateChain;
+import java.util.logging.Level;
 
 /**
  * Clase utilitaria para firmar PDFs.
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  * @deprecated
  */
 public class PDFUtils {
 
-    private static final Logger logger = Logger.getLogger(PDFUtils.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(PDFUtils.class.getName());
 
     public static PrivateKeyAndCertificateChain[] getList(KeyStore keyStore) {
         List<PrivateKeyAndCertificateChain> privateKeys = new ArrayList<PrivateKeyAndCertificateChain>();
@@ -98,13 +99,7 @@ public class PDFUtils {
 
             return (PrivateKeyAndCertificateChain[]) privateKeys
                     .toArray(new PrivateKeyAndCertificateChain[privateKeys.size()]);
-        } catch (SecurityException e) {
-            throw new RuntimeException(e);
-        } catch (NoSuchFieldException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalArgumentException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
+        } catch (SecurityException | NoSuchFieldException | IllegalArgumentException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
     }
@@ -134,12 +129,8 @@ public class PDFUtils {
             }
 
             throw new RuntimeException("No hay llave privada para firmar!");
-        } catch (KeyStoreException e) {
-            throw new RuntimeException(e); // FIXME
-        } catch (UnrecoverableKeyException e) {
-            throw new RuntimeException(e); // FIXME
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e); // FIXME
+        } catch (KeyStoreException | UnrecoverableKeyException | NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -171,11 +162,11 @@ public class PDFUtils {
 
         try {
             Enumeration<String> aliases = keyStore.aliases();
-            logger.info("aliases=" + aliases.toString());
+            LOGGER.log(Level.INFO, "aliases={0}", aliases.toString());
 
             while (aliases.hasMoreElements()) {
                 String alias = aliases.nextElement();
-                logger.info("alias=" + alias);
+                LOGGER.log(Level.INFO, "alias={0}", alias);
                 Key key = keyStore.getKey(alias, null);
 
                 if (key instanceof PrivateKey) {
@@ -184,7 +175,7 @@ public class PDFUtils {
                         Certificate cert = certs[0];
                         if (cert instanceof X509Certificate) {
                             X509Certificate signerCertificate = (X509Certificate) cert;
-                            logger.info(" **** cert=" + signerCertificate);
+                            LOGGER.log(Level.INFO, " **** cert={0}", signerCertificate);
                             boolean[] keyUsage = signerCertificate.getKeyUsage();
                             // Digital Signature Key Usage:
                             if (keyUsage[0]) {
@@ -196,12 +187,8 @@ public class PDFUtils {
             }
 
             throw new AliasesNotFoundException("No hay llave privada para firmar!");
-        } catch (KeyStoreException e) {
-            throw new RuntimeException(e); // FIXME
-        } catch (UnrecoverableKeyException e) {
-            throw new RuntimeException(e); // FIXME
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e); // FIXME
+        } catch (KeyStoreException | UnrecoverableKeyException | NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
         }
     }
 }

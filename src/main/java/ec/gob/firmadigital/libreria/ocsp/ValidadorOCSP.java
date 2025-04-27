@@ -56,7 +56,7 @@ import java.text.SimpleDateFormat;
 /**
  * Clase que permite la validacion de un certificado utilizando OCSP.
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  */
 public class ValidadorOCSP {
 
@@ -94,6 +94,12 @@ public class ValidadorOCSP {
         InputStream in = (InputStream) con.getContent();
         OCSPResp ocspResponse = new OCSPResp(in);
 
+        //SUCCESSFUL = 0
+        //MALFORMED_REQUEST = 1
+        //INTERNAL_ERROR = 2
+        //TRY_LATER = 3
+        //SIG_REQUIRED = 5
+        //UNAUTHORIZED = 6
         if (ocspResponse.getStatus() != 0) {
             throw new RubricaException("Status HTTP inválido: " + ocspResponse.getStatus());
         }
@@ -126,6 +132,7 @@ public class ValidadorOCSP {
     private static OCSPReq generateOCSPRequest(X509Certificate issuerCert, BigInteger serialNumber)
             throws OperatorCreationException, CertificateEncodingException, OCSPException, IOException {
         // Add provider BC
+//        BouncyCastleUtils.initializeBouncyCastle();
         Provider prov = new BouncyCastleProvider();
         Security.addProvider(prov);
 

@@ -25,13 +25,11 @@ import java.security.cert.Certificate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import java.util.UUID;
 import java.util.logging.Logger;
 
 import javax.xml.crypto.dsig.DigestMethod;
 import javax.xml.crypto.dsig.Transform;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -45,7 +43,10 @@ import ec.gob.firmadigital.libreria.exceptions.InvalidFormatException;
 import ec.gob.firmadigital.libreria.sign.SignInfo;
 import ec.gob.firmadigital.libreria.sign.Signer;
 import ec.gob.firmadigital.libreria.sign.XMLConstants;
-import ec.gob.firmadigital.libreria.xml.Utils;
+import java.security.GeneralSecurityException;
+import java.util.logging.Level;
+import javax.xml.parsers.ParserConfigurationException;
+import org.xml.sax.SAXException;
 
 /**
  * Manejador de firmas XML XAdES
@@ -287,7 +288,7 @@ import ec.gob.firmadigital.libreria.xml.Utils;
  */
 public final class XAdESSigner implements Signer {
 
-    private static final Logger logger = Logger.getLogger(XAdESSigner.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(XAdESSigner.class.getName());
 
     private static final String ID_IDENTIFIER = "Id";
 
@@ -306,27 +307,16 @@ public final class XAdESSigner implements Signer {
      */
     static final String XADES_SIGNED_PROPERTIES_TYPE = "http://uri.etsi.org/01903#SignedProperties";
 
-    /**
-     * URI que define una referencia de tipo MANIFEST.
-     */
-    static final String MANIFESTURI = "http://www.w3.org/2000/09/xmldsig#Manifest";
-
-    static final String AFIRMA = "AFIRMA";
+    static final String FIRMAEC = "FirmaEC";
     static final String XML_SIGNATURE_PREFIX = "ds";
     static final String XADES_SIGNATURE_PREFIX = "xades";
     static final String SIGNATURE_NODE_NAME = XML_SIGNATURE_PREFIX + ":Signature";
-    static final String DETACHED_CONTENT_ELEMENT_NAME = "CONTENT";
-    static final String DETACHED_STYLE_ELEMENT_NAME = "STYLE";
 
     /**
      * Algoritmo de huella digital por defecto para las referencias XML.
      */
     static final String DIGEST_METHOD = DigestMethod.SHA1;
-
-    static final String STYLE_REFERENCE_PREFIX = "StyleReference-";
-
     static final String XMLDSIG_ATTR_MIMETYPE_STR = "MimeType";
-    static final String XMLDSIG_ATTR_ENCODING_STR = "Encoding";
 
     static {
         Utils.installXmlDSigProvider();
@@ -440,7 +430,6 @@ public final class XAdESSigner implements Signer {
      * @param xParams Par&aacute;metros adicionales para la firma
      * (<a href="doc-files/extraparams.html">detalle</a>)
      * @return Firma en formato XAdES
-     * @throws AOException Cuando ocurre cualquier problema durante el proceso
      */
     @Override
     public byte[] sign(final byte[] data, final String algorithm, final PrivateKey key, final Certificate[] certChain,
@@ -518,7 +507,7 @@ public final class XAdESSigner implements Signer {
      * <code>false</code> en caso contrario.
      */
     public static boolean isEnveloping(final Element element) {
-        if (element.getLocalName().equals(SIGNATURE_TAG) || element.getLocalName().equals(AFIRMA)
+        if (element.getLocalName().equals(SIGNATURE_TAG) || element.getLocalName().equals(FIRMAEC)
                 && element.getFirstChild().getLocalName().equals(SIGNATURE_TAG)) {
             return true;
         }
@@ -645,7 +634,7 @@ public final class XAdESSigner implements Signer {
 
     public boolean isSign(final byte[] sign) {
         if (sign == null) {
-            logger.warning("Se han introducido datos nulos para su comprobacion");
+            LOGGER.warning("Se han introducido datos nulos para su comprobacion");
             return false;
         }
 
@@ -683,7 +672,7 @@ public final class XAdESSigner implements Signer {
 
     public boolean isValidDataFile(final byte[] data) {
         if (data == null) {
-            logger.warning("Se han introducido datos nulos para su comprobacion");
+            LOGGER.warning("Se han introducido datos nulos para su comprobacion");
             return false;
         }
         return true;
@@ -691,34 +680,6 @@ public final class XAdESSigner implements Signer {
 
     public String getSignedName(final String originalName, final String inText) {
         return originalName + (inText != null ? inText : "") + ".xsig";
-    }
-
-    /**
-     * Devuelve un nuevo documento con ra&iacute;z "AFIRMA" del que cuelga el
-     * documento especificado.
-     *
-     * @param docu Documento que estar&aacute; contenido en el nuevo documento.
-     * @return Documento con ra&iacute;z "AFIRMA".
-     * @throws ParserConfigurationException Cuando se produce un error al
-     * analizar el XML.
-     */
-    static Document insertarNodoAfirma(final Document docu) throws ParserConfigurationException {
-
-        // Nueva instancia de DocumentBuilderFactory que permita espacio de
-        // nombres (necesario para XML)
-        final DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        dbf.setNamespaceAware(true);
-
-        // Crea un nuevo documento con la raiz "AFIRMA"
-        final Document docAfirma = dbf.newDocumentBuilder().newDocument();
-        final Element rootAfirma = docAfirma.createElement(AFIRMA);
-        rootAfirma.setAttributeNS(null, ID_IDENTIFIER, "AfirmaRoot-" + UUID.randomUUID().toString());
-
-        // Inserta el documento pasado por parametro en el nuevo documento
-        rootAfirma.appendChild(docAfirma.adoptNode(docu.getDocumentElement()));
-        docAfirma.appendChild(rootAfirma);
-
-        return docAfirma;
     }
 
     @Override
@@ -735,8 +696,8 @@ public final class XAdESSigner implements Signer {
 
         try {
             signDoc = dbf.newDocumentBuilder().parse(new ByteArrayInputStream(sign));
-        } catch (Exception e) {
-            logger.warning("Se ha producido un error al obtener la estructura de firmas: " + e);
+        } catch (IOException | ParserConfigurationException | SAXException e) {
+            LOGGER.log(Level.WARNING, "Se ha producido un error al obtener la estructura de firmas: {0}", e);
             return null;
         }
 
@@ -754,5 +715,17 @@ public final class XAdESSigner implements Signer {
         }
 
         return signInfos;
+    }
+
+    public String getHashAlgorithm() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public String getEncryptionAlgorithm() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public byte[] sign(byte[] bytes) throws GeneralSecurityException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

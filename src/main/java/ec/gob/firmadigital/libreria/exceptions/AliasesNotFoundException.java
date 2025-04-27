@@ -20,7 +20,7 @@ package ec.gob.firmadigital.libreria.exceptions;
 /**
  * Excecion lanzada al no encontrar un alias en un KeyStore.
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  * @deprecated
  */
 public class AliasesNotFoundException extends Exception {

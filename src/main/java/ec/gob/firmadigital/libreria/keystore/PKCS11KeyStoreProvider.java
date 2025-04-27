@@ -17,36 +17,28 @@
  */
 package ec.gob.firmadigital.libreria.keystore;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.security.AuthProvider;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.Provider;
 import java.security.Security;
 import java.security.cert.CertificateException;
-import java.util.logging.Logger;
-
-import javax.security.auth.login.LoginException;
 
 /**
  * Implementacion de <code>KeyStoreProvider</code> para utilizar con
  * dispositivos fisicos tipo PKCS#11 (Token USB, Smart Card, etc).
- * https://docs.oracle.com/javase/9/security/pkcs11-reference-guide1.htm#JSSEC-GUID-85EA1017-E59C-49B9-9207-65B7B2BF171E
+ * https://docs.oracle.com/en/java/javase/17/security/pkcs11-reference-guide1.html#GUID-C4ABFACB-B2C9-4E71-A313-79F881488BB9
  *
  * Utiliza internamente la clase <code>sun.security.pkcs11.SunPKCS11</code> para
  * acceder al API de PKCS#11 provisto en Java, por tanto funciona solo con el
  * JVM de Sun Microsystems.
  *
- * @author Ricardo Arguello <ricardo.arguello@soportelibre.com>
+ * @author Ricardo Arguello
  */
 public abstract class PKCS11KeyStoreProvider implements KeyStoreProvider {
 
-    private static final Logger log = Logger.getLogger(PKCS11KeyStoreProvider.class.getName());
+    private static final String SUN_PKCS11_PROVIDER_NAME = "SunPKCS11";
 
     /**
      * Obtiene la configuracion para el Provider, segun el sistema operativo que
@@ -67,78 +59,19 @@ public abstract class PKCS11KeyStoreProvider implements KeyStoreProvider {
 
     @Override
     public KeyStore getKeystore(char[] password) throws KeyStoreException {
-        InputStream configStream = null;
-
         try {
-            // Crear una instancia de sun.security.pkcs11.SunPKCS11
-            configStream = new ByteArrayInputStream(getConfig().getBytes());
-            Provider sunPKCS11Provider = this.createSunPKCS11Provider();
-            Security.addProvider(sunPKCS11Provider);
+            Provider provider = Security.getProvider(SUN_PKCS11_PROVIDER_NAME);
+            provider = provider.configure(getCfg());
+            Security.addProvider(provider);
 
             KeyStore keyStore = KeyStore.getInstance("PKCS11");
             keyStore.load(null, password);
             return keyStore;
         } catch (CertificateException | NoSuchAlgorithmException | IOException e) {
             throw new KeyStoreException(e);
-        } finally {
-            if (configStream != null) {
-                try {
-                    configStream.close();
-                } catch (IOException e) {
-                    log.warning(e.getMessage());
-                }
-            }
         }
     }
-
-    /**
-     * Instancia la clase <code>sun.security.pkcs11.SunPKCS11</code>
-     * dinamicamente, usando Java Reflection.
-     *
-     * @return una instancia de <code>sun.security.pkcs11.SunPKCS11</code>
-     */
-    private static final String SUN_PKCS11_CLASSNAME = "sun.security.pkcs11.SunPKCS11";
-    private static final String SUN_PKCS11_PROVIDER_NAME = "SunPKCS11";
-
-    @SuppressWarnings("unchecked")
-    private Provider createSunPKCS11Provider() throws KeyStoreException {
-        try {
-            Provider prototype = Security.getProvider(SUN_PKCS11_PROVIDER_NAME);
-            Class<?> sunPkcs11ProviderClass = Class.forName(SUN_PKCS11_CLASSNAME);
-            Method configureMethod = sunPkcs11ProviderClass.getMethod("configure", String.class);
-            return (Provider) configureMethod.invoke(prototype, getCfg());
-        } catch (ClassNotFoundException | IllegalAccessException
-                | IllegalArgumentException | InvocationTargetException
-                | NoSuchMethodException | SecurityException e) {
-            throw new KeyStoreException(e);
-        }
-    }
-
-    public void logout() throws KeyStoreException {
-        InputStream configStream = null;
-
-        try {
-            // Crear una instancia de sun.security.pkcs11.SunPKCS11
-            configStream = new ByteArrayInputStream(getConfig().getBytes());
-            Provider sunPKCS11Provider = this.createSunPKCS11Provider();
-            AuthProvider auth = (AuthProvider) sunPKCS11Provider;
-
-            try {
-                auth.logout();
-            } catch (LoginException e) {
-                throw new KeyStoreException(e);
-            }
-        } finally {
-            if (configStream != null) {
-                try {
-                    configStream.close();
-                } catch (IOException e) {
-                    log.warning(e.getMessage());
-                }
-            }
-        }
-    }
-
+    
     protected static boolean is64bit() {
         return System.getProperty("sun.arch.data.model").contains("64");
     }

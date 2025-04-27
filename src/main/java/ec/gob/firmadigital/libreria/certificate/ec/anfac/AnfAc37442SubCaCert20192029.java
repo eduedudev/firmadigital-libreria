@@ -41,7 +41,7 @@ import java.util.Set;
  * Certificado intermedio ANF AC Ecuador, representado como un objeto
  * <code>X509Certificate</code>.
  *
- * @author mfernandez
+ * @author Misael Fernández
  */
 public class AnfAc37442SubCaCert20192029 extends X509Certificate {
 

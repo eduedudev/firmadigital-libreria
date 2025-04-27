@@ -1,14 +1,15 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ec.gob.firmadigital</groupId>
     <artifactId>libreria</artifactId>
-    <version>3.1.2-SNAPSHOT</version>
+    <version>4.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>firmadigital-libreria</name>
     <description>Una librería para firma digital</description>
-    <url>http://www.firmadigital.gob.ec</url>
+    <url>https://www.firmadigital.gob.ec</url>
     <licenses>
         <license>
             <name>GNU AFFERO GENERAL PUBLIC LICENSE, Version 3 (AGPL-3.0)</name>
@@ -21,7 +22,7 @@
             <name>Ricardo Arguello</name>
             <email>ricardo.arguello@soportelibre.com</email>
             <organization>Soporte Libre</organization>
-            <organizationUrl>http://www.soportelibre.com</organizationUrl>
+            <organizationUrl>https://www.soportelibre.com</organizationUrl>
         </developer>
         <developer>
             <name>Misael Fernández Correa</name>
@@ -43,18 +44,10 @@
         <url>https://minka.gob.ec/mintel/ge/firmaec/firmadigital-digital</url>
     </scm>
     
-    <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
-        </repository>
-    </distributionManagement>
-
     <properties>
+        <java.version>17</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
         <jakartaee>10.0.0</jakartaee>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -64,7 +57,7 @@
         <dependency>
             <groupId>org.apache.tika</groupId>
             <artifactId>tika-core</artifactId>
-            <version>2.9.2</version>
+            <version>3.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.pdfbox</groupId>
@@ -77,21 +70,10 @@
             <version>1.4.0</version>
         </dependency>
         <dependency>
-            <groupId>org.xerial</groupId>
-            <artifactId>sqlite-jdbc</artifactId>
-            <version>3.46.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-reload4j</artifactId>
-            <version>2.0.13</version>
-        </dependency>
-        <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.11.0</version>
         </dependency>
-        <!--extensiones-->
         <dependency>
             <groupId>com.google.zxing</groupId>
             <artifactId>core</artifactId>
@@ -102,6 +84,7 @@
             <artifactId>javase</artifactId>
             <version>3.5.3</version>
         </dependency>
+        <!--extensiones-->
         <!-- add all iText 7 modules -->
         <dependency>
             <groupId>com.itextpdf</groupId>
@@ -160,12 +143,12 @@
         <dependency>
             <groupId>org.glassfish.jersey.core</groupId>
             <artifactId>jersey-client</artifactId>
-            <version>3.1.3</version>
+            <version>3.1.10</version>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.incubator</groupId>
             <artifactId>jersey-injectless-client</artifactId>
-            <version>3.1.7</version>
+            <version>3.1.10</version>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
@@ -176,9 +159,14 @@
         </dependency>
         <!--consumo de servicios web-->
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>5.10.3</version>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-reload4j</artifactId>
+            <version>2.0.16</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

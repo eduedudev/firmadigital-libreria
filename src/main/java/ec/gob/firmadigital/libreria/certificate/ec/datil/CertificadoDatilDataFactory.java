@@ -27,8 +27,8 @@ import static ec.gob.firmadigital.libreria.utils.BouncyCastleUtils.certificateHa
 import java.security.cert.X509Certificate;
 
 /**
- * Permite construir certificados tipo CertificadoDatil a partir de
- * certificados X509Certificate.
+ * Permite construir certificados tipo CertificadoDatil a partir de certificados
+ * X509Certificate.
  *
  * @author Eduardo Raad
  */

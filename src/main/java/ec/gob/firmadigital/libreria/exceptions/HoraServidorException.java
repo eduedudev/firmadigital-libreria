@@ -24,8 +24,6 @@ package ec.gob.firmadigital.libreria.exceptions;
  */
 public class HoraServidorException extends Exception {
 
-    private static final long serialVersionUID = 1L;
-
     public HoraServidorException(String msg) {
         super(msg);
     }

@@ -22,8 +22,6 @@ package ec.gob.firmadigital.libreria.model;
  */
 public class RubricaRuntimeException extends RuntimeException {
 
-    private static final long serialVersionUID = 1342960380916921427L;
-
     public RubricaRuntimeException() {
         super();
     }

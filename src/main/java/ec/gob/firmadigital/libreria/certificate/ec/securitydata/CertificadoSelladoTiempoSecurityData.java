@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2020 
- * Authors: Ricardo Arguello, Misael Fernández
+ * Copyright (C) 2025
+ * Author: Freddy Pico
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,18 +15,18 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package ec.gob.firmadigital.libreria.pades;
+package ec.gob.firmadigital.libreria.certificate.ec.securitydata;
 
-public class Basic {
+import ec.gob.firmadigital.libreria.certificate.ec.CertificadoSelladoTiempo;
+import java.security.cert.X509Certificate;
 
-    /**
-     * Firma un documento PDF.
-     * @param names
-     */
-    public void orderByName(String... names) {
-        for (String name : names) {
-            System.out.println(name);
-        }
+/**
+ *
+ * @author Freddy Pico
+ */
+public class CertificadoSelladoTiempoSecurityData extends CertificadoSecurityData implements CertificadoSelladoTiempo {
 
+    public CertificadoSelladoTiempoSecurityData(X509Certificate certificado) {
+        super(certificado);
     }
 }

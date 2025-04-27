@@ -15,17 +15,34 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package ec.gob.firmadigital.libreria.sign.pdf;
+package ec.gob.firmadigital.libreria.sign.pdf.itext;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.security.cert.Certificate;
-import java.util.Properties;
+import java.security.GeneralSecurityException;
+
+import com.itextpdf.signatures.IExternalSignature;
 
 import ec.gob.firmadigital.libreria.sign.RubricaSigner;
 
-public interface PdfSigner {
+public class SignerAdapter implements IExternalSignature {
 
-    byte[] sign(InputStream data, RubricaSigner signer, Certificate[] certChain, Properties params)
-            throws IOException;
+    private final RubricaSigner signer;
+
+    public SignerAdapter(RubricaSigner signer) {
+        this.signer = signer;
+    }
+
+    @Override
+    public String getHashAlgorithm() {
+        return signer.getDigestAlgorithm().getJavaName();
+    }
+
+    @Override
+    public String getEncryptionAlgorithm() {
+        return signer.getEncryptionAlgorithm().getName();
+    }
+
+    @Override
+    public byte[] sign(byte[] message) throws GeneralSecurityException {
+        return signer.sign(message);
+    }
 }

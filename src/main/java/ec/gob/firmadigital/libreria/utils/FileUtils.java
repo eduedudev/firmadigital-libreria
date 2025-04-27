@@ -78,15 +78,12 @@ public class FileUtils {
     }
 
     public static void saveByteArrayToDisc(byte[] archivo, String rutaNombre) throws FileNotFoundException, IOException {
-        // TODO validar si hay otro archivo de momento lo sobre escribe
         FileOutputStream fos = new FileOutputStream(rutaNombre);
         File arc = new File(rutaNombre);
 
         Long espacio = arc.getFreeSpace();
 
         if (archivo != null) {
-            System.out.println("bytes: " + archivo.length + " espacio " + espacio);
-
             if (espacio < archivo.length) {
                 throw new IOException("No se puede crear el archivo firmado. No hay espacio suficiente en el disco");
             }
