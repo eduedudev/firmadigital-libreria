@@ -124,40 +124,40 @@ public class CheckPDF {
             }
         }
         // To get java script available from NAMES dictionary 
-        namesDictionary = pdfDictionaryCatalog.getAsDictionary(PdfName.Names);
-        if (namesDictionary != null && !namesDictionary.isEmpty()) {
-            String javaScript = "";
-            PdfDictionary javascriptDictionary = namesDictionary.getAsDictionary(PdfName.JavaScript);
-            if (javascriptDictionary != null) {
-                StringBuilder stringBuilder = new StringBuilder();
-                Set<Map.Entry<PdfName, PdfObject>> set = javascriptDictionary.entrySet();
-                for (Map.Entry<PdfName, PdfObject> entry : set) {
-                    PdfObject pdfObject = entry.getValue();
-                    javaScript += "\n" + getPdfObject(pdfObject);
-                }
-                checkPDF += "\n" + stringBuilder.toString().trim();
-            }
-            if (!javaScript.isEmpty()) {
-                checkPDF += "Names Dictionary - JavaScript:" + javaScript;
-            }
-        }
+//        namesDictionary = pdfDictionaryCatalog.getAsDictionary(PdfName.Names);
+//        if (namesDictionary != null && !namesDictionary.isEmpty()) {
+//            String javaScript = "";
+//            PdfDictionary javascriptDictionary = namesDictionary.getAsDictionary(PdfName.JavaScript);
+//            if (javascriptDictionary != null) {
+//                StringBuilder stringBuilder = new StringBuilder();
+//                Set<Map.Entry<PdfName, PdfObject>> set = javascriptDictionary.entrySet();
+//                for (Map.Entry<PdfName, PdfObject> entry : set) {
+//                    PdfObject pdfObject = entry.getValue();
+//                    javaScript += "\n" + getPdfObject(pdfObject);
+//                }
+//                checkPDF += "\n" + stringBuilder.toString().trim();
+//            }
+//            if (!javaScript.isEmpty()) {
+//                checkPDF += "Names Dictionary - JavaScript:" + javaScript;
+//            }
+//        }
         // To get java script from name tree JAVASCRIPT
-        PdfNameTree nameTree = pdfDocument.getCatalog().getNameTree(PdfName.JavaScript);
-        if (nameTree != null && !nameTree.getNames().isEmpty()) {
-            String javaScript = "";
-            Map<String, PdfObject> objs = nameTree.getNames();
-            if (objs != null) {
-                StringBuilder stringBuilder = new StringBuilder();
-                for (Map.Entry<String, PdfObject> entry : objs.entrySet()) {
-                    PdfObject pdfObject = entry.getValue();
-                    javaScript += "\n" + getPdfObject(pdfObject);
-                }
-                checkPDF += "\n" + stringBuilder.toString().trim();
-            }
-            if (!javaScript.isEmpty()) {
-                checkPDF += "Name Tree - JavaScript" + javaScript;
-            }
-        }
+//        PdfNameTree nameTree = pdfDocument.getCatalog().getNameTree(PdfName.JavaScript);
+//        if (nameTree != null && !nameTree.getNames().isEmpty()) {
+//            String javaScript = "";
+//            Map<String, PdfObject> objs = nameTree.getNames();
+//            if (objs != null) {
+//                StringBuilder stringBuilder = new StringBuilder();
+//                for (Map.Entry<String, PdfObject> entry : objs.entrySet()) {
+//                    PdfObject pdfObject = entry.getValue();
+//                    javaScript += "\n" + getPdfObject(pdfObject);
+//                }
+//                checkPDF += "\n" + stringBuilder.toString().trim();
+//            }
+//            if (!javaScript.isEmpty()) {
+//                checkPDF += "Name Tree - JavaScript" + javaScript;
+//            }
+//        }
         // To get java script at the annotation action level
         String javaScriptAnnotation = "";
         for (int i = 1; i <= pdfDocument.getNumberOfPages(); i++) {
@@ -184,6 +184,7 @@ public class CheckPDF {
             LOGGER.log(Level.WARNING, checkPDF.trim());
             checkPDF = "El documento es potencialmente sospechoso para procesarlo";
         }
+//////////
 //        PdfDictionary rootDictionary = pdfDocument.getTrailer().getAsDictionary(PdfName.Root).getAsDictionary(PdfName.OpenAction);
 //        if (rootDictionary != null) {
 //            rootDictionary.entrySet().forEach(entry -> {
@@ -202,6 +203,7 @@ public class CheckPDF {
 //                checkPDF = "El documento es potencialmente sospechoso para procesarlo";
 //            }
 //        }
+//////////
         return checkPDF.isEmpty() ? null : checkPDF;
     }
 }
