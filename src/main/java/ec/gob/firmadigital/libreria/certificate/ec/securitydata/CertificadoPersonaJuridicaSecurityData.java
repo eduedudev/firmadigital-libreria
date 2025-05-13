@@ -19,7 +19,6 @@ package ec.gob.firmadigital.libreria.certificate.ec.securitydata;
 
 import java.security.cert.X509Certificate;
 
-import ec.gob.firmadigital.libreria.exceptions.DatoCertificadoNoIncluidoException;
 import ec.gob.firmadigital.libreria.certificate.ec.CertificadoPersonaJuridica;
 
 /**
@@ -46,33 +45,29 @@ public class CertificadoPersonaJuridicaSecurityData extends CertificadoSecurityD
 
     @Override
     public String getCedulaPasaporte() {
-        throw new DatoCertificadoNoIncluidoException(
-                "Los certificados de Persona Juridica de Security Data no incluyen cedula o pasaporte");
+        return obtenerExtension(OID_CEDULA_PASAPORTE);
     }
 
     @Override
     public String getNombres() {
-        throw new DatoCertificadoNoIncluidoException(
-                "Los certificados de Persona Juridica de Security Data no incluyen nombre(s)");
+        return obtenerExtension(OID_NOMBRES);
     }
 
     @Override
     public String getPrimerApellido() {
-        throw new DatoCertificadoNoIncluidoException(
-                "Los certificados de Persona Juridica de Security Data no incluyen primer apellido");
+        return obtenerExtension(OID_PRIMER_APELLIDO);
     }
 
     @Override
     public String getSegundoApellido() {
-        throw new DatoCertificadoNoIncluidoException(
-                "Los certificados de Persona Juridica de Security Data no incluyen segundo apellido");
+        return obtenerExtension(OID_SEGUNDO_APELLIDO);
     }
 
     @Override
     public String getCargo() {
-        throw new DatoCertificadoNoIncluidoException(
-                "Los certificados de Persona Juridica de Security Data no incluyen cargo");
+        return obtenerExtension(OID_CARGO);
     }
+
 
     @Override
     public String getDireccion() {
