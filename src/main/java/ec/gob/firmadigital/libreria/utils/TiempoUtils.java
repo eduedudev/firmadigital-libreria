@@ -74,22 +74,23 @@ public class TiempoUtils {
             // La fecha actual en formato ISO-8601 (2017-08-27T17:54:43.562-05:00)
             return null;
         } else {
-            Client client = ClientBuilder.newClient();
-            client.property(ClientProperties.CONNECT_TIMEOUT, TIME_OUT);
-            client.property(ClientProperties.READ_TIMEOUT, TIME_OUT);
-            WebTarget target = client.target(fecha_hora_url);
-            Invocation.Builder builder = target.request(MediaType.TEXT_PLAIN);
-            Form form = new Form();
-            form.param("base64", base64);
-            Invocation invocation = builder.buildPost(Entity.form(form));
-            // Leer la respuesta
-            Response response = invocation.invoke();
-            int statusCode = response.getStatus();
-            String respuesta = response.readEntity(String.class);
-            if (statusCode == HttpURLConnection.HTTP_OK) {
-                return respuesta;
-            } else {
-                throw new HoraServidorException(PropertiesUtils.getMessages().getProperty("mensaje.error.problema_red"));
+            try (Client client = ClientBuilder.newClient()) {
+                client.property(ClientProperties.CONNECT_TIMEOUT, TIME_OUT);
+                client.property(ClientProperties.READ_TIMEOUT, TIME_OUT);
+                WebTarget target = client.target(fecha_hora_url);
+                Invocation.Builder builder = target.request(MediaType.TEXT_PLAIN);
+                Form form = new Form();
+                form.param("base64", base64);
+                Invocation invocation = builder.buildPost(Entity.form(form));
+                // Leer la respuesta
+                Response response = invocation.invoke();
+                int statusCode = response.getStatus();
+                String respuesta = response.readEntity(String.class);
+                if (statusCode == HttpURLConnection.HTTP_OK) {
+                    return respuesta;
+                } else {
+                    throw new HoraServidorException(PropertiesUtils.getMessages().getProperty("mensaje.error.problema_red"));
+                }
             }
         }
     }

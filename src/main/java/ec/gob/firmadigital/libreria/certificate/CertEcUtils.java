@@ -451,6 +451,7 @@ public class CertEcUtils {
             datosUsuario.setCertificadoDigitalValido(true);
             return datosUsuario;
         }
+        
         if (CertificadoDigercicFactory.esCertificadoDigercic(certificado)) {
             CertificadoDigercic certificadoDigercic = CertificadoDigercicFactory.construir(certificado);
             if (certificadoDigercic instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
@@ -461,6 +462,7 @@ public class CertEcUtils {
             datosUsuario.setCertificadoDigitalValido(true);
             return datosUsuario;
         }
+        
         if (CertificadoUanatacaDataFactory.esCertificadoUanataca(certificado)) {
             CertificadoUanataca certificadoUanataca = CertificadoUanatacaDataFactory.construir(certificado);
             if (certificadoUanataca instanceof CertificadoMiembroEmpresaUanataca certificadoMiembroEmpresaUanataca) {
@@ -496,6 +498,7 @@ public class CertEcUtils {
             datosUsuario.setCertificadoDigitalValido(true);
             return datosUsuario;
         }
+        
         if (CertificadoEclipsoftDataFactory.esCertificadoEclipsoft(certificado)) {
             CertificadoEclipsoft certificadoEclipsoft = CertificadoEclipsoftDataFactory.construir(certificado);
             if (certificadoEclipsoft instanceof CertificadoPersonalNaturalEclipsoft certificadoPersonalNaturalEclipsoft) {
@@ -527,6 +530,7 @@ public class CertEcUtils {
             datosUsuario.setCertificadoDigitalValido(true);
             return datosUsuario;
         }
+        
         if (CertificadoDatilDataFactory.esCertificadoDatil(certificado)) {
             CertificadoDatil certificadoDatil = CertificadoDatilDataFactory.construir(certificado);
             if (certificadoDatil instanceof CertificadoMiembroEmpresaDatil certificadoMiembroEmpresaDatil) {
@@ -561,6 +565,7 @@ public class CertEcUtils {
             datosUsuario.setCertificadoDigitalValido(true);
             return datosUsuario;
         }
+        
         if (CertificadoArgosDataFactory.esCertificadoArgosData(certificado)) {
             CertificadoArgosData certificadoArgosData = CertificadoArgosDataFactory.construir(certificado);
             if (certificadoArgosData instanceof CertificadoPersonaNaturalArgosData certificadoPersonaNatural) {
@@ -579,6 +584,7 @@ public class CertEcUtils {
             datosUsuario.setCertificadoDigitalValido(true);
             return datosUsuario;
         }
+        
         if (CertificadoLazzateDataFactory.esCertificadoLazzate(certificado)) {
             CertificadoLazzate certificadoLazzate = CertificadoLazzateDataFactory.construir(certificado);
             if (certificadoLazzate instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
@@ -609,6 +615,7 @@ public class CertEcUtils {
             datosUsuario.setCertificadoDigitalValido(true);
             return datosUsuario;
         }
+        
         if (CertificadoAlphaTechnologiesFactory.esCertificadoDeAlphaTechnologies(certificado)) {
             CertificadoAlphaTechnologies certificadoAlphaTechnologies = CertificadoAlphaTechnologiesFactory.construir(certificado);
             if (certificadoAlphaTechnologies instanceof CertificadoMiembroEmpresa certificadoMiembroEmpresa) {
@@ -634,6 +641,7 @@ public class CertEcUtils {
             datosUsuario.setCertificadoDigitalValido(true);
             return datosUsuario;
         }
+        
         if (CertificadoCorpNewBestDataFactory.esCertificadoCorpNewBest(certificado)) {
             CertificadoCorpNewBest certificadoCorpNewBest = CertificadoCorpNewBestDataFactory.construir(certificado);
             if (certificadoCorpNewBest instanceof CertificadoPersonaJuridica certificadoPersonaJuridica) {
@@ -662,6 +670,7 @@ public class CertEcUtils {
             datosUsuario.setCertificadoDigitalValido(true);
             return datosUsuario;
         }
+        
         if (CertificadoFirmaSeguraFactory.esCertificadoDeFirmaSegura(certificado)) {
             CertificadoFirmaSegura certificadoFirmaSegura = CertificadoFirmaSeguraFactory.construir(certificado);
             if (certificadoFirmaSegura instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
@@ -680,6 +689,7 @@ public class CertEcUtils {
             datosUsuario.setCertificadoDigitalValido(true);
             return datosUsuario;
         }
+        
         return null;
     }
 }
