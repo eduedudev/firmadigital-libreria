@@ -15,22 +15,26 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package ec.gob.firmadigital.libreria.sign.xades;
+package ec.gob.firmadigital.libreria.exceptions;
 
 /**
- * Excepci&oacute;n relativa a los errores de firma de hojas de estilo XML.
+ * Representa un error en la aplicación.
  */
-public abstract class StyleException extends Exception {
+public class RubricaRuntimeException extends RuntimeException {
 
-    StyleException(final String msg) {
-        super(msg);
+    public RubricaRuntimeException() {
+        super();
     }
 
-    StyleException(final String msg, final Throwable e) {
-        super(msg, e);
+    public RubricaRuntimeException(String message) {
+        super(message);
     }
 
-    StyleException(final Throwable e) {
-        super(e);
+    public RubricaRuntimeException(Throwable cause) {
+        super(cause);
+    }
+
+    public RubricaRuntimeException(String message, Throwable cause) {
+        super(message, cause);
     }
 }

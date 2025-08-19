@@ -107,7 +107,7 @@ public class CertificateUtils {
             GeneralName genName = accessDescription.getAccessLocation();
 
             if (genName.getTagNo() == GeneralName.uniformResourceIdentifier) {
-                DERIA5String str = DERIA5String.getInstance(genName.getName());
+                DERIA5String str = (DERIA5String) genName.getName();
                 String accessLocation = str.getString();
                 ocspUrls.add(accessLocation);
             }

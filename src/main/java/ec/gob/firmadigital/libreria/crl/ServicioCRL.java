@@ -47,12 +47,15 @@ public class ServicioCRL {
     public static final String LAZZATECA1_CRL = "http://enext1.xyz/LazzateCA1/emisorCA1.crl";
     public static final String LAZZATECA2_CRL = "http://enext2.xyz/LazzateCA2/emisorCA2.crl";
     public static final String LAZZATE_WE_GO_CRL = "http://we-go.xyz/WE-GO/emisorCA1.crl";
-    public static final String ALPHATECHNOLOGIES_CRL = "http://crl.globalsign.com/ca/alphatechnologiesatlassigningca2023.crl";
+    public static final String ALPHATECHNOLOGIES_CA1_CRL = "http://crl.globalsign.com/ca/alphatechnologiesatlassigningca2023.crl";
+    public static final String ALPHATECHNOLOGIES_CA2_CRL = "http://crl.globalsign.com/ca/alphatechnologiesatlassigningca2024.crl";
     public static final String CORPNEWBEST_CRL1 = "http://ejbcaee.newbest.tech/ejbca/publicweb/webdist/certdist?cmd=crl&issuer=CN%3DAUTORIDAD+DE+CERTIFICACION+SUBCA-1EF+CORPNEWBEST%2COU%3DENTIDAD+DE+CERTIFICACION+DE+INFORMACION%2CO%3DCORPNEWBEST+CIA.+LTDA.%2CC%3DEC";
     public static final String CORPNEWBEST_CRL2 = "http://ejbcaee.newbest.tech/ejbca/publicweb/webdist/certdist?cmd=crl&issuer=CN%3DAUTORIDAD+DE+CERTIFICACION+SUBCA-2EF+CORPNEWBEST%2COU%3DENTIDAD+DE+CERTIFICACION+DE+INFORMACION%2CO%3DCORPNEWBEST+CIA.+LTDA.%2CC%3DEC";
     public static final String CORPNEWBEST_CRL3 = "http://ejbcaee.newbest.tech/ejbca/publicweb/webdist/certdist?cmd=crl&issuer=CN%3DAUTORIDAD+DE+CERTIFICACION+SUBCA-3EF+CORPNEWBEST%2COU%3DENTIDAD+DE+CERTIFICACION+DE+INFORMACION%2CO%3DCORPNEWBEST+CIA.+LTDA.%2CC%3DEC";
     public static final String FIRMASEGURA_CRL = "http://crl.firmaseguraec.com/crl/ccce5a4f-6b68-46fc-a620-4abcc4c4a690.crl";
-
+    public static final String LETMI1_CRL = "https://crl.letmi.app/LETMI_CA_ROOT01.crl";
+    public static final String LETMI2_CRL = "https://crl.letmi.app/LETMI_CA_SUB01.crl";
+    
     public static X509CRL downloadCrl(String url) throws Exception {
         byte[] content;
 

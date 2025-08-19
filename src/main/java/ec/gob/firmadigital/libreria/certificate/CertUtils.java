@@ -45,6 +45,10 @@ import ec.gob.firmadigital.libreria.exceptions.RubricaException;
 import ec.gob.firmadigital.libreria.keystore.Alias;
 import ec.gob.firmadigital.libreria.keystore.KeyStoreUtilities;
 import javax.swing.JRootPane;
+import org.bouncycastle.asn1.x500.AttributeTypeAndValue;
+import org.bouncycastle.asn1.x500.RDN;
+import org.bouncycastle.asn1.x500.X500Name;
+import org.bouncycastle.asn1.x500.style.IETFUtils;
 
 /**
  * Utilidades para trabajar con Certificados.
@@ -88,28 +92,28 @@ public class CertUtils {
                         }
                         if (object != null && object instanceof DLTaggedObject) {
                             DLTaggedObject dlTaggedObject = (DLTaggedObject) object;
-                            Object obj = dlTaggedObject.getObject();
+                            Object obj = dlTaggedObject;
                             if (obj != null && obj instanceof ASN1Sequence) {
                                 otherNameSeq = (ASN1Sequence) obj;
                                 // Check the object identifier
                                 ASN1ObjectIdentifier objectId = (ASN1ObjectIdentifier) otherNameSeq.getObjectAt(0);
                                 if (objectId.toString().equals(oid)) {
                                     DLTaggedObject objectDetail = ((DLTaggedObject) otherNameSeq.getObjectAt(1));
-                                    decoded = objectDetail.getObject().toASN1Primitive().toString();
+                                    decoded = objectDetail.toASN1Primitive().toString();
                                     break;
                                 }
                             }
                         }
                         if (object != null && object instanceof DERTaggedObject) {
                             DERTaggedObject derTaggedObject = (DERTaggedObject) object;
-                            Object obj = derTaggedObject.getObject();
+                            Object obj = derTaggedObject;
                             if (obj != null && obj instanceof ASN1Sequence) {
                                 otherNameSeq = (ASN1Sequence) obj;
                                 // Check the object identifier
                                 ASN1ObjectIdentifier objectId = (ASN1ObjectIdentifier) otherNameSeq.getObjectAt(0);
                                 if (objectId.toString().equals(oid)) {
                                     DERTaggedObject objectDetail = ((DERTaggedObject) otherNameSeq.getObjectAt(1));
-                                    decoded = objectDetail.getObject().toASN1Primitive().toString();
+                                    decoded = objectDetail.toASN1Primitive().toString();
                                     break;
                                 }
                             }
@@ -192,9 +196,9 @@ public class CertUtils {
                         System.out.println("Parsing otherName for subject alternative names: " + objectId.toString());
                         DERTaggedObject objectDetail = ((DERTaggedObject) otherNameSeq.getObjectAt(1));
                         System.out.println("Parsing otherName for subject alternative names: "
-                                + objectDetail.getObject().toASN1Primitive().toString());
+                                + objectDetail.toASN1Primitive().toString());
 
-                        ASN1Primitive derObject = toDERObject(objectDetail.getObject().getEncoded());
+                        ASN1Primitive derObject = toDERObject(objectDetail.getEncoded());
                         if (derObject instanceof DEROctetString) {
                             DEROctetString derOctetString = (DEROctetString) derObject;
                             derObject = toDERObject(derOctetString.getOctets());
@@ -253,5 +257,38 @@ public class CertUtils {
         } else {
             return null;
         }
+    }
+
+    /**
+     * Método auxiliar para extraer un campo específico del "Subject" de un
+     * certificado. Este método es capaz de encontrar campos por su OID y
+     * decodificar correctamente valores que estén en formato hexadecimal (ej:
+     * #1305...).
+     *
+     * @param subjectName El objeto X500Name ya parseado, que representa el
+     * "Subject" del certificado (X500Name subjectName = new
+     * JcaX509CertificateHolder(cert).getSubject()).
+     * @param oid El identificador de objeto (OID) del campo que se desea
+     * extraer (ej: OID_APELLIDOS para apellidos).
+     * @return El valor del campo como String (ya decodificado), o null si el
+     * campo no se encuentra en el certificado.
+     */
+    public static String getSubjectFieldByOID(X500Name subjectName, ASN1ObjectIdentifier oid) {
+        // Busca y obtiene todos los Nombres Distinguidos Relativos (RDNs) que coinciden con el OID proporcionado.
+        // Un RDN es un componente del "Subject", como "CN=Juan Perez".
+        RDN[] rdns = subjectName.getRDNs(oid);
+
+        // Verifica si se encontró el campo. Si el array es nulo o está vacío, significa que el certificado
+        // no contiene ese campo, por lo que retornamos null.
+        if (rdns == null || rdns.length == 0) {
+            return null;
+        }
+        // Un certificado podría, teóricamente, tener múltiples valores para el mismo campo.
+        // En la práctica, para estos campos estándar, solo habrá uno. Tomamos el primero de la lista.
+        AttributeTypeAndValue attribute = rdns[0].getFirst();
+
+        // La utilidad IETFUtils de Bouncy Castle se encarga de convertir el valor del atributo a un String legible.
+        // Esta es la parte clave, ya que decodifica automáticamente los valores hexadecimales a texto.
+        return IETFUtils.valueToString(attribute.getValue());
     }
 }

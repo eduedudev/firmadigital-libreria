@@ -34,6 +34,7 @@ import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.Form;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import java.util.Properties;
 import java.util.logging.Level;
 import org.glassfish.jersey.client.ClientProperties;
 
@@ -45,25 +46,39 @@ import org.glassfish.jersey.client.ClientProperties;
 public class TiempoUtils {
 
     private static final Logger LOGGER = Logger.getLogger(TiempoUtils.class.getName());
-    private static final int TIME_OUT = 5000; //set timeout to 5 seconds
+    private static int TIME_OUT = 5000; //set timeout to 5 seconds
 
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
 
+    private static void getConfigRubrica() {
+        var configRubrica = new Properties();
+        try {
+            configRubrica.load(PropertiesUtils.class.getClassLoader().getResourceAsStream("config.rubrica.properties"));
+            TIME_OUT = Integer.parseInt(configRubrica.getProperty("time_out"));
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, null, ex);
+        }
+    }
+
     public static Date getFechaHora(String apiUrl, String base64) throws HoraServidorException {
+        getConfigRubrica();
         String fechaHora;
         try {
             fechaHora = getFechaHoraServidor(apiUrl, base64);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException | NullPointerException | HoraServidorException e) {
             LOGGER.log(Level.SEVERE, "No se puede obtener la fecha del servidor: {0}", e.getMessage());
             throw new HoraServidorException(PropertiesUtils.getMessages().getProperty("mensaje.error.problema_red"));
         }
         try {
             TemporalAccessor accessor = DATE_TIME_FORMATTER.parse(fechaHora);
             return Date.from(Instant.from(accessor));
+        } catch (NullPointerException e) {
+            LOGGER.log(Level.SEVERE, "No se puede obtener la fecha del servidor: {0}", e.getMessage());
+            throw new HoraServidorException(PropertiesUtils.getMessages().getProperty("mensaje.error.problema_red"));
         } catch (DateTimeParseException e) {
             LOGGER.log(Level.SEVERE, "La fecha indicada (''{0}'') no sigue el patron ISO-8601: {1}", new Object[]{fechaHora, e});
-            return new Date();
+            throw new HoraServidorException("La fecha indicada " + fechaHora + " no sigue el patron ISO-8601: " + e.getMessage());
+//            return new Date();
         }
     }
 

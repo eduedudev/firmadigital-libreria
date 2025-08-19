@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2023
- * Authors: Steven Chiriboga
+ * Authors: Alpha Technologies Cia. Ltda.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -17,9 +17,12 @@
  */
 package ec.gob.firmadigital.libreria.certificate.ec.alphatechnologies;
 
-import static ec.gob.firmadigital.libreria.certificate.ec.alphatechnologies.CertificadoAlphaTechnologies.*;
+import ec.gob.firmadigital.libreria.certificate.Certificado;
+import static ec.gob.firmadigital.libreria.certificate.CertificadoOids.*;
+
 import ec.gob.firmadigital.libreria.exceptions.EntidadCertificadoraNoValidaException;
-import static ec.gob.firmadigital.libreria.utils.BouncyCastleUtils.certificateHasPolicy;
+import static ec.gob.firmadigital.libreria.utils.BouncyCastleUtils.certificateHasPolicy2;
+
 import java.security.cert.X509Certificate;
 
 /**
@@ -27,23 +30,32 @@ import java.security.cert.X509Certificate;
  * {@link CertificadoAlphaTechnologiesFactory} a partir de certificados
  * X509Certificate.
  *
- * @author Steven Chiriboga <steven.chiriboga@alphaside.com>
+ * @author Alpha Technologies Cia. Ltda.
  */
 public class CertificadoAlphaTechnologiesFactory {
 
     public static boolean esCertificadoDeAlphaTechnologies(X509Certificate certificado) {
-        return (certificateHasPolicy(certificado, OID_CERTIFICADO_PERSONA_NATURAL)
-                || certificateHasPolicy(certificado, OID_CERTIFICADO_PERSONA_JURIDICA)
-                || certificateHasPolicy(certificado, OID_CERTIFICADO_MIEMBRO_EMPRESA));
+        return (certificateHasPolicy2(certificado, Ext.OID_CERTIFICADO_PERSONA_NATURAL_ALPHA_TECHNOLOGIES)
+                || certificateHasPolicy2(certificado, Ext.OID_CERTIFICADO_PERSONA_JURIDICA_ALPHA_TECHNOLOGIES)
+                || certificateHasPolicy2(certificado, Ext.OID_CERTIFICADO_MIEMBRO_EMPRESA_ALPHA_TECHNOLOGIES)
+                || certificateHasPolicy2(certificado, Subj.OID_CERTIFICADO_PERSONA_NATURAL_ALPHA_TECHNOLOGIES)
+                || certificateHasPolicy2(certificado, Subj.OID_CERTIFICADO_MIEMBRO_EMPRESA_ALPHA_TECHNOLOGIES)
+                || certificateHasPolicy2(certificado, Subj.OID_CERTIFICADO_REPRESENTANTE_LEGAL_ALPHA_TECHNOLOGIES));
     }
 
-    public static CertificadoAlphaTechnologies construir(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
-        if (certificateHasPolicy(certificado, OID_CERTIFICADO_PERSONA_NATURAL)) {
-            return new CertificadoPersonaNaturalAlphaTechnologies(certificado);
-        } else if (certificateHasPolicy(certificado, OID_CERTIFICADO_PERSONA_JURIDICA)) {
-            return new CertificadoPersonaJuridicaAlphaTechnologies(certificado);
-        } else if (certificateHasPolicy(certificado, OID_CERTIFICADO_MIEMBRO_EMPRESA)) {
-            return new CertificadoMiembroEmpresaAlphaTechnologies(certificado);
+    public static Certificado construir(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
+        if (certificateHasPolicy2(certificado, Ext.OID_CERTIFICADO_PERSONA_NATURAL_ALPHA_TECHNOLOGIES)) {
+            return new ec.gob.firmadigital.libreria.certificate.ec.alphatechnologies.CertificadoPersonaNaturalAlphaTechnologies(certificado);
+        } else if (certificateHasPolicy2(certificado, Ext.OID_CERTIFICADO_PERSONA_JURIDICA_ALPHA_TECHNOLOGIES)) {
+            return new ec.gob.firmadigital.libreria.certificate.ec.alphatechnologies.CertificadoPersonaJuridicaAlphaTechnologies(certificado);
+        } else if (certificateHasPolicy2(certificado, Ext.OID_CERTIFICADO_MIEMBRO_EMPRESA_ALPHA_TECHNOLOGIES)) {
+            return new ec.gob.firmadigital.libreria.certificate.ec.alphatechnologies.CertificadoMiembroEmpresaAlphaTechnologies(certificado);
+        } else if (certificateHasPolicy2(certificado, Subj.OID_CERTIFICADO_PERSONA_NATURAL_ALPHA_TECHNOLOGIES)) {
+            return new CertificadoPersonaNaturalSubjAlphaTechnologies(certificado);
+        } else if (certificateHasPolicy2(certificado, Subj.OID_CERTIFICADO_MIEMBRO_EMPRESA_ALPHA_TECHNOLOGIES)) {
+            return new CertificadoMiembroEmpresaSubjAlphaTechnologies(certificado);
+        } else if (certificateHasPolicy2(certificado, Subj.OID_CERTIFICADO_REPRESENTANTE_LEGAL_ALPHA_TECHNOLOGIES)) {
+            return new CertificadoRepresentanteLegalSubjAlphaTechnologies(certificado);
         } else {
             throw new EntidadCertificadoraNoValidaException("Certificado de Alpha Technologies Cia. Ltda. sin categorizar!");
         }

@@ -19,6 +19,7 @@ package ec.gob.firmadigital.libreria.utils;
 
 import ec.gob.firmadigital.libreria.certificate.CertEcUtils;
 import ec.gob.firmadigital.libreria.certificate.ec.alphatechnologies.AlphaTechnologiesCaCert;
+import ec.gob.firmadigital.libreria.certificate.ec.alphatechnologies.AlphaTechnologiesCaCert20242034;
 import ec.gob.firmadigital.libreria.certificate.ec.anfac.AnfAc18332CaCert20162036;
 import ec.gob.firmadigital.libreria.certificate.ec.anfac.AnfAc37442CaCert20192039;
 import ec.gob.firmadigital.libreria.certificate.ec.argosdata.ArgosDataCaCert;
@@ -105,6 +106,7 @@ public class OcspUtils {
         X509Certificate rootCACert14 = new LazzateCa1Cert();
         X509Certificate rootCACert15 = new LazzateCa2Cert();
         X509Certificate rootCACert16 = new LazzateCaWeGoCert();
+        X509Certificate rootCACert17 = new AlphaTechnologiesCaCert20242034();
 
         // init root trusted certs
         TrustAnchor ta1 = new TrustAnchor(rootCACert1, null);
@@ -123,6 +125,7 @@ public class OcspUtils {
         TrustAnchor ta14 = new TrustAnchor(rootCACert14, null);
         TrustAnchor ta15 = new TrustAnchor(rootCACert15, null);
         TrustAnchor ta16 = new TrustAnchor(rootCACert16, null);
+        TrustAnchor ta17 = new TrustAnchor(rootCACert17, null);
 
         Set<TrustAnchor> trustedCertsSet = new HashSet<TrustAnchor>();
         trustedCertsSet.add(ta1);
@@ -141,6 +144,7 @@ public class OcspUtils {
         trustedCertsSet.add(ta14);
         trustedCertsSet.add(ta15);
         trustedCertsSet.add(ta16);
+        trustedCertsSet.add(ta17);
 
         // init PKIX parameters
         PKIXParameters params;

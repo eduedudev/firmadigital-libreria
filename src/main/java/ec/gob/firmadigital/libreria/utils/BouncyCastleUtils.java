@@ -30,10 +30,12 @@ import org.bouncycastle.asn1.ASN1ObjectIdentifier;
 import org.bouncycastle.asn1.ASN1OctetString;
 import org.bouncycastle.asn1.ASN1Sequence;
 import org.bouncycastle.asn1.x509.Certificate;
+import org.bouncycastle.asn1.x509.CertificatePolicies;
 import org.bouncycastle.asn1.x509.Extension;
 import org.bouncycastle.asn1.x509.Extensions;
 import org.bouncycastle.asn1.x509.PolicyInformation;
 import org.bouncycastle.asn1.x509.TBSCertificate;
+import org.bouncycastle.cert.jcajce.JcaX509CertificateHolder;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 /**
@@ -101,4 +103,39 @@ public class BouncyCastleUtils {
 
         return false;
     }
+
+    /**
+     * Verifica si un certificado X.509 contiene una política de certificado
+     * específica.
+     * <p>
+     * Este método recorre las políticas de certificado definidas en la
+     * extensión "Certificate Policies" (OID 2.5.29.32 segun RFC 5280) del
+     * certificado y busca una coincidencia exacta con el OID proporcionado.
+     *
+     * @param cert El certificado X.509 que se va a verificar.
+     * @param policyOid El Identificador de Objeto (OID) de la política que se
+     * busca, representado como una cadena de texto (e.g.,
+     * "1.3.6.1.4.1.oid_AC.2.1").
+     * @return {@code true} si el certificado contiene la política especificada,
+     * {@code false} en caso contrario o si ocurre un error.
+     */
+    public static boolean certificateHasPolicy2(X509Certificate cert, String policyOid) {
+        try {
+            // Usar un CertificateHolder de Bouncy Castle para acceder fácilmente a las extensiones procesadas
+            JcaX509CertificateHolder certHolder = new JcaX509CertificateHolder(cert);
+            CertificatePolicies policies = CertificatePolicies.fromExtensions(certHolder.getExtensions());
+            if (policies != null) {
+                for (PolicyInformation policyInfo : policies.getPolicyInformation()) {
+                    // Usar .equals() para una coincidencia exacta de OID
+                    if (policyInfo.getPolicyIdentifier().getId().equals(policyOid)) {
+                        return true;
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            LOGGER.severe("Error reading certificate policies: " + ex);
+        }
+        return false;
+    }
+
 }

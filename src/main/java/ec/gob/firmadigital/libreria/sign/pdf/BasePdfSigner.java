@@ -42,8 +42,6 @@ import ec.gob.firmadigital.libreria.certificate.to.DatosUsuario;
 import ec.gob.firmadigital.libreria.exceptions.EntidadCertificadoraNoValidaException;
 import ec.gob.firmadigital.libreria.exceptions.InvalidFormatException;
 import ec.gob.firmadigital.libreria.exceptions.RubricaException;
-import ec.gob.firmadigital.libreria.model.Document;
-import ec.gob.firmadigital.libreria.model.InMemoryDocument;
 import ec.gob.firmadigital.libreria.sign.SignInfo;
 import ec.gob.firmadigital.libreria.sign.Signer;
 import ec.gob.firmadigital.libreria.sign.pdf.appearance.CustomAppearance;
@@ -52,6 +50,7 @@ import ec.gob.firmadigital.libreria.sign.pdf.appearance.Information2Appearance;
 import ec.gob.firmadigital.libreria.sign.pdf.appearance.QrAppereance;
 import ec.gob.firmadigital.libreria.utils.PropertiesUtils;
 import ec.gob.firmadigital.libreria.utils.Utils;
+import java.io.ByteArrayInputStream;
 import java.security.GeneralSecurityException;
 import java.security.PrivateKey;
 import java.util.ArrayList;
@@ -240,8 +239,7 @@ public class BasePdfSigner implements Signer {
 
     public void createSignature(byte[] hashSigned, ByteArrayOutputStream baos, String fieldName, PrivateKey pk, Certificate[] chain)
             throws IOException, GeneralSecurityException {
-        Document document = new InMemoryDocument(baos.toByteArray());
-        try (InputStream is = document.openStream(); PdfReader reader = new PdfReader(is)) {
+        try (InputStream is = new ByteArrayInputStream(baos.toByteArray()); PdfReader reader = new PdfReader(is)) {
             baosSign = new ByteArrayOutputStream();
             com.itextpdf.signatures.PdfSigner signer = new com.itextpdf.signatures.PdfSigner(reader, baosSign, new StampingProperties());
             IExternalSignatureContainer external = new MyExternalSignatureContainer(hashSigned, pk, chain);
@@ -277,8 +275,7 @@ public class BasePdfSigner implements Signer {
     public List<SignInfo> getSigners(byte[] sign) throws InvalidFormatException, IOException {
         PdfReader pdfReader;
         try {
-            Document document = new InMemoryDocument(sign);
-            try (InputStream is = document.openStream()) {
+            try (InputStream is = new ByteArrayInputStream(sign);) {
                 pdfReader = new PdfReader(is);
             }
         } catch (Exception e) {

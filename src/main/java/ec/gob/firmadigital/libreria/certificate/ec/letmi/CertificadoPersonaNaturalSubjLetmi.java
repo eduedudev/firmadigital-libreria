@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2020 
- * Authors: Ricardo Arguello, Misael Fernández
+ * Copyright (C) 2025
+ * Authors: Letmi
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,20 +15,22 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package ec.gob.firmadigital.libreria.sign.xades;
+package ec.gob.firmadigital.libreria.certificate.ec.letmi;
+
+import ec.gob.firmadigital.libreria.certificate.ec.CertificadoPersonaNatural;
+
+import java.security.cert.X509Certificate;
 
 /**
- * Hoja de estilo local (rutal local no dereferenciable) a un XML
+ * Certificado de persona natural emitido por Alpha Technologies Cia. Ltda.
+ *
+ * @author Letmi
  */
-public final class IsInnerlException extends StyleException {
+public class CertificadoPersonaNaturalSubjLetmi extends CertificadoSubjLetmiImpl
+        implements CertificadoPersonaNatural {
 
-    /**
-     * Construye la excepci&oacute;n que indica que una referencia apunta al
-     * interior del mismo XML.
-     *
-     * @param e Excepci&oacute;n anterior en la cadena
-     */
-    public IsInnerlException(final Throwable e) {
-        super(e);
+    public CertificadoPersonaNaturalSubjLetmi(X509Certificate certificado) {
+        super(certificado);
     }
+
 }
