@@ -20,7 +20,6 @@ package ec.gob.firmadigital.libreria.sign.pdf.appearance;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
@@ -36,17 +35,21 @@ import com.itextpdf.layout.element.Text;
 import com.itextpdf.layout.properties.HorizontalAlignment;
 import com.itextpdf.layout.properties.VerticalAlignment;
 import com.itextpdf.signatures.PdfSignatureAppearance;
+import ec.gob.firmadigital.libreria.utils.PropertiesUtils;
 
 import ec.gob.firmadigital.libreria.utils.QRCode;
 import java.util.logging.Level;
 
 public class QrAppereance implements CustomAppearance {
 
-    private String nombreFirmante;
-    private String reason;
-    private String location;
-    private String signTime;
-    private String infoQR;
+    private final String nombreFirmante;
+    private final String reason;
+    private final String location;
+    private final String signTime;
+    private final String infoQR;
+
+    private final String FONT_COURIER = PropertiesUtils.getConfig().getProperty("font.courier");
+    private final String FONT_COURIER_BOLD = PropertiesUtils.getConfig().getProperty("font.courier_bold");
 
     private static final Logger LOGGER = Logger.getLogger(QrAppereance.class.getName());
 
@@ -68,8 +71,8 @@ public class QrAppereance implements CustomAppearance {
         PdfFormXObject layer2 = signatureAppearance.getLayer2();
         PdfCanvas canvas = new PdfCanvas(layer2, pdfDocument);
 
-        PdfFont fontCourier = PdfFontFactory.createFont(StandardFonts.COURIER);
-        PdfFont fontCourierBold = PdfFontFactory.createFont(StandardFonts.COURIER_BOLD);
+        PdfFont fontCourier = PdfFontFactory.createFont(FONT_COURIER);
+        PdfFont fontCourierBold = PdfFontFactory.createFont(FONT_COURIER_BOLD);
 
         // Imagen
         byte[] byteQR = null;
@@ -105,9 +108,9 @@ public class QrAppereance implements CustomAppearance {
         image.setAutoScale(true);
         imageDiv.add(image);
 
-        Canvas imageLayoutCanvas = new Canvas(canvas, dataRect);
-        imageLayoutCanvas.add(imageDiv);
-        imageLayoutCanvas.close();
+        try (Canvas imageLayoutCanvas = new Canvas(canvas, dataRect)) {
+            imageLayoutCanvas.add(imageDiv);
+        }
 
         Div textDiv = new Div();
         textDiv.setHeight(signatureRect.getHeight());
@@ -124,14 +127,14 @@ public class QrAppereance implements CustomAppearance {
         paragraph = new Paragraph().add(contenido).setFont(fontCourierBold).setMargin(0).setMultipliedLeading(0.9f)
                 .setFontSize(6.25f);
         textDiv.add(paragraph);
-        
+
         Text info = new Text("\nValidar únicamente con FirmaEC");
         paragraph = new Paragraph().add(info).setFont(fontCourier).setMargin(0).setMultipliedLeading(0.9f)
                 .setFontSize(3.25f);
         textDiv.add(paragraph);
 
-        Canvas textLayoutCanvas = new Canvas(canvas, signatureRect);
-        textLayoutCanvas.add(textDiv);
-        textLayoutCanvas.close();
+        try (Canvas textLayoutCanvas = new Canvas(canvas, signatureRect)) {
+            textLayoutCanvas.add(textDiv);
+        }
     }
 }

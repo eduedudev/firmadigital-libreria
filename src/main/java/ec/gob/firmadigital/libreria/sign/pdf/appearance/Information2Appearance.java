@@ -19,7 +19,6 @@ package ec.gob.firmadigital.libreria.sign.pdf.appearance;
 
 import java.io.IOException;
 
-import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.geom.Rectangle;
@@ -33,13 +32,16 @@ import com.itextpdf.layout.element.Text;
 import com.itextpdf.layout.properties.HorizontalAlignment;
 import com.itextpdf.layout.properties.VerticalAlignment;
 import com.itextpdf.signatures.PdfSignatureAppearance;
+import ec.gob.firmadigital.libreria.utils.PropertiesUtils;
 
 public class Information2Appearance implements CustomAppearance {
 
-    private String nombreFirmante;
-    private String reason;
-    private String location;
-    private String signTime;
+    private final String nombreFirmante;
+    private final String reason;
+    private final String location;
+    private final String signTime;
+
+    private final String FONT_HELVETICA = PropertiesUtils.getConfig().getProperty("font.helvetica");
 
     public Information2Appearance(String nombreFirmante, String reason, String location, String signTime) {
         this.nombreFirmante = nombreFirmante;
@@ -52,7 +54,7 @@ public class Information2Appearance implements CustomAppearance {
     public void createCustomAppearance(PdfSignatureAppearance signatureAppearance, int pageNumber,
             PdfDocument pdfDocument, Rectangle signaturePositionOnPage) throws IOException {
 
-        PdfFont fontHelvetica = PdfFontFactory.createFont(StandardFonts.HELVETICA);
+        PdfFont fontHelvetica = PdfFontFactory.createFont(FONT_HELVETICA);
 
         PdfFormXObject layer2 = signatureAppearance.getLayer2();
         PdfCanvas canvas = new PdfCanvas(layer2, pdfDocument);
@@ -75,7 +77,7 @@ public class Information2Appearance implements CustomAppearance {
         paragraph = new Paragraph().add(contenido).setFont(fontHelvetica).setMargin(0).setMultipliedLeading(0.9f)
                 .setFontSize(6.25f);
         textDiv.add(paragraph);
-        
+
         Text info = new Text("\nValidar únicamente con FirmaEC");
         paragraph = new Paragraph().add(info).setFont(fontHelvetica).setMargin(0).setMultipliedLeading(0.9f)
                 .setFontSize(3.25f);
@@ -96,8 +98,8 @@ public class Information2Appearance implements CustomAppearance {
                 .setFontSize(4.25f);
         textDiv.add(paragraph);
 
-        Canvas textLayoutCanvas = new Canvas(canvas, signatureRect);
-        textLayoutCanvas.add(textDiv);
-        textLayoutCanvas.close();
+        try (Canvas textLayoutCanvas = new Canvas(canvas, signatureRect)) {
+            textLayoutCanvas.add(textDiv);
+        }
     }
 }

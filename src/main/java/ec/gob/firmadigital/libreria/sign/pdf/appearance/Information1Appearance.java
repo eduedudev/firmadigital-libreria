@@ -19,7 +19,6 @@ package ec.gob.firmadigital.libreria.sign.pdf.appearance;
 
 import java.io.IOException;
 
-import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.geom.Rectangle;
@@ -33,14 +32,17 @@ import com.itextpdf.layout.element.Text;
 import com.itextpdf.layout.properties.HorizontalAlignment;
 import com.itextpdf.layout.properties.VerticalAlignment;
 import com.itextpdf.signatures.PdfSignatureAppearance;
+import ec.gob.firmadigital.libreria.utils.PropertiesUtils;
 
 public class Information1Appearance implements CustomAppearance {
 
-    private String nombreFirmante;
-    private String informacionCertificado;
-    private String reason;
-    private String location;
-    private String signTime;
+    private final String nombreFirmante;
+    private final String informacionCertificado;
+    private final String reason;
+    private final String location;
+    private final String signTime;
+
+    private final String FONT_HELVETICA = PropertiesUtils.getConfig().getProperty("font.helvetica");
 
     public Information1Appearance(String nombreFirmante, String informacionCertificado, String reason, String location,
             String signTime) {
@@ -55,7 +57,7 @@ public class Information1Appearance implements CustomAppearance {
     public void createCustomAppearance(PdfSignatureAppearance signatureAppearance, int pageNumber,
             PdfDocument pdfDocument, Rectangle signaturePositionOnPage) throws IOException {
 
-        PdfFont fontHelvetica = PdfFontFactory.createFont(StandardFonts.HELVETICA);
+        PdfFont fontHelvetica = PdfFontFactory.createFont(FONT_HELVETICA);
 
         PdfFormXObject layer2 = signatureAppearance.getLayer2();
         PdfCanvas canvas = new PdfCanvas(layer2, pdfDocument);
@@ -83,7 +85,7 @@ public class Information1Appearance implements CustomAppearance {
         paragraph = new Paragraph().add(contenido).setFont(fontHelvetica).setMargin(0).setMultipliedLeading(0.9f)
                 .setFontSize(2.75f);
         textDiv.add(paragraph);
-        
+
         contenido = new Text("Razón: " + reason);
         paragraph = new Paragraph().add(contenido).setFont(fontHelvetica).setMargin(0).setMultipliedLeading(0.9f)
                 .setFontSize(2.75f);
@@ -93,14 +95,14 @@ public class Information1Appearance implements CustomAppearance {
         paragraph = new Paragraph().add(contenido).setFont(fontHelvetica).setMargin(0).setMultipliedLeading(0.9f)
                 .setFontSize(2.75f);
         textDiv.add(paragraph);
-        
+
         contenido = new Text("Nombre de reconocimiento " + informacionCertificado.trim());
         paragraph = new Paragraph().add(contenido).setFont(fontHelvetica).setMargin(0).setMultipliedLeading(0.9f)
                 .setFontSize(2.60f);
         textDiv.add(paragraph);
 
-        Canvas textLayoutCanvas = new Canvas(canvas, signatureRect);
-        textLayoutCanvas.add(textDiv);
-        textLayoutCanvas.close();
+        try (Canvas textLayoutCanvas = new Canvas(canvas, signatureRect)) {
+            textLayoutCanvas.add(textDiv);
+        }
     }
 }
