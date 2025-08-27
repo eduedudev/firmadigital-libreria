@@ -35,7 +35,6 @@ import com.itextpdf.layout.element.Text;
 import com.itextpdf.layout.properties.HorizontalAlignment;
 import com.itextpdf.layout.properties.VerticalAlignment;
 import com.itextpdf.signatures.PdfSignatureAppearance;
-import ec.gob.firmadigital.libreria.utils.PropertiesUtils;
 
 import ec.gob.firmadigital.libreria.utils.QRCode;
 import java.util.logging.Level;
@@ -47,9 +46,6 @@ public class QrAppereance implements CustomAppearance {
     private final String location;
     private final String signTime;
     private final String infoQR;
-
-    private final String FONT_COURIER = PropertiesUtils.getConfig().getProperty("font.courier");
-    private final String FONT_COURIER_BOLD = PropertiesUtils.getConfig().getProperty("font.courier_bold");
 
     private static final Logger LOGGER = Logger.getLogger(QrAppereance.class.getName());
 
@@ -71,8 +67,8 @@ public class QrAppereance implements CustomAppearance {
         PdfFormXObject layer2 = signatureAppearance.getLayer2();
         PdfCanvas canvas = new PdfCanvas(layer2, pdfDocument);
 
-        PdfFont fontCourier = PdfFontFactory.createFont(FONT_COURIER);
-        PdfFont fontCourierBold = PdfFontFactory.createFont(FONT_COURIER_BOLD);
+        PdfFont fontCourier = PdfFontFactory.createFont("fonts/courier.ttf");
+        PdfFont fontCourierBold = PdfFontFactory.createFont("fonts/courier-bold.ttf");
 
         // Imagen
         byte[] byteQR = null;

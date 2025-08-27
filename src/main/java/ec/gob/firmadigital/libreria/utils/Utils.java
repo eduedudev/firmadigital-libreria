@@ -88,7 +88,7 @@ import ec.gob.firmadigital.libreria.exceptions.SignatureVerificationException;
 import ec.gob.firmadigital.libreria.sign.SignInfo;
 import ec.gob.firmadigital.libreria.sign.Signer;
 import ec.gob.firmadigital.libreria.sign.cms.VerificadorCMS;
-import ec.gob.firmadigital.libreria.sign.pdf.BasePdfSigner;
+import ec.gob.firmadigital.libreria.sign.pdf.PadesSigner;
 import ec.gob.firmadigital.libreria.sign.xades.XAdESSigner;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
@@ -409,7 +409,7 @@ public class Utils {
     //revertir
     public static Documento pdfToDocumento(InputStream pdf) throws IOException, SignatureVerificationException, Exception {
         PdfReader pdfReader = new PdfReader(pdf);
-        Signer signer = new BasePdfSigner();
+        Signer signer = new PadesSigner();
         java.util.List<SignInfo> signInfos;
         signInfos = signer.getSigners(pdf.readAllBytes());
         return pdfToDocumento(pdfReader, signInfos);
@@ -418,7 +418,7 @@ public class Utils {
     public static Documento pdfToDocumento(File pdf) throws IOException, SignatureVerificationException, Exception {
         PdfReader pdfReader = new PdfReader(pdf);
         java.util.List<SignInfo> signInfos;
-        Signer signer = new BasePdfSigner();
+        Signer signer = new PadesSigner();
         signInfos = signer.getSigners(FileUtils.fileConvertToByteArray(pdf));
         return pdfToDocumento(pdfReader, signInfos);
     }

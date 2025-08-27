@@ -47,6 +47,7 @@ public class TiempoUtils {
 
     private static final Logger LOGGER = Logger.getLogger(TiempoUtils.class.getName());
     private static int TIME_OUT = 5000; //set timeout to 5 seconds
+    private static String FECHA_HORA_URL = null; //set timeout to 5 seconds
 
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
 
@@ -55,35 +56,31 @@ public class TiempoUtils {
         try {
             configRubrica.load(PropertiesUtils.class.getClassLoader().getResourceAsStream("config.rubrica.properties"));
             TIME_OUT = Integer.parseInt(configRubrica.getProperty("time_out"));
+            FECHA_HORA_URL = configRubrica.getProperty("fecha_hora_url");
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }
 
     public static Date getFechaHora(String apiUrl, String base64) throws HoraServidorException {
-        getConfigRubrica();
-        String fechaHora;
+        String fechaHora = null;
         try {
             fechaHora = getFechaHoraServidor(apiUrl, base64);
+            TemporalAccessor accessor = DATE_TIME_FORMATTER.parse(fechaHora);
+            return Date.from(Instant.from(accessor));
         } catch (IOException | NullPointerException | HoraServidorException e) {
             LOGGER.log(Level.SEVERE, "No se puede obtener la fecha del servidor: {0}", e.getMessage());
             throw new HoraServidorException(PropertiesUtils.getMessages().getProperty("mensaje.error.problema_red"));
-        }
-        try {
-            TemporalAccessor accessor = DATE_TIME_FORMATTER.parse(fechaHora);
-            return Date.from(Instant.from(accessor));
-        } catch (NullPointerException e) {
-            LOGGER.log(Level.SEVERE, "No se puede obtener la fecha del servidor: {0}", e.getMessage());
-            throw new HoraServidorException(PropertiesUtils.getMessages().getProperty("mensaje.error.problema_red"));
         } catch (DateTimeParseException e) {
-            LOGGER.log(Level.SEVERE, "La fecha indicada (''{0}'') no sigue el patron ISO-8601: {1}", new Object[]{fechaHora, e});
+            LOGGER.log(Level.SEVERE, "La fecha indicada (''{0}'') no sigue el patron ISO-8601: {1}", new Object[]{fechaHora, e.getMessage()});
             throw new HoraServidorException("La fecha indicada " + fechaHora + " no sigue el patron ISO-8601: " + e.getMessage());
 //            return new Date();
         }
     }
 
     public static String getFechaHoraServidor(String apiUrl, String base64) throws IOException, HoraServidorException {
-        String fecha_hora_url = apiUrl == null ? PropertiesUtils.getConfig().getProperty("fecha_hora_url") : apiUrl;
+        getConfigRubrica();
+        String fecha_hora_url = apiUrl == null ? FECHA_HORA_URL : apiUrl;
         System.out.println("fecha_hora_url: " + fecha_hora_url);
         if (fecha_hora_url == null) {
             // La fecha actual en formato ISO-8601 (2017-08-27T17:54:43.562-05:00)

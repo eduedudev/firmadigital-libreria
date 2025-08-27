@@ -32,7 +32,6 @@ import com.itextpdf.layout.element.Text;
 import com.itextpdf.layout.properties.HorizontalAlignment;
 import com.itextpdf.layout.properties.VerticalAlignment;
 import com.itextpdf.signatures.PdfSignatureAppearance;
-import ec.gob.firmadigital.libreria.utils.PropertiesUtils;
 
 public class Information1Appearance implements CustomAppearance {
 
@@ -41,8 +40,6 @@ public class Information1Appearance implements CustomAppearance {
     private final String reason;
     private final String location;
     private final String signTime;
-
-    private final String FONT_HELVETICA = PropertiesUtils.getConfig().getProperty("font.helvetica");
 
     public Information1Appearance(String nombreFirmante, String informacionCertificado, String reason, String location,
             String signTime) {
@@ -57,7 +54,7 @@ public class Information1Appearance implements CustomAppearance {
     public void createCustomAppearance(PdfSignatureAppearance signatureAppearance, int pageNumber,
             PdfDocument pdfDocument, Rectangle signaturePositionOnPage) throws IOException {
 
-        PdfFont fontHelvetica = PdfFontFactory.createFont(FONT_HELVETICA);
+        PdfFont fontHelvetica = PdfFontFactory.createFont("fonts/helvetica.ttf");
 
         PdfFormXObject layer2 = signatureAppearance.getLayer2();
         PdfCanvas canvas = new PdfCanvas(layer2, pdfDocument);

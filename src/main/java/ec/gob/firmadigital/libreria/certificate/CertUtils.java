@@ -92,28 +92,28 @@ public class CertUtils {
                         }
                         if (object != null && object instanceof DLTaggedObject) {
                             DLTaggedObject dlTaggedObject = (DLTaggedObject) object;
-                            Object obj = dlTaggedObject;
+                            Object obj = dlTaggedObject.getBaseObject();
                             if (obj != null && obj instanceof ASN1Sequence) {
                                 otherNameSeq = (ASN1Sequence) obj;
                                 // Check the object identifier
                                 ASN1ObjectIdentifier objectId = (ASN1ObjectIdentifier) otherNameSeq.getObjectAt(0);
                                 if (objectId.toString().equals(oid)) {
                                     DLTaggedObject objectDetail = ((DLTaggedObject) otherNameSeq.getObjectAt(1));
-                                    decoded = objectDetail.toASN1Primitive().toString();
+                                    decoded = objectDetail.getBaseObject().toASN1Primitive().toString();
                                     break;
                                 }
                             }
                         }
                         if (object != null && object instanceof DERTaggedObject) {
                             DERTaggedObject derTaggedObject = (DERTaggedObject) object;
-                            Object obj = derTaggedObject;
+                            Object obj = derTaggedObject.getBaseObject();
                             if (obj != null && obj instanceof ASN1Sequence) {
                                 otherNameSeq = (ASN1Sequence) obj;
                                 // Check the object identifier
                                 ASN1ObjectIdentifier objectId = (ASN1ObjectIdentifier) otherNameSeq.getObjectAt(0);
                                 if (objectId.toString().equals(oid)) {
                                     DERTaggedObject objectDetail = ((DERTaggedObject) otherNameSeq.getObjectAt(1));
-                                    decoded = objectDetail.toASN1Primitive().toString();
+                                    decoded = objectDetail.getBaseObject().toASN1Primitive().toString();
                                     break;
                                 }
                             }
@@ -196,9 +196,9 @@ public class CertUtils {
                         System.out.println("Parsing otherName for subject alternative names: " + objectId.toString());
                         DERTaggedObject objectDetail = ((DERTaggedObject) otherNameSeq.getObjectAt(1));
                         System.out.println("Parsing otherName for subject alternative names: "
-                                + objectDetail.toASN1Primitive().toString());
+                                + objectDetail.getBaseObject().toASN1Primitive().toString());
 
-                        ASN1Primitive derObject = toDERObject(objectDetail.getEncoded());
+                        ASN1Primitive derObject = toDERObject(objectDetail.getBaseObject().getEncoded());
                         if (derObject instanceof DEROctetString) {
                             DEROctetString derOctetString = (DEROctetString) derObject;
                             derObject = toDERObject(derOctetString.getOctets());
