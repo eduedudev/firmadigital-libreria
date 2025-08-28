@@ -22,6 +22,7 @@ import ec.gob.firmadigital.libreria.certificate.ec.alphatechnologies.AlphaTechno
 import ec.gob.firmadigital.libreria.certificate.ec.alphatechnologies.AlphaTechnologiesCaCert20242034;
 import ec.gob.firmadigital.libreria.certificate.ec.anfac.AnfAc18332CaCert20162036;
 import ec.gob.firmadigital.libreria.certificate.ec.anfac.AnfAc37442CaCert20192039;
+import ec.gob.firmadigital.libreria.certificate.ec.appfirmas.AppFirmasCaCert20252055;
 import ec.gob.firmadigital.libreria.certificate.ec.argosdata.ArgosDataCaCert;
 import ec.gob.firmadigital.libreria.certificate.ec.bce.BceCaCert;
 import ec.gob.firmadigital.libreria.certificate.ec.cj.ConsejoJudicaturaCaCert;
@@ -29,10 +30,12 @@ import ec.gob.firmadigital.libreria.certificate.ec.corpnewbest.CorpNewBestCaCert
 import ec.gob.firmadigital.libreria.certificate.ec.corpnewbest.CorpNewBestCaCert2024011020330619;
 import ec.gob.firmadigital.libreria.certificate.ec.datil.DatilCaCert;
 import ec.gob.firmadigital.libreria.certificate.ec.firmasegura.FirmaSeguraCaCert;
+import ec.gob.firmadigital.libreria.certificate.ec.firmasegura.FirmaSeguraSubCaCert20232043;
 import ec.gob.firmadigital.libreria.certificate.ec.lazzate.LazzateCa1Cert;
 import ec.gob.firmadigital.libreria.certificate.ec.lazzate.LazzateCa2Cert;
 import ec.gob.firmadigital.libreria.certificate.ec.lazzate.LazzateCaCert;
 import ec.gob.firmadigital.libreria.certificate.ec.lazzate.LazzateCaWeGoCert;
+import ec.gob.firmadigital.libreria.certificate.ec.letmi.LetmiCaCert20252055;
 import ec.gob.firmadigital.libreria.certificate.ec.securitydata.SecurityDataCaCert;
 import ec.gob.firmadigital.libreria.certificate.ec.uanataca.UanatacaCaCert;
 import ec.gob.firmadigital.libreria.exceptions.EntidadCertificadoraNoValidaException;
@@ -105,8 +108,15 @@ public class OcspUtils {
         X509Certificate rootCACert13 = new FirmaSeguraCaCert();
         X509Certificate rootCACert14 = new LazzateCa1Cert();
         X509Certificate rootCACert15 = new LazzateCa2Cert();
-        X509Certificate rootCACert16 = new LazzateCaWeGoCert();
-        X509Certificate rootCACert17 = new AlphaTechnologiesCaCert20242034();
+        X509Certificate rootCACert16 = new LazzateCaCert();
+        X509Certificate rootCACert17 = new LazzateCaWeGoCert();
+        X509Certificate rootCACert18 = new AlphaTechnologiesCaCert20242034();
+        X509Certificate rootCACert19 = new CorpNewBestCaCert();
+        X509Certificate rootCACert20 = new CorpNewBestCaCert2024011020330619();
+        X509Certificate rootCACert21 = new FirmaSeguraCaCert();
+        X509Certificate rootCACert22 = new FirmaSeguraSubCaCert20232043();
+        X509Certificate rootCACert23 = new LetmiCaCert20252055();
+        X509Certificate rootCACert24 = new AppFirmasCaCert20252055();
 
         // init root trusted certs
         TrustAnchor ta1 = new TrustAnchor(rootCACert1, null);
@@ -126,6 +136,13 @@ public class OcspUtils {
         TrustAnchor ta15 = new TrustAnchor(rootCACert15, null);
         TrustAnchor ta16 = new TrustAnchor(rootCACert16, null);
         TrustAnchor ta17 = new TrustAnchor(rootCACert17, null);
+        TrustAnchor ta18 = new TrustAnchor(rootCACert18, null);
+        TrustAnchor ta19 = new TrustAnchor(rootCACert19, null);
+        TrustAnchor ta20 = new TrustAnchor(rootCACert20, null);
+        TrustAnchor ta21 = new TrustAnchor(rootCACert21, null);
+        TrustAnchor ta22 = new TrustAnchor(rootCACert22, null);
+        TrustAnchor ta23 = new TrustAnchor(rootCACert23, null);
+        TrustAnchor ta24 = new TrustAnchor(rootCACert24, null);
 
         Set<TrustAnchor> trustedCertsSet = new HashSet<TrustAnchor>();
         trustedCertsSet.add(ta1);
@@ -145,6 +162,13 @@ public class OcspUtils {
         trustedCertsSet.add(ta15);
         trustedCertsSet.add(ta16);
         trustedCertsSet.add(ta17);
+        trustedCertsSet.add(ta18);
+        trustedCertsSet.add(ta19);
+        trustedCertsSet.add(ta20);
+        trustedCertsSet.add(ta21);
+        trustedCertsSet.add(ta22);
+        trustedCertsSet.add(ta23);
+        trustedCertsSet.add(ta24);
 
         // init PKIX parameters
         PKIXParameters params;

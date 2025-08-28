@@ -55,7 +55,8 @@ public class ServicioCRL {
     public static final String FIRMASEGURA_CRL = "http://crl.firmaseguraec.com/crl/ccce5a4f-6b68-46fc-a620-4abcc4c4a690.crl";
     public static final String LETMI1_CRL = "https://crl.letmi.app/LETMI_CA_ROOT01.crl";
     public static final String LETMI2_CRL = "https://crl.letmi.app/LETMI_CA_SUB01.crl";
-    
+    public static final String APP_FIRMAS_CRL = "https://s3.us-east-1.amazonaws.com/bks3.sub-appfirmas/crl/9dd7d200-d3f5-45d3-9de4-69446907163d.crl ";
+
     public static X509CRL downloadCrl(String url) throws Exception {
         byte[] content;
 
