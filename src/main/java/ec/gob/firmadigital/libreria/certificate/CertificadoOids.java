@@ -47,9 +47,9 @@ public final class CertificadoOids {
         public static final String OID_CERTIFICADO_REPRESENTANTE_LEGAL_LETMI = "1.3.6.1.4.1.62566.2.3.2";
 
         // OIDs de tipo de certificado AppFirmas
-        public static final String OID_CERTIFICADO_PERSONA_NATURAL_APP_FIRMAS = "1.3.6.1.4.1.62431.2.1.2";
-        public static final String OID_CERTIFICADO_MIEMBRO_EMPRESA_APP_FIRMAS = "1.3.6.1.4.1.62431.2.4.2";
-        public static final String OID_CERTIFICADO_REPRESENTANTE_LEGAL_APP_FIRMAS = "1.3.6.1.4.1.62431.2.3.2";
+        public static final String OID_CERTIFICADO_PERSONA_NATURAL_APP_FIRMAS = "1.3.6.1.4.1.62431.2.1.1";
+        public static final String OID_CERTIFICADO_MIEMBRO_EMPRESA_APP_FIRMAS = "1.3.6.1.4.1.62431.2.2.1";
+        public static final String OID_CERTIFICADO_REPRESENTANTE_LEGAL_APP_FIRMAS = "1.3.6.1.4.1.62431.2.3.1";
 
         // OIDs de Campos del Certificado.
         public static final String OID_CEDULA_PASAPORTE = "2.5.4.5";
