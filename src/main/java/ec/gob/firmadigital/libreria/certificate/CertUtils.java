@@ -86,7 +86,8 @@ public class CertUtils {
                             if (objectId.toString().equals(oid)) {
                                 ASN1Encodable objectDetail = ((ASN1Encodable) otherNameSeq.getObjectAt(1));
                                 decoded = objectDetail.toASN1Primitive().toString();
-                                decoded = decoded.replace("[0]", "");
+                                decoded = decoded.replace("[0]", "")
+                                        .replace("[CONTEXT 0]", "");
                                 break;
                             }
                         }

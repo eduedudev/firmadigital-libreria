@@ -40,7 +40,15 @@ public class DatosUsuario {
     }
 
     public void setCedula(String cedula) {
-        this.cedula = cedula;
+        this.cedula = obtenerCedula(cedula);
+    }
+
+    private String obtenerCedula(String cedula) {
+        if (cedula == null) {
+            return null;
+        }
+        return cedula.replace("IDCEC-", "")
+                .replace("PASEC-", "");
     }
 
     public String getNombre() {

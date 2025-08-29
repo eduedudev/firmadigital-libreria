@@ -683,6 +683,7 @@ public class CertEcUtils {
                             + certificadoPersonaNatural.getSegundoApellido());
                 }
             }
+            //RESOLUCION-ARCOTEL-2024-0176
             if (certificadoAlphaTechnologies instanceof CertificadoSubjAlphaTechnologiesImpl) {
                 if (certificadoAlphaTechnologies instanceof CertificadoMiembroEmpresa certificadoMiembroEmpresa) {
                     datosUsuario.setCedula(certificadoMiembroEmpresa.getCedulaPasaporte());
@@ -754,6 +755,7 @@ public class CertEcUtils {
             return datosUsuario;
         }
 
+        //RESOLUCION-ARCOTEL-2024-0176
         if (CertificadoLetmiFactory.esCertificadoDeLetmi(certificado)) {
             Certificado certificadoLetmi = CertificadoLetmiFactory.construir(certificado);
             if (certificadoLetmi instanceof CertificadoSubjLetmiImpl) {
@@ -779,6 +781,7 @@ public class CertEcUtils {
             return datosUsuario;
         }
 
+        //RESOLUCION-ARCOTEL-2024-0176
         if (CertificadoAppFirmasFactory.esCertificadoDeAppFirmas(certificado)) {
             Certificado certificadoAppFirmas = CertificadoAppFirmasFactory.construir(certificado);
             if (certificadoAppFirmas instanceof CertificadoSubjAppFirmasImpl) {
