@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package ec.gob.firmadigital.libreria.certificate.ec;
+package ec.gob.firmadigital.libreria.certificate;
 
 import java.io.File;
 import java.text.SimpleDateFormat;

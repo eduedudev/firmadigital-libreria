@@ -12,7 +12,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ec.gob.firmadigital.libreria.certificate.ec;
+package ec.gob.firmadigital.libreria.certificate;
 
 import ec.gob.firmadigital.libreria.utils.HttpClient;
 import java.io.ByteArrayInputStream;
