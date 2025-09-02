@@ -20,7 +20,6 @@ package ec.gob.firmadigital.libreria.sign.pdf.appearance;
 import java.io.IOException;
 
 import com.itextpdf.kernel.font.PdfFont;
-import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.geom.Rectangle;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
@@ -32,6 +31,8 @@ import com.itextpdf.layout.element.Text;
 import com.itextpdf.layout.properties.HorizontalAlignment;
 import com.itextpdf.layout.properties.VerticalAlignment;
 import com.itextpdf.signatures.PdfSignatureAppearance;
+
+import static ec.gob.firmadigital.libreria.utils.Utils.loadFont;
 
 public class Information1Appearance implements CustomAppearance {
 
@@ -54,7 +55,7 @@ public class Information1Appearance implements CustomAppearance {
     public void createCustomAppearance(PdfSignatureAppearance signatureAppearance, int pageNumber,
             PdfDocument pdfDocument, Rectangle signaturePositionOnPage) throws IOException {
 
-        PdfFont fontHelvetica = PdfFontFactory.createFont("fonts/helvetica.ttf");
+        PdfFont fontHelvetica = loadFont("fonts/inter.ttf");
 
         PdfFormXObject layer2 = signatureAppearance.getLayer2();
         PdfCanvas canvas = new PdfCanvas(layer2, pdfDocument);

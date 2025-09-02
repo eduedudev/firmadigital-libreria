@@ -22,7 +22,6 @@ import java.util.logging.Logger;
 
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.font.PdfFont;
-import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.geom.Rectangle;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
@@ -37,6 +36,7 @@ import com.itextpdf.layout.properties.VerticalAlignment;
 import com.itextpdf.signatures.PdfSignatureAppearance;
 
 import ec.gob.firmadigital.libreria.utils.QRCode;
+import static ec.gob.firmadigital.libreria.utils.Utils.loadFont;
 import java.util.logging.Level;
 
 public class QrAppereance implements CustomAppearance {
@@ -67,8 +67,8 @@ public class QrAppereance implements CustomAppearance {
         PdfFormXObject layer2 = signatureAppearance.getLayer2();
         PdfCanvas canvas = new PdfCanvas(layer2, pdfDocument);
 
-        PdfFont fontCourier = PdfFontFactory.createFont("fonts/courier.ttf");
-        PdfFont fontCourierBold = PdfFontFactory.createFont("fonts/courier-bold.ttf");
+        PdfFont fontCourier = loadFont("fonts/courier.ttf");
+        PdfFont fontCourierBold = loadFont("fonts/courier-bold.ttf");
 
         // Imagen
         byte[] byteQR = null;

@@ -146,7 +146,7 @@
             <artifactId>dss-utils-google-guava</artifactId>
             <version>${dss.version}</version>
         </dependency>
-<!--        <dependency>
+        <!--        <dependency>
             <groupId>eu.europa.ec.joinup.sd-dss</groupId>
             <artifactId>dss-pades</artifactId>
             <version>${dss.version}</version>

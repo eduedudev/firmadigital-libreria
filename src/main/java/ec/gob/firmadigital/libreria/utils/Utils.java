@@ -17,6 +17,8 @@
  */
 package ec.gob.firmadigital.libreria.utils;
 
+import com.itextpdf.kernel.font.PdfFont;
+import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.pdf.PdfDate;
 import com.itextpdf.kernel.pdf.PdfDictionary;
 import java.io.BufferedInputStream;
@@ -905,4 +907,28 @@ public class Utils {
         return false;
     }
 
+    public static PdfFont loadFont(String fontName) {
+        PdfFont pdfFont = null;
+        try {
+            pdfFont = PdfFontFactory.createFont(fontName);
+//            if (isMac()) {
+//                pdfFont = PdfFontFactory.createFont(fontName,
+//                        PdfEncodings.IDENTITY_H,
+//                        PdfFontFactory.EmbeddingStrategy.PREFER_EMBEDDED
+//                );
+//            } else {
+//                pdfFont = PdfFontFactory.createFont(fontName,
+//                        PdfEncodings.IDENTITY_H,
+//                        PdfFontFactory.EmbeddingStrategy.FORCE_EMBEDDED
+//                );
+////                pdfFont = PdfFontFactory.createFont(fontName,
+////                        PdfEncodings.UTF8,
+////                        PdfFontFactory.EmbeddingStrategy.PREFER_EMBEDDED
+////                );
+//            }
+        } catch (IOException ex) {
+            Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return pdfFont;
+    }
 }
