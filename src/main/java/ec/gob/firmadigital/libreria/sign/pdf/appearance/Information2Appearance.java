@@ -72,32 +72,38 @@ public class Information2Appearance implements CustomAppearance {
 
         Text contenido = new Text(nombreFirmante.trim());
         Paragraph paragraph = new Paragraph().add(contenido).setFont(fontHelvetica).setMargin(0)
-                .setMultipliedLeading(0.8f).setFontSize(4.75f);
+                .setMultipliedLeading(0.8f).
+                setFontSize(4.75f);
         textDiv.add(paragraph);
 
-        contenido = new Text("\nValidar únicamente con FirmaEC");
-        paragraph = new Paragraph().add(contenido).setFont(fontHelvetica).setMargin(0).setMultipliedLeading(0.75f)
+        contenido = new Text("Validar únicamente con FirmaEC");
+        paragraph = new Paragraph().add(contenido).setFont(fontHelvetica).setMargin(0).
+                setMultipliedLeading(0.9f)
                 .setFontSize(2.75f);
         textDiv.add(paragraph);
 
         contenido = new Text("Fecha: " + signTime);
-        paragraph = new Paragraph().add(contenido).setFont(fontHelvetica).setMargin(0).setMultipliedLeading(0.9f)
+        paragraph = new Paragraph().add(contenido).setFont(fontHelvetica).setMargin(0).
+                setMultipliedLeading(0.9f)
                 .setFontSize(2.75f);
         textDiv.add(paragraph);
 
         contenido = new Text("Razón: " + reason);
-        paragraph = new Paragraph().add(contenido).setFont(fontHelvetica).setMargin(0).setMultipliedLeading(0.9f)
+        paragraph = new Paragraph().add(contenido).setFont(fontHelvetica).setMargin(0).
+                setMultipliedLeading(0.9f)
                 .setFontSize(2.75f);
         textDiv.add(paragraph);
 
         contenido = new Text("Localización: " + location);
-        paragraph = new Paragraph().add(contenido).setFont(fontHelvetica).setMargin(0).setMultipliedLeading(0.9f)
+        paragraph = new Paragraph().add(contenido).setFont(fontHelvetica).setMargin(0).
+                setMultipliedLeading(0.9f)
                 .setFontSize(2.75f);
         textDiv.add(paragraph);
 
         contenido = new Text("Nombre de reconocimiento " + informacionCertificado.trim());
-        paragraph = new Paragraph().add(contenido).setFont(fontHelvetica).setMargin(0).setMultipliedLeading(0.9f)
-                .setFontSize(2.60f);
+        paragraph = new Paragraph().add(contenido).setFont(fontHelvetica).setMargin(0).
+                setMultipliedLeading(0.8f)
+                .setFontSize(2.50f);
         textDiv.add(paragraph);
 
         try (Canvas textLayoutCanvas = new Canvas(canvas, signatureRect)) {

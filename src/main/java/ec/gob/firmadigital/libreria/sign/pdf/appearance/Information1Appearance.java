@@ -68,33 +68,39 @@ public class Information1Appearance implements CustomAppearance {
         textDiv.setHorizontalAlignment(HorizontalAlignment.LEFT);
 
         Text texto = new Text("Firmado electrónicamente por:\n");
-        Paragraph paragraph = new Paragraph().add(texto).setFont(fontHelvetica).setMargin(0).setMultipliedLeading(0.9f)
-                .setFontSize(3.25f);
+        Paragraph paragraph = new Paragraph().add(texto).setFont(fontHelvetica).setMargin(0).
+                setMultipliedLeading(0.9f)
+                .setFontSize(2.75f);
         textDiv.add(paragraph);
 
         Text contenido = new Text(nombreFirmante.trim());
-        paragraph = new Paragraph().add(contenido).setFont(fontHelvetica).setMargin(0).setMultipliedLeading(0.9f)
-                .setFontSize(6.25f);
+        paragraph = new Paragraph().add(contenido).setFont(fontHelvetica).setMargin(0).
+                setMultipliedLeading(0.9f)
+                .setFontSize(3.75f);
         textDiv.add(paragraph);
 
-        Text info = new Text("\nValidar únicamente con FirmaEC");
-        paragraph = new Paragraph().add(info).setFont(fontHelvetica).setMargin(0).setMultipliedLeading(0.9f)
-                .setFontSize(3.25f);
+        contenido = new Text("Validar únicamente con FirmaEC");
+        paragraph = new Paragraph().add(contenido).setFont(fontHelvetica).setMargin(0).
+                setMultipliedLeading(0.9f)
+                .setFontSize(2.75f);
         textDiv.add(paragraph);
 
         contenido = new Text("Razón: " + reason);
-        paragraph = new Paragraph().add(contenido).setFont(fontHelvetica).setMargin(0).setMultipliedLeading(0.9f)
-                .setFontSize(4.25f);
+        paragraph = new Paragraph().add(contenido).setFont(fontHelvetica).setMargin(0).
+                setMultipliedLeading(0.9f)
+                .setFontSize(2.75f);
         textDiv.add(paragraph);
 
         contenido = new Text("Localización: " + location);
-        paragraph = new Paragraph().add(contenido).setFont(fontHelvetica).setMargin(0).setMultipliedLeading(0.9f)
-                .setFontSize(4.25f);
+        paragraph = new Paragraph().add(contenido).setFont(fontHelvetica).setMargin(0).
+                setMultipliedLeading(0.9f)
+                .setFontSize(2.75f);
         textDiv.add(paragraph);
 
         contenido = new Text("Fecha: " + signTime);
-        paragraph = new Paragraph().add(contenido).setFont(fontHelvetica).setMargin(0).setMultipliedLeading(0.9f)
-                .setFontSize(4.25f);
+        paragraph = new Paragraph().add(contenido).setFont(fontHelvetica).setMargin(0).
+                setMultipliedLeading(0.9f)
+                .setFontSize(2.75f);
         textDiv.add(paragraph);
 
         try (Canvas textLayoutCanvas = new Canvas(canvas, signatureRect)) {
