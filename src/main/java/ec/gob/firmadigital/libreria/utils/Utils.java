@@ -911,21 +911,6 @@ public class Utils {
         PdfFont pdfFont = null;
         try {
             pdfFont = PdfFontFactory.createFont(fontName);
-//            if (isMac()) {
-//                pdfFont = PdfFontFactory.createFont(fontName,
-//                        PdfEncodings.IDENTITY_H,
-//                        PdfFontFactory.EmbeddingStrategy.PREFER_EMBEDDED
-//                );
-//            } else {
-//                pdfFont = PdfFontFactory.createFont(fontName,
-//                        PdfEncodings.IDENTITY_H,
-//                        PdfFontFactory.EmbeddingStrategy.FORCE_EMBEDDED
-//                );
-////                pdfFont = PdfFontFactory.createFont(fontName,
-////                        PdfEncodings.UTF8,
-////                        PdfFontFactory.EmbeddingStrategy.PREFER_EMBEDDED
-////                );
-//            }
         } catch (IOException ex) {
             Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, null, ex);
         }

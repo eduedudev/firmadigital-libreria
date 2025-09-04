@@ -34,15 +34,19 @@ import com.itextpdf.signatures.PdfSignatureAppearance;
 
 import static ec.gob.firmadigital.libreria.utils.Utils.loadFont;
 
+//Avanzado
 public class Information2Appearance implements CustomAppearance {
 
     private final String nombreFirmante;
+    private final String informacionCertificado;
     private final String reason;
     private final String location;
     private final String signTime;
 
-    public Information2Appearance(String nombreFirmante, String reason, String location, String signTime) {
+    public Information2Appearance(String nombreFirmante, String informacionCertificado, String reason, String location,
+            String signTime) {
         this.nombreFirmante = nombreFirmante;
+        this.informacionCertificado = informacionCertificado;
         this.reason = reason;
         this.location = location;
         this.signTime = signTime;
@@ -66,34 +70,34 @@ public class Information2Appearance implements CustomAppearance {
         textDiv.setVerticalAlignment(VerticalAlignment.MIDDLE);
         textDiv.setHorizontalAlignment(HorizontalAlignment.LEFT);
 
-        Text texto = new Text("Firmado electrónicamente por:\n");
-        Paragraph paragraph = new Paragraph().add(texto).setFont(fontHelvetica).setMargin(0).setMultipliedLeading(0.9f)
-                .setFontSize(3.25f);
-        textDiv.add(paragraph);
-
         Text contenido = new Text(nombreFirmante.trim());
-        paragraph = new Paragraph().add(contenido).setFont(fontHelvetica).setMargin(0).setMultipliedLeading(0.9f)
-                .setFontSize(6.25f);
+        Paragraph paragraph = new Paragraph().add(contenido).setFont(fontHelvetica).setMargin(0)
+                .setMultipliedLeading(0.8f).setFontSize(4.75f);
         textDiv.add(paragraph);
 
-        Text info = new Text("\nValidar únicamente con FirmaEC");
-        paragraph = new Paragraph().add(info).setFont(fontHelvetica).setMargin(0).setMultipliedLeading(0.9f)
-                .setFontSize(3.25f);
-        textDiv.add(paragraph);
-
-        contenido = new Text("Razón: " + reason);
-        paragraph = new Paragraph().add(contenido).setFont(fontHelvetica).setMargin(0).setMultipliedLeading(0.9f)
-                .setFontSize(4.25f);
-        textDiv.add(paragraph);
-
-        contenido = new Text("Localización: " + location);
-        paragraph = new Paragraph().add(contenido).setFont(fontHelvetica).setMargin(0).setMultipliedLeading(0.9f)
-                .setFontSize(4.25f);
+        contenido = new Text("\nValidar únicamente con FirmaEC");
+        paragraph = new Paragraph().add(contenido).setFont(fontHelvetica).setMargin(0).setMultipliedLeading(0.75f)
+                .setFontSize(2.75f);
         textDiv.add(paragraph);
 
         contenido = new Text("Fecha: " + signTime);
         paragraph = new Paragraph().add(contenido).setFont(fontHelvetica).setMargin(0).setMultipliedLeading(0.9f)
-                .setFontSize(4.25f);
+                .setFontSize(2.75f);
+        textDiv.add(paragraph);
+
+        contenido = new Text("Razón: " + reason);
+        paragraph = new Paragraph().add(contenido).setFont(fontHelvetica).setMargin(0).setMultipliedLeading(0.9f)
+                .setFontSize(2.75f);
+        textDiv.add(paragraph);
+
+        contenido = new Text("Localización: " + location);
+        paragraph = new Paragraph().add(contenido).setFont(fontHelvetica).setMargin(0).setMultipliedLeading(0.9f)
+                .setFontSize(2.75f);
+        textDiv.add(paragraph);
+
+        contenido = new Text("Nombre de reconocimiento " + informacionCertificado.trim());
+        paragraph = new Paragraph().add(contenido).setFont(fontHelvetica).setMargin(0).setMultipliedLeading(0.9f)
+                .setFontSize(2.60f);
         textDiv.add(paragraph);
 
         try (Canvas textLayoutCanvas = new Canvas(canvas, signatureRect)) {

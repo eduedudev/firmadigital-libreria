@@ -151,11 +151,11 @@ public abstract class BaseSigner {
                             customAppearance = new QrAppereance(nombreFirmante, reason, location, signTime, infoQR);
                         }
                         case "information1" -> {
-                            customAppearance = new Information1Appearance(nombreFirmante, informacionCertificado, reason,
-                                    location, signTime);
+                            customAppearance = new Information1Appearance(nombreFirmante, reason, location, signTime);
                         }
                         case "information2" -> {
-                            customAppearance = new Information2Appearance(nombreFirmante, reason, location, signTime);
+                            customAppearance = new Information2Appearance(nombreFirmante, informacionCertificado, reason,
+                                    location, signTime);
                         }
                         default -> {
                             throw new RuntimeException("typeSign unknown");
