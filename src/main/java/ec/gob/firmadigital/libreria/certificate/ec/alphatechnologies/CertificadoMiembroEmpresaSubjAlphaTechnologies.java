@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023
+ * Copyright (C) 2025
  * Authors: Alpha Technologies Cia. Ltda.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,19 +17,31 @@
  */
 package ec.gob.firmadigital.libreria.certificate.ec.alphatechnologies;
 
-import ec.gob.firmadigital.libreria.certificate.ec.CertificadoPersonaJuridica;
+import ec.gob.firmadigital.libreria.certificate.ec.CertificadoMiembroEmpresa;
+import static ec.gob.firmadigital.libreria.certificate.CertificadoOids.Subj.*;
+
 import java.security.cert.X509Certificate;
 
 /**
- * Certificado de Persona Juridica emitido por Alpha Technologies Cia. Ltda.
+ * Certificado de Miembro Empresa emitido por Alpha Technologies Cia. Ltda.
  *
  * @author Alpha Technologies Cia. Ltda.
  */
-public class CertificadoPersonaJuridicaAlphaTechnologies extends CertificadoAlphaTechnologiesImpl
-        implements CertificadoPersonaJuridica {
+public class CertificadoMiembroEmpresaSubjAlphaTechnologies extends CertificadoSubjAlphaTechnologiesImpl
+        implements CertificadoMiembroEmpresa {
 
-    public CertificadoPersonaJuridicaAlphaTechnologies(X509Certificate certificado) {
+    public CertificadoMiembroEmpresaSubjAlphaTechnologies(X509Certificate certificado) {
         super(certificado);
+    }
+
+    @Override
+    public String getRazonSocial() {
+        return getSubjectField(OID_ORGANIZACION);
+    }
+
+    @Override
+    public String getCargo() {
+        return getSubjectField(OID_CARGO);
     }
 
 }

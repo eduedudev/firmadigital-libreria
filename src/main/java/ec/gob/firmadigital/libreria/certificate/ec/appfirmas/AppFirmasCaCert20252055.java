@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2023
- * Authors: Alpha Technologies Cia. Ltda.
+ * Copyright (C) 2025
+ * Authors: AppFirmas
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,68 +15,67 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package ec.gob.firmadigital.libreria.certificate.ec.alphatechnologies;
+package ec.gob.firmadigital.libreria.certificate.ec.appfirmas;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
-import java.security.GeneralSecurityException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.security.Principal;
-import java.security.PublicKey;
-import java.security.SignatureException;
-import java.security.cert.CertificateEncodingException;
-import java.security.cert.CertificateException;
-import java.security.cert.CertificateExpiredException;
-import java.security.cert.CertificateFactory;
-import java.security.cert.CertificateNotYetValidException;
-import java.security.cert.X509Certificate;
+import java.security.*;
+import java.security.cert.*;
 import java.util.Date;
 import java.util.Set;
 
 /**
- * Certificado raiz de Alpha Technologies CIA. LTDA, representado como un objeto
+ * Certificado raiz de AppFirmas, representado como un objeto
  * <code>X509Certificate</code>.
  *
- * @author Alpha Technologies Cia. Ltda.
+ * @author AppFirmas
  */
-public class AlphaTechnologiesCaCert extends X509Certificate {
+public class AppFirmasCaCert20252055 extends X509Certificate {
 
     private final X509Certificate certificate;
 
-    public AlphaTechnologiesCaCert() {
+    public AppFirmasCaCert20252055() {
         super();
 
-        StringBuilder cer = new StringBuilder();
-        cer.append("-----BEGIN CERTIFICATE-----\n");
-        cer.append("MIID1DCCArygAwIBAgIQflktBZ7VkCzqNyt6dm/4bDANBgkqhkiG9w0BAQsFADCB\n");
-        cer.append("gzELMAkGA1UEBhMCRUMxEjAQBgNVBAgTCVBpY2hpbmNoYTEOMAwGA1UEBxMFUXVp\n");
-        cer.append("dG8xJjAkBgNVBAoTHUFscGhhIFRlY2hub2xvZ2llcyBDaWEuIEx0ZGEuMSgwJgYD\n");
-        cer.append("VQQDEx9BbHBoYSBUZWNobm9sb2dpZXMgUm9vdCBDQSAyMDIzMB4XDTIzMDMyMjAz\n");
-        cer.append("NTkxMFoXDTMzMDMyMjAwMDAwMFowgYMxCzAJBgNVBAYTAkVDMRIwEAYDVQQIEwlQ\n");
-        cer.append("aWNoaW5jaGExDjAMBgNVBAcTBVF1aXRvMSYwJAYDVQQKEx1BbHBoYSBUZWNobm9s\n");
-        cer.append("b2dpZXMgQ2lhLiBMdGRhLjEoMCYGA1UEAxMfQWxwaGEgVGVjaG5vbG9naWVzIFJv\n");
-        cer.append("b3QgQ0EgMjAyMzCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMruTcGV\n");
-        cer.append("tWwJB+zZe3Mw5EEHBgApZuzIF56f+mOwY8WJTlg50O2NpBxdauHnBsNI1Zpmqzvl\n");
-        cer.append("O469j743p55ENSoJ3/flrFKP6K0LQb0ErpVeMK+rI1DKmAfEFEFnLgBD5s3kGLiL\n");
-        cer.append("CIcB9YxCnHFYDpOJEuJZFFYtlYDLK4I5QxC2ARArD2syd/lK7aBybbU/H9dSpKqv\n");
-        cer.append("mvXio00+toboACyAMCrOmwIepVLY83gdlGbdO7yZyOaHkt43ttV9p6yWG/9asquF\n");
-        cer.append("8M6XJF7FXfNbNALCZVFaUFASNoaRaRzfjuOx/WUNzALqmccUA6q6cxXaQw97lTmU\n");
-        cer.append("DZjU0zdMVjPYQ5cCAwEAAaNCMEAwDgYDVR0PAQH/BAQDAgGGMA8GA1UdEwEB/wQF\n");
-        cer.append("MAMBAf8wHQYDVR0OBBYEFMlov42cAer8lKdFG8vp9AiHCLz0MA0GCSqGSIb3DQEB\n");
-        cer.append("CwUAA4IBAQCay9aEGczL3tuHUFWxoMbtWua9Zorkgi5Feksuq7xibsAxgpftolvA\n");
-        cer.append("sBWxWvCMdnaq1lMad2TsdqtrceW0Yr/SlvDByD0+chNzcMr/dnPHUTn7Wpbc3V/S\n");
-        cer.append("kAOrA8uHDSQUsfitEpi/qiL6io0IRaDkUMeFeTLwaAkfApKdnrJoZt2YAviSK3Az\n");
-        cer.append("a00g8U/a6pceZcmMwnOYC/MnTvSS6R7jlPSCOyQcpr63PoqsI2NekeVjpYLHA9na\n");
-        cer.append("55q5DWFhtnCxFWmKfawTepzVBkrUqrAvn5z+pRJKYxyQXvNSiywabuFsgVMZ96zP\n");
-        cer.append("G5mGLl1Rv6bTqk1JTY9FLrkJfA3CjAdE\n");
-        cer.append("-----END CERTIFICATE-----");
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("-----BEGIN CERTIFICATE-----\n");
+        stringBuilder.append("MIIFszCCA5sCFGEJxWFtrNe7/xoT8TUFc4Qh+0uEMA0GCSqGSIb3DQEBCwUAMIGU\n");
+        stringBuilder.append("MQswCQYDVQQGEwJFQzEPMA0GA1UECAwGR1VBWUFTMRIwEAYDVQQHDAlHVUFZQVFV\n");
+        stringBuilder.append("SUwxHzAdBgNVBAoMFkFQUEZJUk1BUyBTLkEuIFJvb3QgQUMxHjAcBgNVBAsMFUVO\n");
+        stringBuilder.append("VElEQUQgQ0VSVElGSUNBRE9SQTEfMB0GA1UEAwwWQVBQRklSTUFTIFMuQS4gUm9v\n");
+        stringBuilder.append("dCBBQzAgFw0yNTA1MDExODM0NDVaGA8yMDUwMDQzMDE4MzQ0NVowgZQxCzAJBgNV\n");
+        stringBuilder.append("BAYTAkVDMQ8wDQYDVQQIDAZHVUFZQVMxEjAQBgNVBAcMCUdVQVlBUVVJTDEfMB0G\n");
+        stringBuilder.append("A1UECgwWQVBQRklSTUFTIFMuQS4gUm9vdCBBQzEeMBwGA1UECwwVRU5USURBRCBD\n");
+        stringBuilder.append("RVJUSUZJQ0FET1JBMR8wHQYDVQQDDBZBUFBGSVJNQVMgUy5BLiBSb290IEFDMIIC\n");
+        stringBuilder.append("IjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAi/VC93M7Rh+vSRpYMI89Y6Wr\n");
+        stringBuilder.append("y2ZJJe4NxuQr73skIldyxen7yGvO+DCHIxQTlrKJ2ImbPE2fUI0SuI0OvsHqSgm0\n");
+        stringBuilder.append("B4emlxKGvxtfKXGRJrcTHmn7KxdLLRoobY/0+VXAssoBQhf140zReEOwjww8jFNL\n");
+        stringBuilder.append("k/THPGYgOkJOggTOEHmmtq7I8+fZ03TJU/ah8kJpI7eu6E73vTAJZiXXrBiu83IF\n");
+        stringBuilder.append("2sGKQcrNqFUhaogMCm+wefcnH+w73HBJ4MRteHJy003mhILkTEruagVIPSMe0NNU\n");
+        stringBuilder.append("FqTwjRvWEF3Av63F0xKpkU9qdHgj6SfXxR/rl224T4Thk9DRb/kXYvhn1jKNA2qv\n");
+        stringBuilder.append("2Rq88dAh4ybG9jswbm/evNvd1ZmChvH7JXi53fXRINbnPnlPwInaT+B6NlT1s+eN\n");
+        stringBuilder.append("9SsuER+a0Ru5L6qt3wddV2+kg2Csbr46IzAqP98I/iDaYKoOFPwUz3e4PUaiw6cy\n");
+        stringBuilder.append("oO9Sy0OBPgZY4wmmprKtakg2/Wi4RXjUuEbj7rEqb7aIHDA2H4BiQeYmiI9iMtrA\n");
+        stringBuilder.append("77HSgMw8wzMEhlVLgTsoJERJJ3pLmHIXIfAgsHADwaCOJ1us1rCc3D0TO/3lGbVi\n");
+        stringBuilder.append("54Wvs+voCGhqjdX8EGKr3uXroldXNa61GeG3oPRE04fHUpLFnj9P+NPta2HCkk7D\n");
+        stringBuilder.append("ODwCM7yE2hb+DkbztZUCAwEAATANBgkqhkiG9w0BAQsFAAOCAgEAdHCdoqAB5d8A\n");
+        stringBuilder.append("ljdf7/tV6wqxp+7Wf4sBAULLn9BZVX5Plia29TQjRU3vzjZ+/NRMQ8DPg9uRHeAz\n");
+        stringBuilder.append("xjlyNqDjnGqV7zs+YWfjZhvnVdZ06jPxHv+YFgKePCWAuTVj1hb3kOIyY6ObRCya\n");
+        stringBuilder.append("9wOUL+/NSgrGu9klSH2LTsYSPpDyM/K70u1wOa2d5dMaQ32nHLJQjf33XUL0aEwi\n");
+        stringBuilder.append("vL71Dlyf1NWYvPZ95lYbSwBMtrASJtZbjHoPmQ/lt4U5XszFNrqm6JAe9MFO8J9C\n");
+        stringBuilder.append("1Zy7XcUVEjK3E+E6CaGMvGZRbi9dbkM0bnt04DvIl51jaK0jn1ZkYHGp8wn1a3Gv\n");
+        stringBuilder.append("fnGh1A3tKtcTL31xc61GQ5oPwYvPHR0oXz0SqCy5MnPJR4AQ9OEbz9H3boUCmopE\n");
+        stringBuilder.append("sUwAw3PZ3KyYbiXuR7ejE2/gTyShksa5PsdJvr0GhCtVPiaVvpzIqmo9xCHvDJgi\n");
+        stringBuilder.append("/hq44F4mn392C8DFsAzSYEhRJ1K/bnI9d+RRgVgdfFUwwBnAjcwT3eQoE2RQGxoo\n");
+        stringBuilder.append("YMUjDXlfrpViGdS4P+4zmR+9jHz2+CD7/mi4PBEv/UibLfWnQUSjrwTAazZ7o/wi\n");
+        stringBuilder.append("BmhHCshQurNherbIBcoOfdSjlKOt7gmpxAjLXO+4a4BbxiTw+v4PuPCg+13BI+14\n");
+        stringBuilder.append("jqPmy+ema4E6TPRglPtQc+bkm/sX/cA=\n");
+        stringBuilder.append("-----END CERTIFICATE-----");
 
         try {
-            InputStream is = new ByteArrayInputStream(cer.toString().getBytes("UTF-8"));
+            InputStream is = new ByteArrayInputStream(stringBuilder.toString().getBytes("UTF-8"));
             CertificateFactory cf = CertificateFactory.getInstance("X.509");
             this.certificate = (X509Certificate) cf.generateCertificate(is);
         } catch (UnsupportedEncodingException | GeneralSecurityException e) {

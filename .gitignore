@@ -5,4 +5,4 @@
 nbactions.xml
 nb-configuration.xml
 target
-src/test
+src/test/java/ec/gob/firmadigital/libreria/dev

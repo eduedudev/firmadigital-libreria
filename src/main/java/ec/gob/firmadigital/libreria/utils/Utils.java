@@ -17,6 +17,8 @@
  */
 package ec.gob.firmadigital.libreria.utils;
 
+import com.itextpdf.kernel.font.PdfFont;
+import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.pdf.PdfDate;
 import com.itextpdf.kernel.pdf.PdfDictionary;
 import java.io.BufferedInputStream;
@@ -82,14 +84,13 @@ import ec.gob.firmadigital.libreria.exceptions.ConexionValidarCRLException;
 import ec.gob.firmadigital.libreria.exceptions.DocumentoException;
 import ec.gob.firmadigital.libreria.exceptions.EntidadCertificadoraNoValidaException;
 import ec.gob.firmadigital.libreria.exceptions.HoraServidorException;
-import ec.gob.firmadigital.libreria.exceptions.InvalidFormatException;
 import ec.gob.firmadigital.libreria.exceptions.OcspValidationException;
 import ec.gob.firmadigital.libreria.exceptions.RubricaException;
 import ec.gob.firmadigital.libreria.exceptions.SignatureVerificationException;
 import ec.gob.firmadigital.libreria.sign.SignInfo;
 import ec.gob.firmadigital.libreria.sign.Signer;
 import ec.gob.firmadigital.libreria.sign.cms.VerificadorCMS;
-import ec.gob.firmadigital.libreria.sign.pdf.BasePdfSigner;
+import ec.gob.firmadigital.libreria.sign.pdf.PadesSigner;
 import ec.gob.firmadigital.libreria.sign.xades.XAdESSigner;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
@@ -407,31 +408,10 @@ public class Utils {
         return tempCertificados;
     }
 
-    private static boolean verifySignValidate(List<Certificado> certificados) {
-        boolean signValidate = true;
-        for (Certificado certificado : certificados) {
-            if (!certificado.getDocValidTimeStamp()) {//no tiene timeStamping
-                //certificado digital sin ser revocado, integridad de la firma, dentro de fecha de figencia, válido por CA
-                boolean revocado = validarFirma(certificado.getValidFrom(), certificado.getValidTo(), certificado.getSignGenerated(), certificado.getRevocated());
-                if (!revocado || !certificado.getSignVerify() || !certificado.getCertificateValidated() || !certificado.getDatosUsuario().isCertificadoDigitalValido()) {
-                    signValidate = false;
-                    break;
-                }
-            } else {// timeStamping
-                //dentro de fecha de figencia, válido por CA
-                if (!certificado.getCertificateValidated() || !certificado.getDatosUsuario().isCertificadoDigitalValido()) {
-                    signValidate = false;
-                    break;
-                }
-            }
-        }
-        return signValidate;
-    }
-
     //revertir
     public static Documento pdfToDocumento(InputStream pdf) throws IOException, SignatureVerificationException, Exception {
         PdfReader pdfReader = new PdfReader(pdf);
-        Signer signer = new BasePdfSigner();
+        Signer signer = new PadesSigner();
         java.util.List<SignInfo> signInfos;
         signInfos = signer.getSigners(pdf.readAllBytes());
         return pdfToDocumento(pdfReader, signInfos);
@@ -440,7 +420,7 @@ public class Utils {
     public static Documento pdfToDocumento(File pdf) throws IOException, SignatureVerificationException, Exception {
         PdfReader pdfReader = new PdfReader(pdf);
         java.util.List<SignInfo> signInfos;
-        Signer signer = new BasePdfSigner();
+        Signer signer = new PadesSigner();
         signInfos = signer.getSigners(FileUtils.fileConvertToByteArray(pdf));
         return pdfToDocumento(pdfReader, signInfos);
     }
@@ -516,12 +496,12 @@ public class Utils {
                             }
                         }
                     } catch (SignatureException ex) {
-                        Logger.getLogger(Util.class.getName()).log(Level.SEVERE, null, ex);
+                        LOGGER.log(Level.SEVERE, ex.getMessage());
                     }
                     certificados.add(certificado);
                 }
                 if (certificados != null || !certificados.isEmpty()) {
-                    documento.setSignValidate(verifySignValidate(certificados));
+                    documento.setSignValidate(validarCertificados(certificados, true));
                 }
                 documento.setCertificados(certificados);
             }
@@ -639,22 +619,6 @@ public class Utils {
         return keyUsages;
     }
 
-    public static Documento signInfosToCertificados(List<SignInfo> signInfos) throws DocumentoException, CertificadoInvalidoException, IOException, ConexionException, EntidadCertificadoraNoValidaException {
-        Documento documento = null;
-        List<Certificado> certificados = new ArrayList<>();
-        if (signInfos == null || signInfos.isEmpty()) {
-            return new Documento(false, false, certificados, "Documento sin firmas");
-        } else {
-            documento = new Documento(true, false, null, null);
-            for (SignInfo signInfo : signInfos) {
-                certificados.add(signInfoToCertificado(signInfo));
-            }
-            documento.setCertificados(certificados);
-            documento.setSignValidate(validarCertificados(documento.getCertificados(), false));
-            return documento;
-        }
-    }
-
     private static final PdfName PDFNAME_ETSI_RFC3161 = new PdfName("ETSI.RFC3161");
     private static final PdfName PDFNAME_DOCTIMESTAMP = new PdfName("DocTimeStamp");
 
@@ -735,18 +699,46 @@ public class Utils {
         return !(signingTime.before(cert.getNotBefore()) || signingTime.after(cert.getNotAfter()));
     }
 
-    public static Signer documentSigner(File documento) {
-        String extDocumento = FileUtils.getFileExtension(documento);
-        return switch (extDocumento.toLowerCase()) {
-            case "pdf" ->
-                new BasePdfSigner();
-            case "xml" ->
-                new XAdESSigner();
-            default ->
-                null;
-        };
+    public static Documento x509CertificateToDocumento(java.util.List<SignInfo> signInfos)
+            throws DocumentoException, CertificadoInvalidoException, IOException, ConexionException, EntidadCertificadoraNoValidaException, CertificateParsingException {
+        Documento documento = null;
+        List<Certificado> certificados = new ArrayList<>();
+
+        if (signInfos == null || signInfos.isEmpty()) {
+            return new Documento(false, false, certificados, "Documento sin firmas");
+        } else {
+            for (SignInfo signInfo : signInfos) {
+                documento = new Documento(true, false, null, null);
+                Certificado certificado = signInfoToCertificado(signInfo);
+                if (certificado == null) {
+                    return new Documento(false, false, certificados, "Documento sin firmas");
+                } else {
+                    certificados.add(certificado);
+                }
+            }
+        }
+        documento.setCertificados(certificados);
+        documento.setSignValidate(validarCertificados(documento.getCertificados(), false));
+        return documento;
     }
 
+//    private static Certificado validarX509Certificate(SignInfo signInfo)
+//            throws EntidadCertificadoraNoValidaException, CertificadoInvalidoException, IOException, ConexionException, CertificateParsingException {
+//        DatosUsuario datosUsuario = CertEcUtils.getDatosUsuarios(x509Certificate);
+//        datosUsuario.setFechaFirmaArchivoP7M((String) new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format((dateToCalendar(fechaFirmado)).getTime()));
+//        Certificado certificado = new Certificado(
+//                x509Certificate.getSerialNumber().toString(),
+//                Util.getCN(x509Certificate),
+//                CertEcUtils.getNombreCA(x509Certificate),
+//                Utils.dateToCalendar(x509Certificate.getNotBefore()),
+//                Utils.dateToCalendar(x509Certificate.getNotAfter()),
+//                null,
+//                Utils.dateToCalendar(UtilsCrlOcsp.validarFechaRevocado(x509Certificate, null)),
+//                esValido(x509Certificate, fechaFirmado),
+//                datosUsuario);
+//        certificado.setKeyUsages(Utils.validacionKeyUsages(x509Certificate));
+//        return certificado;
+//    }
     public static Documento verificarDocumento(File file, String base64) throws IOException, KeyStoreException, OcspValidationException, SignatureException, RubricaException, ConexionInvalidaOCSPException, HoraServidorException, CertificadoInvalidoException, EntidadCertificadoraNoValidaException, ConexionValidarCRLException, SignatureVerificationException, DocumentoException, CRLValidationException, Exception {
         byte[] docByteArray = FileUtils.fileConvertToByteArray(file);
         // para P7m, ya que p7m no tiene signer
@@ -778,21 +770,18 @@ public class Utils {
             }
             case ".xml" -> {
                 {
-                    try {
-                        Signer docSigner = Utils.documentSigner(file);
-                        documento = Utils.signInfosToCertificados(docSigner.getSigners(docByteArray));
-                        //SRI
-                        //                String xml = leerXmlSRI(documento);
-                        //                List<Certificado> certificadosSRI = Utils.signInfosToCertificados(docSigner.getSigners(xml.getBytes(StandardCharsets.UTF_8)));
-                        //                if (!certificadosSRI.isEmpty()) {
-                        //                    jakarta.swing.JOptionPane.showMessageDialog(null, PropertiesUtils.getMessages().getProperty("mensaje.error.documento_sri"), "Advertencia", jakarta.swing.JOptionPane.WARNING_MESSAGE);
-                        //                }
-                        //                certificados.addAll(certificadosSRI);
-                        //SRI
-                    } catch (NullPointerException | InvalidFormatException exception) {
-                        List<Certificado> certificados = new ArrayList<>();
-                        return new Documento(false, false, certificados, "El archivo no es un XML");
-                    }
+                    XAdESSigner xAdESSigner = new XAdESSigner();
+                    java.util.List<SignInfo> signInfos;
+                    signInfos = xAdESSigner.getSignInfo(docByteArray);
+                    documento = Utils.x509CertificateToDocumento(signInfos);
+                    //SRI
+                    //                String xml = leerXmlSRI(documento);
+                    //                List<Certificado> certificadosSRI = Utils.signInfosToCertificados(docSigner.getSigners(xml.getBytes(StandardCharsets.UTF_8)));
+                    //                if (!certificadosSRI.isEmpty()) {
+                    //                    jakarta.swing.JOptionPane.showMessageDialog(null, PropertiesUtils.getMessages().getProperty("mensaje.error.documento_sri"), "Advertencia", jakarta.swing.JOptionPane.WARNING_MESSAGE);
+                    //                }
+                    //                certificados.addAll(certificadosSRI);
+                    //SRI
                 }
                 return documento;
             }
@@ -918,4 +907,13 @@ public class Utils {
         return false;
     }
 
+    public static PdfFont loadFont(String fontName) {
+        PdfFont pdfFont = null;
+        try {
+            pdfFont = PdfFontFactory.createFont(fontName);
+        } catch (IOException ex) {
+            Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return pdfFont;
+    }
 }

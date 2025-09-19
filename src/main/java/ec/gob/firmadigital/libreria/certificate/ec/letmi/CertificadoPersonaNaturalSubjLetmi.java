@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2023
- * Authors: Alpha Technologies Cia. Ltda.
+ * Copyright (C) 2025
+ * Authors: Letmi
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,20 +15,21 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package ec.gob.firmadigital.libreria.certificate.ec.alphatechnologies;
+package ec.gob.firmadigital.libreria.certificate.ec.letmi;
 
-import ec.gob.firmadigital.libreria.certificate.ec.CertificadoPersonaJuridica;
+import ec.gob.firmadigital.libreria.certificate.ec.CertificadoPersonaNatural;
+
 import java.security.cert.X509Certificate;
 
 /**
- * Certificado de Persona Juridica emitido por Alpha Technologies Cia. Ltda.
+ * Certificado de persona natural emitido por Alpha Technologies Cia. Ltda.
  *
- * @author Alpha Technologies Cia. Ltda.
+ * @author Letmi
  */
-public class CertificadoPersonaJuridicaAlphaTechnologies extends CertificadoAlphaTechnologiesImpl
-        implements CertificadoPersonaJuridica {
+public class CertificadoPersonaNaturalSubjLetmi extends CertificadoSubjLetmiImpl
+        implements CertificadoPersonaNatural {
 
-    public CertificadoPersonaJuridicaAlphaTechnologies(X509Certificate certificado) {
+    public CertificadoPersonaNaturalSubjLetmi(X509Certificate certificado) {
         super(certificado);
     }
 

@@ -67,7 +67,7 @@ public abstract class PKCS11KeyStoreProvider implements KeyStoreProvider {
             KeyStore keyStore = KeyStore.getInstance("PKCS11");
             keyStore.load(null, password);
             return keyStore;
-        } catch (CertificateException | NoSuchAlgorithmException | IOException e) {
+        } catch (CertificateException | NoSuchAlgorithmException | IOException | java.security.ProviderException e) {
             throw new KeyStoreException(e);
         }
     }

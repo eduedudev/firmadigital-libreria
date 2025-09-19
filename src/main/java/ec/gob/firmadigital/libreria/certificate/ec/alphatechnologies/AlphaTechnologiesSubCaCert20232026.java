@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2023
- * Authors: Steven Chiriboga
+ * Authors: Alpha Technologies Cia. Ltda.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -41,7 +41,7 @@ import java.util.Set;
  * Certificado intermedio de Alpha Technologies CIA. LTDA, representado como un
  * objeto <code>X509Certificate</code>.
  *
- * @author Steven Chiriboga <steven.chiriboga@alphaside.com>
+ * @author Alpha Technologies Cia. Ltda.
  */
 public class AlphaTechnologiesSubCaCert20232026 extends X509Certificate {
 

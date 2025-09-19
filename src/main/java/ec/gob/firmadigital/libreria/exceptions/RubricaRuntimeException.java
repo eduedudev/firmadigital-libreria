@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2023
- * Authors: Alpha Technologies Cia. Ltda.
+ * Copyright (C) 2020 
+ * Authors: Ricardo Arguello, Misael Fernández
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,21 +15,26 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package ec.gob.firmadigital.libreria.certificate.ec.alphatechnologies;
-
-import ec.gob.firmadigital.libreria.certificate.ec.CertificadoPersonaJuridica;
-import java.security.cert.X509Certificate;
+package ec.gob.firmadigital.libreria.exceptions;
 
 /**
- * Certificado de Persona Juridica emitido por Alpha Technologies Cia. Ltda.
- *
- * @author Alpha Technologies Cia. Ltda.
+ * Representa un error en la aplicación.
  */
-public class CertificadoPersonaJuridicaAlphaTechnologies extends CertificadoAlphaTechnologiesImpl
-        implements CertificadoPersonaJuridica {
+public class RubricaRuntimeException extends RuntimeException {
 
-    public CertificadoPersonaJuridicaAlphaTechnologies(X509Certificate certificado) {
-        super(certificado);
+    public RubricaRuntimeException() {
+        super();
     }
 
+    public RubricaRuntimeException(String message) {
+        super(message);
+    }
+
+    public RubricaRuntimeException(Throwable cause) {
+        super(cause);
+    }
+
+    public RubricaRuntimeException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

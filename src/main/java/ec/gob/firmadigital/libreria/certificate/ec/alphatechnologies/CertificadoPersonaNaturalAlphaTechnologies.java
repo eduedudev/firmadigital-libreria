@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2023
- * Authors: Steven Chiriboga
+ * Authors: Alpha Technologies Cia. Ltda.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -21,11 +21,11 @@ import java.security.cert.X509Certificate;
 import ec.gob.firmadigital.libreria.certificate.ec.CertificadoPersonaNatural;
 
 /**
- * Certificado de persona natural emitido por Alpha Technologies CIA. LTDA.
+ * Certificado de persona natural emitido por Alpha Technologies Cia. Ltda.
  *
- * @author Steven Chiriboga <steven.chiriboga@alphaside.com>
+ * @author Alpha Technologies Cia. Ltda.
  */
-public class CertificadoPersonaNaturalAlphaTechnologies extends CertificadoAlphaTechnologies
+public class CertificadoPersonaNaturalAlphaTechnologies extends CertificadoAlphaTechnologiesImpl
         implements CertificadoPersonaNatural {
 
     public CertificadoPersonaNaturalAlphaTechnologies(X509Certificate certificado) {

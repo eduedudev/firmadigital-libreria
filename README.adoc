@@ -76,3 +76,9 @@ Usamos https://minka.gob.ec/mintel/ge/estandares/-/blob/master/versionamiento.md
 == Licencia
 
 Esta aplicación se distribuye con una licencia https://www.gnu.org/licenses/gpl.html[GPLv3].
+
+Este proyecto utiliza la biblioteca Digital Signature Service (DSS) de la Unión Europea, 
+bajo los términos de la licencia EUPL 1.2.
+
+- Texto completo de la licencia: https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+- Información del proyecto DSS: https://ec.europa.eu/digital-building-blocks/code/projects/ESIG-DSS

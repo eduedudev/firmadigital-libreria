@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2023
- * Authors: Alpha Technologies Cia. Ltda.
+ * Copyright (C) 2025
+ * Authors: AppFirmas
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,21 +15,21 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package ec.gob.firmadigital.libreria.certificate.ec.alphatechnologies;
+package ec.gob.firmadigital.libreria.certificate.ec.appfirmas;
 
-import ec.gob.firmadigital.libreria.certificate.ec.CertificadoPersonaJuridica;
+import ec.gob.firmadigital.libreria.certificate.ec.CertificadoPersonaNatural;
+
 import java.security.cert.X509Certificate;
 
 /**
- * Certificado de Persona Juridica emitido por Alpha Technologies Cia. Ltda.
+ * Certificado de persona natural emitido por AppFirmas S.A.
  *
- * @author Alpha Technologies Cia. Ltda.
+ * @author AppFirmas
  */
-public class CertificadoPersonaJuridicaAlphaTechnologies extends CertificadoAlphaTechnologiesImpl
-        implements CertificadoPersonaJuridica {
+public class CertificadoPersonaNaturalSubjAppFirmas extends CertificadoSubjAppFirmasImpl
+        implements CertificadoPersonaNatural {
 
-    public CertificadoPersonaJuridicaAlphaTechnologies(X509Certificate certificado) {
+    public CertificadoPersonaNaturalSubjAppFirmas(X509Certificate certificado) {
         super(certificado);
     }
-
 }
