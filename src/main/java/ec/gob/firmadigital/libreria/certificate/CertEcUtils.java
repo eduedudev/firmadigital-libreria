@@ -240,7 +240,7 @@ public class CertEcUtils {
                 try {
                     if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new LetmiSubCaCert20252035())) {
                         System.out.println("LetmiSubCaCert2025-2035");
-                        return new FirmaSeguraSubCaCert20232043();
+                        return new LetmiSubCaCert20252035();
                     }
                     return null;
                 } catch (java.security.InvalidKeyException ex) {
