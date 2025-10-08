@@ -28,27 +28,37 @@ import java.util.Properties;
 import java.util.logging.Logger;
 
 import com.itextpdf.kernel.geom.Rectangle;
+import com.itextpdf.kernel.pdf.PdfDictionary;
 import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfName;
 import com.itextpdf.kernel.pdf.PdfReader;
 import com.itextpdf.kernel.pdf.StampingProperties;
+import com.itextpdf.signatures.IExternalSignatureContainer;
 import com.itextpdf.signatures.PdfSignatureAppearance;
+import com.itextpdf.signatures.SignatureUtil;
 
 import ec.gob.firmadigital.libreria.certificate.CertEcUtils;
 import ec.gob.firmadigital.libreria.certificate.to.DatosUsuario;
 import ec.gob.firmadigital.libreria.exceptions.EntidadCertificadoraNoValidaException;
-import ec.gob.firmadigital.libreria.sign.RubricaSigner;
+import ec.gob.firmadigital.libreria.exceptions.InvalidFormatException;
+import ec.gob.firmadigital.libreria.sign.SignInfo;
+import ec.gob.firmadigital.libreria.sign.Signer;
 import ec.gob.firmadigital.libreria.sign.pdf.appearance.CustomAppearance;
 import ec.gob.firmadigital.libreria.sign.pdf.appearance.Information1Appearance;
 import ec.gob.firmadigital.libreria.sign.pdf.appearance.Information2Appearance;
 import ec.gob.firmadigital.libreria.sign.pdf.appearance.QrAppereance;
-import ec.gob.firmadigital.libreria.utils.BouncyCastleUtils;
 import ec.gob.firmadigital.libreria.utils.PropertiesUtils;
 import ec.gob.firmadigital.libreria.utils.Utils;
+import java.io.ByteArrayInputStream;
+import java.security.GeneralSecurityException;
+import java.security.PrivateKey;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 
-public abstract class BaseSigner {
+public class BasePdfSigner implements Signer {
 
-    private static final Logger LOGGER = Logger.getLogger(BaseSigner.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(BasePdfSigner.class.getName());
 
     public static final String SIGNING_REASON = "signingReason";
     public static final String SIGNING_LOCATION = "signingLocation";
@@ -59,21 +69,31 @@ public abstract class BaseSigner {
     public static final String TYPE_SIG = "typeSignature";
     public static final String INFO_QR = "infoQR";
 
-    static {
-        BouncyCastleUtils.initializeBouncyCastle();
+    private static String fieldName;
+    private static ByteArrayOutputStream baos;
+    private static ByteArrayOutputStream baosSign;
+
+    public String getFieldName() {
+        return fieldName;
     }
 
-    // ETSI TS 102 778-1 V1.1.1 (2009-07)
-    // PAdES Basic - Profile based on ISO 32000-1
+    public ByteArrayOutputStream getDocumentoPorFirmar() {
+        return baos;
+    }
+
+    public ByteArrayOutputStream getDocumentoFirmado() {
+        return baosSign;
+    }
+
     /**
      * @param is
-     * @param signer
-     * @param params
+     * @param properties
+     * @param algorithm
      * @param certChain
      * @return
      * @throws java.io.IOException
      */
-    public byte[] sign(InputStream is, RubricaSigner signer, Certificate[] certChain, Properties params)
+    public byte[] emptySignature(InputStream is, Certificate[] certChain, Properties properties, String algorithm)
             throws IOException {
         try (PdfReader pdfReader = new PdfReader(is) {
             @Override
@@ -81,13 +101,14 @@ public abstract class BaseSigner {
                 return false;
             }
         }; ByteArrayOutputStream os = new ByteArrayOutputStream()) {
+            baos = os;
             StampingProperties stampingProperties = new StampingProperties();
             //TODO Edison Lomas Almeida: La línea siguiente genera error PdfException: Append mode requires a document without errors, even if recovery is possible.
             stampingProperties.useAppendMode();
-            com.itextpdf.signatures.PdfSigner pdfSigner = new com.itextpdf.signatures.PdfSigner(pdfReader, os,
+            com.itextpdf.signatures.PdfSigner pdfSigner = new com.itextpdf.signatures.PdfSigner(pdfReader, baos,
                     stampingProperties);
             X509Certificate x509Certificate = (X509Certificate) certChain[0];
-            Properties extraParams = params != null ? params : new Properties();
+            Properties extraParams = properties != null ? properties : new Properties();
             // Motivo de la firma
             String reason = extraParams.getProperty(SIGNING_REASON);
             // Lugar de realizacion de la firma
@@ -140,7 +161,7 @@ public abstract class BaseSigner {
                     try {
                         datosUsuario = CertEcUtils.getDatosUsuarios(x509Certificate);
                     } catch (EntidadCertificadoraNoValidaException ex) {
-                        Logger.getLogger(BaseSigner.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(BasePdfSigner.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     String nombreFirmante = (datosUsuario.getNombre() + " " + datosUsuario.getApellido()).toUpperCase();
                     String informacionCertificado = x509Certificate.getSubjectDN().getName();
@@ -183,10 +204,103 @@ public abstract class BaseSigner {
                 calendar.setTime(date);
                 pdfSigner.setSignDate(calendar);
             }
-            return signInternal(os, pdfSigner, signer, certChain, params);
+
+            byte[] hash = null;
+            try {
+                /*
+             * ExternalBlankSignatureContainer constructor will create the PdfDictionary for
+             * the signature information and will insert the /Filter and /SubFilter values
+             * into this dictionary. It will leave just a blank placeholder for the
+             * signature that is to be inserted later.
+                 */
+                PreSignatureContainer external = new PreSignatureContainer(PdfName.Adobe_PPKLite,
+                        PdfName.Adbe_pkcs7_detached, algorithm);
+                // Sign the document using an external container.
+                // 8192 is the size of the empty signature placeholder.
+                pdfSigner.signExternalContainer(external, 8192 * 2);
+                hash = external.getHash();
+            } catch (IOException | GeneralSecurityException e) {
+                e.printStackTrace();
+            }
+            fieldName = pdfSigner.getFieldName();
+            return hash;
         }
     }
 
-    protected abstract byte[] signInternal(ByteArrayOutputStream os, com.itextpdf.signatures.PdfSigner pdfSigner,
-            RubricaSigner signer, Certificate[] certChain, Properties params) throws IOException;
+    public void createSignature(byte[] hashSigned, ByteArrayOutputStream baos, String fieldName, PrivateKey pk, Certificate[] chain)
+            throws IOException, GeneralSecurityException {
+        try (InputStream is = new ByteArrayInputStream(baos.toByteArray()); PdfReader reader = new PdfReader(is)) {
+            baosSign = new ByteArrayOutputStream();
+            com.itextpdf.signatures.PdfSigner signer = new com.itextpdf.signatures.PdfSigner(reader, baosSign, new StampingProperties());
+            IExternalSignatureContainer external = new MyExternalSignatureContainer(hashSigned, pk, chain);
+            // Signs a PDF where space was already reserved. The field must cover the whole
+            // document.
+            com.itextpdf.signatures.PdfSigner.signDeferred(signer.getDocument(), fieldName, baosSign, external);
+        }
+    }
+
+    class MyExternalSignatureContainer implements IExternalSignatureContainer {
+
+        protected byte[] hashSigned;
+        protected PrivateKey pk;
+        protected Certificate[] chain;
+
+        public MyExternalSignatureContainer(byte[] hashSigned, PrivateKey pk, Certificate[] chain) {
+            this.hashSigned = hashSigned;
+            this.pk = pk;
+            this.chain = chain;
+        }
+
+        @Override
+        public byte[] sign(InputStream is) throws GeneralSecurityException {
+            return hashSigned;
+        }
+
+        @Override
+        public void modifySigningDictionary(PdfDictionary signDic) {
+        }
+    }
+
+    @Override
+    public List<SignInfo> getSigners(byte[] sign) throws InvalidFormatException, IOException {
+        PdfReader pdfReader;
+        try {
+            try (InputStream is = new ByteArrayInputStream(sign);) {
+                pdfReader = new PdfReader(is);
+            }
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "No se ha podido leer el PDF: {0}", e);
+            throw new InvalidFormatException("No se ha podido leer el PDF", e);
+        }
+        SignatureUtil signatureUtil;
+        try {
+            PdfDocument pdfDocument = new PdfDocument(pdfReader);
+            signatureUtil = new com.itextpdf.signatures.SignatureUtil(pdfDocument);
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "No se ha podido obtener la informacion de los firmantes del PDF, se devolvera un arbol vacio: {0}", e);
+            throw new InvalidFormatException("No se ha podido obtener la informacion de los firmantes del PDF", e);
+        }
+
+        @SuppressWarnings("unchecked")
+        List<String> names = signatureUtil.getSignatureNames();
+        List<SignInfo> signInfos = new ArrayList<>();
+        for (String signatureName : names) {
+            com.itextpdf.signatures.PdfPKCS7 pdfPKCS7;
+            try {
+                pdfPKCS7 = signatureUtil.readSignatureData(signatureName);
+            } catch (Exception e) {
+                e.printStackTrace();
+                LOGGER.log(Level.SEVERE, "El PDF contiene una firma corrupta o con un formato desconocido ({0}), se continua con las siguientes si las hubiese: {1}", new Object[]{signatureName, e});
+                continue;
+            }
+            Certificate[] signCertificateChain = pdfPKCS7.getSignCertificateChain();
+            X509Certificate[] certChain = new X509Certificate[signCertificateChain.length];
+            for (int i = 0; i < certChain.length; i++) {
+                certChain[i] = (X509Certificate) signCertificateChain[i];
+            }
+            SignInfo signInfo = new SignInfo(certChain, pdfPKCS7.getSignDate().getTime());
+            signInfos.add(signInfo);
+        }
+        return signInfos;
+    }
 }
