@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2020 
- * Authors: Ricardo Arguello, Misael Fernández
+ * Authors: Ricardo Arguello, Misael Fernández, ANF AC
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -25,7 +25,7 @@ import ec.gob.firmadigital.libreria.certificate.CertUtils;
 /**
  * Certificado emitido por ANF AC Ecuador
  *
- * @author Misael Fernández
+ * @author Misael Fernández, Jair Andres Semblantes Pinto
  */
 public abstract class CertificadoAnfAc37442 {
 
@@ -36,6 +36,8 @@ public abstract class CertificadoAnfAc37442 {
     public static final String OID_CERTIFICADO_PERSONA_JURIDICA_TOKEN = "1.3.6.1.4.1.37442.2.5.1.10";
     public static final String OID_CERTIFICADO_FUNCIONARIO_PUBLICO = "1.3.6.1.4.1.37442.4.1.3.22";
     public static final String OID_CERTIFICADO_FUNCIONARIO_PUBLICO_TOKEN = "1.3.6.1.4.1.37442.4.1.3.22";
+    // OID Sello tiempo,
+    public static final String OID_SELLADO_TIEMPO = "1.3.6.1.4.1.37442.15.1";
 
     // OIDs de Campos del Certificado:
     public static final String OID_CEDULA_PASAPORTE = "1.3.6.1.4.1.37442.3.1";

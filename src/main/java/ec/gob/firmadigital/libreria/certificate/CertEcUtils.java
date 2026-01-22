@@ -84,7 +84,7 @@ public class CertEcUtils {
     public static final String LETMI_NAME = "LETMI ECUADOR S.A.";
     public static final String APPFIRMAS_NAME = "APPFIRMAS S.A.";
     public static final String DARKCAM_NAME = "DARKCAM S.A.";
-    public static final String PRIMECORELAT_NAME = "PRIMECORELAT S.A.S.";
+    public static final String PRIMECORELAT_NAME = "PRIMECORELAT S.A.S. B.I.C.";
 
     public static X509Certificate getRootCertificate(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         String entidadCertStr = getNombreCA(certificado);
