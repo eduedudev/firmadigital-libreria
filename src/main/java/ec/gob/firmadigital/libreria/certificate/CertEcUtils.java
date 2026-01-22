@@ -29,6 +29,7 @@ import ec.gob.firmadigital.libreria.certificate.ec.CertificadoPersonaJuridica;
 import ec.gob.firmadigital.libreria.certificate.ec.CertificadoPersonaNatural;
 import ec.gob.firmadigital.libreria.certificate.ec.CertificadoRepresentanteLegal;
 import ec.gob.firmadigital.libreria.certificate.ec.CertificadoSelladoTiempo;
+import ec.gob.firmadigital.libreria.certificate.ec.CertificadoSelloElectronico;
 import ec.gob.firmadigital.libreria.certificate.ec.alphatechnologies.*;
 import ec.gob.firmadigital.libreria.certificate.ec.anfac.*;
 import ec.gob.firmadigital.libreria.certificate.ec.argosdata.*;
@@ -46,6 +47,14 @@ import ec.gob.firmadigital.libreria.certificate.ec.letmi.LetmiSubCaCert20252035;
 import ec.gob.firmadigital.libreria.certificate.ec.appfirmas.CertificadoAppFirmasFactory;
 import ec.gob.firmadigital.libreria.certificate.ec.appfirmas.CertificadoSubjAppFirmasImpl;
 import ec.gob.firmadigital.libreria.certificate.ec.appfirmas.AppFirmasSubCaCert20252050;
+import ec.gob.firmadigital.libreria.certificate.ec.darkcam.CertificadoDarkcamFactory;
+import ec.gob.firmadigital.libreria.certificate.ec.darkcam.CertificadoSubjDarkcamImpl;
+import ec.gob.firmadigital.libreria.certificate.ec.darkcam.DarkcamSubCaCert20252035;
+import ec.gob.firmadigital.libreria.certificate.ec.darkcam.DarkcamSubCaShortCert20252035;
+import ec.gob.firmadigital.libreria.certificate.ec.primecorelat.CertificadoPrimeCoreLat;
+import ec.gob.firmadigital.libreria.certificate.ec.primecorelat.CertificadoPrimeCoreLatDataFactory;
+import ec.gob.firmadigital.libreria.certificate.ec.primecorelat.PrimeCoreLatSubCa1Cert;
+import ec.gob.firmadigital.libreria.certificate.ec.primecorelat.PrimeCoreLatSubCa2Cert;
 import ec.gob.firmadigital.libreria.certificate.ec.securitydata.*;
 import ec.gob.firmadigital.libreria.certificate.ec.uanataca.*;
 import ec.gob.firmadigital.libreria.certificate.to.DatosUsuario;
@@ -74,6 +83,8 @@ public class CertEcUtils {
     public static final String FIRMASEGURA_NAME = "FIRMASEGURA S.A.S.";
     public static final String LETMI_NAME = "LETMI ECUADOR S.A.";
     public static final String APPFIRMAS_NAME = "APPFIRMAS S.A.";
+    public static final String DARKCAM_NAME = "DARKCAM S.A.";
+    public static final String PRIMECORELAT_NAME = "PRIMECORELAT S.A.S.";
 
     public static X509Certificate getRootCertificate(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         String entidadCertStr = getNombreCA(certificado);
@@ -258,6 +269,36 @@ public class CertEcUtils {
                     //TODO
                 }
             }
+            case DARKCAM_NAME: {
+                try {
+                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new DarkcamSubCaShortCert20252035())) {
+                        System.out.println("DarkcamSubCaShortCert2025-2035");
+                        return new DarkcamSubCaShortCert20252035();
+                    }
+                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new DarkcamSubCaCert20252035())) {
+                        System.out.println("DarkcamSubCaCert2025-2035");
+                        return new DarkcamSubCaCert20252035();
+
+                    }
+                    return null;
+                } catch (java.security.InvalidKeyException ex) {
+                    //TODO
+                }
+            }
+            case PRIMECORELAT_NAME: {
+                try {
+                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new PrimeCoreLatSubCa1Cert())) {
+                        System.out.println("PrimeCoreLatCA1 2025-2035");
+                        return new PrimeCoreLatSubCa1Cert();
+                    }
+                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new PrimeCoreLatSubCa2Cert())) {
+                        System.out.println("PrimeCoreLatCA2 2025-2035");
+                        return new PrimeCoreLatSubCa2Cert();
+                    }
+                } catch (java.security.InvalidKeyException ex) {
+                    //TODO
+                }
+            }
             default:
                 throw new EntidadCertificadoraNoValidaException("Entidad Certificadora no reconocida");
         }
@@ -305,6 +346,12 @@ public class CertEcUtils {
         }
         if (certificado.getIssuerX500Principal().getName().toUpperCase().contains(APPFIRMAS_NAME)) {
             return APPFIRMAS_NAME;
+        }
+        if (certificado.getIssuerX500Principal().getName().toUpperCase().contains(DARKCAM_NAME)) {
+            return DARKCAM_NAME;
+        }
+        if (certificado.getIssuerX500Principal().getName().toUpperCase().contains(PRIMECORELAT_NAME)) {
+            return PRIMECORELAT_NAME;
         }
         return "Entidad no reconocida " + certificado.getIssuerDN().getName();
     }
@@ -406,30 +453,61 @@ public class CertEcUtils {
         }
 
         if (CertificadoSecurityDataFactory.esCertificadoDeSecurityData(certificado)) {
-            CertificadoSecurityData certificadoSecurityData = CertificadoSecurityDataFactory.construir(certificado);
-            if (certificadoSecurityData instanceof CertificadoFuncionarioPublico certificadoFuncionarioPublico) {
-                datosUsuario.setCedula(certificadoFuncionarioPublico.getCedulaPasaporte());
-                datosUsuario.setNombre(certificadoFuncionarioPublico.getNombres());
-                datosUsuario.setApellido(certificadoFuncionarioPublico.getPrimerApellido() + " "
-                        + certificadoFuncionarioPublico.getSegundoApellido());
-                datosUsuario.setCargo(certificadoFuncionarioPublico.getCargo());
-                datosUsuario.setInstitucion(certificadoFuncionarioPublico.getInstitucion());
+            Certificado certificadoSecurityData = CertificadoSecurityDataFactory.construir(certificado);
+            if (certificadoSecurityData instanceof CertificadoSecurityData) {
+                if (certificadoSecurityData instanceof CertificadoFuncionarioPublico certificadoFuncionarioPublico) {
+                    datosUsuario.setCedula(certificadoFuncionarioPublico.getCedulaPasaporte());
+                    datosUsuario.setNombre(certificadoFuncionarioPublico.getNombres());
+                    datosUsuario.setApellido(certificadoFuncionarioPublico.getPrimerApellido() + " "
+                            + certificadoFuncionarioPublico.getSegundoApellido());
+                    datosUsuario.setCargo(certificadoFuncionarioPublico.getCargo());
+                    datosUsuario.setInstitucion(certificadoFuncionarioPublico.getInstitucion());
+                }
+                if (certificadoSecurityData instanceof CertificadoPersonaJuridica certificadoPersonaJuridica) {
+                    datosUsuario.setCedula(certificadoPersonaJuridica.getCedulaPasaporte());
+                    datosUsuario.setNombre(certificadoPersonaJuridica.getNombres());
+                    datosUsuario.setApellido(certificadoPersonaJuridica.getPrimerApellido() + " "
+                            + certificadoPersonaJuridica.getSegundoApellido());
+                    datosUsuario.setCargo(certificadoPersonaJuridica.getCargo());
+                }
+                if (certificadoSecurityData instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
+                    datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
+                    datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
+                    datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido() + " "
+                            + certificadoPersonaNatural.getSegundoApellido());
+                }
+                if (certificadoSecurityData instanceof CertificadoSelladoTiempo) {
+                    datosUsuario.setCertificadoDigitalValido(true);
+                }
             }
-            if (certificadoSecurityData instanceof CertificadoPersonaJuridica certificadoPersonaJuridica) {
-                datosUsuario.setCedula(certificadoPersonaJuridica.getCedulaPasaporte());
-                datosUsuario.setNombre(certificadoPersonaJuridica.getNombres());
-                datosUsuario.setApellido(certificadoPersonaJuridica.getPrimerApellido() + " "
-                        + certificadoPersonaJuridica.getSegundoApellido());
-                datosUsuario.setCargo(certificadoPersonaJuridica.getCargo());
-            }
-            if (certificadoSecurityData instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
-                datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
-                datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
-                datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido() + " "
-                        + certificadoPersonaNatural.getSegundoApellido());
-            }
-            if (certificadoSecurityData instanceof CertificadoSelladoTiempo) {
-                datosUsuario.setCertificadoDigitalValido(true);
+            //RESOLUCION-ARCOTEL-2024-0176
+            if (certificadoSecurityData instanceof CertificadoSubjSecurityDataImpl) {
+                if (certificadoSecurityData instanceof CertificadoMiembroEmpresa certificadoMiembroEmpresa) {
+                    datosUsuario.setCedula(certificadoMiembroEmpresa.getCedulaPasaporte());
+                    datosUsuario.setNombre(certificadoMiembroEmpresa.getNombres());
+                    datosUsuario.setApellido(certificadoMiembroEmpresa.getPrimerApellido());
+                    datosUsuario.setCargo(certificadoMiembroEmpresa.getCargo());
+                }
+                if (certificadoSecurityData instanceof CertificadoRepresentanteLegal certificadoRepresentanteLegal) {
+                    datosUsuario.setCedula(certificadoRepresentanteLegal.getCedulaPasaporte());
+                    datosUsuario.setNombre(certificadoRepresentanteLegal.getNombres());
+                    datosUsuario.setApellido(certificadoRepresentanteLegal.getPrimerApellido());
+                    datosUsuario.setCargo(certificadoRepresentanteLegal.getCargo());
+                }
+                if (certificadoSecurityData instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
+                    datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
+                    datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
+                    datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido());
+                }
+                if (certificadoSecurityData instanceof CertificadoSelloElectronico certificadoSelloElectronico) {
+                    datosUsuario.setCedula(certificadoSelloElectronico.getCedulaPasaporte());
+                    datosUsuario.setNombre(certificadoSelloElectronico.getNombres());
+                    datosUsuario.setApellido(certificadoSelloElectronico.getPrimerApellido());
+                    datosUsuario.setCommonName(certificadoSelloElectronico.getCommonName());
+                }
+                if (certificadoSecurityData instanceof CertificadoSelladoTiempo) {
+                    datosUsuario.setCertificadoDigitalValido(true);
+                }
             }
             datosUsuario.setCertificadoDigitalValido(true);
             return datosUsuario;
@@ -801,6 +879,66 @@ public class CertEcUtils {
                     datosUsuario.setNombre(certificadoRepresentanteLegal.getNombres());
                     datosUsuario.setApellido(certificadoRepresentanteLegal.getPrimerApellido());
                     datosUsuario.setCargo(certificadoRepresentanteLegal.getCargo());
+                }
+            }
+            datosUsuario.setCertificadoDigitalValido(true);
+            return datosUsuario;
+        }
+
+        //RESOLUCION-ARCOTEL-2024-0176
+        if (CertificadoDarkcamFactory.esCertificadoDeDarkcam(certificado)) {
+            Certificado certificadoDarkcam = CertificadoDarkcamFactory.construir(certificado);
+            if (certificadoDarkcam instanceof CertificadoSubjDarkcamImpl) {
+                if (certificadoDarkcam instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
+                    datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
+                    datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
+                    datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido());
+                }
+                if (certificadoDarkcam instanceof CertificadoMiembroEmpresa certificadoMiembroEmpresa) {
+                    datosUsuario.setCedula(certificadoMiembroEmpresa.getCedulaPasaporte());
+                    datosUsuario.setNombre(certificadoMiembroEmpresa.getNombres());
+                    datosUsuario.setApellido(certificadoMiembroEmpresa.getPrimerApellido());
+                    datosUsuario.setCargo(certificadoMiembroEmpresa.getCargo());
+                    datosUsuario.setInstitucion(certificadoMiembroEmpresa.getRazonSocial());
+                }
+                if (certificadoDarkcam instanceof CertificadoRepresentanteLegal certificadoRepresentanteLegal) {
+                    datosUsuario.setCedula(certificadoRepresentanteLegal.getCedulaPasaporte());
+                    datosUsuario.setNombre(certificadoRepresentanteLegal.getNombres());
+                    datosUsuario.setApellido(certificadoRepresentanteLegal.getPrimerApellido());
+                    datosUsuario.setCargo(certificadoRepresentanteLegal.getCargo());
+                    datosUsuario.setInstitucion(certificadoRepresentanteLegal.getRazonSocial());
+                }
+            }
+            datosUsuario.setCertificadoDigitalValido(true);
+            return datosUsuario;
+        }
+
+        //RESOLUCION-ARCOTEL-2024-0176
+        if (CertificadoPrimeCoreLatDataFactory.esCertificadoPrimeCoreLat(certificado)) {
+            CertificadoPrimeCoreLat certificadoPrimeCoreLat = CertificadoPrimeCoreLatDataFactory.construir(certificado);
+            if (certificadoPrimeCoreLat instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
+                datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
+                if (certificadoPersonaNatural.getNombres().isEmpty()) {
+                    datosUsuario.setNombre(Utils.getCN(certificado));
+                    datosUsuario.setApellido("");
+                } else {
+                    datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
+                    datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido() + " "
+                            + certificadoPersonaNatural.getSegundoApellido());
+                }
+            }
+            if (certificadoPrimeCoreLat instanceof CertificadoPersonaJuridica certificadoPersonaJuridica) {
+
+                datosUsuario.setCedula(certificadoPersonaJuridica.getCedulaPasaporte());
+                datosUsuario.setInstitucion(certificadoPersonaJuridica.getRazonSocial());
+                datosUsuario.setCargo(certificadoPersonaJuridica.getCargo());
+                if (certificadoPersonaJuridica.getNombres().isEmpty()) {
+                    datosUsuario.setNombre(Utils.getCN(certificado));
+                    datosUsuario.setApellido("");
+                } else {
+                    datosUsuario.setNombre(certificadoPersonaJuridica.getNombres());
+                    datosUsuario.setApellido(certificadoPersonaJuridica.getPrimerApellido() + " "
+                            + certificadoPersonaJuridica.getSegundoApellido());
                 }
             }
             datosUsuario.setCertificadoDigitalValido(true);

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2020 
- * Authors: Ricardo Arguello, Misael Fernández
+ * Authors: Ricardo Arguello, Misael Fernández, Security Data
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -18,13 +18,12 @@
 package ec.gob.firmadigital.libreria.certificate.ec.securitydata;
 
 import java.security.cert.X509Certificate;
-
 import ec.gob.firmadigital.libreria.certificate.ec.CertificadoRepresentanteLegal;
 
 /**
  * Certificado de Representante Legal emitido por Security Data.
  *
- * @author Ricardo Arguello
+ * @author Ricardo Arguello, Security Data
  */
 public class CertificadoRepresentanteLegalSecurityData extends CertificadoSecurityData
         implements CertificadoRepresentanteLegal {

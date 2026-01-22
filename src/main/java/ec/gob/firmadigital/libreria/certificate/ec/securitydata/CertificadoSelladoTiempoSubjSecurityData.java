@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2025
- * Author: Misael Fernández, Security Data
+ * Copyright (C) 20206
+ * Authors: Misael Fernández, Security Data
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -21,13 +21,14 @@ import ec.gob.firmadigital.libreria.certificate.ec.CertificadoSelladoTiempo;
 import java.security.cert.X509Certificate;
 
 /**
- * Certificado de Miembro Empresa / Sello Electrónico emitido por Security Data.
+ * Certificado de Sellado de Tiempo emitido por Security Data.
  *
- * @author Security Data
+ * @author Freddy Pico
  */
-public class CertificadoSelladoTiempoSecurityData extends CertificadoSecurityData implements CertificadoSelladoTiempo {
+public class CertificadoSelladoTiempoSubjSecurityData extends CertificadoSubjSecurityDataImpl
+        implements CertificadoSelladoTiempo {
 
-    public CertificadoSelladoTiempoSecurityData(X509Certificate certificado) {
+    public CertificadoSelladoTiempoSubjSecurityData(X509Certificate certificado) {
         super(certificado);
     }
 }

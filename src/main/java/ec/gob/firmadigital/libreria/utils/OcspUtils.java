@@ -28,6 +28,7 @@ import ec.gob.firmadigital.libreria.certificate.ec.bce.BceCaCert;
 import ec.gob.firmadigital.libreria.certificate.ec.cj.ConsejoJudicaturaCaCert;
 import ec.gob.firmadigital.libreria.certificate.ec.corpnewbest.CorpNewBestCaCert;
 import ec.gob.firmadigital.libreria.certificate.ec.corpnewbest.CorpNewBestCaCert2024011020330619;
+import ec.gob.firmadigital.libreria.certificate.ec.darkcam.DarkcamCaCert20252045;
 import ec.gob.firmadigital.libreria.certificate.ec.datil.DatilCaCert;
 import ec.gob.firmadigital.libreria.certificate.ec.firmasegura.FirmaSeguraCaCert;
 import ec.gob.firmadigital.libreria.certificate.ec.firmasegura.FirmaSeguraSubCaCert20232043;
@@ -36,6 +37,8 @@ import ec.gob.firmadigital.libreria.certificate.ec.lazzate.LazzateCa2Cert;
 import ec.gob.firmadigital.libreria.certificate.ec.lazzate.LazzateCaCert;
 import ec.gob.firmadigital.libreria.certificate.ec.lazzate.LazzateCaWeGoCert;
 import ec.gob.firmadigital.libreria.certificate.ec.letmi.LetmiCaCert20252055;
+import ec.gob.firmadigital.libreria.certificate.ec.primecorelat.PrimeCoreLatCa1Cert;
+import ec.gob.firmadigital.libreria.certificate.ec.primecorelat.PrimeCoreLatCa2Cert;
 import ec.gob.firmadigital.libreria.certificate.ec.securitydata.SecurityDataCaCert;
 import ec.gob.firmadigital.libreria.certificate.ec.uanataca.UanatacaCaCert;
 import ec.gob.firmadigital.libreria.exceptions.EntidadCertificadoraNoValidaException;
@@ -117,6 +120,9 @@ public class OcspUtils {
         X509Certificate rootCACert22 = new FirmaSeguraSubCaCert20232043();
         X509Certificate rootCACert23 = new LetmiCaCert20252055();
         X509Certificate rootCACert24 = new AppFirmasCaCert20252055();
+        X509Certificate rootCACert25 = new DarkcamCaCert20252045();
+        X509Certificate rootCACert26 = new PrimeCoreLatCa1Cert();
+        X509Certificate rootCACert27 = new PrimeCoreLatCa2Cert();
 
         // init root trusted certs
         TrustAnchor ta1 = new TrustAnchor(rootCACert1, null);
@@ -143,6 +149,9 @@ public class OcspUtils {
         TrustAnchor ta22 = new TrustAnchor(rootCACert22, null);
         TrustAnchor ta23 = new TrustAnchor(rootCACert23, null);
         TrustAnchor ta24 = new TrustAnchor(rootCACert24, null);
+        TrustAnchor ta25 = new TrustAnchor(rootCACert25, null);
+        TrustAnchor ta26 = new TrustAnchor(rootCACert26, null);
+        TrustAnchor ta27 = new TrustAnchor(rootCACert27, null);
 
         Set<TrustAnchor> trustedCertsSet = new HashSet<TrustAnchor>();
         trustedCertsSet.add(ta1);
@@ -169,6 +178,9 @@ public class OcspUtils {
         trustedCertsSet.add(ta22);
         trustedCertsSet.add(ta23);
         trustedCertsSet.add(ta24);
+        trustedCertsSet.add(ta25);
+        trustedCertsSet.add(ta26);
+        trustedCertsSet.add(ta27);
 
         // init PKIX parameters
         PKIXParameters params;

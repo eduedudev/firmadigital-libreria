@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2025
- * Author: Misael Fernández, Security Data
+ * Authors: Misael Fernández, DARKCAM S.A.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,19 +15,32 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package ec.gob.firmadigital.libreria.certificate.ec.securitydata;
+package ec.gob.firmadigital.libreria.certificate.ec.darkcam;
 
-import ec.gob.firmadigital.libreria.certificate.ec.CertificadoSelladoTiempo;
+import ec.gob.firmadigital.libreria.certificate.ec.CertificadoMiembroEmpresa;
+import static ec.gob.firmadigital.libreria.certificate.CertificadoOids.Subj.*;
+
 import java.security.cert.X509Certificate;
 
 /**
- * Certificado de Miembro Empresa / Sello Electrónico emitido por Security Data.
+ * Certificado de Miembro de Empresa emitido por DARKCAM S.A.
  *
- * @author Security Data
+ * @author DARKCAM S.A.
  */
-public class CertificadoSelladoTiempoSecurityData extends CertificadoSecurityData implements CertificadoSelladoTiempo {
+public class CertificadoMiembroEmpresaSubjDarkcam extends CertificadoSubjDarkcamImpl
+        implements CertificadoMiembroEmpresa {
 
-    public CertificadoSelladoTiempoSecurityData(X509Certificate certificado) {
+    public CertificadoMiembroEmpresaSubjDarkcam(X509Certificate certificado) {
         super(certificado);
+    }
+
+    @Override
+    public String getRazonSocial() {
+        return getSubjectField(OID_ORGANIZACION);
+    }
+
+    @Override
+    public String getCargo() {
+        return getSubjectField(OID_CARGO);
     }
 }

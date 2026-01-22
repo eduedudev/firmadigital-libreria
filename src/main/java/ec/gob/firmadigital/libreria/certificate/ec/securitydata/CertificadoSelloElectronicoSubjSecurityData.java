@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2025
- * Author: Misael Fernández, Security Data
+ * Copyright (C) 20206
+ * Authors: Misael Fernández, Security Data
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -17,17 +17,25 @@
  */
 package ec.gob.firmadigital.libreria.certificate.ec.securitydata;
 
-import ec.gob.firmadigital.libreria.certificate.ec.CertificadoSelladoTiempo;
+import ec.gob.firmadigital.libreria.certificate.ec.CertificadoSelloElectronico;
 import java.security.cert.X509Certificate;
+import static ec.gob.firmadigital.libreria.certificate.CertificadoOids.Subj.OID_COMMON_NAME;
 
 /**
  * Certificado de Miembro Empresa / Sello Electrónico emitido por Security Data.
+ * Sigue la estructura de la resolución de ARCOTEL-2024-0176.
  *
- * @author Security Data
+ * @author Freddy Pico
  */
-public class CertificadoSelladoTiempoSecurityData extends CertificadoSecurityData implements CertificadoSelladoTiempo {
+public class CertificadoSelloElectronicoSubjSecurityData extends CertificadoSubjSecurityDataImpl
+        implements CertificadoSelloElectronico {
 
-    public CertificadoSelladoTiempoSecurityData(X509Certificate certificado) {
+    public CertificadoSelloElectronicoSubjSecurityData(X509Certificate certificado) {
         super(certificado);
+    }
+
+    @Override
+    public String getCommonName() {
+        return getSubjectField(OID_COMMON_NAME);
     }
 }

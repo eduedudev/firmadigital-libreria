@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2020 
- * Authors: Ricardo Arguello, Misael Fernández, Security Data
+ * Copyright (C) 2025
+ * Authors: Misael Fernández, PrimeCoreLat
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,20 +15,21 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package ec.gob.firmadigital.libreria.certificate.ec.securitydata;
+package ec.gob.firmadigital.libreria.certificate.ec.primecorelat;
 
 import java.security.cert.X509Certificate;
-import ec.gob.firmadigital.libreria.certificate.ec.CertificadoMiembroEmpresa;
+
+import ec.gob.firmadigital.libreria.certificate.ec.CertificadoPersonaJuridica;
 
 /**
- * Certificado de Miembro de Empresa emitido por Security Data.
+ * Certificado de persona jurídica emitido por PRIMECORELAT.
  *
- * @author Ricardo Arguello, Security Data
+ * @author Henry Carrera <henry@hyrserv.com>
  */
-public class CertificadoMiembroEmpresaSecurityData extends CertificadoSecurityData
-        implements CertificadoMiembroEmpresa {
+public class CertificadoPersonaJuridicaPrimeCoreLat extends CertificadoPrimeCoreLat
+        implements CertificadoPersonaJuridica {
 
-    public CertificadoMiembroEmpresaSecurityData(X509Certificate certificado) {
+    public CertificadoPersonaJuridicaPrimeCoreLat(X509Certificate certificado) {
         super(certificado);
     }
 
@@ -54,12 +55,12 @@ public class CertificadoMiembroEmpresaSecurityData extends CertificadoSecurityDa
 
     @Override
     public String getPrimerApellido() {
-        return obtenerExtension(OID_PRIMER_APELLIDO);
+        return obtenerExtension(OID_APELLIDO_1);
     }
 
     @Override
     public String getSegundoApellido() {
-        return obtenerExtension(OID_SEGUNDO_APELLIDO);
+        return obtenerExtension(OID_APELLIDO_2);
     }
 
     @Override
@@ -85,9 +86,5 @@ public class CertificadoMiembroEmpresaSecurityData extends CertificadoSecurityDa
     @Override
     public String getPais() {
         return obtenerExtension(OID_PAIS);
-    }
-
-    public String getRup() {
-        return obtenerExtension(OID_RUP);
     }
 }

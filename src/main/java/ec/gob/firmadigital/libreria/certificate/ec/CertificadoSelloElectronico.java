@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2025
- * Author: Misael Fernández, Security Data
+ * Copyright (C) 2026
+ * Authors: Misael Fernández
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,19 +15,12 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package ec.gob.firmadigital.libreria.certificate.ec.securitydata;
+package ec.gob.firmadigital.libreria.certificate.ec;
 
-import ec.gob.firmadigital.libreria.certificate.ec.CertificadoSelladoTiempo;
-import java.security.cert.X509Certificate;
+public interface CertificadoSelloElectronico extends CertificadoPersonaNatural {
 
-/**
- * Certificado de Miembro Empresa / Sello Electrónico emitido por Security Data.
- *
- * @author Security Data
- */
-public class CertificadoSelladoTiempoSecurityData extends CertificadoSecurityData implements CertificadoSelladoTiempo {
-
-    public CertificadoSelladoTiempoSecurityData(X509Certificate certificado) {
-        super(certificado);
-    }
+    /**
+     * @return Cedula o Pasaporte
+     */
+    String getCommonName();
 }

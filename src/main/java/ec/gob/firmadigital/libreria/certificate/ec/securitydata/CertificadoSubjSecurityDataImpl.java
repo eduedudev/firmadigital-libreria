@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2020 
- * Authors: Ricardo Arguello, Misael Fernández, Security Data
+ * Copyright (C) 20206
+ * Authors: Misael Fernández, Security Data
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -17,71 +17,56 @@
  */
 package ec.gob.firmadigital.libreria.certificate.ec.securitydata;
 
+import ec.gob.firmadigital.libreria.certificate.Certificado;
 import java.security.cert.X509Certificate;
-import ec.gob.firmadigital.libreria.certificate.ec.CertificadoPersonaNatural;
+import static ec.gob.firmadigital.libreria.certificate.CertificadoOids.Subj.*;
 
 /**
- * Certificado de Persona Natural emitido por Security Data.
- *
- * @author Ricardo Arguello, Security Data
+ * Certificado emitido por Security Data
+ * Sigue la estructura de la resolución de ARCOTEL-2024-0176.
+ * 
+ * @author Freddy Pico
  */
-public class CertificadoPersonaNaturalSecurityData extends CertificadoSecurityData
-        implements CertificadoPersonaNatural {
+public class CertificadoSubjSecurityDataImpl extends Certificado {
 
-    public CertificadoPersonaNaturalSecurityData(X509Certificate certificado) {
+    public CertificadoSubjSecurityDataImpl(X509Certificate certificado) {
         super(certificado);
+        super.cargarSubjectName();
     }
 
-    @Override
     public String getCedulaPasaporte() {
-        return obtenerExtension(OID_CEDULA_PASAPORTE);
+        return getSubjectField(OID_CEDULA_PASAPORTE);
     }
 
-    @Override
     public String getNombres() {
-        return obtenerExtension(OID_NOMBRES);
+        return getSubjectField(OID_NOMBRES);
     }
 
-    @Override
     public String getPrimerApellido() {
-        return obtenerExtension(OID_PRIMER_APELLIDO);
+        return getSubjectField(OID_APELLIDOS);
     }
 
-    @Override
     public String getSegundoApellido() {
-        return obtenerExtension(OID_SEGUNDO_APELLIDO);
+        return "";
     }
 
-    @Override
     public String getDireccion() {
-        return obtenerExtension(OID_DIRECCION);
+        return "";
     }
 
-    @Override
     public String getTelefono() {
-        return obtenerExtension(OID_TELEFONO);
+        return "";
     }
 
-    @Override
     public String getCiudad() {
-        return obtenerExtension(OID_CIUDAD);
+        return getSubjectField(OID_CIUDAD);
     }
 
-    @Override
     public String getPais() {
-        return obtenerExtension(OID_PAIS);
+        return getSubjectField(OID_PAIS);
     }
 
-    @Override
     public String getRuc() {
-        return obtenerExtension(OID_RUC);
-    }
-
-    public String getRup() {
-        return obtenerExtension(OID_RUP);
-    }
-
-    public String getProfesion() {
-        return obtenerExtension(OID_PROFESION);
+        return getSubjectField(OID_RUC);
     }
 }

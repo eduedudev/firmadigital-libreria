@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2020 
- * Authors: Ricardo Arguello, Misael Fernández, Security Data
+ * Copyright (C) 2025
+ * Authors: Misael Fernández, PrimeCoreLat
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package ec.gob.firmadigital.libreria.certificate.ec.securitydata;
+package ec.gob.firmadigital.libreria.certificate.ec.primecorelat;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -38,52 +38,44 @@ import java.util.Date;
 import java.util.Set;
 
 /**
- * Certificado intermedio del Security Data, representado como un objeto
+ * Certificado subordinado de PRIMECORELAT (SubCA), representado como un objeto
  * <code>X509Certificate</code>.
  *
- * @author Ricardo Arguello, Security Data
+ * @author Henry Carrera <henry@hyrserv.com>
  */
-public class SecurityDataSubCaCert20112026 extends X509Certificate {
+public class PrimeCoreLatSubCa2Cert extends X509Certificate {
 
     private X509Certificate certificate;
 
-    public SecurityDataSubCaCert20112026() {
+    public PrimeCoreLatSubCa2Cert() {
         super();
 
         StringBuilder cer = new StringBuilder();
         cer.append("-----BEGIN CERTIFICATE-----\n");
-        cer.append("MIIFpDCCBIygAwIBAgIETVxNgTANBgkqhkiG9w0BAQsFADCBlDELMAkGA1UEBhMC\n");
-        cer.append("RUMxGzAZBgNVBAoTElNFQ1VSSVRZIERBVEEgUy5BLjEwMC4GA1UECxMnRU5USURB\n");
-        cer.append("RCBERSBDRVJUSUZJQ0FDSU9OIERFIElORk9STUFDSU9OMTYwNAYDVQQDEy1BVVRP\n");
-        cer.append("UklEQUQgREUgQ0VSVElGSUNBQ0lPTiBSQUlaIFNFQ1VSSVRZIERBVEEwHhcNMTEw\n");
-        cer.append("MjE2MjI1NTQwWhcNMjYwMjE2MjMyNTQwWjCBkzELMAkGA1UEBhMCRUMxGzAZBgNV\n");
-        cer.append("BAoTElNFQ1VSSVRZIERBVEEgUy5BLjEwMC4GA1UECxMnRU5USURBRCBERSBDRVJU\n");
-        cer.append("SUZJQ0FDSU9OIERFIElORk9STUFDSU9OMTUwMwYDVQQDEyxBVVRPUklEQUQgREUg\n");
-        cer.append("Q0VSVElGSUNBQ0lPTiBTVUIgU0VDVVJJVFkgREFUQTCCASIwDQYJKoZIhvcNAQEB\n");
-        cer.append("BQADggEPADCCAQoCggEBAImswItj4Vatw0D4MR30gRBLmZFywEHYyoSsJ03sZq80\n");
-        cer.append("AbmjfyQ9uG5h6LKJM5CJMC7Y1601Agyb3phkmr/ULFhLdry8j+uXb0amI7mIAK1Z\n");
-        cer.append("d1mLMauJIxY4cwgH8U3YJgEvh+DL/vv5NSOfWHJGefM1Rg5146pm5BHX+dnzz6HE\n");
-        cer.append("fcLcnIEaQp2sK8j1xzJxaymxGgpXFQMSmxXYD6j2Xzy7uLGRCvPMvJ/GvrQ0F+N6\n");
-        cer.append("5Z1iN0uKn+uOfYGlJ0iDhKRMtb82D1T9IGZM6nWwlLkc6lMd+X0gRNCTJBCvxyCc\n");
-        cer.append("v8C2oMPndSIOGrYGh9MV/lUmTmKC3bhxraxM0OaEyXsCAwEAAaOCAfswggH3MIIB\n");
-        cer.append("mAYDVR0fBIIBjzCCAYswggGHoIIBg6CCAX+GgdNsZGFwOi8vU0lTTERBUC5TRUNV\n");
-        cer.append("UklUWURBVEEuTkVULkVDL2NuPUNSTDEsY249QVVUT1JJREFEJTIwREUlMjBDRVJU\n");
-        cer.append("SUZJQ0FDSU9OJTIwUkFJWiUyMFNFQ1VSSVRZJTIwREFUQSxvdT1FTlRJREFEJTIw\n");
-        cer.append("REUlMjBDRVJUSUZJQ0FDSU9OJTIwREUlMjBJTkZPUk1BQ0lPTixvPVNFQ1VSSVRZ\n");
-        cer.append("JTIwREFUQSUyMFMuQS4sYz1FQz9hdXRob3JpdHlSZXZvY2F0aW9uTGlzdD9iYXNl\n");
-        cer.append("pIGmMIGjMQswCQYDVQQGEwJFQzEbMBkGA1UEChMSU0VDVVJJVFkgREFUQSBTLkEu\n");
-        cer.append("MTAwLgYDVQQLEydFTlRJREFEIERFIENFUlRJRklDQUNJT04gREUgSU5GT1JNQUNJ\n");
-        cer.append("T04xNjA0BgNVBAMTLUFVVE9SSURBRCBERSBDRVJUSUZJQ0FDSU9OIFJBSVogU0VD\n");
-        cer.append("VVJJVFkgREFUQTENMAsGA1UEAxMEQ1JMMTALBgNVHQ8EBAMCAQYwHwYDVR0jBBgw\n");
-        cer.append("FoAUlgOI1huMRCFc4mButfelH3Whbe4wHQYDVR0OBBYEFPcvTOB152KjeJZbBrYu\n");
-        cer.append("cTvMbD+QMAwGA1UdEwQFMAMBAf8wDQYJKoZIhvcNAQELBQADggEBADMBZO0+fUjX\n");
-        cer.append("yXvVaaLtKqlPf3jQLRAp6ZAEyd4EgjV7zz8wm3giaLqZGw8pgEDDOc9KaZJQ+qDC\n");
-        cer.append("So+JUnDggqMNZ478wMeP9WzSgQm5za9+lWjn2Ff/cBp6kWqVuevd+y4BsoDyvi2G\n");
-        cer.append("7ulTxzulP/0U4ipkgf2uHrgnM7hnKnzMTmnZPKV8KuC7AHI45TZ7yJkpmh30jjkR\n");
-        cer.append("BXNFjViZ6yGnt/wYpfeaOqGJFHpijgVUFMxic6J8XGuDcM5Y42ii1PtdwcmGOBRf\n");
-        cer.append("HpZATprN6Ntux10aEEfPD4jM8CJYq31x3QWYglLozezl/fiJ6RKGZ1ZP1I4BJU7x\n");
-        cer.append("mPCvgJqeNeI=\n");
-        cer.append("-----END CERTIFICATE-----");
+        cer.append("MIIEOjCCAyKgAwIBAgIUcN0I1qodkRSIG+Bov0OEyJCHTgAwDQYJKoZIhvcNAQEL\n");
+        cer.append("BQAwgYsxCzAJBgNVBAYTAkVDMRIwEAYDVQQIDAlQSUNISU5DSEExDjAMBgNVBAcM\n");
+        cer.append("BVFVSVRPMRowGAYDVQQKDBFQcmltZSBDb3JlIFMuQS5TLjEeMBwGA1UECwwVRW50\n");
+        cer.append("ZSBkZSBDZXJ0aWZpY2FjaW9uMRwwGgYDVQQDDBNQcmltZSBDb3JlIFJvb3QgQ0Ey\n");
+        cer.append("MCAXDTI1MDkxMTA1NDUyNFoYDzIwNTUwOTA0MDU0NTI0WjBJMQswCQYDVQQGEwJF\n");
+        cer.append("QzEaMBgGA1UECgwRUHJpbWUgQ29yZSBTLkEuUy4xHjAcBgNVBAMMFVByaW1lIENv\n");
+        cer.append("cmUgRW1pc29yIENBMjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMl8\n");
+        cer.append("7h853HhF7JVwbGZG6eDFSHnxmAvBkER4ZcRFInZ4jdFNJtVHr76i6gORzNWsB3q6\n");
+        cer.append("ERKkd/QCUWwYFTu4M8tBtRb436rB+TXmEodZxU8y63GTDv8s32/nSfz8DHMiMXMx\n");
+        cer.append("YiKcq7oQY/G3ouSPufTG+rzpKROQx7HokV3DxN9t8T6+m6BfCa8QSfutX5KOuIcM\n");
+        cer.append("YPHeAhfDwhyHtJUPwb8DqhDtxIf1MSqFlnIlhoRMD2Ihsr5335M6a4T7wkYt1L9w\n");
+        cer.append("/9JmKC7Rci/P2QZk8977uEqnk34H0ZJpoTpnjKk2RlU+Tw0kKUZmqX4N1FCVKfW8\n");
+        cer.append("8y9VrV5iGyflqNA72wkCAwEAAaOB1DCB0TAdBgNVHQ4EFgQUho7m3IlxCi2uCNZn\n");
+        cer.append("yUH7mvZnq+wwHwYDVR0jBBgwFoAUbKsSI3T95Ceuyx+pTL/rlZOOLzAwEgYDVR0T\n");
+        cer.append("AQH/BAgwBgEB/wIBADAOBgNVHQ8BAf8EBAMCAYYwMAYDVR0fBCkwJzAloCOgIYYf\n");
+        cer.append("aHR0cDovL3BjY2EyLm9ubGluZS9jcmwvY2EyLmNybDA5BggrBgEFBQcBAQQtMCsw\n");
+        cer.append("KQYIKwYBBQUHMAGGHWh0dHA6Ly9wY2NhMi5vbmxpbmU6MzA0NC9vY3NwMA0GCSqG\n");
+        cer.append("SIb3DQEBCwUAA4IBAQAIx0iLhReG69TuPccKAczOKFNtSQtFPXZdt7U9XoWtdeW+\n");
+        cer.append("KzGFqeYm2m6Zogcjsj+f9NvCP32eNZqAy9AEzU70gL6jAJVME+pPKXjFz65oazIg\n");
+        cer.append("VddZflaq0mXmMP9Gu6hdzAD5kGCaY6xQIMnApthIWl60i2BPBHntrFwTcqPG2du+\n");
+        cer.append("DmaTuXjhkzom61cWeQ/uB+bqLdxCCUxJ03bkP5CDzWmNKkrQImu2ODdYDIeebGe5\n");
+        cer.append("W+cEQQbmufO0XS4ArGknqaVn2D5z+mxy2RrUqm+jWTcfdYaPbap/vMV53iMc8Qrz\n");
+        cer.append("7g6Xl/lHlBdQW/edI5It99V9D9skq7EfUOnilz43\n");
+        cer.append("-----END CERTIFICATE-----\n");
 
         try {
             InputStream is = new ByteArrayInputStream(cer.toString().getBytes("UTF-8"));
