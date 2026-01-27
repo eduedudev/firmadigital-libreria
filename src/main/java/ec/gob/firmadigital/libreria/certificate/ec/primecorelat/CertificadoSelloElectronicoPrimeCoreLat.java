@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025
+ * Copyright (C) 2026
  * Authors: Misael Fernández, PrimeCoreLat
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,19 +17,25 @@
  */
 package ec.gob.firmadigital.libreria.certificate.ec.primecorelat;
 
+import ec.gob.firmadigital.libreria.certificate.ec.CertificadoSelloElectronico;
+import static ec.gob.firmadigital.libreria.certificate.CertificadoOids.Subj.OID_COMMON_NAME;
 import java.security.cert.X509Certificate;
 
-import ec.gob.firmadigital.libreria.certificate.ec.CertificadoPersonaNatural;
-
 /**
- * Certificado de persona natural emitido por PRIMECORELAT.
+ * Certificado de Sello Electrónico emitido por PRIMECORELAT.
  *
  * @author Henry Carrera <henry@hyrserv.com>
  */
-public class CertificadoPersonaNaturalPrimeCoreLat extends CertificadoPrimeCoreLat
-        implements CertificadoPersonaNatural {
+public class CertificadoSelloElectronicoPrimeCoreLat
+        extends CertificadoPrimeCoreLat
+        implements CertificadoSelloElectronico {
 
-    public CertificadoPersonaNaturalPrimeCoreLat(X509Certificate certificado) {
+    public CertificadoSelloElectronicoPrimeCoreLat(X509Certificate certificado) {
         super(certificado);
+    }
+
+    @Override
+    public String getCommonName() {
+        return getSubjectField(OID_COMMON_NAME);
     }
 }

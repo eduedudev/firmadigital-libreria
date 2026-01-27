@@ -18,8 +18,8 @@
 package ec.gob.firmadigital.libreria.certificate.ec.securitydata;
 
 import ec.gob.firmadigital.libreria.certificate.ec.CertificadoSelloElectronico;
-import java.security.cert.X509Certificate;
 import static ec.gob.firmadigital.libreria.certificate.CertificadoOids.Subj.OID_COMMON_NAME;
+import java.security.cert.X509Certificate;
 
 /**
  * Certificado de Miembro Empresa / Sello Electrónico emitido por Security Data.

@@ -35,56 +35,56 @@ public class CertificadoPersonaJuridicaPrimeCoreLat extends CertificadoPrimeCore
 
     @Override
     public String getRazonSocial() {
-        return obtenerExtension(OID_RAZON_SOCIAL);
+        return super.getRazonSocial();
     }
 
     @Override
     public String getRuc() {
-        return obtenerExtension(OID_RUC);
+        return super.getRuc();
     }
 
     @Override
     public String getCedulaPasaporte() {
-        return obtenerExtension(OID_CEDULA_PASAPORTE);
+        return super.getCedulaPasaporte();
     }
 
     @Override
     public String getNombres() {
-        return obtenerExtension(OID_NOMBRES);
+        return super.getNombres();
     }
 
     @Override
     public String getPrimerApellido() {
-        return obtenerExtension(OID_APELLIDO_1);
+        return super.getPrimerApellido();
     }
 
     @Override
     public String getSegundoApellido() {
-        return obtenerExtension(OID_APELLIDO_2);
+        return super.getSegundoApellido();
     }
 
     @Override
     public String getCargo() {
-        return obtenerExtension(OID_CARGO);
+        return super.getCargo();
     }
 
     @Override
     public String getDireccion() {
-        return obtenerExtension(OID_DIRECCION);
+        return super.getDireccion();
     }
 
     @Override
     public String getTelefono() {
-        return obtenerExtension(OID_TELEFONO);
+        return super.getTelefono();
     }
 
     @Override
     public String getCiudad() {
-        return obtenerExtension(OID_CIUDAD);
+        return super.getCiudad();
     }
 
     @Override
     public String getPais() {
-        return obtenerExtension(OID_PAIS);
+        return super.getPais();
     }
 }

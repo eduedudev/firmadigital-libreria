@@ -19,7 +19,6 @@ package ec.gob.firmadigital.libreria.certificate.ec.darkcam;
 
 import ec.gob.firmadigital.libreria.certificate.ec.CertificadoMiembroEmpresa;
 import static ec.gob.firmadigital.libreria.certificate.CertificadoOids.Subj.*;
-
 import java.security.cert.X509Certificate;
 
 /**

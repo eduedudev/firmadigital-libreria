@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2020 
- * Authors: Ricardo Arguello, Misael Fernández, ANF AC
+ * Authors: Ricardo Arguello, Misael Fernández
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -17,6 +17,7 @@
  */
 package ec.gob.firmadigital.libreria.certificate.ec.anfac;
 
+import static ec.gob.firmadigital.libreria.certificate.ec.anfac.CertificadoAnfAc37442.*;
 import ec.gob.firmadigital.libreria.exceptions.EntidadCertificadoraNoValidaException;
 import static ec.gob.firmadigital.libreria.utils.BouncyCastleUtils.certificateHasPolicy;
 
@@ -31,12 +32,10 @@ import java.security.cert.X509Certificate;
 public class CertificadoAnfAc37442Factory {
 
     public static boolean esCertificadoDeAnfAc37442(X509Certificate certificado) {
-        byte[] valor = certificado.getExtensionValue(CertificadoAnfAc37442.OID_CEDULA_PASAPORTE);
-        if (valor != null) {
-            return true;
-        }
-        return certificateHasPolicy(certificado, CertificadoAnfAc37442.OID_SELLADO_TIEMPO);
-
+        return (certificateHasPolicy(certificado, OID_CERTIFICADO_PERSONA_NATURAL)
+                || certificateHasPolicy(certificado, OID_CERTIFICADO_PERSONA_JURIDICA)
+                || certificateHasPolicy(certificado, OID_CERTIFICADO_FUNCIONARIO_PUBLICO)
+                || certificateHasPolicy(certificado, OID_SELLADO_TIEMPO));
     }
 
     public static CertificadoAnfAc37442 construir(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
@@ -50,6 +49,8 @@ public class CertificadoAnfAc37442Factory {
             return new CertificadoPersonaJuridicaAnfAc37442(certificado);
         } else if (certificateHasPolicy(certificado, CertificadoAnfAc37442.OID_CERTIFICADO_FUNCIONARIO_PUBLICO) || certificateHasPolicy(certificado, CertificadoAnfAc37442.OID_CERTIFICADO_FUNCIONARIO_PUBLICO_TOKEN)) {
             return new CertificadoFuncionarioPublicoAnfAc37442(certificado);
+        } else if (certificateHasPolicy(certificado, CertificadoAnfAc37442.OID_SELLADO_TIEMPO)) {
+            return new CertificadoSelladoTiempoAnfAc(certificado);
         } else {
             throw new EntidadCertificadoraNoValidaException("Certificado ANF AC Ecuador de tipo desconocido!");
         }

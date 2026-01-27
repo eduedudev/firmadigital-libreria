@@ -31,5 +31,4 @@ public class CertificadoPersonaNaturalSubjDarkcam extends CertificadoSubjDarkcam
     public CertificadoPersonaNaturalSubjDarkcam(X509Certificate certificado) {
         super(certificado);
     }
-
 }

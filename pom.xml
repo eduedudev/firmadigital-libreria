@@ -4,7 +4,7 @@
 
     <groupId>ec.gob.firmadigital</groupId>
     <artifactId>libreria</artifactId>
-    <version>4.1.0-SNAPSHOT</version>
+    <version>4.2.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>firmadigital-libreria</name>
@@ -60,7 +60,7 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <jakartaee>10.0.0</jakartaee>
         <com.itextpdf.version>7.2.6</com.itextpdf.version>
-        <bouncycastle.version>1.77</bouncycastle.version>
+        <bouncycastle.version>1.70</bouncycastle.version>
         <dss.version>6.2</dss.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025
+ * Copyright (C) 2026
  * Authors: Misael Fernández, PrimeCoreLat
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,19 +17,29 @@
  */
 package ec.gob.firmadigital.libreria.certificate.ec.primecorelat;
 
+import ec.gob.firmadigital.libreria.certificate.ec.CertificadoMiembroEmpresa;
+import static ec.gob.firmadigital.libreria.certificate.CertificadoOids.Subj.*;
 import java.security.cert.X509Certificate;
 
-import ec.gob.firmadigital.libreria.certificate.ec.CertificadoPersonaNatural;
-
 /**
- * Certificado de persona natural emitido por PRIMECORELAT.
+ * Certificado de Miembro de Empresa emitido por PRIMECORELAT.
  *
  * @author Henry Carrera <henry@hyrserv.com>
  */
-public class CertificadoPersonaNaturalPrimeCoreLat extends CertificadoPrimeCoreLat
-        implements CertificadoPersonaNatural {
-
-    public CertificadoPersonaNaturalPrimeCoreLat(X509Certificate certificado) {
+public class CertificadoMiembroEmpresaPrimeCoreLat
+extends CertificadoPrimeCoreLat
+implements CertificadoMiembroEmpresa {
+    public CertificadoMiembroEmpresaPrimeCoreLat(X509Certificate certificado) {
         super(certificado);
+    }
+
+    @Override
+    public String getRazonSocial() {
+        return getSubjectField(OID_ORGANIZACION);
+    }
+
+    @Override
+    public String getCargo() {
+        return getSubjectField(OID_CARGO);
     }
 }

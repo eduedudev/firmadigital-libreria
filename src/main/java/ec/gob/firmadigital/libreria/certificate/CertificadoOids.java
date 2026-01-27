@@ -74,6 +74,7 @@ public final class CertificadoOids {
         public static final String OID_CERTIFICADO_PERSONA_NATURAL_PRIMECORELAT = "1.3.6.1.4.1.63542.2.1.1";
         public static final String OID_CERTIFICADO_MIEMBRO_EMPRESA_PRIMECORELAT = "1.3.6.1.4.1.63542.2.2.1";
         public static final String OID_CERTIFICADO_REPRESENTANTE_LEGAL_PRIMECORELAT = "1.3.6.1.4.1.63542.2.3.1";
+        public static final String OID_CERTIFICADO_SELLO_ELECTRONICO_PRIMECORELAT = "1.3.6.1.4.1.63542.2.4.1";
 
         // OIDs de tipo de certificado SECURITY_DATA
         public static final String OID_CERTIFICADO_PERSONA_NATURAL_SECURITY_DATA = "1.3.6.1.4.1.37746.2.1.1";
