@@ -32,8 +32,7 @@ import java.security.cert.X509Certificate;
 public class CertificadoDarkcamFactory {
 
     public static boolean esCertificadoDeDarkcam(X509Certificate certificado) {
-        return (certificateHasPolicy2(certificado, Subj.OID_CERTIFICADO_PERSONA_NATURAL_SIN_RUC_DARKCAM)
-                || certificateHasPolicy2(certificado, Subj.OID_CERTIFICADO_PERSONA_NATURAL_CON_RUC_DARKCAM)
+        return (certificateHasPolicy2(certificado, Subj.OID_CERTIFICADO_PERSONA_NATURAL_DARKCAM)
                 || certificateHasPolicy2(certificado, Subj.OID_CERTIFICADO_MIEMBRO_EMPRESA_DARKCAM)
                 || certificateHasPolicy2(certificado, Subj.OID_CERTIFICADO_REPRESENTANTE_LEGAL_DARKCAM)
                 || certificateHasPolicy2(certificado, Subj.OID_CERTIFICADO_SELLO_ELECTRONICO_DARKCAM));
@@ -47,9 +46,8 @@ public class CertificadoDarkcamFactory {
     }
 
     public static Certificado construir(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
-        // Persona Natural (con o sin RUC)
-        if (certificateHasPolicy2(certificado, Subj.OID_CERTIFICADO_PERSONA_NATURAL_SIN_RUC_DARKCAM)
-                || certificateHasPolicy2(certificado, Subj.OID_CERTIFICADO_PERSONA_NATURAL_CON_RUC_DARKCAM)) {
+        // Persona Natural (con o sin RUC - se diferencian por presencia del campo Organization Identifier 2.5.4.97)
+        if (certificateHasPolicy2(certificado, Subj.OID_CERTIFICADO_PERSONA_NATURAL_DARKCAM)) {
             return new CertificadoPersonaNaturalSubjDarkcam(certificado);
         } // Sello Electrónico
         else if (certificateHasPolicy2(certificado, Subj.OID_CERTIFICADO_SELLO_ELECTRONICO_DARKCAM)) {

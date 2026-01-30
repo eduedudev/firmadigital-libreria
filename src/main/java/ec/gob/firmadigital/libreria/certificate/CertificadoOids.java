@@ -63,12 +63,12 @@ public final class CertificadoOids {
         public static final String OID_CERTIFICADO_MIEMBRO_EMPRESA_APP_FIRMAS = "1.3.6.1.4.1.62431.2.2.1";
         public static final String OID_CERTIFICADO_REPRESENTANTE_LEGAL_APP_FIRMAS = "1.3.6.1.4.1.62431.2.3.1";
 
-        // OIDs de tipo de certificado Darkcam S.A.
-        public static final String OID_CERTIFICADO_PERSONA_NATURAL_SIN_RUC_DARKCAM = "1.3.6.1.4.1.64482.2.1.2";
-        public static final String OID_CERTIFICADO_PERSONA_NATURAL_CON_RUC_DARKCAM = "1.3.6.1.4.1.64482.2.1.3";
+        // OIDs de tipo de certificado Darkcam S.A. (Normativa ARCOTEL 2026)
+        // Persona Natural (SIN RUC y CON RUC usan el mismo OID, se diferencian por Organization Identifier 2.5.4.97)
+        public static final String OID_CERTIFICADO_PERSONA_NATURAL_DARKCAM = "1.3.6.1.4.1.64482.2.1.1";
+        public static final String OID_CERTIFICADO_MIEMBRO_EMPRESA_DARKCAM = "1.3.6.1.4.1.64482.2.2.1";
         public static final String OID_CERTIFICADO_SELLO_ELECTRONICO_DARKCAM = "1.3.6.1.4.1.64482.2.2.2";
-        public static final String OID_CERTIFICADO_REPRESENTANTE_LEGAL_DARKCAM = "1.3.6.1.4.1.64482.2.3.2";
-        public static final String OID_CERTIFICADO_MIEMBRO_EMPRESA_DARKCAM = "1.3.6.1.4.1.64482.2.4.2";
+        public static final String OID_CERTIFICADO_REPRESENTANTE_LEGAL_DARKCAM = "1.3.6.1.4.1.64482.2.3.1";
 
         // OIDs de tipo de certificado PrimeCoreLat S.A.S.
         public static final String OID_CERTIFICADO_PERSONA_NATURAL_PRIMECORELAT = "1.3.6.1.4.1.63542.2.1.1";

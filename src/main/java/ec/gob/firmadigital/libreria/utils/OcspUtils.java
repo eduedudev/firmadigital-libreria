@@ -28,7 +28,7 @@ import ec.gob.firmadigital.libreria.certificate.ec.bce.BceCaCert;
 import ec.gob.firmadigital.libreria.certificate.ec.cj.ConsejoJudicaturaCaCert;
 import ec.gob.firmadigital.libreria.certificate.ec.corpnewbest.CorpNewBestCaCert;
 import ec.gob.firmadigital.libreria.certificate.ec.corpnewbest.CorpNewBestCaCert2024011020330619;
-import ec.gob.firmadigital.libreria.certificate.ec.darkcam.DarkcamCaCert20252045;
+import ec.gob.firmadigital.libreria.certificate.ec.darkcam.DarkcamCaCert20262046;
 import ec.gob.firmadigital.libreria.certificate.ec.datil.DatilCaCert;
 import ec.gob.firmadigital.libreria.certificate.ec.firmasegura.FirmaSeguraCaCert;
 import ec.gob.firmadigital.libreria.certificate.ec.firmasegura.FirmaSeguraSubCaCert20232043;
@@ -120,7 +120,7 @@ public class OcspUtils {
         X509Certificate rootCACert22 = new FirmaSeguraSubCaCert20232043();
         X509Certificate rootCACert23 = new LetmiCaCert20252055();
         X509Certificate rootCACert24 = new AppFirmasCaCert20252055();
-        X509Certificate rootCACert25 = new DarkcamCaCert20252045();
+        X509Certificate rootCACert25 = new DarkcamCaCert20262046();
         X509Certificate rootCACert26 = new PrimeCoreLatCa1Cert();
         X509Certificate rootCACert27 = new PrimeCoreLatCa2Cert();
 

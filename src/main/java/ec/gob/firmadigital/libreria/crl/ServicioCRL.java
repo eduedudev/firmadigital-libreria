@@ -56,9 +56,9 @@ public class ServicioCRL {
     public static final String LETMI1_CRL = "https://crl.letmi.app/LETMI_CA_ROOT01.crl";
     public static final String LETMI2_CRL = "https://crl.letmi.app/LETMI_CA_SUB01.crl";
     public static final String APP_FIRMAS_CRL = "http://crl.appfirmas.com/crl/appfirmas/9dd7d200-d3f5-45d3-9de4-69446907163d.crl";
-    public static final String DARKCAM_ROOT_CRL = "http://ca-root-crl-darkcam.s3.us-east-1.amazonaws.com/crl/4624db1d-b167-42eb-8dfb-2a860ae0eb44/2TWtYTfLyGl.crl";
-    public static final String DARKCAM_SUBCA_CRL = "http://ca-subordinada-crl-darkcam.s3.us-east-1.amazonaws.com/crl/00444342-dd67-45fb-92a3-44a23607d80f.crl";
-    public static final String DARKCAM_SUBCA_SHORT_CRL = "http://ca-subordinada-short-crl-darkcam.s3.us-east-1.amazonaws.com/crl/810d58f2-b2ea-4e85-8397-9c060287c633.crl";
+    public static final String DARKCAM_ROOT_CRL = "http://ca-root-crl-darkcam-v2.s3.us-east-1.amazonaws.com/crl/cc85db5a-7e24-43ad-a873-4c5b0210a753/EGSpfiHkjmd.crl";
+    public static final String DARKCAM_SUBCA_CRL = "http://ca-subordinada-crl-darkcam-v2.s3.us-east-1.amazonaws.com/crl/KIX959daecu.crl";
+    public static final String DARKCAM_SUBCA_SHORT_CRL = "http://ca-subordinada-short-crl-darkcam-v2.s3.us-east-1.amazonaws.com/crl/9thPTVuGE3o.crl";
     public static final String PRIMECORELAT_CA1_CRL = "http://pcca1.online/crl/emisorCA1.crl";
     public static final String PRIMECORELAT_CA2_CRL = "http://pcca2.online/crl/emisorCA2.crl";
 

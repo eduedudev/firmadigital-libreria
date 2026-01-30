@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2025
- * Authors: DARKCAM S.A.
+ * Copyright (C) 2026
+ * Authors: Misael Fernández, DARKCAM S.A.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -27,59 +27,61 @@ import java.util.Date;
 import java.util.Set;
 
 /**
- * Certificado subordinado de DARKCAM S.A. para certificados Short-Lived (SubCA Short),
- * representado como un objeto <code>X509Certificate</code>.
- *
- * Este SubCA se utiliza para emitir certificados de corta duración (short-lived certificates)
- * que típicamente tienen validez de horas o días, diseñados para escenarios "one-shot" donde
- * no se requiere revocación tradicional.
+ * Certificado subordinado de DARKCAM S.A. (SubCA), representado como un objeto
+ * <code>X509Certificate</code>.
  *
  * @author DARKCAM S.A.
  */
-public class DarkcamSubCaShortCert20252035 extends X509Certificate {
+public class DarkcamSubCaCert20262036 extends X509Certificate {
 
     private final X509Certificate certificate;
 
-    public DarkcamSubCaShortCert20252035() {
+    public DarkcamSubCaCert20262036() {
         super();
 
         StringBuilder cer = new StringBuilder();
         cer.append("-----BEGIN CERTIFICATE-----\n");
-        cer.append("MIIGfzCCBGegAwIBAgIRAIQzP2cR/YG4NQIPUouLbSowDQYJKoZIhvcNAQELBQAw\n");
-        cer.append("aDELMAkGA1UEBhMCRUMxFTATBgNVBAoMDERBUktDQU0gUy5BLjEMMAoGA1UECwwD\n");
-        cer.append("UEtJMRIwEAYDVQQIDAlQaWNoaW5jaGExEDAOBgNVBAMMB0NBIFJvb3QxDjAMBgNV\n");
-        cer.append("BAcMBVF1aXRvMB4XDTI1MTAzMTE5NTAyOFoXDTM1MTAzMTIwNDcwMFowgaIxCzAJ\n");
-        cer.append("BgNVBAYTAkVDMRUwEwYDVQQKDAxEQVJLQ0FNIFMuQS4xKjAoBgNVBAsMIUNBIEVt\n");
-        cer.append("aXNvcmEgZGUgQ2VydGlmaWNhY2lvbiBTaG9ydDESMBAGA1UECAwJUGljaGluY2hh\n");
-        cer.append("MSwwKgYDVQQDDCNEQVJLQ0FNIFMuQS4gLSBDQSBTdWJvcmRpbmFkYSBTaG9ydDEO\n");
-        cer.append("MAwGA1UEBwwFUXVpdG8wggIiMA0GCSqGSIb3DQEBAQUAA4ICDwAwggIKAoICAQDP\n");
-        cer.append("tZnJVrjVbQQ7qseeJznHyflP+HzLSe7nIisbRalsnUkTvt7NiLN7h21p7FfFPcJB\n");
-        cer.append("FEhDom5fykQnaw/j/SPUg7IM37iUY0UBsbQjWn4UhcrvS7weaPy8jm9zMgf81h0M\n");
-        cer.append("Xzd2wb/XnsIfPrM7OOuAiIwBnunT18yaRF9ZPqXbaDq3lFlHzrxHMYJ56gjYTw/1\n");
-        cer.append("3EGasbTPxvCXvpp9h/ScK1PjjLYZH7q6H2RipniyXhsr26AkcBGYWRFWel8YvYGz\n");
-        cer.append("C0KXdVJ+PHpm7hBNzq5aKtabsh/AFxtZpb0/hzUiTWqdR6SWJF5FmRnOfFENWF1Q\n");
-        cer.append("k8mgR5uM9iDBeQ4uFt4oTCRicGZe5kBLpyACN2B0cnUqRfR3wRv5xrFxMQ6QjrGG\n");
-        cer.append("MDHMNHjdkaNWSmnC7EIgqW2iGltmmQWzwKfsES4Jcp+DEOfR4TqaUCxMNDHHDMKC\n");
-        cer.append("XkSN5kw3YJBGzpEq6PqM56JCE6/fjdKL9oNv/Ax/iFyMtnzzMawuSOogY9dAPfBo\n");
-        cer.append("5a5wdcd2h2LG0ABLxlUWTyyYp7buNJlEjmWOYspsJCUBd5bn+n7W0wbyqTgw6G52\n");
-        cer.append("7OZR7dhefGuXGewzXRcXI++kahWe0mZpgi4eKGppqMPD1xfRzG6trD6OomhIR0IH\n");
-        cer.append("KYGvd1PcY9Bd+yIW0a4fSS/p83440A9IlnYBo4X8OwIDAQABo4HoMIHlMBIGA1Ud\n");
-        cer.append("EwEB/wQIMAYBAf8CAQAwHwYDVR0jBBgwFoAUR3U64djMQ3mqKgpo3Yxq//GbbwQw\n");
-        cer.append("HQYDVR0OBBYEFA1+/BxGodsDO0AIUGgnhkXjgoGqMA4GA1UdDwEB/wQEAwIBhjB/\n");
-        cer.append("BgNVHR8EeDB2MHSgcqBwhm5odHRwOi8vY2Etcm9vdC1jcmwtZGFya2NhbS5zMy51\n");
-        cer.append("cy1lYXN0LTEuYW1hem9uYXdzLmNvbS9jcmwvNDYyNGRiMWQtYjE2Ny00MmViLThk\n");
-        cer.append("ZmItMmE4NjBhZTBlYjQ0L0lhd0NKc3kwd0ZuLmNybDANBgkqhkiG9w0BAQsFAAOC\n");
-        cer.append("AgEAQ2Dlf+Yl36PKOjRH7XBJ0RzqOfi6cKTacZTZJ4xvQDIdDwpHdtcHqNoX+der\n");
-        cer.append("5jGieCw6axDFlAtTtymQESOgGz0TyYQK2PsWhEJPQfV9gWg1DICOoWs5tLWZJNqS\n");
-        cer.append("NrjeOM1mcnSH2BbnwlZwiZ7tqsnH4o/3tOef/Wy7r+5GJqFCfPKB+ncUdSM2eVuu\n");
-        cer.append("EEqIijn4jCg9qXQo7hbeY3B7MSo7Hp73kbg/jPR3Ek0BBviE0DrVUO6nbhkmKrUw\n");
-        cer.append("U6khSiv9GMijdn+Q1EOBt00nZZfGfQLnAjF6Ebj8k0/jsnwLH9rzL5zjthV2dViX\n");
-        cer.append("nrOlFRsNIGZtU22q8NtrjhfovYoEv3jF+GqvP6xVjsQtvaX7Ln7wMI5J9se+A6yE\n");
-        cer.append("7EKnRcgW1r9FWAIwc2ykD4TPnSPjeJJXN1j2N4aIllO2WpDVnSV40s/p7K8MvuZt\n");
-        cer.append("jrTTmKSWhdhCpqmexi53cl0hwghtwUpFrgqwxiYDu5on2JDqm9t8HLEkvI+EPhKh\n");
-        cer.append("q8zn589ZccZ28vwecsIACqu0PIFFqiMGV30C2OVK+rC2PaaL03ttmkkX2lphVSiH\n");
-        cer.append("lMDECwAk+35qlC+T0JPmg3v96VRQXGodnQj7GkOww6cbaatO/AscFiHpQteYjlw9\n");
-        cer.append("PdQfRiLRAtr2lKMnmB/HAbyqVZrUxBGgI7azU5gQ+T0q8ow=\n");
+        cer.append("MIIHgzCCBWugAwIBAgIQMw4lJdaftAbopJp3WBIL4TANBgkqhkiG9w0BAQsFADBo\n");
+        cer.append("MQswCQYDVQQGEwJFQzEVMBMGA1UECgwMREFSS0NBTSBTLkEuMQwwCgYDVQQLDANQ\n");
+        cer.append("S0kxEjAQBgNVBAgMCVBpY2hpbmNoYTEQMA4GA1UEAwwHQ0EgUm9vdDEOMAwGA1UE\n");
+        cer.append("BwwFUXVpdG8wHhcNMjYwMTI5MjM0MDEyWhcNMzYwMTMwMDA0MDEyWjCBlTELMAkG\n");
+        cer.append("A1UEBhMCRUMxFTATBgNVBAoMDERBUktDQU0gUy5BLjEjMCEGA1UECwwaQ0EgRW1p\n");
+        cer.append("c29yYSBkZSBDZXJ0aWZpY2Fkb3MxEjAQBgNVBAgMCVBpY2hpbmNoYTEmMCQGA1UE\n");
+        cer.append("AwwdREFSS0NBTSBTLkEuIC0gQ0EgU3Vib3JkaW5hZGExDjAMBgNVBAcMBVF1aXRv\n");
+        cer.append("MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAyu3gDoFyOXcZAqqG+kFW\n");
+        cer.append("PC3boiD7wCqu7C8TD7Cnm5dXL19snmVPSZBXbTtQxRu33AP/uqvMadfJIisJPl7f\n");
+        cer.append("i2GVxb7wN/GAwlzrVWwqqTPnEHH2KPPNCZT8m3aTFrpPOQzFji706LKp8fB19ls+\n");
+        cer.append("0gp5AT7N0vEM3S++tfAlEvrpX5gffON2NKX6+iTl4mtm04MpR4ymhh8DQij+DBCb\n");
+        cer.append("ayweRwnxfCbgy/bCmTfY+man/DtiYMB/0DN2GI1xdD1xPCeVcUWWjznRxQvw9XWp\n");
+        cer.append("yKzVlHmMe1LWdKaThfmkbPwpMIGoTl6KyTk5bYAsiYB2EJksedvDBSrt8vJl7c4B\n");
+        cer.append("BJuO5BA5JTMIpFIqypWecZWricYeGqv9UZaiyZ070abjqaHoz077wK7nzyOGEas0\n");
+        cer.append("PKzncVDJ8fRsOgbf5ROzMcY3eIcxOBn1aIwhc/dsE/GYPXEVyQy0ngnAeFR47VfW\n");
+        cer.append("NKH6bD+pIlgtbLURb5F0IODk7mgsJioSuG3blsV36h7bDNzkAIiNG7q/aCJVLLVg\n");
+        cer.append("umBVCY0wr8822A+mgbkDRpCqp+6W+U+TeCAZ/g4gAxKJSpcTTsKEJY1UBYbVK20t\n");
+        cer.append("8JJ9mpCPnHKCx1QpTbo+OiO/fVGW6fXAVL3IVoBn+e8/R3Z9U1sBaXhSHORq9eZL\n");
+        cer.append("Y4No9axfLWj4LAgtkE0RwpsCAwEAAaOCAfkwggH1MBIGA1UdEwEB/wQIMAYBAf8C\n");
+        cer.append("AQAwHwYDVR0jBBgwFoAUEITdEARQk2opfMtgU5MPWTXTt8swHQYDVR0OBBYEFGTG\n");
+        cer.append("uh7TqKynb/eYnXZE9qLrGnIRMA4GA1UdDwEB/wQEAwIBhjAmBgNVHREEHzAdgRth\n");
+        cer.append("ZG1pbmlzdHJhdGl2b0BkYXJrLWNhbS5jb20wgYIGA1UdHwR7MHkwd6B1oHOGcWh0\n");
+        cer.append("dHA6Ly9jYS1yb290LWNybC1kYXJrY2FtLXYyLnMzLnVzLWVhc3QtMS5hbWF6b25h\n");
+        cer.append("d3MuY29tL2NybC9jYzg1ZGI1YS03ZTI0LTQzYWQtYTg3My00YzViMDIxMGE3NTMv\n");
+        cer.append("RUdTcGZpSGtqbWQuY3JsMEcGCCsGAQUFBwEBBDswOTA3BggrBgEFBQcwAYYraHR0\n");
+        cer.append("cDovL29jc3AuYWNtLXBjYS51cy1lYXN0LTEuYW1hem9uYXdzLmNvbTCBmAYDVR0g\n");
+        cer.append("BIGQMIGNMIGKBgRVHSAAMIGBMDMGCCsGAQUFBwIBFidodHRwczovL3VuaXZlcnNl\n");
+        cer.append("LWlkLmNvbS9kYXJrY2FtL2Nwcy5wZGYwSgYIKwYBBQUHAgIwPgw8Q2VydGlmaWNh\n");
+        cer.append("ZG8gZW1pdGlkbyBjb25mb3JtZSBhIGxhcyBwb2xpdGljYXMgZGUgREFSS0NBTSBT\n");
+        cer.append("LkEuMA0GCSqGSIb3DQEBCwUAA4ICAQB/tKw4SqGhsCPmLqg6xQa1N9sFowdzCZQS\n");
+        cer.append("IjPdBzRxV8TWJmCpAcid+mftd6NoYdT9vI0lvP8Gb4xAbbfuhZYC5jo6ni/1jfX5\n");
+        cer.append("4mjDy+ThhScw4LnRkD3Zz8mtIm5L2U8xdwpbIDn7SkoR/O0V6NWZ9Z+joNJ1V9+p\n");
+        cer.append("MwickqyoCupyh1KSGyGkRrleRmUhd1ZzzTW41bXEda/D6JSqaHBeL8R63OS8rugv\n");
+        cer.append("090i6xexevlv6p0YFRXxgN1MbfpKuNN85D3fXql//I4kn9doYGm9z+jnYQdEm/jR\n");
+        cer.append("QhjKfYxmNwHNNW8PyH2tU10j0G5HSzDfu6tZ56ESbdRNm67SLfNFCtXxdY5FYfZp\n");
+        cer.append("lK9B/rTyUO55IpVGWXNVfvNZDczHcB17Ei7Lbh4cxbwFXK/V8uQCesbfCXu+kdyH\n");
+        cer.append("OcqWG4UAHzb7CcJ+rnFVFi7DKdpJH+WExUJashui0HKR10O0c9Ue4atok+BVRxPT\n");
+        cer.append("e3UKZUQ4v08IAtFOiT51C9y5DLB86ltvmhxc6D8E5NLRJZDvLmXSEcVMJsuNJ7OK\n");
+        cer.append("oO8u7Tvxww75NuW1C1HWq+91i4vBb3hvfgA5QPOxDBmxzl+HDVPVF+AJ6FjSaO/Z\n");
+        cer.append("0ay0zWTpAjIf0ol47PaPmYAeAj1jyIv6vDRVonRgTa8mZzz3ztoJBFrY2Iqi/AhK\n");
+        cer.append("pBGcvIfQCw==\n");
         cer.append("-----END CERTIFICATE-----\n");
 
         try {
