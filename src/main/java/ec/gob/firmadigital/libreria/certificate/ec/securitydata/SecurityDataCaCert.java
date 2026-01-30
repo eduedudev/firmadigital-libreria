@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2020 
- * Authors: Ricardo Arguello, Misael Fernández
+ * Authors: Ricardo Arguello, Misael Fernández, Security Data
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -41,7 +41,7 @@ import java.util.Set;
  * Certificado raiz de Security Data, representado como un objeto
  * <code>X509Certificate</code>.
  *
- * @author Ricardo Arguello
+ * @author Ricardo Arguello, Security Data
  */
 public class SecurityDataCaCert extends X509Certificate {
 

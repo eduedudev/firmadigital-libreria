@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2020 
- * Authors: Ricardo Arguello, Misael Fernández, Security Data
+ * Copyright (C) 2025
+ * Authors: Misael Fernández, PrimeCoreLat
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,79 +15,76 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package ec.gob.firmadigital.libreria.certificate.ec.securitydata;
+package ec.gob.firmadigital.libreria.certificate.ec.primecorelat;
 
 import java.security.cert.X509Certificate;
-import ec.gob.firmadigital.libreria.certificate.ec.CertificadoMiembroEmpresa;
+
+import ec.gob.firmadigital.libreria.certificate.ec.CertificadoPersonaJuridica;
 
 /**
- * Certificado de Miembro de Empresa emitido por Security Data.
+ * Certificado de persona jurídica emitido por PRIMECORELAT.
  *
- * @author Ricardo Arguello, Security Data
+ * @author Henry Carrera <henry@hyrserv.com>
  */
-public class CertificadoMiembroEmpresaSecurityData extends CertificadoSecurityData
-        implements CertificadoMiembroEmpresa {
+public class CertificadoPersonaJuridicaPrimeCoreLat extends CertificadoPrimeCoreLat
+        implements CertificadoPersonaJuridica {
 
-    public CertificadoMiembroEmpresaSecurityData(X509Certificate certificado) {
+    public CertificadoPersonaJuridicaPrimeCoreLat(X509Certificate certificado) {
         super(certificado);
     }
 
     @Override
     public String getRazonSocial() {
-        return obtenerExtension(OID_RAZON_SOCIAL);
+        return super.getRazonSocial();
     }
 
     @Override
     public String getRuc() {
-        return obtenerExtension(OID_RUC);
+        return super.getRuc();
     }
 
     @Override
     public String getCedulaPasaporte() {
-        return obtenerExtension(OID_CEDULA_PASAPORTE);
+        return super.getCedulaPasaporte();
     }
 
     @Override
     public String getNombres() {
-        return obtenerExtension(OID_NOMBRES);
+        return super.getNombres();
     }
 
     @Override
     public String getPrimerApellido() {
-        return obtenerExtension(OID_PRIMER_APELLIDO);
+        return super.getPrimerApellido();
     }
 
     @Override
     public String getSegundoApellido() {
-        return obtenerExtension(OID_SEGUNDO_APELLIDO);
+        return super.getSegundoApellido();
     }
 
     @Override
     public String getCargo() {
-        return obtenerExtension(OID_CARGO);
+        return super.getCargo();
     }
 
     @Override
     public String getDireccion() {
-        return obtenerExtension(OID_DIRECCION);
+        return super.getDireccion();
     }
 
     @Override
     public String getTelefono() {
-        return obtenerExtension(OID_TELEFONO);
+        return super.getTelefono();
     }
 
     @Override
     public String getCiudad() {
-        return obtenerExtension(OID_CIUDAD);
+        return super.getCiudad();
     }
 
     @Override
     public String getPais() {
-        return obtenerExtension(OID_PAIS);
-    }
-
-    public String getRup() {
-        return obtenerExtension(OID_RUP);
+        return super.getPais();
     }
 }

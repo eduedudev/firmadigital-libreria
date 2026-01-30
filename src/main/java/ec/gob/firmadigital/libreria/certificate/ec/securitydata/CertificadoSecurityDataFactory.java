@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2020 
- * Authors: Ricardo Arguello, Misael Fernández
+ * Authors: Ricardo Arguello, Misael Fernández, Security Data
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -24,8 +24,11 @@ import static ec.gob.firmadigital.libreria.certificate.ec.securitydata.Certifica
 import static ec.gob.firmadigital.libreria.certificate.ec.securitydata.CertificadoSecurityData.OID_TIPO_PERSONA_NATURAL;
 import static ec.gob.firmadigital.libreria.certificate.ec.securitydata.CertificadoSecurityData.OID_TIPO_PERSONA_NATURAL_PROFESIONAL;
 import static ec.gob.firmadigital.libreria.certificate.ec.securitydata.CertificadoSecurityData.OID_TIPO_REPRESENTANTE_LEGAL;
+import ec.gob.firmadigital.libreria.certificate.Certificado;
+import ec.gob.firmadigital.libreria.certificate.CertificadoOids.Subj;
 import ec.gob.firmadigital.libreria.exceptions.EntidadCertificadoraNoValidaException;
 import static ec.gob.firmadigital.libreria.utils.BouncyCastleUtils.certificateHasPolicy;
+import static ec.gob.firmadigital.libreria.utils.BouncyCastleUtils.certificateHasPolicy2;
 
 import java.security.cert.X509Certificate;
 
@@ -33,7 +36,7 @@ import java.security.cert.X509Certificate;
  * Permite construir certificados tipo CertificadoSecurityData a partir de
  * certificados X509Certificate.
  *
- * @author Ricardo Arguello
+ * @author Ricardo Arguello, Freddy Pico
  */
 public class CertificadoSecurityDataFactory {
 
@@ -44,10 +47,20 @@ public class CertificadoSecurityDataFactory {
                 || certificateHasPolicy(certificado, OID_TIPO_MIEMBRO_EMPRESA)
                 || certificateHasPolicy(certificado, OID_TIPO_FUNCIONARIO_PUBLICO)
                 || certificateHasPolicy(certificado, OID_TIPO_PERSONA_NATURAL_PROFESIONAL)
-                || certificateHasPolicy(certificado, OID_SELLADO_TIEMPO));
+                || certificateHasPolicy(certificado, OID_SELLADO_TIEMPO)
+                //RESOLUCION-ARCOTEL-2024-0176
+                || certificateHasPolicy2(certificado, Subj.OID_CERTIFICADO_PERSONA_NATURAL_SECURITY_DATA)
+                || certificateHasPolicy2(certificado, Subj.OID_CERTIFICADO_PERSONA_NATURAL_DSCF_SECURITY_DATA)
+                || certificateHasPolicy2(certificado, Subj.OID_CERTIFICADO_REPRESENTANTE_LEGAL_SECURITY_DATA)
+                || certificateHasPolicy2(certificado, Subj.OID_CERTIFICADO_REPRESENTANTE_LEGAL_DSCF_SECURITY_DATA)
+                || certificateHasPolicy2(certificado, Subj.OID_CERTIFICADO_MIEMBRO_EMPRESA_SECURITY_DATA)
+                || certificateHasPolicy2(certificado, Subj.OID_CERTIFICADO_MIEMBRO_EMPRESA_DSCF_SECURITY_DATA)
+                || certificateHasPolicy2(certificado, Subj.OID_CERTIFICADO_SELLO_ELECTRONICO_SECURITY_DATA)
+                || certificateHasPolicy2(certificado, Subj.OID_CERTIFICADO_SELLO_ELECTRONICO_DSCF_SECURITY_DATA)
+                || certificateHasPolicy2(certificado, Subj.OID_CERTIFICADO_SELLO_TIEMPO_DSCF_SECURITY_DATA));
     }
 
-    public static CertificadoSecurityData construir(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
+    public static Certificado construir(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         if (certificateHasPolicy(certificado, OID_TIPO_PERSONA_NATURAL)) {
             return new CertificadoPersonaNaturalSecurityData(certificado);
         } else if (certificateHasPolicy(certificado, OID_TIPO_PERSONA_JURIDICA_EMPRESA)) {
@@ -62,8 +75,28 @@ public class CertificadoSecurityDataFactory {
             return new CertificadoPersonaNaturalSecurityData(certificado);
         } else if (certificateHasPolicy(certificado, OID_SELLADO_TIEMPO)) {
             return new CertificadoSelladoTiempoSecurityData(certificado);
+        } //RESOLUCION-ARCOTEL-2024-0176
+        else if (certificateHasPolicy2(certificado, Subj.OID_CERTIFICADO_PERSONA_NATURAL_SECURITY_DATA)) {
+            return new CertificadoPersonaNaturalSubjSecurityData(certificado);
+        } else if (certificateHasPolicy2(certificado, Subj.OID_CERTIFICADO_PERSONA_NATURAL_DSCF_SECURITY_DATA)) {
+            return new CertificadoPersonaNaturalSubjSecurityData(certificado);
+        } else if (certificateHasPolicy2(certificado, Subj.OID_CERTIFICADO_REPRESENTANTE_LEGAL_SECURITY_DATA)) {
+            return new CertificadoRepresentanteLegalSubjSecurityData(certificado);
+        } else if (certificateHasPolicy2(certificado, Subj.OID_CERTIFICADO_REPRESENTANTE_LEGAL_DSCF_SECURITY_DATA)) {
+            return new CertificadoRepresentanteLegalSubjSecurityData(certificado);
+        } else if (certificateHasPolicy2(certificado, Subj.OID_CERTIFICADO_MIEMBRO_EMPRESA_SECURITY_DATA)) {
+            return new CertificadoMiembroEmpresaSubjSecurityData(certificado);
+        } else if (certificateHasPolicy2(certificado, Subj.OID_CERTIFICADO_MIEMBRO_EMPRESA_DSCF_SECURITY_DATA)) {
+            return new CertificadoMiembroEmpresaSubjSecurityData(certificado);
+        } else if (certificateHasPolicy2(certificado, Subj.OID_CERTIFICADO_SELLO_ELECTRONICO_SECURITY_DATA)) {
+            return new CertificadoSelloElectronicoSubjSecurityData(certificado);
+        } else if (certificateHasPolicy2(certificado, Subj.OID_CERTIFICADO_SELLO_ELECTRONICO_DSCF_SECURITY_DATA)) {
+            return new CertificadoSelloElectronicoSubjSecurityData(certificado);
+        } else if (certificateHasPolicy2(certificado, Subj.OID_CERTIFICADO_SELLO_TIEMPO_DSCF_SECURITY_DATA)) {
+            return new CertificadoSelladoTiempoSubjSecurityData(certificado);
         } else {
-            throw new EntidadCertificadoraNoValidaException("Tipo Certificado de SecurityData desconocido!");
+//            throw new EntidadCertificadoraNoValidaException("Tipo Certificado de SecurityData desconocido!");
+            return null;
         }
     }
 }
