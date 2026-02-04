@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2025
- * Authors: Alpha Technologies Cia. Ltda., Misael Fernández
+ * Authors: Alpha Technologies Cia. Ltda., Security Data, Misael Fernández
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -34,8 +34,20 @@ public final class CertificadoOids {
      */
     public static final class Subj {
 
+        // OIDs de Campos del Certificado.
+        public static final String OID_COMMON_NAME = "2.5.4.3";
+        public static final String OID_CEDULA_PASAPORTE = "2.5.4.5";
+        public static final String OID_APELLIDOS = "2.5.4.4";
+        public static final String OID_NOMBRES = "2.5.4.42";
+        public static final String OID_PAIS = "2.5.4.6";
+        public static final String OID_CIUDAD = "2.5.4.7";
+        public static final String OID_RUC = "2.5.4.97";
+        public static final String OID_ORGANIZACION = "2.5.4.10";
+        public static final String OID_CARGO = "2.5.4.12";
+
         private Subj() {
         }
+
         // OIDs de tipo de certificado Alpha Technologies Cia. Ltda.
         public static final String OID_CERTIFICADO_PERSONA_NATURAL_ALPHA_TECHNOLOGIES = "1.3.6.1.4.1.56105.2.1.1";
         public static final String OID_CERTIFICADO_MIEMBRO_EMPRESA_ALPHA_TECHNOLOGIES = "1.3.6.1.4.1.56105.2.2.1";
@@ -51,15 +63,29 @@ public final class CertificadoOids {
         public static final String OID_CERTIFICADO_MIEMBRO_EMPRESA_APP_FIRMAS = "1.3.6.1.4.1.62431.2.2.1";
         public static final String OID_CERTIFICADO_REPRESENTANTE_LEGAL_APP_FIRMAS = "1.3.6.1.4.1.62431.2.3.1";
 
-        // OIDs de Campos del Certificado.
-        public static final String OID_CEDULA_PASAPORTE = "2.5.4.5";
-        public static final String OID_NOMBRES = "2.5.4.42";
-        public static final String OID_APELLIDOS = "2.5.4.4";
-        public static final String OID_PAIS = "2.5.4.6";
-        public static final String OID_CIUDAD = "2.5.4.7";
-        public static final String OID_RUC = "2.5.4.97";
-        public static final String OID_ORGANIZACION = "2.5.4.10";
-        public static final String OID_CARGO = "2.5.4.12";
+        // OIDs de tipo de certificado Darkcam S.A. (Normativa ARCOTEL 2026)
+        // Persona Natural (SIN RUC y CON RUC usan el mismo OID, se diferencian por Organization Identifier 2.5.4.97)
+        public static final String OID_CERTIFICADO_PERSONA_NATURAL_DARKCAM = "1.3.6.1.4.1.64482.2.1.1";
+        public static final String OID_CERTIFICADO_MIEMBRO_EMPRESA_DARKCAM = "1.3.6.1.4.1.64482.2.2.1";
+        public static final String OID_CERTIFICADO_SELLO_ELECTRONICO_DARKCAM = "1.3.6.1.4.1.64482.2.2.2";
+        public static final String OID_CERTIFICADO_REPRESENTANTE_LEGAL_DARKCAM = "1.3.6.1.4.1.64482.2.3.1";
+
+        // OIDs de tipo de certificado PrimeCoreLat S.A.S.
+        public static final String OID_CERTIFICADO_PERSONA_NATURAL_PRIMECORELAT = "1.3.6.1.4.1.63542.2.1.1";
+        public static final String OID_CERTIFICADO_MIEMBRO_EMPRESA_PRIMECORELAT = "1.3.6.1.4.1.63542.2.2.1";
+        public static final String OID_CERTIFICADO_REPRESENTANTE_LEGAL_PRIMECORELAT = "1.3.6.1.4.1.63542.2.3.1";
+        public static final String OID_CERTIFICADO_SELLO_ELECTRONICO_PRIMECORELAT = "1.3.6.1.4.1.63542.2.4.1";
+
+        // OIDs de tipo de certificado SECURITY_DATA
+        public static final String OID_CERTIFICADO_PERSONA_NATURAL_SECURITY_DATA = "1.3.6.1.4.1.37746.2.1.1";
+        public static final String OID_CERTIFICADO_PERSONA_NATURAL_DSCF_SECURITY_DATA = "1.3.6.1.4.1.37746.2.1.2";
+        public static final String OID_CERTIFICADO_MIEMBRO_EMPRESA_SECURITY_DATA = "1.3.6.1.4.1.37746.2.2.1";
+        public static final String OID_CERTIFICADO_MIEMBRO_EMPRESA_DSCF_SECURITY_DATA = "1.3.6.1.4.1.37746.2.2.2";
+        public static final String OID_CERTIFICADO_REPRESENTANTE_LEGAL_SECURITY_DATA = "1.3.6.1.4.1.37746.2.3.1";
+        public static final String OID_CERTIFICADO_REPRESENTANTE_LEGAL_DSCF_SECURITY_DATA = "1.3.6.1.4.1.37746.2.3.2";
+        public static final String OID_CERTIFICADO_SELLO_ELECTRONICO_SECURITY_DATA = "1.3.6.1.4.1.37746.102.2.4.1";
+        public static final String OID_CERTIFICADO_SELLO_ELECTRONICO_DSCF_SECURITY_DATA = "1.3.6.1.4.1.37746.102.2.4.2";
+        public static final String OID_CERTIFICADO_SELLO_TIEMPO_DSCF_SECURITY_DATA = "1.3.6.1.4.1.37746.102.2.5.1";
     }
 
     /**
@@ -69,6 +95,7 @@ public final class CertificadoOids {
 
         private Ext() {
         }
+
         // OIDs de tipo de certificado Alpha Technologies Cia. Ltda.
         public static final String OID_CERTIFICADO_PERSONA_NATURAL_ALPHA_TECHNOLOGIES = "1.3.6.1.4.1.56105.2.1";
         public static final String OID_CERTIFICADO_PERSONA_JURIDICA_ALPHA_TECHNOLOGIES = "1.3.6.1.4.1.56105.2.2";

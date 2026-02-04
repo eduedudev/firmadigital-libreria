@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2025
- * Author: Misael Fernández, Security Data
+ * Copyright (C) 2026
+ * Authors: Misael Fernández, PrimeCoreLat
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,19 +15,27 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package ec.gob.firmadigital.libreria.certificate.ec.securitydata;
+package ec.gob.firmadigital.libreria.certificate.ec.primecorelat;
 
-import ec.gob.firmadigital.libreria.certificate.ec.CertificadoSelladoTiempo;
+import ec.gob.firmadigital.libreria.certificate.ec.CertificadoSelloElectronico;
+import static ec.gob.firmadigital.libreria.certificate.CertificadoOids.Subj.OID_COMMON_NAME;
 import java.security.cert.X509Certificate;
 
 /**
- * Certificado de Miembro Empresa / Sello Electrónico emitido por Security Data.
+ * Certificado de Sello Electrónico emitido por PRIMECORELAT.
  *
- * @author Security Data
+ * @author Henry Carrera <henry@hyrserv.com>
  */
-public class CertificadoSelladoTiempoSecurityData extends CertificadoSecurityData implements CertificadoSelladoTiempo {
+public class CertificadoSelloElectronicoPrimeCoreLat
+        extends CertificadoPrimeCoreLat
+        implements CertificadoSelloElectronico {
 
-    public CertificadoSelladoTiempoSecurityData(X509Certificate certificado) {
+    public CertificadoSelloElectronicoPrimeCoreLat(X509Certificate certificado) {
         super(certificado);
+    }
+
+    @Override
+    public String getCommonName() {
+        return getSubjectField(OID_COMMON_NAME);
     }
 }

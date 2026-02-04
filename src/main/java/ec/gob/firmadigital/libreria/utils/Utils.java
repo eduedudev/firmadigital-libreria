@@ -59,7 +59,6 @@ import javax.security.auth.x500.X500Principal;
 import org.bouncycastle.asn1.x500.X500Name;
 import org.bouncycastle.asn1.x500.style.BCStyle;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.bouncycastle.tsp.TimeStampToken;
 import org.w3c.dom.Node;
 
 import com.itextpdf.kernel.pdf.PdfDocument;
@@ -90,13 +89,8 @@ import ec.gob.firmadigital.libreria.sign.Signer;
 import ec.gob.firmadigital.libreria.sign.cms.VerificadorCMS;
 import ec.gob.firmadigital.libreria.sign.pdf.BasePdfSigner;
 import ec.gob.firmadigital.libreria.sign.xades.XAdESSigner;
+import java.security.cert.Certificate;
 import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.Iterator;
-import org.bouncycastle.cert.X509CertificateHolder;
-import org.bouncycastle.cert.jcajce.JcaX509CertificateConverter;
-import org.bouncycastle.cms.jcajce.JcaSimpleSignerInfoVerifierBuilder;
-import org.bouncycastle.util.Store;
 
 /**
  * M&eacute;todos generales de utilidad para toda la aplicaci&oacute;n.
@@ -445,35 +439,29 @@ public class Utils {
                                 if (pdfPKCS7.getSigningCertificate().equals(certificate)
                                         && certificado.getSignGenerated().getTime().equals(pdfPKCS7.getSignDate().getTime())) {
                                     // Validacion Sellado de Tiempo
-                                    TimeStampToken tsToken = (TimeStampToken) pdfPKCS7.getTimeStampTokenInfo();
-                                    if (tsToken != null) { // Timestamping Change Openpdf to itext
-                                        ////////////////////
-                                        Store store = tsToken.getCertificates();
-                                        Collection collection = store.getMatches(tsToken.getSID());
-                                        Iterator iterator = collection.iterator();
-                                        X509CertificateHolder certificateHolder = (X509CertificateHolder) iterator.next();
-                                        X509Certificate x509Certificate = new JcaX509CertificateConverter().getCertificate(certificateHolder);
-                                        ////////////////////
-                                        boolean tsTohenisSignatureValid = tsToken.isSignatureValid(new JcaSimpleSignerInfoVerifierBuilder().setProvider("BC").build(certificateHolder));
-                                        tsToken.validate(new JcaSimpleSignerInfoVerifierBuilder().setProvider("BC").build(certificateHolder));
-                                        if (tsTohenisSignatureValid) {
-                                            List<String> extendedKeyUsages = x509Certificate.getExtendedKeyUsage();
-                                            for (String extendedKeyUsage : extendedKeyUsages) {
-                                                if (extendedKeyUsage.equals("1.3.6.1.5.5.7.3.8")) {//oid timestamping
-                                                    certificado.getDatosUsuario().setApellido("");
-                                                    certificado.setDocTimeStamp(tsToken.getTimeStampInfo().getGenTime());
-                                                    certificado.setDocTimeStampIssuedBy(CertEcUtils.getNombreCA(x509Certificate));
-                                                    certificado.setDatosUsuario(infoCertificado(certificado.getDatosUsuario(), signInfo));
-                                                    try {
-                                                        if (verifySignature(x509Certificate)) {
-                                                            certificado.setDocValidTimeStamp(true);
+                                    try {
+                                        if (pdfPKCS7.getTimeStampTokenInfo() != null) {
+                                            for (Certificate tsaCertificate : pdfPKCS7.getTimestampCertificates()) {
+                                                X509Certificate x509Certificate = (X509Certificate) tsaCertificate;
+                                                List<String> extendedKeyUsages = x509Certificate.getExtendedKeyUsage();
+                                                if (extendedKeyUsages != null) {
+                                                    for (String extendedKeyUsage : extendedKeyUsages) {
+                                                        if (extendedKeyUsage.equals("1.3.6.1.5.5.7.3.8")) {//oid timestamping
+                                                            certificado.getDatosUsuario().setApellido("");
+                                                            certificado.setDocTimeStamp(pdfPKCS7.getTimeStampDate().getTime());
+                                                            certificado.setDocTimeStampIssuedBy(CertEcUtils.getNombreCA(x509Certificate));
+                                                            certificado.setCnTimeStamp(Utils.getCN(x509Certificate));
+                                                            certificado.setDatosUsuario(infoCertificado(certificado.getDatosUsuario(), signInfo));
+                                                            if (verifySignature(x509Certificate)) {
+                                                                certificado.setDocValidTimeStamp(true);
+                                                            }
                                                         }
-                                                    } catch (EntidadCertificadoraNoValidaException ex) {
-                                                        LOGGER.log(Level.SEVERE, "Sellado de tiempo: {0}", ex.getMessage());
                                                     }
                                                 }
                                             }
                                         }
+                                    } catch (EntidadCertificadoraNoValidaException ex) {
+                                        LOGGER.log(Level.SEVERE, "Sellado de tiempo: {0}", ex.getMessage());
                                     }
                                     // Validacion Sellado de Tiempo
                                     certificado.setDocReason(pdfPKCS7.getReason());
@@ -807,13 +795,13 @@ public class Utils {
                 return true;
             } catch (InvalidKeyException | CertificateException | NoSuchAlgorithmException
                     | NoSuchProviderException | SignatureException e) {
-                System.out.println("\n"
-                        + "\tSignature verification of certificate having distinguished name \n"
-                        + "\t'" + certificate.getSubjectX500Principal() + "'\n"
-                        + "\twith certificate having distinguished name (the issuer) \n"
-                        + "\t'" + rootCertificate.getSubjectX500Principal() + "'\n"
-                        + "\tfailed. Expected issuer has distinguished name \n"
-                        + "\t'" + certificate.getIssuerX500Principal() + "' (" + e.getClass().getSimpleName() + ")");
+//                System.out.println("\n"
+//                        + "\tSignature verification of certificate having distinguished name \n"
+//                        + "\t'" + certificate.getSubjectX500Principal() + "'\n"
+//                        + "\twith certificate having distinguished name (the issuer) \n"
+//                        + "\t'" + rootCertificate.getSubjectX500Principal() + "'\n"
+//                        + "\tfailed. Expected issuer has distinguished name \n"
+//                        + "\t'" + certificate.getIssuerX500Principal() + "' (" + e.getClass().getSimpleName() + ")");
             }
         }
         return false;

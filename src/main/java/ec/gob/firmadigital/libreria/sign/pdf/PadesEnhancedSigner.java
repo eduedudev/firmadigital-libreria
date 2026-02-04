@@ -34,7 +34,7 @@ import com.itextpdf.signatures.TSAClientBouncyCastle;
 import ec.gob.firmadigital.libreria.sign.RubricaSigner;
 import ec.gob.firmadigital.libreria.sign.pdf.itext.SignerAdapter;
 import ec.gob.firmadigital.libreria.utils.BouncyCastleUtils;
-import ec.gob.firmadigital.libreria.utils.PropertiesTsa;
+import ec.gob.firmadigital.libreria.utils.PropertiesUtils;
 import java.io.InputStream;
 import java.security.PrivateKey;
 import java.util.logging.Level;
@@ -59,7 +59,7 @@ public class PadesEnhancedSigner extends BasePdfSigner {
             byte[] hash = emptySignature(inputStream, certificates, properties, externalSignature.getDigestAlgorithmName());
             String fieldName = getFieldName();
             ByteArrayOutputStream documentoPorFirmar = getDocumentoPorFirmar();
-            byte[] hashSigned = this.signed_hash(hash, privateKey, certificates);
+            byte[] hashSigned = this.signed_hash(hash, privateKey, certificates, properties.getProperty("identificacion"));
             createSignature(hashSigned, documentoPorFirmar, fieldName, privateKey, certificates);
             return getDocumentoFirmado().toByteArray();
         } catch (GeneralSecurityException e) {
@@ -68,16 +68,18 @@ public class PadesEnhancedSigner extends BasePdfSigner {
         }
     }
 
-    private byte[] signed_hash(byte[] hash, PrivateKey pk, Certificate[] chain) throws GeneralSecurityException {
+    private byte[] signed_hash(byte[] hash, PrivateKey pk, Certificate[] chain, String identificacion) throws GeneralSecurityException {
         PrivateKeySignature signature = new PrivateKeySignature(pk, externalSignature.getDigestAlgorithmName(), null);
         BouncyCastleDigest digest = new BouncyCastleDigest();
         PdfPKCS7 sgn = new PdfPKCS7(null, chain, externalSignature.getDigestAlgorithmName(), null, digest, false);
         byte[] sh = sgn.getAuthenticatedAttributeBytes(hash, com.itextpdf.signatures.PdfSigner.CryptoStandard.CMS, null, null);
         byte[] extSignature = signature.sign(sh);
         sgn.setExternalSignatureValue(extSignature, null, signature.getSignatureAlgorithmName());
-        // Create TSAClient with optional authentication
-        PropertiesTsa propertiesTsa = new PropertiesTsa();
-        ITSAClient tsaClient = new TSAClientBouncyCastle(propertiesTsa.getTsaUrl(), propertiesTsa.getTsaUsername(), propertiesTsa.getTsaPassword());
+        ITSAClient tsaClient = null;
+        if (identificacion != null && !identificacion.isEmpty()) {
+            tsaClient = new TSAClientBouncyCastle(PropertiesUtils.getConfig().getProperty("tsa_url"), identificacion, identificacion);
+        }
+
         return sgn.getEncodedPKCS7(hash, com.itextpdf.signatures.PdfSigner.CryptoStandard.CMS, tsaClient, null, null);
     }
 }

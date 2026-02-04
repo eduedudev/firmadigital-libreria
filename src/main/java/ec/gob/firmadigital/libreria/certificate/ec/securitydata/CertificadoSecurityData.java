@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2020 
- * Authors: Ricardo Arguello, Misael Fernández
+ * Authors: Ricardo Arguello, Misael Fernández, Security Data
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -17,17 +17,15 @@
  */
 package ec.gob.firmadigital.libreria.certificate.ec.securitydata;
 
-import java.io.IOException;
 import java.security.cert.X509Certificate;
-
-import ec.gob.firmadigital.libreria.certificate.CertUtils;
+import ec.gob.firmadigital.libreria.certificate.Certificado;
 
 /**
  * Certificado emitido por Security Data.
  *
- * @author Ricardo Arguello
+ * @author Ricardo Arguello, Freddy Pico
  */
-public abstract class CertificadoSecurityData {
+public class CertificadoSecurityData extends Certificado {
 
     // OIDs de Tipo de Certificado
     public static final String OID_TIPO_PERSONA_NATURAL = "1.3.6.1.4.1.37746.2.7";
@@ -58,18 +56,13 @@ public abstract class CertificadoSecurityData {
     public static final String OID_NUMERO_SERIE_TOKEN = "1.3.6.1.4.1.37746.3.33";
 
     /**
-     * Certificado a analizar
-     */
-    private final X509Certificate certificado;
-
-    /**
      * Permite analizar los contenidos de un X509Certificate segun las OIDs de
      * Security Data.
      *
      * @param certificado
      */
     public CertificadoSecurityData(X509Certificate certificado) {
-        this.certificado = certificado;
+        super(certificado);
     }
 
     /**
@@ -88,21 +81,6 @@ public abstract class CertificadoSecurityData {
      */
     public String getNumeroSerieToken() {
         return obtenerExtension(OID_NUMERO_SERIE_TOKEN);
-    }
-
-    /**
-     * Retorna el valor de la extension, y una cadena vacia si no existe.
-     *
-     * @param oid
-     * @return
-     */
-    protected String obtenerExtension(String oid) {
-        try {
-            String valor = CertUtils.getExtensionValue(certificado, oid);
-            return (valor != null) ? valor : "";
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public String getNombres() {

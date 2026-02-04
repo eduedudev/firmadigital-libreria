@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2025
- * Author: Misael Fernández, Security Data
+ * Authors: Misael Fernández, PrimeCoreLat
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,19 +15,21 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package ec.gob.firmadigital.libreria.certificate.ec.securitydata;
+package ec.gob.firmadigital.libreria.certificate.ec.primecorelat;
 
-import ec.gob.firmadigital.libreria.certificate.ec.CertificadoSelladoTiempo;
 import java.security.cert.X509Certificate;
 
-/**
- * Certificado de Miembro Empresa / Sello Electrónico emitido por Security Data.
- *
- * @author Security Data
- */
-public class CertificadoSelladoTiempoSecurityData extends CertificadoSecurityData implements CertificadoSelladoTiempo {
+import ec.gob.firmadigital.libreria.certificate.ec.CertificadoPersonaNatural;
 
-    public CertificadoSelladoTiempoSecurityData(X509Certificate certificado) {
+/**
+ * Certificado de persona natural emitido por PRIMECORELAT.
+ *
+ * @author Henry Carrera <henry@hyrserv.com>
+ */
+public class CertificadoPersonaNaturalPrimeCoreLat extends CertificadoPrimeCoreLat
+        implements CertificadoPersonaNatural {
+
+    public CertificadoPersonaNaturalPrimeCoreLat(X509Certificate certificado) {
         super(certificado);
     }
 }

@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2025
- * Author: Misael Fernández, Security Data
+ * Copyright (C) 2026
+ * Authors: Misael Fernández, ANF AC
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,19 +15,20 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package ec.gob.firmadigital.libreria.certificate.ec.securitydata;
+package ec.gob.firmadigital.libreria.certificate.ec.anfac;
 
-import ec.gob.firmadigital.libreria.certificate.ec.CertificadoSelladoTiempo;
 import java.security.cert.X509Certificate;
+import ec.gob.firmadigital.libreria.certificate.ec.CertificadoSelladoTiempo;
 
 /**
- * Certificado de Miembro Empresa / Sello Electrónico emitido por Security Data.
+ * Certificado de Sellado de Tiempo
  *
- * @author Security Data
+ * @author Jair Andres Semblantes Pinto
  */
-public class CertificadoSelladoTiempoSecurityData extends CertificadoSecurityData implements CertificadoSelladoTiempo {
+public class CertificadoSelladoTiempoAnfAc extends CertificadoAnfAc37442 implements CertificadoSelladoTiempo {
 
-    public CertificadoSelladoTiempoSecurityData(X509Certificate certificado) {
+    public CertificadoSelladoTiempoAnfAc(X509Certificate certificado) {
         super(certificado);
     }
+
 }

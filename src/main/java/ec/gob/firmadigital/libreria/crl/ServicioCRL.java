@@ -35,7 +35,7 @@ public class ServicioCRL {
     public static final String SD_CRL3 = "https://portal-operador.securitydata.net.ec/ejbca/publicweb/webdist/certdist?cmd=deltacrl&issuer=CN%3DAUTORIDAD+DE+CERTIFICACION+SUBCA-1+SECURITY+DATA%2COU%3DENTIDAD+DE+CERTIFICACION+DE+INFORMACION%2CO%3DSECURITY+DATA+S.A.+1%2CC%3DEC";
     public static final String SD_CRL4 = "https://portal-operador2.securitydata.net.ec/ejbca/publicweb/webdist/certdist?cmd=crl&issuer=CN%3DAUTORIDAD+DE+CERTIFICACION+SUBCA-2+SECURITY+DATA%2COU%3DENTIDAD+DE+CERTIFICACION+DE+INFORMACION%2CO%3DSECURITY+DATA+S.A.+2%2CC%3DEC";
     public static final String SD_CRL5 = "https://portal-operador2.securitydata.net.ec/ejbca/publicweb/webdist/certdist?cmd=deltacrl&issuer=CN%3DAUTORIDAD+DE+CERTIFICACION+SUBCA-2+SECURITY+DATA%2COU%3DENTIDAD+DE+CERTIFICACION+DE+INFORMACION%2CO%3DSECURITY+DATA+S.A.+2%2CC%3DEC";
-    public static final String CJ_CRL = "https://www.icert.fje.gob.ec/crl/icert.crl";
+    public static final String CJ_CRL = "http://www.icert.fje.gob.ec/crl/icert.crl";
     public static final String ANFAC_CRL1 = "http://www.anf.es/crl/ANF_Ecuador_CA1_SHA256.crl";
     public static final String ANFAC_CRL2 = "http://crl.anf.es/crl/ANFHighAssuranceEcuadorIntermediateCA.crl";
     public static final String DIGERCIC_CRL = "https://firma.registrocivil.gob.ec/crl.crl";
@@ -56,6 +56,11 @@ public class ServicioCRL {
     public static final String LETMI1_CRL = "https://crl.letmi.app/LETMI_CA_ROOT01.crl";
     public static final String LETMI2_CRL = "https://crl.letmi.app/LETMI_CA_SUB01.crl";
     public static final String APP_FIRMAS_CRL = "http://crl.appfirmas.com/crl/appfirmas/9dd7d200-d3f5-45d3-9de4-69446907163d.crl";
+    public static final String DARKCAM_ROOT_CRL = "http://ca-root-crl-darkcam.s3.us-east-1.amazonaws.com/crl/4624db1d-b167-42eb-8dfb-2a860ae0eb44/2TWtYTfLyGl.crl";
+    public static final String DARKCAM_SUBCA_CRL = "http://ca-subordinada-crl-darkcam.s3.us-east-1.amazonaws.com/crl/00444342-dd67-45fb-92a3-44a23607d80f.crl";
+    public static final String DARKCAM_SUBCA_SHORT_CRL = "http://ca-subordinada-short-crl-darkcam.s3.us-east-1.amazonaws.com/crl/810d58f2-b2ea-4e85-8397-9c060287c633.crl";
+    public static final String PRIMECORELAT_CA1_CRL = "http://pcca1.online/crl/emisorCA1.crl";
+    public static final String PRIMECORELAT_CA2_CRL = "http://pcca2.online/crl/emisorCA2.crl";
 
     public static X509CRL downloadCrl(String url) throws Exception {
         byte[] content;
