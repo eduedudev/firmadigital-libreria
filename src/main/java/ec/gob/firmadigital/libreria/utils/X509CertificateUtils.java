@@ -74,6 +74,7 @@ public class X509CertificateUtils {
     }
 
     public boolean validarX509Certificate(X509Certificate x509Certificate, String apiUrl, String base64) throws RubricaException, KeyStoreException, EntidadCertificadoraNoValidaException, InvalidKeyException, CertificadoInvalidoException, IOException, HoraServidorException, ConexionException {
+        java.text.SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         boolean retorno = false;
         int diasAnticipacion = 0;
         if (x509Certificate != null) {
@@ -87,7 +88,7 @@ public class X509CertificateUtils {
 
             Date fechaRevocado = UtilsCrlOcsp.validarFechaRevocado(x509Certificate, apiUrlRevocado);
             if (fechaRevocado != null && fechaRevocado.compareTo(fechaHora) <= 0) {
-                revocado = fechaRevocado.toString();
+                revocado = simpleDateFormat.format(fechaRevocado.getTime());
             }
             if (fechaHora.compareTo(x509Certificate.getNotBefore()) <= 0 || fechaHora.compareTo(x509Certificate.getNotAfter()) >= 0) {
                 expirado = true;
@@ -96,7 +97,6 @@ public class X509CertificateUtils {
                 calendarRecordatorio.setTime(x509Certificate.getNotAfter());
                 calendarRecordatorio.add(java.util.Calendar.DATE, -diasAnticipacion);
                 if (calendarRecordatorio.getTime().compareTo(fechaHora) <= 0) {
-                    java.text.SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     error = PropertiesUtils.getMessages().getProperty("mensaje.advertencia.certificado_advertencia") + simpleDateFormat.format(x509Certificate.getNotAfter().getTime());
                 }
             }

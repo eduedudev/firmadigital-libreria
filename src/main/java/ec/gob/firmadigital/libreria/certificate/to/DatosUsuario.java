@@ -27,6 +27,8 @@ public class DatosUsuario {
     private String cedula;
     private String nombre;
     private String apellido;
+    private String ruc = "";
+    private String razonSocial = "";
     private String institucion = "";
     private String cargo = "";
     private String commonName = "";
@@ -66,6 +68,22 @@ public class DatosUsuario {
 
     public void setApellido(String apellido) {
         this.apellido = apellido;
+    }
+
+    public String getRuc() {
+        return ruc;
+    }
+
+    public void setRuc(String ruc) {
+        this.ruc = ruc;
+    }
+
+    public String getRazonSocial() {
+        return razonSocial;
+    }
+
+    public void setRazonSocial(String razonSocial) {
+        this.razonSocial = razonSocial;
     }
 
     public String getInstitucion() {
@@ -111,6 +129,8 @@ public class DatosUsuario {
                \t\t[cedula=""" + cedula + "\n"
                 + "\t\tnombre=" + nombre + "\n"
                 + "\t\tapellido=" + apellido + "\n"
+                + "\t\truc=" + ruc + "\n"
+                + "\t\trazonSocial=" + razonSocial + "\n"
                 + "\t\tinstitucion=" + institucion + "\n"
                 + "\t\tcargo=" + cargo + "\n"
                 + "\t\tcommonName=" + commonName + "\n"

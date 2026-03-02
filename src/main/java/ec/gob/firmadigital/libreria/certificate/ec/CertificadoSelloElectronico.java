@@ -17,6 +17,11 @@
  */
 package ec.gob.firmadigital.libreria.certificate.ec;
 
+/**
+ * Certificado de sello electrónico
+ *
+ * @author Ricardo Arguello
+ */
 public interface CertificadoSelloElectronico extends CertificadoPersonaNatural {
 
     /**

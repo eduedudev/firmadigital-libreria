@@ -38,8 +38,7 @@ import java.util.Date;
 import java.util.Set;
 
 /**
- * Clase base para un certificado manejado por Rubrica
- * <code>X509Certificate</code>.
+ * Clase base para un certificado manejado por Rubrica <code>X509Certificate</code>.
  *
  * @author Edison Lomas Almeida <elomas@appshandler.com>
  */

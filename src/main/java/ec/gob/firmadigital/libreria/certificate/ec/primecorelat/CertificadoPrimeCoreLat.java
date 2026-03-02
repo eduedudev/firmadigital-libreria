@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2025
- * Authors: Misael Fernández, PrimeCoreLat
+ * Copyright (C) 2026
+ * Authors: Misael Fernández, PRIMECORELAT S.A.S. B.I.C.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -17,64 +17,43 @@
  */
 package ec.gob.firmadigital.libreria.certificate.ec.primecorelat;
 
-import ec.gob.firmadigital.libreria.certificate.Certificado;
-import static ec.gob.firmadigital.libreria.certificate.CertificadoOids.Subj.*;
-import java.security.cert.X509Certificate;
-
 /**
- * Certificado emitido por PRIMECORELAT Sigue la estructura de la resolución de
- * ARCOTEL-2024-0176.
+ * Clase contenedora para los Identificadores de Objeto (OIDs) utilizados en
+ * certificados digitales.
  *
- * @author Henry Carrera <henry@hyrserv.com>
+ * Agrupa los OIDs en clases anidadas estáticas según su ubicación dentro del
+ * certificado (Subject o Extensions) para una mejor organización y claridad.
+ *
+ * @author Misael Fernández, PRIMECORELAT S.A.S. B.I.C.
  */
-public abstract class CertificadoPrimeCoreLat extends Certificado {
+public class CertificadoPrimeCoreLat {
 
-    public CertificadoPrimeCoreLat(X509Certificate certificado) {
-        super(certificado);
-        super.cargarSubjectName();
+    private CertificadoPrimeCoreLat() {
     }
 
-    public String getCedulaPasaporte() {
-        return getSubjectField(OID_CEDULA_PASAPORTE);
-    }
+    /**
+     * OIDs encontrados en el Subject del certificado X.509.
+     */
+    public static final class Subj {
 
-    public String getNombres() {
-        return getSubjectField(OID_NOMBRES);
-    }
+        private Subj() {
+        }
 
-    public String getPrimerApellido() {
-        return getSubjectField(OID_APELLIDOS);
-    }
+        // OIDs de tipo de certificado.
+        public static final String OID_TIPO_PERSONA_NATURAL = "1.3.6.1.4.1.63542.2.1.1";
+        public static final String OID_TIPO_MIEMBRO_EMPRESA = "1.3.6.1.4.1.63542.2.2.1";
+        public static final String OID_TIPO_REPRESENTANTE_LEGAL = "1.3.6.1.4.1.63542.2.3.1";
+        public static final String OID_TIPO_SELLO_ELECTRONICO = "1.3.6.1.4.1.63542.2.4.1";
 
-    public String getSegundoApellido() {
-        return "";
-    }
-
-    public String getDireccion() {
-        return "";
-    }
-
-    public String getTelefono() {
-        return "";
-    }
-
-    public String getCiudad() {
-        return getSubjectField(OID_CIUDAD);
-    }
-
-    public String getPais() {
-        return getSubjectField(OID_PAIS);
-    }
-
-    public String getRuc() {
-        return getSubjectField(OID_RUC);
-    }
-
-    public String getCargo() {
-        return getSubjectField(OID_CARGO);
-    }
-
-    public String getRazonSocial() {
-        return getSubjectField(OID_ORGANIZACION);
+        // OIDs de Campos del Certificado.
+        public static final String OID_COMMON_NAME = "2.5.4.3";
+        public static final String OID_CEDULA_PASAPORTE = "2.5.4.5";
+        public static final String OID_APELLIDOS = "2.5.4.4";
+        public static final String OID_NOMBRES = "2.5.4.42";
+        public static final String OID_PAIS = "2.5.4.6";
+        public static final String OID_CIUDAD = "2.5.4.7";
+        public static final String OID_RUC = "2.5.4.97";
+        public static final String OID_ORGANIZACION = "2.5.4.10";
+        public static final String OID_CARGO = "2.5.4.12";
     }
 }

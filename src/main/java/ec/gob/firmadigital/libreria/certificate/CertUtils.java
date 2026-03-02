@@ -218,10 +218,6 @@ public class CertUtils {
                         System.out.println("Error decoding subjectAltName" + e.getLocalizedMessage());
                     }
                 }
-                // else{
-                // System.out.println("SubjectAltName of invalid type found: " +
-                // certificate);
-                // }
             }
         } catch (CertificateParsingException e) {
             System.out.println("Error parsing SubjectAltName in certificate: " + certificate + "\r\nerror:"

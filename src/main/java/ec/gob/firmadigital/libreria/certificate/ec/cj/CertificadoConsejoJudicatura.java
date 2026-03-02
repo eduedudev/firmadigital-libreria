@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2020 
- * Authors: Ricardo Arguello, Misael Fernández
+ * Copyright (C) 2026 
+ * Authors: Misael Fernández, CONSEJO DE LA JUDICATURA
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -17,67 +17,78 @@
  */
 package ec.gob.firmadigital.libreria.certificate.ec.cj;
 
-import java.io.IOException;
-import java.security.cert.X509Certificate;
-
-import ec.gob.firmadigital.libreria.certificate.CertUtils;
-
 /**
- * Certificado emitido por el Consejo de la Judicatura.
+ * Clase contenedora para los Identificadores de Objeto (OIDs) utilizados en
+ * certificados digitales.
  *
- * @author Misael Fernández
+ * Agrupa los OIDs en clases anidadas estáticas según su ubicación dentro del
+ * certificado (Subject o Extensions) para una mejor organización y claridad.
+ *
+ * @author Misael Fernández, CONSEJO DE LA JUDICATURA
  */
-public abstract class CertificadoConsejoJudicatura {
+public class CertificadoConsejoJudicatura {
 
-    // OIDs de tipo de certificado:
-    public static final String OID_CERTIFICADO_PERSONA_NATURAL = "1.3.6.1.4.1.43745.1.2.1.1";
-    public static final String OID_CERTIFICADO_PERSONA_JURIDICA_PRIVADA = "1.3.6.1.4.1.43745.1.2.1.2";
-    public static final String OID_CERTIFICADO_PERSONA_JURIDICA_PUBLICA = "1.3.6.1.4.1.43745.1.2.1.3";
-    public static final String OID_CERTIFICADO_MIEMBRO_EMPRESA = "1.3.6.1.4.1.43745.1.2.1.4";
-    public static final String OID_CERTIFICADO_EMPRESA = "1.3.6.1.4.1.43745.1.2.2.1";
-    public static final String OID_CERTIFICADO_DEPARTAMENTO_EMPRESA = "1.3.6.1.4.1.43745.1.2.3.1";
-    public static final String OID_SELLADO_TIEMPO = "1.3.6.1.4.1.43745.1.2.4.1";
-
-    // OIDs de Campos del Certificado:
-    public static final String OID_CEDULA_PASAPORTE = "1.3.6.1.4.1.43745.1.3.1";
-    public static final String OID_NOMBRES = "1.3.6.1.4.1.43745.1.3.2";
-    public static final String OID_APELLIDO_1 = "1.3.6.1.4.1.43745.1.3.3";
-    public static final String OID_APELLIDO_2 = "1.3.6.1.4.1.43745.1.3.4";
-    public static final String OID_CARGO = "1.3.6.1.4.1.43745.1.3.5";
-    public static final String OID_INSTITUCION = "1.3.6.1.4.1.43745.1.3.6";
-    public static final String OID_DIRECCION = "1.3.6.1.4.1.43745.1.3.7";
-    public static final String OID_TELEFONO = "1.3.6.1.4.1.43745.1.3.8";
-    public static final String OID_CIUDAD = "1.3.6.1.4.1.43745.1.3.9";
-    public static final String OID_RAZON_SOCIAL = "1.3.6.1.4.1.43745.1.3.10";
-    public static final String OID_RUC = "1.3.6.1.4.1.43745.1.3.11";
-    public static final String OID_PAIS = "1.3.6.1.4.1.43745.1.3.12";
-    public static final String OID_CERTIFICADO = "1.3.6.1.4.1.43745.1.3.50";
-    public static final String OID_CONTENEDOR = "1.3.6.1.4.1.43745.1.3.51";
-    public static final String OID_RUP = "1.3.6.1.4.1.43745.1.3.52";
-    public static final String OID_PROFESION = "1.3.6.1.4.1.43745.1.3.53";
-    public static final String OID_DEPARTAMENTO = "1.3.6.1.4.1.43745.1.3.54";
-
-    /**
-     * Certificado a analizar
-     */
-    private final X509Certificate certificado;
-
-    public CertificadoConsejoJudicatura(X509Certificate certificado) {
-        this.certificado = certificado;
+    private CertificadoConsejoJudicatura() {
     }
 
     /**
-     * Retorna el valor de la extension, y una cadena vacia si no existe.
-     *
-     * @param oid
-     * @return
+     * OIDs encontrados en el Subject del certificado X.509.
      */
-    protected String obtenerExtension(String oid) {
-        try {
-            String valor = CertUtils.getExtensionValueSubjectAlternativeNames(certificado, oid);
-            return (valor != null) ? valor : "";
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+    public static final class Subj {
+
+//        private Subj() {
+//        }
+//
+//        // OIDs de tipo de certificado.
+//        public static final String OID_TIPO_PERSONA_NATURAL = "1.3.6.1.4.1.56105.2.1.1";
+//        public static final String OID_TIPO_MIEMBRO_EMPRESA = "1.3.6.1.4.1.56105.2.2.1";
+//        public static final String OID_TIPO_REPRESENTANTE_LEGAL = "1.3.6.1.4.1.56105.2.3.1";
+//
+//        // OIDs de Campos del Certificado.
+//        public static final String OID_COMMON_NAME = "2.5.4.3";
+//        public static final String OID_CEDULA_PASAPORTE = "2.5.4.5";
+//        public static final String OID_APELLIDOS = "2.5.4.4";
+//        public static final String OID_NOMBRES = "2.5.4.42";
+//        public static final String OID_PAIS = "2.5.4.6";
+//        public static final String OID_CIUDAD = "2.5.4.7";
+//        public static final String OID_RUC = "2.5.4.97";
+//        public static final String OID_ORGANIZACION = "2.5.4.10";
+//        public static final String OID_CARGO = "2.5.4.12";
+    }
+
+    /**
+     * OIDs encontrados en las extensiones del certificado X.509.
+     */
+    public static final class Ext {
+
+        private Ext() {
         }
+        // OIDs de tipo de certificado:
+        public static final String OID_TIPO_PERSONA_NATURAL = "1.3.6.1.4.1.43745.1.2.1.1";
+        public static final String OID_TIPO_PERSONA_JURIDICA_PRIVADA = "1.3.6.1.4.1.43745.1.2.1.2";
+        public static final String OID_TIPO_PERSONA_JURIDICA_PUBLICA = "1.3.6.1.4.1.43745.1.2.1.3";
+        public static final String OID_TIPO_MIEMBRO_EMPRESA = "1.3.6.1.4.1.43745.1.2.1.4";
+        public static final String OID_TIPO_EMPRESA = "1.3.6.1.4.1.43745.1.2.2.1";
+        public static final String OID_TIPO_DEPARTAMENTO_EMPRESA = "1.3.6.1.4.1.43745.1.2.3.1";
+        public static final String OID_SELLADO_TIEMPO = "1.3.6.1.4.1.43745.1.2.4.1";
+
+        // OIDs de Campos del Certificado:
+        public static final String OID_CEDULA_PASAPORTE = "1.3.6.1.4.1.43745.1.3.1";
+        public static final String OID_NOMBRES = "1.3.6.1.4.1.43745.1.3.2";
+        public static final String OID_APELLIDO_1 = "1.3.6.1.4.1.43745.1.3.3";
+        public static final String OID_APELLIDO_2 = "1.3.6.1.4.1.43745.1.3.4";
+        public static final String OID_CARGO = "1.3.6.1.4.1.43745.1.3.5";
+        public static final String OID_INSTITUCION = "1.3.6.1.4.1.43745.1.3.6";
+        public static final String OID_DIRECCION = "1.3.6.1.4.1.43745.1.3.7";
+        public static final String OID_TELEFONO = "1.3.6.1.4.1.43745.1.3.8";
+        public static final String OID_CIUDAD = "1.3.6.1.4.1.43745.1.3.9";
+        public static final String OID_RAZON_SOCIAL = "1.3.6.1.4.1.43745.1.3.10";
+        public static final String OID_RUC = "1.3.6.1.4.1.43745.1.3.11";
+        public static final String OID_PAIS = "1.3.6.1.4.1.43745.1.3.12";
+        public static final String OID_CERTIFICADO = "1.3.6.1.4.1.43745.1.3.50";
+        public static final String OID_CONTENEDOR = "1.3.6.1.4.1.43745.1.3.51";
+        public static final String OID_RUP = "1.3.6.1.4.1.43745.1.3.52";
+        public static final String OID_PROFESION = "1.3.6.1.4.1.43745.1.3.53";
+        public static final String OID_DEPARTAMENTO = "1.3.6.1.4.1.43745.1.3.54";
     }
 }
