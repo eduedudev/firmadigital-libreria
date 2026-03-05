@@ -18,7 +18,7 @@
 package ec.gob.firmadigital.libreria.certificate.ec.anfac;
 
 import ec.gob.firmadigital.libreria.certificate.ec.anfac.ext.*;
-//import ec.gob.firmadigital.libreria.certificate.ec.anfac.subj.*;
+import ec.gob.firmadigital.libreria.certificate.ec.anfac.subj.*;
 import static ec.gob.firmadigital.libreria.certificate.ec.anfac.CertificadoAnfAc.*;
 import ec.gob.firmadigital.libreria.certificate.ec.*;
 import ec.gob.firmadigital.libreria.certificate.Certificado;
@@ -69,14 +69,6 @@ public class CertificadoDataFactoryAnfAc {
                     datosUsuario.setCertificadoDigitalValido(true);
                 }
             }
-            //RESOLUCION-ARCOTEL-2024-0176
-//            if (certificadoAlphaTechnologies instanceof CertificadoSubjImplAlphaTechnologies) {
-//                if (certificadoAlphaTechnologies instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
-//                    datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
-//                    datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
-//                    datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido());
-//                }
-//            }
             datosUsuario.setCertificadoDigitalValido(true);
         }
 
@@ -112,14 +104,36 @@ public class CertificadoDataFactoryAnfAc {
                     datosUsuario.setCertificadoDigitalValido(true);
                 }
             }
-            //RESOLUCION-ARCOTEL-2024-0176
-//            if (certificadoAlphaTechnologies instanceof CertificadoSubjImplAlphaTechnologies) {
-//                if (certificadoAlphaTechnologies instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
-//                    datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
-//                    datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
-//                    datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido());
-//                }
-//            }
+            // RESOLUCION-ARCOTEL-2024-0176
+            if (certificadoAnfAc37442 instanceof CertificadoSubjImplAnfAc) {
+                if (certificadoAnfAc37442 instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
+                    datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
+                    datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
+                    datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido() + " "
+                            + certificadoPersonaNatural.getSegundoApellido());
+                }
+                if (certificadoAnfAc37442 instanceof CertificadoMiembroEmpresa certificadoMiembroEmpresa) {
+                    datosUsuario.setCedula(certificadoMiembroEmpresa.getCedulaPasaporte());
+                    datosUsuario.setNombre(certificadoMiembroEmpresa.getNombres());
+                    datosUsuario.setApellido(certificadoMiembroEmpresa.getPrimerApellido() + " "
+                            + certificadoMiembroEmpresa.getSegundoApellido());
+                    datosUsuario.setRuc(certificadoMiembroEmpresa.getRuc());
+                    datosUsuario.setRazonSocial(certificadoMiembroEmpresa.getRazonSocial());
+                    datosUsuario.setCargo(certificadoMiembroEmpresa.getCargo());
+                }
+                if (certificadoAnfAc37442 instanceof CertificadoRepresentanteLegal certificadoRepresentanteLegal) {
+                    datosUsuario.setCedula(certificadoRepresentanteLegal.getCedulaPasaporte());
+                    datosUsuario.setNombre(certificadoRepresentanteLegal.getNombres());
+                    datosUsuario.setApellido(certificadoRepresentanteLegal.getPrimerApellido() + " "
+                            + certificadoRepresentanteLegal.getSegundoApellido());
+                    datosUsuario.setRuc(certificadoRepresentanteLegal.getRuc());
+                    datosUsuario.setRazonSocial(certificadoRepresentanteLegal.getRazonSocial());
+                    datosUsuario.setCargo(certificadoRepresentanteLegal.getCargo());
+                }
+                if (certificadoAnfAc37442 instanceof CertificadoSelladoTiempo) {
+                    datosUsuario.setCertificadoDigitalValido(true);
+                }
+            }
             datosUsuario.setCertificadoDigitalValido(true);
         }
         return datosUsuario;
@@ -128,10 +142,7 @@ public class CertificadoDataFactoryAnfAc {
     private static boolean esCertificadoDeAnfAc18332(X509Certificate certificado) {
         return (certificateHasPolicy(certificado, Ext18332.OID_TIPO_PERSONA_NATURAL)
                 || certificateHasPolicy(certificado, Ext18332.OID_TIPO_PERSONA_JURIDICA)
-                || certificateHasPolicy(certificado, Ext18332.OID_TIPO_FUNCIONARIO_PUBLICO)
-                //RESOLUCION-ARCOTEL-2024-0176
-//                || certificateHasPolicy2(certificado, Subj.OID_TIPO_PERSONA_NATURAL)
-                );
+                || certificateHasPolicy(certificado, Ext18332.OID_TIPO_FUNCIONARIO_PUBLICO));
     }
 
     private static Certificado construir18332(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
@@ -141,10 +152,6 @@ public class CertificadoDataFactoryAnfAc {
             return new CertificadoExtPersonaJuridicaAnfAc_18332(certificado);
         } else if (certificateHasPolicy(certificado, Ext18332.OID_TIPO_FUNCIONARIO_PUBLICO)) {
             return new CertificadoExtFuncionarioPublicoAnfAc_18332(certificado);
-//        }
-        //RESOLUCION-ARCOTEL-2024-0176
-//        else if (certificateHasPolicy2(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
-//            return new CertificadoSubjPersonaNaturalAlphaTechnologies(certificado);
         } else {
             throw new EntidadCertificadoraNoValidaException("Certificado de ANFAC AUTORIDAD DE CERTIFICACION ECUADOR C.A. 18332 sin categorizar!");
         }
@@ -157,10 +164,12 @@ public class CertificadoDataFactoryAnfAc {
                 || certificateHasPolicy(certificado, Ext37442.OID_TIPO_PERSONA_JURIDICA_TOKEN)
                 || certificateHasPolicy(certificado, Ext37442.OID_TIPO_FUNCIONARIO_PUBLICO)
                 || certificateHasPolicy(certificado, Ext37442.OID_TIPO_FUNCIONARIO_PUBLICO_TOKEN)
-                || certificateHasPolicy(certificado, Ext37442.OID_SELLADO_TIEMPO) 
-                //RESOLUCION-ARCOTEL-2024-0176
-//                || certificateHasPolicy2(certificado, Subj.OID_TIPO_PERSONA_NATURAL)
-                );
+                || certificateHasPolicy(certificado, Ext37442.OID_SELLADO_TIEMPO)
+                // RESOLUCION-ARCOTEL-2024-0176
+                || certificateHasPolicy(certificado, Subj.OID_CERTIFICADO_PERSONA_NATURAL_ANFAC)
+                || certificateHasPolicy(certificado, Subj.OID_CERTIFICADO_MIEMBRO_EMPRESA_ANFAC)
+                || certificateHasPolicy(certificado, Subj.OID_CERTIFICADO_REPRESENTANTE_LEGAL_ANFAC)
+                || certificateHasPolicy(certificado, Subj.OID_SELLADO_TIEMPO));
     }
 
     private static Certificado construir37442(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
@@ -178,10 +187,15 @@ public class CertificadoDataFactoryAnfAc {
             return new CertificadoExtFuncionarioPublicoAnfAc_37442(certificado);
         } else if (certificateHasPolicy(certificado, Ext37442.OID_SELLADO_TIEMPO)) {
             return new CertificadoExtSelladoTiempoAnfAc_37442(certificado);
-//        }
-        //RESOLUCION-ARCOTEL-2024-0176
-//        else if (certificateHasPolicy2(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
-//            return new CertificadoSubjPersonaNaturalAlphaTechnologies(certificado);
+        } // RESOLUCION-ARCOTEL-2024-0176
+        else if (certificateHasPolicy(certificado, Subj.OID_CERTIFICADO_PERSONA_NATURAL_ANFAC)) {
+            return new CertificadoSubjPersonaNaturalAnfAc(certificado);
+        } else if (certificateHasPolicy(certificado, Subj.OID_CERTIFICADO_MIEMBRO_EMPRESA_ANFAC)) {
+            return new CertificadoSubjMiembroEmpresaAnfAc(certificado);
+        } else if (certificateHasPolicy(certificado, Subj.OID_CERTIFICADO_REPRESENTANTE_LEGAL_ANFAC)) {
+            return new CertificadoSubjRepresentanteLegalAnfAc(certificado);
+        } else if (certificateHasPolicy(certificado, Subj.OID_SELLADO_TIEMPO)) {
+            return new CertificadoSubjSelloElectronicoAnfAc(certificado);
         } else {
             throw new EntidadCertificadoraNoValidaException("Certificado de ANFAC AUTORIDAD DE CERTIFICACION ECUADOR C.A. 37442 sin categorizar!");
         }

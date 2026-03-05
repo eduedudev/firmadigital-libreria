@@ -75,7 +75,7 @@ public class CertificadoDataFactoryArgosData {
         return (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_NATURAL)
                 || certificateHasPolicy(certificado, Ext.OID_TIPO_REPRESENTANTE_LEGAL)
                 //RESOLUCION-ARCOTEL-2024-0176
-//                || certificateHasPolicy2(certificado, Subj.OID_TIPO_PERSONA_NATURAL)
+//                || certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)
                 );
     }
 
@@ -86,7 +86,7 @@ public class CertificadoDataFactoryArgosData {
             return new CertificadoExtRepresentanteLegalArgosData(certificado);
 //        }
         //RESOLUCION-ARCOTEL-2024-0176
-//        else if (certificateHasPolicy2(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
+//        else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
 //            return new CertificadoSubjPersonaNaturalAlphaTechnologies(certificado);
         } else {
             throw new EntidadCertificadoraNoValidaException("Certificado de ARGOSDATA CERTIFICACIÓN DE INFORMACIÓN Y SERVICIOS RELACIONADOS S.A.S. sin categorizar!");

@@ -87,7 +87,7 @@ public class CertificadoDataFactoryCorpNewBest {
                 || certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_JURIDICA)
                 || certificateHasPolicy(certificado, Ext.OID_TIPO_MIEMBRO_EMPRESA)
                 //RESOLUCION-ARCOTEL-2024-0176
-//                || certificateHasPolicy2(certificado, Subj.OID_TIPO_PERSONA_NATURAL)
+//                || certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)
                 );
     }
 
@@ -100,7 +100,7 @@ public class CertificadoDataFactoryCorpNewBest {
             return new CertificadoExtMiembroEmpresaCorpNewBest(certificado);
 //        }
         //RESOLUCION-ARCOTEL-2024-0176
-//        else if (certificateHasPolicy2(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
+//        else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
 //            return new CertificadoSubjPersonaNaturalAlphaTechnologies(certificado);
         } else {
             throw new EntidadCertificadoraNoValidaException("Tipo Certificado de CORPNEWBEST CIA. LTDA. sin categorizar!");

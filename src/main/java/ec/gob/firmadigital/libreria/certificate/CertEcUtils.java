@@ -101,6 +101,11 @@ public class CertEcUtils {
             }
             case ANFAC_NAME:
                 try {
+                    // Certificado firmado por la raíz (p. ej. el intermedio 2025-2044)
+                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new CaCertAnfAc20242044_37442())) {
+                        System.out.println("Anf Root 2024-2044");
+                        return new CaCertAnfAc20242044_37442();
+                    }
                     if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertAnfAc20162032_18332())) {
                         System.out.println("Anf 2016-2032");
                         return new SubCaCertAnfAc20162032_18332();
@@ -108,6 +113,14 @@ public class CertEcUtils {
                     if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertAnfAc20192029_37442())) {
                         System.out.println("Anf 2019-2029");
                         return new SubCaCertAnfAc20192029_37442();
+                    }
+                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaAnfAc20252044_37442())) {
+                        System.out.println("Anf 2025-2044");
+                        return new SubCaAnfAc20252044_37442();
+                    }
+                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaAnfAc20262044_37442())) {
+                        System.out.println("Anf 2026-2044");
+                        return new SubCaAnfAc20262044_37442();
                     }
                     return null;
                 } catch (java.security.InvalidKeyException ex) {

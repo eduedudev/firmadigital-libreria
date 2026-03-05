@@ -93,7 +93,7 @@ public class CertificadoDataFactoryUanataca {
                 || certificateHasPolicy(certificado, Ext.OID_TIPO_REPRESENTANTE_EMPRESA)
                 || certificateHasPolicy(certificado, Ext.OID_SELLADO_TIEMPO)
                 //RESOLUCION-ARCOTEL-2024-0176
-//                || certificateHasPolicy2(certificado, Subj.OID_TIPO_PERSONA_NATURAL)
+//                || certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)
                 );
     }
 
@@ -110,7 +110,7 @@ public class CertificadoDataFactoryUanataca {
             return new CertificadoExtSelladoTiempoUanataca(certificado);
 //        }
         //RESOLUCION-ARCOTEL-2024-0176
-//        else if (certificateHasPolicy2(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
+//        else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
 //            return new CertificadoSubjPersonaNaturalAlphaTechnologies(certificado);
         } else {
             throw new EntidadCertificadoraNoValidaException("Certificado de UANATACA ECUADOR S.A. sin categorizar!");

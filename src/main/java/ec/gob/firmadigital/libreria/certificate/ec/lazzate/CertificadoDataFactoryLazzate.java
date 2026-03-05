@@ -74,7 +74,7 @@ public class CertificadoDataFactoryLazzate {
         return (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_NATURAL)
                 || certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_JURIDICA_EMPRESA)
                 //RESOLUCION-ARCOTEL-2024-0176
-//                || certificateHasPolicy2(certificado, Subj.OID_TIPO_PERSONA_NATURAL)
+//                || certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)
                 );
     }
 
@@ -85,7 +85,7 @@ public class CertificadoDataFactoryLazzate {
             return new CertificadoExtPersonaJuridicaLazzate(certificado);
 //        }
         //RESOLUCION-ARCOTEL-2024-0176
-//        else if (certificateHasPolicy2(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
+//        else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
 //            return new CertificadoSubjPersonaNaturalAlphaTechnologies(certificado);
         } else {
             throw new EntidadCertificadoraNoValidaException("Certificado de LAZZATE CIA. LTDA. sin categorizar!");

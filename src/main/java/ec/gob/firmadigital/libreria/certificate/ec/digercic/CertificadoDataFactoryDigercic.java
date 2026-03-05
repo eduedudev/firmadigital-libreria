@@ -50,7 +50,7 @@ public class CertificadoDataFactoryDigercic {
             }
 //        }
         //RESOLUCION-ARCOTEL-2024-0176
-//        else if (certificateHasPolicy2(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
+//        else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
 //            return new CertificadoSubjPersonaNaturalAlphaTechnologies(certificado);
             datosUsuario.setCertificadoDigitalValido(true);
         }
@@ -60,7 +60,7 @@ public class CertificadoDataFactoryDigercic {
     private static boolean esCertificadoDigercic(X509Certificate certificado) {
         return (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_NATURAL)
                 //RESOLUCION-ARCOTEL-2024-0176
-//                || certificateHasPolicy2(certificado, Subj.OID_TIPO_PERSONA_NATURAL)
+//                || certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)
                 );
     }
 
@@ -69,7 +69,7 @@ public class CertificadoDataFactoryDigercic {
             return new CertificadoExtPersonaNaturalDigercic(certificado);
 //        }
         //RESOLUCION-ARCOTEL-2024-0176
-//        else if (certificateHasPolicy2(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
+//        else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
 //            return new CertificadoSubjPersonaNaturalAlphaTechnologies(certificado);
         } else {
             throw new EntidadCertificadoraNoValidaException("Certificado de DIRECCIÓN GENERAL DE REGISTRO CIVIL, IDENTIFICACIÓN sin categorizar!");

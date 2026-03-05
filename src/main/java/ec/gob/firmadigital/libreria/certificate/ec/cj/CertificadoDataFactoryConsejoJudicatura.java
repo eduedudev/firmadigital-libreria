@@ -118,7 +118,7 @@ public class CertificadoDataFactoryConsejoJudicatura {
                 || certificateHasPolicy(certificado, Ext.OID_TIPO_DEPARTAMENTO_EMPRESA)
                 || certificateHasPolicy(certificado, Ext.OID_SELLADO_TIEMPO)
                 //RESOLUCION-ARCOTEL-2024-0176
-//                || certificateHasPolicy2(certificado, Subj.OID_TIPO_PERSONA_NATURAL)
+//                || certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)
                 );
     }
 
@@ -139,7 +139,7 @@ public class CertificadoDataFactoryConsejoJudicatura {
             return new CertificadoExtSelladoTiempoConsejoJudicatura(certificado);
 //        }
         //RESOLUCION-ARCOTEL-2024-0176
-//        else if (certificateHasPolicy2(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
+//        else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
 //            return new CertificadoSubjPersonaNaturalAlphaTechnologies(certificado);
         } else {
             throw new EntidadCertificadoraNoValidaException("Certificado del CONSEJO DE LA JUDICATURA sin categorizar!");
