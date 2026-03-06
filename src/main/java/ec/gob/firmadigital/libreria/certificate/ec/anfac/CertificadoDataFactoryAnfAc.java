@@ -170,7 +170,8 @@ public class CertificadoDataFactoryAnfAc {
                 || certificateHasPolicy(certificado, Subj.OID_CERTIFICADO_PERSONA_NATURAL)
                 || certificateHasPolicy(certificado, Subj.OID_CERTIFICADO_MIEMBRO_EMPRESA)
                 || certificateHasPolicy(certificado, Subj.OID_CERTIFICADO_REPRESENTANTE_LEGAL)
-                || certificateHasPolicy(certificado, Subj.OID_SELLADO_TIEMPO));
+                || certificateHasPolicy(certificado, Subj.OID_SELLADO_TIEMPO)
+                || certificateHasPolicy(certificado, Subj.OID_SELLO_ELECTRONICO));
     }
 
     private static Certificado construir37442(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
@@ -196,6 +197,8 @@ public class CertificadoDataFactoryAnfAc {
         } else if (certificateHasPolicy(certificado, Subj.OID_CERTIFICADO_REPRESENTANTE_LEGAL)) {
             return new CertificadoSubjRepresentanteLegalAnfAc(certificado);
         } else if (certificateHasPolicy(certificado, Subj.OID_SELLADO_TIEMPO)) {
+            return new CertificadoSubjSelladoTiempoAnfAc(certificado);
+        } else if (certificateHasPolicy(certificado, Subj.OID_SELLO_ELECTRONICO)) {
             return new CertificadoSubjSelloElectronicoAnfAc(certificado);
         } else {
             throw new EntidadCertificadoraNoValidaException("Certificado de ANFAC AUTORIDAD DE CERTIFICACION ECUADOR C.A. 37442 sin categorizar!");

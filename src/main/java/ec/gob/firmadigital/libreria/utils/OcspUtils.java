@@ -22,6 +22,7 @@ import ec.gob.firmadigital.libreria.certificate.ec.alphatechnologies.cert.CaCert
 import ec.gob.firmadigital.libreria.certificate.ec.alphatechnologies.cert.CaCertAlphaTechnologies20242034;
 import ec.gob.firmadigital.libreria.certificate.ec.anfac.cert.CaCertAnfAc20162036_18332;
 import ec.gob.firmadigital.libreria.certificate.ec.anfac.cert.CaCertAnfAc20192039_37442;
+import ec.gob.firmadigital.libreria.certificate.ec.anfac.cert.CaCertAnfAc20242044_37442;
 import ec.gob.firmadigital.libreria.certificate.ec.appfirmas.cert.CaCertAppFirmas20252055;
 import ec.gob.firmadigital.libreria.certificate.ec.argosdata.cert.CaCertArgosData;
 import ec.gob.firmadigital.libreria.certificate.ec.bce.cert.CaCertBce;
@@ -123,6 +124,7 @@ public class OcspUtils {
         X509Certificate rootCACert25 = new CaCertDarkcam20262046();
         X509Certificate rootCACert26 = new Ca1CertPrimeCoreLat();
         X509Certificate rootCACert27 = new Ca2CertPrimeCoreLat();
+        X509Certificate rootCACert28 = new CaCertAnfAc20242044_37442();
 
         // init root trusted certs
         TrustAnchor ta1 = new TrustAnchor(rootCACert1, null);
@@ -152,6 +154,7 @@ public class OcspUtils {
         TrustAnchor ta25 = new TrustAnchor(rootCACert25, null);
         TrustAnchor ta26 = new TrustAnchor(rootCACert26, null);
         TrustAnchor ta27 = new TrustAnchor(rootCACert27, null);
+        TrustAnchor ta28 = new TrustAnchor(rootCACert28, null);
 
         Set<TrustAnchor> trustedCertsSet = new HashSet<TrustAnchor>();
         trustedCertsSet.add(ta1);
@@ -181,6 +184,7 @@ public class OcspUtils {
         trustedCertsSet.add(ta25);
         trustedCertsSet.add(ta26);
         trustedCertsSet.add(ta27);
+        trustedCertsSet.add(ta28);
 
         // init PKIX parameters
         PKIXParameters params;
