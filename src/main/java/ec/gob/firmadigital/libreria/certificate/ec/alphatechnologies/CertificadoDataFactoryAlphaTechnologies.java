@@ -19,6 +19,7 @@ package ec.gob.firmadigital.libreria.certificate.ec.alphatechnologies;
 
 import ec.gob.firmadigital.libreria.certificate.ec.alphatechnologies.ext.*;
 import ec.gob.firmadigital.libreria.certificate.ec.alphatechnologies.subj.*;
+import ec.gob.firmadigital.libreria.certificate.ec.subj.CertificadoSubjImpl;
 import static ec.gob.firmadigital.libreria.certificate.ec.alphatechnologies.CertificadoAlphaTechnologies.*;
 import ec.gob.firmadigital.libreria.certificate.ec.*;
 import ec.gob.firmadigital.libreria.certificate.Certificado;
@@ -67,7 +68,7 @@ public class CertificadoDataFactoryAlphaTechnologies {
                 }
             }
             //RESOLUCION-ARCOTEL-2024-0176
-            if (certificadoAlphaTechnologies instanceof CertificadoSubjImplAlphaTechnologies) {
+            if (certificadoAlphaTechnologies instanceof CertificadoSubjImpl) {
                 if (certificadoAlphaTechnologies instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
                     datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
                     datosUsuario.setNombre(certificadoPersonaNatural.getNombres());

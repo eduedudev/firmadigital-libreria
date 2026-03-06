@@ -18,6 +18,7 @@
 package ec.gob.firmadigital.libreria.certificate.ec.anfac.subj;
 
 import ec.gob.firmadigital.libreria.certificate.ec.CertificadoPersonaNatural;
+import ec.gob.firmadigital.libreria.certificate.ec.subj.CertificadoSubjImpl;
 import java.security.cert.X509Certificate;
 
 /**
@@ -27,7 +28,7 @@ import java.security.cert.X509Certificate;
  * @author Misael Fernández, ANFAC AUTORIDAD DE CERTIFICACION ECUADOR C.A.
  */
 public class CertificadoSubjPersonaNaturalAnfAc
-        extends CertificadoSubjImplAnfAc
+        extends CertificadoSubjImpl
         implements CertificadoPersonaNatural {
 
     public CertificadoSubjPersonaNaturalAnfAc(X509Certificate certificado) {

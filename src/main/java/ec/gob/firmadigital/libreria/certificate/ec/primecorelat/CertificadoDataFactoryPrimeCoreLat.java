@@ -18,6 +18,7 @@
 package ec.gob.firmadigital.libreria.certificate.ec.primecorelat;
 
 import ec.gob.firmadigital.libreria.certificate.ec.primecorelat.subj.*;
+import ec.gob.firmadigital.libreria.certificate.ec.subj.CertificadoSubjImpl;
 import static ec.gob.firmadigital.libreria.certificate.ec.primecorelat.CertificadoPrimeCoreLat.*;
 import ec.gob.firmadigital.libreria.certificate.ec.*;
 import ec.gob.firmadigital.libreria.certificate.Certificado;
@@ -40,7 +41,7 @@ public class CertificadoDataFactoryPrimeCoreLat {
         if (esCertificadoPrimeCoreLat(certificado)) {
             datosUsuario = new DatosUsuario();
             Certificado certificadoPrimeCoreLat = construir(certificado);
-            if (certificadoPrimeCoreLat instanceof CertificadoSubjImplPrimeCoreLat) {
+            if (certificadoPrimeCoreLat instanceof CertificadoSubjImpl) {
                 if (certificadoPrimeCoreLat instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
                     datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
                     datosUsuario.setNombre(certificadoPersonaNatural.getNombres());

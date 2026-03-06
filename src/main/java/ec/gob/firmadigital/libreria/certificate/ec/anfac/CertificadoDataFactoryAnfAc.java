@@ -19,6 +19,7 @@ package ec.gob.firmadigital.libreria.certificate.ec.anfac;
 
 import ec.gob.firmadigital.libreria.certificate.ec.anfac.ext.*;
 import ec.gob.firmadigital.libreria.certificate.ec.anfac.subj.*;
+import ec.gob.firmadigital.libreria.certificate.ec.subj.CertificadoSubjImpl;
 import static ec.gob.firmadigital.libreria.certificate.ec.anfac.CertificadoAnfAc.*;
 import ec.gob.firmadigital.libreria.certificate.ec.*;
 import ec.gob.firmadigital.libreria.certificate.Certificado;
@@ -105,7 +106,7 @@ public class CertificadoDataFactoryAnfAc {
                 }
             }
             // RESOLUCION-ARCOTEL-2024-0176
-            if (certificadoAnfAc37442 instanceof CertificadoSubjImplAnfAc) {
+            if (certificadoAnfAc37442 instanceof CertificadoSubjImpl) {
                 if (certificadoAnfAc37442 instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
                     datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
                     datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
@@ -166,9 +167,9 @@ public class CertificadoDataFactoryAnfAc {
                 || certificateHasPolicy(certificado, Ext37442.OID_TIPO_FUNCIONARIO_PUBLICO_TOKEN)
                 || certificateHasPolicy(certificado, Ext37442.OID_SELLADO_TIEMPO)
                 // RESOLUCION-ARCOTEL-2024-0176
-                || certificateHasPolicy(certificado, Subj.OID_CERTIFICADO_PERSONA_NATURAL_ANFAC)
-                || certificateHasPolicy(certificado, Subj.OID_CERTIFICADO_MIEMBRO_EMPRESA_ANFAC)
-                || certificateHasPolicy(certificado, Subj.OID_CERTIFICADO_REPRESENTANTE_LEGAL_ANFAC)
+                || certificateHasPolicy(certificado, Subj.OID_CERTIFICADO_PERSONA_NATURAL)
+                || certificateHasPolicy(certificado, Subj.OID_CERTIFICADO_MIEMBRO_EMPRESA)
+                || certificateHasPolicy(certificado, Subj.OID_CERTIFICADO_REPRESENTANTE_LEGAL)
                 || certificateHasPolicy(certificado, Subj.OID_SELLADO_TIEMPO));
     }
 
@@ -188,11 +189,11 @@ public class CertificadoDataFactoryAnfAc {
         } else if (certificateHasPolicy(certificado, Ext37442.OID_SELLADO_TIEMPO)) {
             return new CertificadoExtSelladoTiempoAnfAc_37442(certificado);
         } // RESOLUCION-ARCOTEL-2024-0176
-        else if (certificateHasPolicy(certificado, Subj.OID_CERTIFICADO_PERSONA_NATURAL_ANFAC)) {
+        else if (certificateHasPolicy(certificado, Subj.OID_CERTIFICADO_PERSONA_NATURAL)) {
             return new CertificadoSubjPersonaNaturalAnfAc(certificado);
-        } else if (certificateHasPolicy(certificado, Subj.OID_CERTIFICADO_MIEMBRO_EMPRESA_ANFAC)) {
+        } else if (certificateHasPolicy(certificado, Subj.OID_CERTIFICADO_MIEMBRO_EMPRESA)) {
             return new CertificadoSubjMiembroEmpresaAnfAc(certificado);
-        } else if (certificateHasPolicy(certificado, Subj.OID_CERTIFICADO_REPRESENTANTE_LEGAL_ANFAC)) {
+        } else if (certificateHasPolicy(certificado, Subj.OID_CERTIFICADO_REPRESENTANTE_LEGAL)) {
             return new CertificadoSubjRepresentanteLegalAnfAc(certificado);
         } else if (certificateHasPolicy(certificado, Subj.OID_SELLADO_TIEMPO)) {
             return new CertificadoSubjSelloElectronicoAnfAc(certificado);

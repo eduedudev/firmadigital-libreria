@@ -18,7 +18,7 @@
 package ec.gob.firmadigital.libreria.certificate.ec.securitydata.ext;
 
 import ec.gob.firmadigital.libreria.certificate.ec.CertificadoRepresentanteLegal;
-import static ec.gob.firmadigital.libreria.certificate.ec.securitydata.CertificadoSecurityData.Subj.*;
+import static ec.gob.firmadigital.libreria.certificate.ec.securitydata.CertificadoSecurityData.Ext.*;
 import java.security.cert.X509Certificate;
 
 /**
@@ -38,7 +38,7 @@ public class CertificadoExtRepresentanteLegalSecurityData
 
     @Override
     public String getRazonSocial() {
-        return getExtensionField(OID_ORGANIZACION);
+        return getExtensionField(OID_RAZON_SOCIAL);
     }
 
     @Override

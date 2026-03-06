@@ -18,7 +18,8 @@
 package ec.gob.firmadigital.libreria.certificate.ec.securitydata.subj;
 
 import ec.gob.firmadigital.libreria.certificate.ec.CertificadoSelloElectronico;
-import static ec.gob.firmadigital.libreria.certificate.ec.securitydata.CertificadoSecurityData.Subj.*;
+import ec.gob.firmadigital.libreria.certificate.ec.subj.AttributeOIDs;
+import ec.gob.firmadigital.libreria.certificate.ec.subj.CertificadoSubjImpl;
 import java.security.cert.X509Certificate;
 
 /**
@@ -29,7 +30,8 @@ import java.security.cert.X509Certificate;
  * @author Misael Fernández, SECURITY DATA SEGURIDAD EN DATOS Y FIRMA DIGITAL
  * S.A.
  */
-public class CertificadoSubjSelloElectronicoSecurityData extends CertificadoSubjImplSecurityData
+public class CertificadoSubjSelloElectronicoSecurityData
+        extends CertificadoSubjImpl
         implements CertificadoSelloElectronico {
 
     public CertificadoSubjSelloElectronicoSecurityData(X509Certificate certificado) {
@@ -38,6 +40,6 @@ public class CertificadoSubjSelloElectronicoSecurityData extends CertificadoSubj
 
     @Override
     public String getCommonName() {
-        return getSubjectField(OID_COMMON_NAME);
+        return getSubjectField(AttributeOIDs.OID_COMMON_NAME);
     }
 }

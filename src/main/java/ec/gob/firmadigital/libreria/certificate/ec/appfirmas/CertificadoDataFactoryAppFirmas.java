@@ -18,6 +18,7 @@
 package ec.gob.firmadigital.libreria.certificate.ec.appfirmas;
 
 import ec.gob.firmadigital.libreria.certificate.ec.appfirmas.subj.*;
+import ec.gob.firmadigital.libreria.certificate.ec.subj.CertificadoSubjImpl;
 import static ec.gob.firmadigital.libreria.certificate.ec.appfirmas.CertificadoAppFirmas.*;
 import ec.gob.firmadigital.libreria.certificate.ec.*;
 import ec.gob.firmadigital.libreria.certificate.Certificado;
@@ -40,7 +41,7 @@ public class CertificadoDataFactoryAppFirmas {
         if (esCertificadoDeAppFirmas(certificado)) {
             datosUsuario = new DatosUsuario();
             Certificado certificadoAppFirmas = construir(certificado);
-            if (certificadoAppFirmas instanceof CertificadoSubjImplAppFirmas) {
+            if (certificadoAppFirmas instanceof CertificadoSubjImpl) {
                 if (certificadoAppFirmas instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
                     datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
                     datosUsuario.setNombre(certificadoPersonaNatural.getNombres());

@@ -18,6 +18,7 @@
 package ec.gob.firmadigital.libreria.certificate.ec.letmi.subj;
 
 import ec.gob.firmadigital.libreria.certificate.ec.CertificadoPersonaNatural;
+import ec.gob.firmadigital.libreria.certificate.ec.subj.CertificadoSubjImpl;
 import java.security.cert.X509Certificate;
 
 /**
@@ -27,7 +28,7 @@ import java.security.cert.X509Certificate;
  * @author Misael Fernández, LETMI ECUADOR S.A.
  */
 public class CertificadoSubjPersonaNaturalLetmi
-        extends CertificadoSubjImplLetmi
+        extends CertificadoSubjImpl
         implements CertificadoPersonaNatural {
 
     public CertificadoSubjPersonaNaturalLetmi(X509Certificate certificado) {

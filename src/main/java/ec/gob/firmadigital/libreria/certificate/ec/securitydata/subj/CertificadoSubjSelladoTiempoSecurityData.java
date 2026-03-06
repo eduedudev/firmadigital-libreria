@@ -18,6 +18,7 @@
 package ec.gob.firmadigital.libreria.certificate.ec.securitydata.subj;
 
 import ec.gob.firmadigital.libreria.certificate.ec.CertificadoSelladoTiempo;
+import ec.gob.firmadigital.libreria.certificate.ec.subj.CertificadoSubjImpl;
 import java.security.cert.X509Certificate;
 
 /**
@@ -28,7 +29,8 @@ import java.security.cert.X509Certificate;
  * @author Misael Fernández, SECURITY DATA SEGURIDAD EN DATOS Y FIRMA DIGITAL
  * S.A.
  */
-public class CertificadoSubjSelladoTiempoSecurityData extends CertificadoSubjImplSecurityData
+public class CertificadoSubjSelladoTiempoSecurityData 
+        extends CertificadoSubjImpl
         implements CertificadoSelladoTiempo {
 
     public CertificadoSubjSelladoTiempoSecurityData(X509Certificate certificado) {

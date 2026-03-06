@@ -18,6 +18,7 @@
 package ec.gob.firmadigital.libreria.certificate.ec.letmi;
 
 import ec.gob.firmadigital.libreria.certificate.ec.letmi.subj.*;
+import ec.gob.firmadigital.libreria.certificate.ec.subj.CertificadoSubjImpl;
 import static ec.gob.firmadigital.libreria.certificate.ec.letmi.CertificadoLetmi.*;
 import ec.gob.firmadigital.libreria.certificate.ec.*;
 import ec.gob.firmadigital.libreria.certificate.Certificado;
@@ -40,7 +41,7 @@ public class CertificadoDataFactoryLetmi {
         if (esCertificadoDeLetmi(certificado)) {
             datosUsuario = new DatosUsuario();
             Certificado certificadoLetmi = construir(certificado);
-            if (certificadoLetmi instanceof CertificadoSubjImplLetmi) {
+            if (certificadoLetmi instanceof CertificadoSubjImpl) {
                 if (certificadoLetmi instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
                     datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
                     datosUsuario.setNombre(certificadoPersonaNatural.getNombres());

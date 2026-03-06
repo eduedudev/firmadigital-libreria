@@ -18,6 +18,7 @@
 package ec.gob.firmadigital.libreria.certificate.ec.primecorelat.subj;
 
 import ec.gob.firmadigital.libreria.certificate.ec.CertificadoPersonaNatural;
+import ec.gob.firmadigital.libreria.certificate.ec.subj.CertificadoSubjImpl;
 import java.security.cert.X509Certificate;
 
 /**
@@ -27,7 +28,7 @@ import java.security.cert.X509Certificate;
  * @author Misael Fernández, PRIMECORELAT S.A.S. B.I.C.
  */
 public class CertificadoSubjPersonaNaturalPrimeCoreLat
-        extends CertificadoSubjImplPrimeCoreLat
+        extends CertificadoSubjImpl
         implements CertificadoPersonaNatural {
 
     public CertificadoSubjPersonaNaturalPrimeCoreLat(X509Certificate certificado) {

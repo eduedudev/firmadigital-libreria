@@ -70,7 +70,7 @@ public class CertificadoDataFactoryCorpNewBest {
                 }
             }
             //RESOLUCION-ARCOTEL-2024-0176
-//            if (certificadoAlphaTechnologies instanceof CertificadoSubjImplAlphaTechnologies) {
+//            if (certificadoAlphaTechnologies instanceof CertificadoSubjImpl) {
 //                if (certificadoAlphaTechnologies instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
 //                    datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
 //                    datosUsuario.setNombre(certificadoPersonaNatural.getNombres());

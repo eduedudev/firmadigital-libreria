@@ -18,7 +18,8 @@
 package ec.gob.firmadigital.libreria.certificate.ec.primecorelat.subj;
 
 import ec.gob.firmadigital.libreria.certificate.ec.CertificadoSelloElectronico;
-import static ec.gob.firmadigital.libreria.certificate.ec.primecorelat.CertificadoPrimeCoreLat.Subj.*;
+import ec.gob.firmadigital.libreria.certificate.ec.subj.AttributeOIDs;
+import ec.gob.firmadigital.libreria.certificate.ec.subj.CertificadoSubjImpl;
 import java.security.cert.X509Certificate;
 
 /**
@@ -28,7 +29,7 @@ import java.security.cert.X509Certificate;
  * @author Misael Fernández, PRIMECORELAT S.A.S. B.I.C.
  */
 public class CertificadoSubjSelloElectronicoPrimeCoreLat
-        extends CertificadoSubjImplPrimeCoreLat
+        extends CertificadoSubjImpl
         implements CertificadoSelloElectronico {
 
     public CertificadoSubjSelloElectronicoPrimeCoreLat(X509Certificate certificado) {
@@ -37,6 +38,6 @@ public class CertificadoSubjSelloElectronicoPrimeCoreLat
 
     @Override
     public String getCommonName() {
-        return getSubjectField(OID_COMMON_NAME);
+        return getSubjectField(AttributeOIDs.OID_COMMON_NAME);
     }
 }

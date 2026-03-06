@@ -18,7 +18,8 @@
 package ec.gob.firmadigital.libreria.certificate.ec.securitydata.subj;
 
 import ec.gob.firmadigital.libreria.certificate.ec.CertificadoMiembroEmpresa;
-import static ec.gob.firmadigital.libreria.certificate.ec.securitydata.CertificadoSecurityData.Subj.*;
+import ec.gob.firmadigital.libreria.certificate.ec.subj.AttributeOIDs;
+import ec.gob.firmadigital.libreria.certificate.ec.subj.CertificadoSubjImpl;
 import java.security.cert.X509Certificate;
 
 /** 
@@ -29,7 +30,8 @@ import java.security.cert.X509Certificate;
  * @author Misael Fernández, SECURITY DATA SEGURIDAD EN DATOS Y FIRMA DIGITAL
  * S.A.
  */
-public class CertificadoSubjMiembroEmpresaSecurityData extends CertificadoSubjImplSecurityData
+public class CertificadoSubjMiembroEmpresaSecurityData 
+        extends CertificadoSubjImpl
         implements CertificadoMiembroEmpresa {
 
     public CertificadoSubjMiembroEmpresaSecurityData(X509Certificate certificado) {
@@ -38,11 +40,11 @@ public class CertificadoSubjMiembroEmpresaSecurityData extends CertificadoSubjIm
 
     @Override
     public String getRazonSocial() {
-        return getSubjectField(OID_ORGANIZACION);
+        return getSubjectField(AttributeOIDs.OID_ORGANIZACION);
     }
 
     @Override
     public String getCargo() {
-        return getSubjectField(OID_CARGO);
+        return getSubjectField(AttributeOIDs.OID_CARGO);
     }
 }

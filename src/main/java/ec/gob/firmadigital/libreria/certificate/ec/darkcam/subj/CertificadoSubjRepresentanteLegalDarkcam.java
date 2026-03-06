@@ -18,7 +18,8 @@
 package ec.gob.firmadigital.libreria.certificate.ec.darkcam.subj;
 
 import ec.gob.firmadigital.libreria.certificate.ec.CertificadoRepresentanteLegal;
-import static ec.gob.firmadigital.libreria.certificate.ec.darkcam.CertificadoDarkcam.Subj.*;
+import ec.gob.firmadigital.libreria.certificate.ec.subj.AttributeOIDs;
+import ec.gob.firmadigital.libreria.certificate.ec.subj.CertificadoSubjImpl;
 import java.security.cert.X509Certificate;
 
 /**
@@ -28,7 +29,7 @@ import java.security.cert.X509Certificate;
  * @author Misael Fernández, DARKCAM S.A.
  */
 public class CertificadoSubjRepresentanteLegalDarkcam
-        extends CertificadoSubjImplDarkcam
+        extends CertificadoSubjImpl
         implements CertificadoRepresentanteLegal {
 
     public CertificadoSubjRepresentanteLegalDarkcam(X509Certificate certificado) {
@@ -37,11 +38,11 @@ public class CertificadoSubjRepresentanteLegalDarkcam
 
     @Override
     public String getRazonSocial() {
-        return getSubjectField(OID_ORGANIZACION);
+        return getSubjectField(AttributeOIDs.OID_ORGANIZACION);
     }
 
     @Override
     public String getCargo() {
-        return getSubjectField(OID_CARGO);
+        return getSubjectField(AttributeOIDs.OID_CARGO);
     }
 }

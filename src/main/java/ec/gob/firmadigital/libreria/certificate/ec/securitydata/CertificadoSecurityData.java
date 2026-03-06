@@ -50,17 +50,6 @@ public class CertificadoSecurityData {
         public static final String OID_TIPO_SELLO_ELECTRONICO = "1.3.6.1.4.1.37746.102.2.4.1";
         public static final String OID_TIPO_SELLO_ELECTRONICO_DSCF = "1.3.6.1.4.1.37746.102.2.4.2";
         public static final String OID_TIPO_SELLO_TIEMPO_DSCF = "1.3.6.1.4.1.37746.102.2.5.1";
-
-        // OIDs de Campos del Certificado.
-        public static final String OID_COMMON_NAME = "2.5.4.3";
-        public static final String OID_CEDULA_PASAPORTE = "2.5.4.5";
-        public static final String OID_APELLIDOS = "2.5.4.4";
-        public static final String OID_NOMBRES = "2.5.4.42";
-        public static final String OID_PAIS = "2.5.4.6";
-        public static final String OID_CIUDAD = "2.5.4.7";
-        public static final String OID_RUC = "2.5.4.97";
-        public static final String OID_ORGANIZACION = "2.5.4.10";
-        public static final String OID_CARGO = "2.5.4.12";
     }
 
     /**

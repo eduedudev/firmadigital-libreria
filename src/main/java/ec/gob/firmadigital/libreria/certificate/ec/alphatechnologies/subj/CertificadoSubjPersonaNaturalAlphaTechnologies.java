@@ -18,6 +18,7 @@
 package ec.gob.firmadigital.libreria.certificate.ec.alphatechnologies.subj;
 
 import ec.gob.firmadigital.libreria.certificate.ec.CertificadoPersonaNatural;
+import ec.gob.firmadigital.libreria.certificate.ec.subj.CertificadoSubjImpl;
 import java.security.cert.X509Certificate;
 
 /**
@@ -27,7 +28,7 @@ import java.security.cert.X509Certificate;
  * @author Misael Fernández, ALPHA TECHNOLOGIES CIA. LTDA.
  */
 public class CertificadoSubjPersonaNaturalAlphaTechnologies 
-        extends CertificadoSubjImplAlphaTechnologies
+        extends CertificadoSubjImpl
         implements CertificadoPersonaNatural {
 
     public CertificadoSubjPersonaNaturalAlphaTechnologies(X509Certificate certificado) {

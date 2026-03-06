@@ -18,7 +18,8 @@
 package ec.gob.firmadigital.libreria.certificate.ec.appfirmas.subj;
 
 import ec.gob.firmadigital.libreria.certificate.ec.CertificadoMiembroEmpresa;
-import static ec.gob.firmadigital.libreria.certificate.ec.appfirmas.CertificadoAppFirmas.Subj.*;
+import ec.gob.firmadigital.libreria.certificate.ec.subj.AttributeOIDs;
+import ec.gob.firmadigital.libreria.certificate.ec.subj.CertificadoSubjImpl;
 import java.security.cert.X509Certificate;
 
 /**
@@ -28,7 +29,7 @@ import java.security.cert.X509Certificate;
  * @author Misael Fernández, APPFIRMAS S.A.
  */
 public class CertificadoSubjSelloElectronicoAppFirmas
-        extends CertificadoSubjImplAppFirmas
+        extends CertificadoSubjImpl
         implements CertificadoMiembroEmpresa {
 
     public CertificadoSubjSelloElectronicoAppFirmas(X509Certificate certificado) {
@@ -37,11 +38,11 @@ public class CertificadoSubjSelloElectronicoAppFirmas
 
     @Override
     public String getRazonSocial() {
-        return getSubjectField(OID_ORGANIZACION);
+        return getSubjectField(AttributeOIDs.OID_ORGANIZACION);
     }
 
     @Override
     public String getCargo() {
-        return getSubjectField(OID_CARGO);
+        return getSubjectField(AttributeOIDs.OID_CARGO);
     }
 }

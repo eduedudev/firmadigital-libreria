@@ -18,6 +18,7 @@
 package ec.gob.firmadigital.libreria.certificate.ec.appfirmas.subj;
 
 import ec.gob.firmadigital.libreria.certificate.ec.CertificadoPersonaNatural;
+import ec.gob.firmadigital.libreria.certificate.ec.subj.CertificadoSubjImpl;
 import java.security.cert.X509Certificate;
 
 /**
@@ -27,7 +28,7 @@ import java.security.cert.X509Certificate;
  * @author Misael Fernández, APPFIRMAS S.A.
  */
 public class CertificadoSubjPersonaNaturalAppFirmas 
-        extends CertificadoSubjImplAppFirmas
+        extends CertificadoSubjImpl
         implements CertificadoPersonaNatural {
 
     public CertificadoSubjPersonaNaturalAppFirmas(X509Certificate certificado) {

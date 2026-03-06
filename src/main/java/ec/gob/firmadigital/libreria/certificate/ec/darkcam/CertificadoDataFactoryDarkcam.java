@@ -18,6 +18,7 @@
 package ec.gob.firmadigital.libreria.certificate.ec.darkcam;
 
 import ec.gob.firmadigital.libreria.certificate.ec.darkcam.subj.*;
+import ec.gob.firmadigital.libreria.certificate.ec.subj.CertificadoSubjImpl;
 import static ec.gob.firmadigital.libreria.certificate.ec.darkcam.CertificadoDarkcam.*;
 import ec.gob.firmadigital.libreria.certificate.ec.*;
 import ec.gob.firmadigital.libreria.certificate.Certificado;
@@ -40,7 +41,7 @@ public class CertificadoDataFactoryDarkcam {
         if (esCertificadoDeDarkcam(certificado)) {
             datosUsuario = new DatosUsuario();
             Certificado certificadoDarkcam = construir(certificado);
-            if (certificadoDarkcam instanceof CertificadoSubjImplDarkcam) {
+            if (certificadoDarkcam instanceof CertificadoSubjImpl) {
                 if (certificadoDarkcam instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
                     datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
                     datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
