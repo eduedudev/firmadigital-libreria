@@ -63,11 +63,11 @@ public class X509CertificateUtils {
         return error;
     }
 
-    public static String getCedula(KeyStore keyStore, String alias) throws EntidadCertificadoraNoValidaException {
+    public static String getCedulaRuc(KeyStore keyStore, String alias) throws EntidadCertificadoraNoValidaException {
         try {
             X509Certificate certificate = (X509Certificate) keyStore.getCertificate(alias);
             DatosUsuario datosUsuario = CertEcUtils.getDatosUsuarios(certificate);
-            return datosUsuario.getCedula();
+            return (datosUsuario.getCedula() != null) ? datosUsuario.getCedula() : datosUsuario.getRuc();
         } catch (KeyStoreException e) {
             throw new RuntimeException(e);
         }

@@ -42,7 +42,6 @@ public class CertificadoAnfAc {
         public static final String OID_CERTIFICADO_REPRESENTANTE_LEGAL = "1.3.6.1.4.1.37442.2.3.1";
         public static final String OID_SELLADO_TIEMPO = "1.3.6.1.4.1.37442.15.1";
         public static final String OID_SELLO_ELECTRONICO = "1.3.6.1.4.1.37442.102.2.4.1";
-
     }
 
     /**

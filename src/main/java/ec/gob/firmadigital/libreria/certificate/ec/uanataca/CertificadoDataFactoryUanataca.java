@@ -69,7 +69,10 @@ public class CertificadoDataFactoryUanataca {
                             + certificadoRepresentanteLegalUanataca.getSegundoApellido());
                     datosUsuario.setCargo(certificadoRepresentanteLegalUanataca.getCargo());
                 }
-                if (certificadoUanataca instanceof CertificadoSelladoTiempo) {
+                if (certificadoUanataca instanceof CertificadoSelladoTiempo certificadoSelladoTiempo) {
+                    datosUsuario.setCommonName(certificadoSelladoTiempo.getCommonName());
+                    datosUsuario.setRuc(certificadoSelladoTiempo.getRuc());
+                    datosUsuario.setRazonSocial(certificadoSelladoTiempo.getRazonSocial());
                     datosUsuario.setCertificadoDigitalValido(true);
                 }
             }

@@ -42,4 +42,9 @@ public class CertificadoSubjSelloElectronicoSecurityData
     public String getCommonName() {
         return getSubjectField(AttributeOIDs.OID_COMMON_NAME);
     }
+
+    @Override
+    public String getRazonSocial() {
+        return getSubjectField(AttributeOIDs.OID_ORGANIZACION);
+    }
 }

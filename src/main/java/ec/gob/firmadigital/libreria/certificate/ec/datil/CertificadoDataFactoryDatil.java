@@ -74,9 +74,6 @@ public class CertificadoDataFactoryDatil {
                     datosUsuario.setRazonSocial(certificadoRepresentanteLegal.getRazonSocial());
                     datosUsuario.setCargo(certificadoRepresentanteLegal.getCargo());
                 }
-                if (certificadoDatil instanceof CertificadoSelladoTiempo) {
-                    datosUsuario.setCertificadoDigitalValido(true);
-                }
             }
             //RESOLUCION-ARCOTEL-2024-0176
 //            if (certificadoAlphaTechnologies instanceof CertificadoSubjImpl) {

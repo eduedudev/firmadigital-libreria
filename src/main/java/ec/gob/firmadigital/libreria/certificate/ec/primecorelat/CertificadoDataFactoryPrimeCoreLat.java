@@ -64,7 +64,7 @@ public class CertificadoDataFactoryPrimeCoreLat {
                     datosUsuario.setCargo(certificadoPersonaJuridica.getCargo());
                 }
                 if (certificadoPrimeCoreLat instanceof CertificadoSelloElectronico certificadoSelloElectronico) {
-                    datosUsuario.setCedula(certificadoSelloElectronico.getCedulaPasaporte());
+                    datosUsuario.setCedula(null);
                     datosUsuario.setNombre(certificadoSelloElectronico.getNombres());
                     datosUsuario.setApellido(certificadoSelloElectronico.getPrimerApellido());
                     datosUsuario.setRuc(certificadoSelloElectronico.getRuc());

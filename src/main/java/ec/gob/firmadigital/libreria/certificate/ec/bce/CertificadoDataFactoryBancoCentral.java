@@ -84,7 +84,10 @@ public class CertificadoDataFactoryBancoCentral {
                     datosUsuario.setRazonSocial(certificadoRepresentanteLegal.getRazonSocial());
                     datosUsuario.setCargo(certificadoRepresentanteLegal.getCargo());
                 }
-                if (certificadoBancoCentral instanceof CertificadoSelladoTiempo) {
+                if (certificadoBancoCentral instanceof CertificadoSelladoTiempo certificadoSelladoTiempo) {
+                    datosUsuario.setCommonName(certificadoSelladoTiempo.getCommonName());
+                    datosUsuario.setRuc(certificadoSelladoTiempo.getRuc());
+                    datosUsuario.setRazonSocial(certificadoSelladoTiempo.getRazonSocial());
                     datosUsuario.setCertificadoDigitalValido(true);
                 }
             }

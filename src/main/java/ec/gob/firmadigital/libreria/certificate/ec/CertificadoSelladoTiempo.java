@@ -22,6 +22,15 @@ package ec.gob.firmadigital.libreria.certificate.ec;
  *
  * @author Ricardo Arguello
  */
-public interface CertificadoSelladoTiempo {
+public interface CertificadoSelladoTiempo extends CertificadoPersonaNatural {
 
+    /**
+     * @return Razon Social
+     */
+    String getRazonSocial();
+
+    /**
+     * @return CommonName
+     */
+    String getCommonName();
 }

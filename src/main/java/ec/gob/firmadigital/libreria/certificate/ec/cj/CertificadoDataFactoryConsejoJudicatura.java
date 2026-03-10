@@ -92,7 +92,10 @@ public class CertificadoDataFactoryConsejoJudicatura {
                     datosUsuario.setRazonSocial(certificadoPersonaJuridicaPublicaConsejoJudicatura.getRazonSocial());
                     datosUsuario.setCargo(certificadoPersonaJuridicaPublicaConsejoJudicatura.getCargo());
                 }
-                if (certificadoConsejoJudicatura instanceof CertificadoSelladoTiempo) {
+                if (certificadoConsejoJudicatura instanceof CertificadoSelladoTiempo certificadoSelladoTiempo) {
+                    datosUsuario.setCommonName(certificadoSelladoTiempo.getCommonName());
+                    datosUsuario.setRuc(certificadoSelladoTiempo.getRuc());
+                    datosUsuario.setRazonSocial(certificadoSelladoTiempo.getRazonSocial());
                     datosUsuario.setCertificadoDigitalValido(true);
                 }
             }

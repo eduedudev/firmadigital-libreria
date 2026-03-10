@@ -66,9 +66,6 @@ public class CertificadoDataFactoryAnfAc {
                     datosUsuario.setRazonSocial(certificadoPersonaJuridica.getRazonSocial());
                     datosUsuario.setCargo(certificadoPersonaJuridica.getCargo());
                 }
-                if (certificadoAnfAc18332 instanceof CertificadoExtSelladoTiempoAnfAc_37442) {
-                    datosUsuario.setCertificadoDigitalValido(true);
-                }
             }
             datosUsuario.setCertificadoDigitalValido(true);
         }
@@ -101,7 +98,10 @@ public class CertificadoDataFactoryAnfAc {
                     datosUsuario.setRazonSocial(certificadoPersonaJuridica.getRazonSocial());
                     datosUsuario.setCargo(certificadoPersonaJuridica.getCargo());
                 }
-                if (certificadoAnfAc37442 instanceof CertificadoSelladoTiempo) {
+                if (certificadoAnfAc37442 instanceof CertificadoSelladoTiempo certificadoSelladoTiempo) {
+                    datosUsuario.setCommonName(certificadoSelladoTiempo.getCommonName());
+                    datosUsuario.setRuc(certificadoSelladoTiempo.getRuc());
+                    datosUsuario.setRazonSocial(certificadoSelladoTiempo.getRazonSocial());
                     datosUsuario.setCertificadoDigitalValido(true);
                 }
             }
@@ -131,7 +131,18 @@ public class CertificadoDataFactoryAnfAc {
                     datosUsuario.setRazonSocial(certificadoRepresentanteLegal.getRazonSocial());
                     datosUsuario.setCargo(certificadoRepresentanteLegal.getCargo());
                 }
-                if (certificadoAnfAc37442 instanceof CertificadoSelladoTiempo) {
+                if (certificadoAnfAc37442 instanceof CertificadoSelloElectronico certificadoSelloElectronico) {
+                    datosUsuario.setCedula(null);
+                    datosUsuario.setNombre(certificadoSelloElectronico.getNombres());
+                    datosUsuario.setApellido(certificadoSelloElectronico.getPrimerApellido());
+                    datosUsuario.setCommonName(certificadoSelloElectronico.getCommonName());
+                    datosUsuario.setRuc(certificadoSelloElectronico.getRuc());
+                    datosUsuario.setRazonSocial(certificadoSelloElectronico.getRazonSocial());
+                }
+                if (certificadoAnfAc37442 instanceof CertificadoSelladoTiempo certificadoSelladoTiempo) {
+                    datosUsuario.setCommonName(certificadoSelladoTiempo.getCommonName());
+                    datosUsuario.setRuc(certificadoSelladoTiempo.getRuc());
+                    datosUsuario.setRazonSocial(certificadoSelladoTiempo.getRazonSocial());
                     datosUsuario.setCertificadoDigitalValido(true);
                 }
             }

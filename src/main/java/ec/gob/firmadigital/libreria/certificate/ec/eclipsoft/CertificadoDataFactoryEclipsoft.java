@@ -74,7 +74,10 @@ public class CertificadoDataFactoryEclipsoft {
                     datosUsuario.setRazonSocial(datosUsuario.getRazonSocial());
                     datosUsuario.setCargo(datosUsuario.getCargo());
                 }
-                if (certificadoEclipsoft instanceof CertificadoSelladoTiempo) {
+                if (certificadoEclipsoft instanceof CertificadoSelladoTiempo certificadoSelladoTiempo) {
+                    datosUsuario.setCommonName(certificadoSelladoTiempo.getCommonName());
+                    datosUsuario.setRuc(certificadoSelladoTiempo.getRuc());
+                    datosUsuario.setRazonSocial(certificadoSelladoTiempo.getRazonSocial());
                     datosUsuario.setCertificadoDigitalValido(true);
                 }
             }
@@ -96,6 +99,7 @@ public class CertificadoDataFactoryEclipsoft {
                 || certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_JURIDICA)
                 || certificateHasPolicy(certificado, Ext.OID_TIPO_MIEMBRO_EMPRESA)
                 || certificateHasPolicy(certificado, Ext.OID_TIPO_REPRESENTANTE_EMPRESA)
+                || certificateHasPolicy(certificado, Ext.OID_TIPO_SELLADO_TIEMPO)
                 //RESOLUCION-ARCOTEL-2024-0176
 //                || certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)
                 );
@@ -110,6 +114,8 @@ public class CertificadoDataFactoryEclipsoft {
             return new CertificadoExtRepresentanteLegalEclipsoft(certificado);
         } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_JURIDICA)) {
             return new CertificadoExtPersonaJuridicaPrivadaEclipsoft(certificado);
+        } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_SELLADO_TIEMPO)) {
+            return new CertificadoExtSelladoTiempoEclipsoft(certificado);
 //        }
         //RESOLUCION-ARCOTEL-2024-0176
 //        else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {

@@ -18,6 +18,7 @@
 package ec.gob.firmadigital.libreria.certificate.ec.securitydata.ext;
 
 import ec.gob.firmadigital.libreria.certificate.ec.CertificadoSelladoTiempo;
+import static ec.gob.firmadigital.libreria.certificate.ec.securitydata.CertificadoSecurityData.Ext.*;
 import java.security.cert.X509Certificate;
 
 /**
@@ -33,5 +34,15 @@ public class CertificadoExtSelladoTiempoSecurityData
 
     public CertificadoExtSelladoTiempoSecurityData(X509Certificate certificado) {
         super(certificado);
+    }
+
+    @Override
+    public String getRazonSocial() {
+        return getExtensionField(OID_RAZON_SOCIAL);
+    }
+
+    @Override
+    public String getCommonName() {
+        return "";
     }
 }

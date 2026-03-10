@@ -18,6 +18,7 @@
 package ec.gob.firmadigital.libreria.certificate.ec.securitydata.subj;
 
 import ec.gob.firmadigital.libreria.certificate.ec.CertificadoSelladoTiempo;
+import ec.gob.firmadigital.libreria.certificate.ec.subj.AttributeOIDs;
 import ec.gob.firmadigital.libreria.certificate.ec.subj.CertificadoSubjImpl;
 import java.security.cert.X509Certificate;
 
@@ -29,11 +30,21 @@ import java.security.cert.X509Certificate;
  * @author Misael Fernández, SECURITY DATA SEGURIDAD EN DATOS Y FIRMA DIGITAL
  * S.A.
  */
-public class CertificadoSubjSelladoTiempoSecurityData 
+public class CertificadoSubjSelladoTiempoSecurityData
         extends CertificadoSubjImpl
         implements CertificadoSelladoTiempo {
 
     public CertificadoSubjSelladoTiempoSecurityData(X509Certificate certificado) {
         super(certificado);
+    }
+
+    @Override
+    public String getCommonName() {
+        return getSubjectField(AttributeOIDs.OID_COMMON_NAME);
+    }
+
+    @Override
+    public String getRazonSocial() {
+        return getSubjectField(AttributeOIDs.OID_ORGANIZACION);
     }
 }

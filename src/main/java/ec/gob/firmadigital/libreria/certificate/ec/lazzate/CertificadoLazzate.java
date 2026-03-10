@@ -43,17 +43,6 @@ public class CertificadoLazzate {
 //        public static final String OID_TIPO_PERSONA_NATURAL = "1.3.6.1.4.1.56105.2.1.1";
 //        public static final String OID_TIPO_MIEMBRO_EMPRESA = "1.3.6.1.4.1.56105.2.2.1";
 //        public static final String OID_TIPO_REPRESENTANTE_LEGAL = "1.3.6.1.4.1.56105.2.3.1";
-//
-//        // OIDs de Campos del Certificado.
-//        public static final String OID_COMMON_NAME = "2.5.4.3";
-//        public static final String OID_CEDULA_PASAPORTE = "2.5.4.5";
-//        public static final String OID_APELLIDOS = "2.5.4.4";
-//        public static final String OID_NOMBRES = "2.5.4.42";
-//        public static final String OID_PAIS = "2.5.4.6";
-//        public static final String OID_CIUDAD = "2.5.4.7";
-//        public static final String OID_RUC = "2.5.4.97";
-//        public static final String OID_ORGANIZACION = "2.5.4.10";
-//        public static final String OID_CARGO = "2.5.4.12";
     }
 
     /**

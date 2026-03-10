@@ -17,7 +17,7 @@
  */
 package ec.gob.firmadigital.libreria.certificate.ec.darkcam.subj;
 
-import ec.gob.firmadigital.libreria.certificate.ec.CertificadoMiembroEmpresa;
+import ec.gob.firmadigital.libreria.certificate.ec.CertificadoSelloElectronico;
 import ec.gob.firmadigital.libreria.certificate.ec.subj.AttributeOIDs;
 import ec.gob.firmadigital.libreria.certificate.ec.subj.CertificadoSubjImpl;
 import java.security.cert.X509Certificate;
@@ -30,19 +30,19 @@ import java.security.cert.X509Certificate;
  */
 public class CertificadoSubjSelloElectronicoDarkcam
         extends CertificadoSubjImpl
-        implements CertificadoMiembroEmpresa {
+        implements CertificadoSelloElectronico {
 
     public CertificadoSubjSelloElectronicoDarkcam(X509Certificate certificado) {
         super(certificado);
     }
 
     @Override
-    public String getRazonSocial() {
-        return getSubjectField(AttributeOIDs.OID_ORGANIZACION);
+    public String getCommonName() {
+        return getSubjectField(AttributeOIDs.OID_COMMON_NAME);
     }
 
     @Override
-    public String getCargo() {
-        return getSubjectField(AttributeOIDs.OID_CARGO);
+    public String getRazonSocial() {
+        return getSubjectField(AttributeOIDs.OID_ORGANIZACION);
     }
 }

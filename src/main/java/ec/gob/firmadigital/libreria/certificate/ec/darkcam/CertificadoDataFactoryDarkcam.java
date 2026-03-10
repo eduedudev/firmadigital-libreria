@@ -55,6 +55,14 @@ public class CertificadoDataFactoryDarkcam {
                     datosUsuario.setRazonSocial(certificadoMiembroEmpresa.getRazonSocial());
                     datosUsuario.setCargo(certificadoMiembroEmpresa.getCargo());
                 }
+                if (certificadoDarkcam instanceof CertificadoSelloElectronico certificadoSelloElectronico) {
+                    datosUsuario.setCedula(null);
+                    datosUsuario.setNombre(certificadoSelloElectronico.getNombres());
+                    datosUsuario.setApellido(certificadoSelloElectronico.getPrimerApellido());
+                    datosUsuario.setCommonName(certificadoSelloElectronico.getCommonName());
+                    datosUsuario.setRuc(certificadoSelloElectronico.getRuc());
+                    datosUsuario.setRazonSocial(certificadoSelloElectronico.getRazonSocial());
+                }
                 if (certificadoDarkcam instanceof CertificadoRepresentanteLegal certificadoRepresentanteLegal) {
                     datosUsuario.setCedula(certificadoRepresentanteLegal.getCedulaPasaporte());
                     datosUsuario.setNombre(certificadoRepresentanteLegal.getNombres());

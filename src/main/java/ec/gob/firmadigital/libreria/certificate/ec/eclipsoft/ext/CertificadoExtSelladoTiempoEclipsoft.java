@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2026
- * Authors: Misael Fernández, ANFAC AUTORIDAD DE CERTIFICACION ECUADOR C.A.
+ * Copyright (C) 2026 
+ * Authors: Misael Fernández, ECLIPSOFT S.A.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,26 +15,26 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package ec.gob.firmadigital.libreria.certificate.ec.anfac.ext;
+package ec.gob.firmadigital.libreria.certificate.ec.eclipsoft.ext;
 
 import ec.gob.firmadigital.libreria.certificate.ec.CertificadoSelladoTiempo;
-import static ec.gob.firmadigital.libreria.certificate.ec.anfac.CertificadoAnfAc.Ext37442.*;
+import static ec.gob.firmadigital.libreria.certificate.ec.eclipsoft.CertificadoEclipsoft.Ext.*;
 import java.security.cert.X509Certificate;
 
 /**
  * Certificado de Sellado de Tiempo<br>
- * emitido por ANFAC AUTORIDAD DE CERTIFICACION ECUADOR C.A.
+ * emitido por ECLIPSOFT S.A.
  *
- * @author Misael Fernández, ANFAC AUTORIDAD DE CERTIFICACION ECUADOR C.A.
+ * @author Misael Fernández, ECLIPSOFT S.A.
  */
-public class CertificadoExtSelladoTiempoAnfAc_37442
-        extends CertificadoExtImplAnfAc_37442
+public class CertificadoExtSelladoTiempoEclipsoft
+        extends CertificadoExtImplEcplipsoft
         implements CertificadoSelladoTiempo {
 
-    public CertificadoExtSelladoTiempoAnfAc_37442(X509Certificate certificado) {
+    public CertificadoExtSelladoTiempoEclipsoft(X509Certificate certificado) {
         super(certificado);
     }
-
+    
     @Override
     public String getRazonSocial() {
         return getExtensionField(OID_RAZON_SOCIAL);

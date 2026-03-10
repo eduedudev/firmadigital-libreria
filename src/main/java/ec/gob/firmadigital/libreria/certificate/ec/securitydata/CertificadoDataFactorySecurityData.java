@@ -96,12 +96,17 @@ public class CertificadoDataFactorySecurityData {
                     datosUsuario.setCargo(certificadoRepresentanteLegal.getCargo());
                 }
                 if (certificadoSecurityData instanceof CertificadoSelloElectronico certificadoSelloElectronico) {
-                    datosUsuario.setCedula(certificadoSelloElectronico.getCedulaPasaporte());
+                    datosUsuario.setCedula(null);
                     datosUsuario.setNombre(certificadoSelloElectronico.getNombres());
                     datosUsuario.setApellido(certificadoSelloElectronico.getPrimerApellido());
                     datosUsuario.setCommonName(certificadoSelloElectronico.getCommonName());
+                    datosUsuario.setRuc(certificadoSelloElectronico.getRuc());
+                    datosUsuario.setRazonSocial(certificadoSelloElectronico.getRazonSocial());
                 }
-                if (certificadoSecurityData instanceof CertificadoSelladoTiempo) {
+                if (certificadoSecurityData instanceof CertificadoSelladoTiempo certificadoSelladoTiempo) {
+                    datosUsuario.setCommonName(certificadoSelladoTiempo.getCommonName());
+                    datosUsuario.setRuc(certificadoSelladoTiempo.getRuc());
+                    datosUsuario.setRazonSocial(certificadoSelladoTiempo.getRazonSocial());
                     datosUsuario.setCertificadoDigitalValido(true);
                 }
             }
