@@ -40,7 +40,7 @@ public class CertificadoAnfAc {
         public static final String OID_CERTIFICADO_PERSONA_NATURAL = "1.3.6.1.4.1.37442.2.1.1";
         public static final String OID_CERTIFICADO_MIEMBRO_EMPRESA = "1.3.6.1.4.1.37442.2.2.1";
         public static final String OID_CERTIFICADO_REPRESENTANTE_LEGAL = "1.3.6.1.4.1.37442.2.3.1";
-        public static final String OID_SELLADO_TIEMPO = "1.3.6.1.4.1.37442.15.1";
+        public static final String OID_SELLADO_TIEMPO = "1.3.6.1.4.1.37442.102.2.5.1";
         public static final String OID_SELLO_ELECTRONICO = "1.3.6.1.4.1.37442.102.2.4.1";
     }
 
@@ -86,7 +86,7 @@ public class CertificadoAnfAc {
         public static final String OID_TIPO_FUNCIONARIO_PUBLICO = "1.3.6.1.4.1.37442.4.1.3.22";
         public static final String OID_TIPO_FUNCIONARIO_PUBLICO_TOKEN = "1.3.6.1.4.1.37442.4.1.3.22";
         // OID Sello tiempo,
-        public static final String OID_SELLADO_TIEMPO = "1.3.6.1.4.1.37442.15.1";
+        public static final String OID_SELLADO_TIEMPO = "1.3.6.1.4.1.37442.102.2.5.1";
 
         // OIDs de Campos del Certificado:
         public static final String OID_CEDULA_PASAPORTE = "1.3.6.1.4.1.37442.3.1";
