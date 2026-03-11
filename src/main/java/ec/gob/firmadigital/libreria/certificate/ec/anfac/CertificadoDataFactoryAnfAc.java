@@ -19,6 +19,7 @@ package ec.gob.firmadigital.libreria.certificate.ec.anfac;
 
 import ec.gob.firmadigital.libreria.certificate.ec.anfac.ext.*;
 import ec.gob.firmadigital.libreria.certificate.ec.anfac.subj.*;
+import ec.gob.firmadigital.libreria.certificate.ec.anfac.cert.*;
 import ec.gob.firmadigital.libreria.certificate.ec.subj.CertificadoSubjImpl;
 import static ec.gob.firmadigital.libreria.certificate.ec.anfac.CertificadoAnfAc.*;
 import ec.gob.firmadigital.libreria.certificate.ec.*;
@@ -35,6 +36,35 @@ import static ec.gob.firmadigital.libreria.utils.BouncyCastleUtils.certificateHa
  * @author Misael Fernández, ANFAC AUTORIDAD DE CERTIFICACION ECUADOR C.A.
  */
 public class CertificadoDataFactoryAnfAc {
+
+    public static X509Certificate getRootCertificate(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
+        try {
+            // Certificado firmado por la raíz (p. ej. el intermedio 2025-2044)
+            if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new CaCertAnfAc20242044_37442())) {
+                System.out.println("Anf Root 2024-2044");
+                return new CaCertAnfAc20242044_37442();
+            }
+            if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertAnfAc20162032_18332())) {
+                System.out.println("Anf 2016-2032");
+                return new SubCaCertAnfAc20162032_18332();
+            }
+            if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertAnfAc20192029_37442())) {
+                System.out.println("Anf 2019-2029");
+                return new SubCaCertAnfAc20192029_37442();
+            }
+            if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaAnfAc20252044_37442())) {
+                System.out.println("Anf 2025-2044");
+                return new SubCaAnfAc20252044_37442();
+            }
+            if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaAnfAc20262044_37442())) {
+                System.out.println("Anf 2026-2044");
+                return new SubCaAnfAc20262044_37442();
+            }
+        } catch (java.security.InvalidKeyException ex) {
+            throw new EntidadCertificadoraNoValidaException("Entidad Certificadora no reconocida");
+        }
+        return null;
+    }
 
     public static DatosUsuario getDatosUsuarioAnfAc(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         DatosUsuario datosUsuario = null;

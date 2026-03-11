@@ -19,6 +19,8 @@ package ec.gob.firmadigital.libreria.certificate.ec.digercic;
 
 import ec.gob.firmadigital.libreria.certificate.ec.digercic.ext.*;
 //import ec.gob.firmadigital.libreria.certificate.ec.digercic.subj.*;
+import ec.gob.firmadigital.libreria.certificate.ec.digercic.cert.*;
+import ec.gob.firmadigital.libreria.certificate.ec.subj.CertificadoSubjImpl;
 import static ec.gob.firmadigital.libreria.certificate.ec.digercic.CertificadoDigercic.*;
 import ec.gob.firmadigital.libreria.certificate.ec.*;
 import ec.gob.firmadigital.libreria.certificate.Certificado;
@@ -36,6 +38,18 @@ import static ec.gob.firmadigital.libreria.utils.BouncyCastleUtils.certificateHa
  */
 public class CertificadoDataFactoryDigercic {
 
+    public static X509Certificate getRootCertificate(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
+        try {
+            if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertDigercic20212031())) {
+                System.out.println("SubCA Digercic");
+                return new SubCaCertDigercic20212031();
+            }
+        } catch (java.security.InvalidKeyException ex) {
+            throw new EntidadCertificadoraNoValidaException("Entidad Certificadora no reconocida");
+        }
+        return null;
+    }
+
     public static DatosUsuario getDatosUsuarioDatil(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         DatosUsuario datosUsuario = null;
         if (CertificadoDataFactoryDigercic.esCertificadoDigercic(certificado)) {
@@ -48,10 +62,14 @@ public class CertificadoDataFactoryDigercic {
                     datosUsuario.setApellido("");
                 }
             }
-//        }
-        //RESOLUCION-ARCOTEL-2024-0176
-//        else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
-//            return new CertificadoSubjPersonaNaturalAlphaTechnologies(certificado);
+            //RESOLUCION-ARCOTEL-2024-0176
+//            if (certificadoAlphaTechnologies instanceof CertificadoSubjImpl) {
+//                if (certificadoAlphaTechnologies instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
+//                    datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
+//                    datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
+//                    datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido());
+//                }
+//            }
             datosUsuario.setCertificadoDigitalValido(true);
         }
         return datosUsuario;
@@ -68,7 +86,7 @@ public class CertificadoDataFactoryDigercic {
         if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_NATURAL)) {
             return new CertificadoExtPersonaNaturalDigercic(certificado);
 //        }
-        //RESOLUCION-ARCOTEL-2024-0176
+            //RESOLUCION-ARCOTEL-2024-0176
 //        else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
 //            return new CertificadoSubjPersonaNaturalAlphaTechnologies(certificado);
         } else {

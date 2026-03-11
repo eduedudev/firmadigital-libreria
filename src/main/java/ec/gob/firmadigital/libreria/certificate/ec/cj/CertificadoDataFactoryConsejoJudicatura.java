@@ -19,6 +19,8 @@ package ec.gob.firmadigital.libreria.certificate.ec.cj;
 
 import ec.gob.firmadigital.libreria.certificate.ec.cj.ext.*;
 //import ec.gob.firmadigital.libreria.certificate.ec.cj.subj.*;
+import ec.gob.firmadigital.libreria.certificate.ec.cj.cert.*;
+import ec.gob.firmadigital.libreria.certificate.ec.subj.CertificadoSubjImpl;
 import static ec.gob.firmadigital.libreria.certificate.ec.cj.CertificadoConsejoJudicatura.*;
 import ec.gob.firmadigital.libreria.certificate.ec.*;
 import ec.gob.firmadigital.libreria.certificate.Certificado;
@@ -35,6 +37,18 @@ import static ec.gob.firmadigital.libreria.utils.BouncyCastleUtils.certificateHa
  */
 public class CertificadoDataFactoryConsejoJudicatura {
 
+    public static X509Certificate getRootCertificate(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
+        try {
+            if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertConsejoJudicatura())) {
+                System.out.println("SubCA Consejo de la Judicatura");
+                return new SubCaCertConsejoJudicatura();
+            }
+        } catch (java.security.InvalidKeyException ex) {
+            throw new EntidadCertificadoraNoValidaException("Entidad Certificadora no reconocida");
+        }
+        return null;
+    }
+    
     public static DatosUsuario getDatosUsuarioConsejoJudicatura(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         DatosUsuario datosUsuario = null;
         if (esCertificadoDelConsejoJudicatura(certificado)) {

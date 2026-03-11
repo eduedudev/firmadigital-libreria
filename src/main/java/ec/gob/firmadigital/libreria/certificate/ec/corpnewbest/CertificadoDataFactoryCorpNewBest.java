@@ -19,6 +19,8 @@ package ec.gob.firmadigital.libreria.certificate.ec.corpnewbest;
 
 import ec.gob.firmadigital.libreria.certificate.ec.corpnewbest.ext.*;
 //import ec.gob.firmadigital.libreria.certificate.ec.corpnewbest.subj.*;
+import ec.gob.firmadigital.libreria.certificate.ec.corpnewbest.cert.*;
+import ec.gob.firmadigital.libreria.certificate.ec.subj.CertificadoSubjImpl;
 import static ec.gob.firmadigital.libreria.certificate.ec.corpnewbest.CertificadoCorpNewBest.*;
 import ec.gob.firmadigital.libreria.certificate.ec.*;
 import ec.gob.firmadigital.libreria.certificate.Certificado;
@@ -34,6 +36,38 @@ import static ec.gob.firmadigital.libreria.utils.BouncyCastleUtils.certificateHa
  * @author Misael Fernández, CORPNEWBEST CIA. LTDA.
  */
 public class CertificadoDataFactoryCorpNewBest {
+
+    public static X509Certificate getRootCertificate(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
+        try {
+            if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCa1CertCorpNewBest20232033())) {
+                System.out.println("CorpNewBestSubCa1Cert");
+                return new SubCa1CertCorpNewBest20232033();
+            }
+            if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCa2CertCorpNewBest20232033())) {
+                System.out.println("CorpNewBestSubCa2Cert");
+                return new SubCa2CertCorpNewBest20232033();
+            }
+            if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCa3CertCorpNewBest20232033())) {
+                System.out.println("CorpNewBestSubCa3Cert");
+                return new SubCa3CertCorpNewBest20232033();
+            }
+            if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCa1CertCorpNewBest2024011020330619())) {
+                System.out.println("CorpNewBestSubCa1_2024011020330619Cert");
+                return new SubCa1CertCorpNewBest2024011020330619();
+            }
+            if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCa2CertCorpNewBest2024011020330619())) {
+                System.out.println("CorpNewBestSubCa2_2024011020330619Cert");
+                return new SubCa2CertCorpNewBest2024011020330619();
+            }
+            if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCa3CertCorpNewBest2024011020330619())) {
+                System.out.println("CorpNewBestSubCa3_2024011020330619Cert");
+                return new SubCa3CertCorpNewBest2024011020330619();
+            }
+        } catch (java.security.InvalidKeyException ex) {
+            throw new EntidadCertificadoraNoValidaException("Entidad Certificadora no reconocida");
+        }
+        return null;
+    }
 
     public static DatosUsuario getDatosUsuarioCorpNewBest(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         DatosUsuario datosUsuario = null;
@@ -99,7 +133,7 @@ public class CertificadoDataFactoryCorpNewBest {
         } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_MIEMBRO_EMPRESA)) {
             return new CertificadoExtMiembroEmpresaCorpNewBest(certificado);
 //        }
-        //RESOLUCION-ARCOTEL-2024-0176
+            //RESOLUCION-ARCOTEL-2024-0176
 //        else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
 //            return new CertificadoSubjPersonaNaturalAlphaTechnologies(certificado);
         } else {

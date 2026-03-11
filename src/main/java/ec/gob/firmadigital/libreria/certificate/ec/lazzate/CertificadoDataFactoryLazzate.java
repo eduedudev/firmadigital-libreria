@@ -19,6 +19,8 @@ package ec.gob.firmadigital.libreria.certificate.ec.lazzate;
 
 import ec.gob.firmadigital.libreria.certificate.ec.lazzate.ext.*;
 //import ec.gob.firmadigital.libreria.certificate.ec.lazzate.subj.*;
+import ec.gob.firmadigital.libreria.certificate.ec.lazzate.cert.*;
+import ec.gob.firmadigital.libreria.certificate.ec.subj.CertificadoSubjImpl;
 import static ec.gob.firmadigital.libreria.certificate.ec.lazzate.CertificadoLazzate.*;
 import ec.gob.firmadigital.libreria.certificate.ec.*;
 import ec.gob.firmadigital.libreria.certificate.Certificado;
@@ -34,6 +36,30 @@ import static ec.gob.firmadigital.libreria.utils.BouncyCastleUtils.certificateHa
  * @author Misael Fernández, LAZZATE CIA. LTDA.
  */
 public class CertificadoDataFactoryLazzate {
+
+    public static X509Certificate getRootCertificate(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
+        try {
+            if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertLazzate())) {
+                System.out.println("LazzateCA 2022-2037");
+                return new SubCaCertLazzate();
+            }
+            if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCa1CertLazzate())) {
+                System.out.println("LazzateCA1 2023-2053");
+                return new SubCa1CertLazzate();
+            }
+            if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCa2CertLazzate())) {
+                System.out.println("LazzateCA2 2023-2053");
+                return new SubCa2CertLazzate();
+            }
+            if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaWeGoCertLazzate())) {
+                System.out.println("LazzateCAWeGo 2023-2053");
+                return new SubCaWeGoCertLazzate();
+            }
+        } catch (java.security.InvalidKeyException ex) {
+            throw new EntidadCertificadoraNoValidaException("Entidad Certificadora no reconocida");
+        }
+        return null;
+    }
 
     public static DatosUsuario getDatosUsuarioLazzate(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         DatosUsuario datosUsuario = null;
@@ -84,7 +110,7 @@ public class CertificadoDataFactoryLazzate {
         } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_JURIDICA_EMPRESA)) {
             return new CertificadoExtPersonaJuridicaLazzate(certificado);
 //        }
-        //RESOLUCION-ARCOTEL-2024-0176
+            //RESOLUCION-ARCOTEL-2024-0176
 //        else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
 //            return new CertificadoSubjPersonaNaturalAlphaTechnologies(certificado);
         } else {

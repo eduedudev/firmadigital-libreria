@@ -19,6 +19,8 @@ package ec.gob.firmadigital.libreria.certificate.ec.uanataca;
 
 import ec.gob.firmadigital.libreria.certificate.ec.uanataca.ext.*;
 //import ec.gob.firmadigital.libreria.certificate.ec.uanataca.subj.*;
+import ec.gob.firmadigital.libreria.certificate.ec.uanataca.cert.*;
+import ec.gob.firmadigital.libreria.certificate.ec.subj.CertificadoSubjImpl;
 import static ec.gob.firmadigital.libreria.certificate.ec.uanataca.CertificadoUanataca.*;
 import ec.gob.firmadigital.libreria.certificate.ec.*;
 import ec.gob.firmadigital.libreria.certificate.Certificado;
@@ -36,6 +38,26 @@ import static ec.gob.firmadigital.libreria.utils.BouncyCastleUtils.certificateHa
  */
 public class CertificadoDataFactoryUanataca {
 
+    public static X509Certificate getRootCertificate(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
+        try {
+            if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertUanataca0120162029())) {
+                System.out.println("Uanataca 2016-2029");
+                return new SubCaCertUanataca0120162029();
+            }
+            if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertUanataca0220162029())) {
+                System.out.println("Uanataca 2016-2029");
+                return new SubCaCertUanataca0220162029();
+            }
+            if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertUanataca0320212034())) {
+                System.out.println("Uanataca 2021-2034");
+                return new SubCaCertUanataca0320212034();
+            }
+        } catch (java.security.InvalidKeyException ex) {
+            throw new EntidadCertificadoraNoValidaException("Entidad Certificadora no reconocida");
+        }
+        return null;
+    }
+    
     public static DatosUsuario getDatosUsuarioUanataca(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         DatosUsuario datosUsuario = null;
         if (esCertificadoUanataca(certificado)) {

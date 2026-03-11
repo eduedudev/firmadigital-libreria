@@ -18,37 +18,22 @@
 package ec.gob.firmadigital.libreria.certificate;
 
 import ec.gob.firmadigital.libreria.certificate.ec.alphatechnologies.*;
-import ec.gob.firmadigital.libreria.certificate.ec.alphatechnologies.cert.*;
 import ec.gob.firmadigital.libreria.certificate.ec.anfac.*;
-import ec.gob.firmadigital.libreria.certificate.ec.anfac.cert.*;
 import ec.gob.firmadigital.libreria.certificate.ec.appfirmas.*;
-import ec.gob.firmadigital.libreria.certificate.ec.appfirmas.cert.*;
-import ec.gob.firmadigital.libreria.certificate.ec.argosdata.CertificadoDataFactoryArgosData;
-import ec.gob.firmadigital.libreria.certificate.ec.argosdata.cert.*;
+import ec.gob.firmadigital.libreria.certificate.ec.argosdata.*;
 import ec.gob.firmadigital.libreria.certificate.ec.bce.*;
-import ec.gob.firmadigital.libreria.certificate.ec.bce.cert.*;
 import ec.gob.firmadigital.libreria.certificate.ec.cj.*;
-import ec.gob.firmadigital.libreria.certificate.ec.cj.cert.*;
 import ec.gob.firmadigital.libreria.certificate.ec.corpnewbest.*;
-import ec.gob.firmadigital.libreria.certificate.ec.corpnewbest.cert.*;
 import ec.gob.firmadigital.libreria.certificate.ec.darkcam.*;
-import ec.gob.firmadigital.libreria.certificate.ec.darkcam.cert.*;
 import ec.gob.firmadigital.libreria.certificate.ec.datil.*;
-import ec.gob.firmadigital.libreria.certificate.ec.datil.cert.*;
-import ec.gob.firmadigital.libreria.certificate.ec.digercic.cert.*;
+import ec.gob.firmadigital.libreria.certificate.ec.digercic.*;
 import ec.gob.firmadigital.libreria.certificate.ec.eclipsoft.*;
 import ec.gob.firmadigital.libreria.certificate.ec.firmasegura.*;
-import ec.gob.firmadigital.libreria.certificate.ec.firmasegura.cert.*;
 import ec.gob.firmadigital.libreria.certificate.ec.lazzate.*;
-import ec.gob.firmadigital.libreria.certificate.ec.lazzate.cert.*;
 import ec.gob.firmadigital.libreria.certificate.ec.letmi.*;
-import ec.gob.firmadigital.libreria.certificate.ec.letmi.cert.*;
 import ec.gob.firmadigital.libreria.certificate.ec.primecorelat.*;
-import ec.gob.firmadigital.libreria.certificate.ec.primecorelat.cert.*;
 import ec.gob.firmadigital.libreria.certificate.ec.securitydata.*;
-import ec.gob.firmadigital.libreria.certificate.ec.securitydata.cert.*;
-import ec.gob.firmadigital.libreria.certificate.ec.uanataca.CertificadoDataFactoryUanataca;
-import ec.gob.firmadigital.libreria.certificate.ec.uanataca.cert.*;
+import ec.gob.firmadigital.libreria.certificate.ec.uanataca.*;
 
 import ec.gob.firmadigital.libreria.certificate.to.DatosUsuario;
 import ec.gob.firmadigital.libreria.exceptions.EntidadCertificadoraNoValidaException;
@@ -84,261 +69,44 @@ public class CertEcUtils {
 
     public static X509Certificate getRootCertificate(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         switch (getNombreCA(certificado)) {
-            case ALPHATECHNOLOGIES_NAME: {
-                try {
-                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertAlphaTechnologies20232026())) {
-                        System.out.println("AlphaTechnologiesSubCaCert 2023-2026");
-                        return new SubCaCertAlphaTechnologies20232026();
-                    }
-                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertAlphaTechnologies20242032())) {
-                        System.out.println("AlphaTechnologiesSubCaCert 2024-2032");
-                        return new SubCaCertAlphaTechnologies20242032();
-                    }
-                    return null;
-                } catch (java.security.InvalidKeyException ex) {
-                    //TODO
-                }
-            }
+            case ALPHATECHNOLOGIES_NAME:
+                CertificadoDataFactoryAlphaTechnologies.getRootCertificate(certificado);
             case ANFAC_NAME:
-                try {
-                    // Certificado firmado por la raíz (p. ej. el intermedio 2025-2044)
-                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new CaCertAnfAc20242044_37442())) {
-                        System.out.println("Anf Root 2024-2044");
-                        return new CaCertAnfAc20242044_37442();
-                    }
-                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertAnfAc20162032_18332())) {
-                        System.out.println("Anf 2016-2032");
-                        return new SubCaCertAnfAc20162032_18332();
-                    }
-                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertAnfAc20192029_37442())) {
-                        System.out.println("Anf 2019-2029");
-                        return new SubCaCertAnfAc20192029_37442();
-                    }
-                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaAnfAc20252044_37442())) {
-                        System.out.println("Anf 2025-2044");
-                        return new SubCaAnfAc20252044_37442();
-                    }
-                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaAnfAc20262044_37442())) {
-                        System.out.println("Anf 2026-2044");
-                        return new SubCaAnfAc20262044_37442();
-                    }
-                    return null;
-                } catch (java.security.InvalidKeyException ex) {
-                    //TODO
-                }
-            case APPFIRMAS_NAME: {
-                try {
-                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertAppFirmas20252050())) {
-                        System.out.println("AppFirmasSubCaCert2025-2050");
-                        return new SubCaCertAppFirmas20252050();
-                    }
-                    return null;
-                } catch (java.security.InvalidKeyException ex) {
-                    //TODO
-                }
-            }
-            case AGOSDATA_NAME: {
-//                return new SubCaCertArgosData();
-            }
-            case AGOSDATA_NAME_OLD: {
-                return new SubCaCertArgosData();
-            }
-            case BCE_NAME: {
-                try {
-                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertBce20112021())) {
-                        System.out.println("BceSubCaCert 2011-2021");
-                        return new SubCaCertBce20112021();
-                    }
-                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertBce20192029())) {
-                        System.out.println("BceSubCaCert 2019-2029");
-                        return new SubCaCertBce20192029();
-                    }
-                    return null;
-                } catch (java.security.InvalidKeyException ex) {
-                    //TODO
-                }
-            }
+                CertificadoDataFactoryAnfAc.getRootCertificate(certificado);
+            case APPFIRMAS_NAME:
+                CertificadoDataFactoryAppFirmas.getRootCertificate(certificado);
+            case AGOSDATA_NAME:
+                CertificadoDataFactoryArgosData.getRootCertificate(certificado);
+            case AGOSDATA_NAME_OLD:
+                CertificadoDataFactoryArgosData.getRootCertificate(certificado);
+            case BCE_NAME:
+                CertificadoDataFactoryBancoCentral.getRootCertificate(certificado);
             case CJ_NAME:
-                return new SubCaCertConsejoJudicatura();
-            case CORPNEWBEST_NAME: {
-                try {
-                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCa1CertCorpNewBest20232033())) {
-                        System.out.println("CorpNewBestSubCa1Cert");
-                        return new SubCa1CertCorpNewBest20232033();
-                    }
-                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCa2CertCorpNewBest20232033())) {
-                        System.out.println("CorpNewBestSubCa2Cert");
-                        return new SubCa2CertCorpNewBest20232033();
-                    }
-                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCa3CertCorpNewBest20232033())) {
-                        System.out.println("CorpNewBestSubCa3Cert");
-                        return new SubCa3CertCorpNewBest20232033();
-                    }
-                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCa1CertCorpNewBest2024011020330619())) {
-                        System.out.println("CorpNewBestSubCa1_2024011020330619Cert");
-                        return new SubCa1CertCorpNewBest2024011020330619();
-                    }
-                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCa2CertCorpNewBest2024011020330619())) {
-                        System.out.println("CorpNewBestSubCa2_2024011020330619Cert");
-                        return new SubCa2CertCorpNewBest2024011020330619();
-                    }
-                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCa3CertCorpNewBest2024011020330619())) {
-                        System.out.println("CorpNewBestSubCa3_2024011020330619Cert");
-                        return new SubCa3CertCorpNewBest2024011020330619();
-                    }
-                    return null;
-                } catch (java.security.InvalidKeyException ex) {
-                    //TODO
-                }
-            }
-            case DARKCAM_NAME: {
-                try {
-                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaShortCertDarkcam20262036())) {
-                        System.out.println("DarkcamSubCaShortCert2026-2036");
-                        return new SubCaShortCertDarkcam20262036();
-                    }
-                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertDarkcam20262036())) {
-                        System.out.println("DarkcamSubCaCert2026-2036");
-                        return new SubCaCertDarkcam20262036();
-
-                    }
-                    return null;
-                } catch (java.security.InvalidKeyException ex) {
-                    //TODO
-                }
-            }
-            case DATIL_NAME: {
-                return new SubCaCertDatil20212031();
-            }
-            case DIGERCIC_NAME: {
-                return new SubCaCertDigercic20212031();
-            }
-            case FIRMASEGURA_NAME: {
-                try {
-                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertFirmaSegura20232043())) {
-                        System.out.println("FirmaSeguraSubCaCert2023-2043");
-                        return new SubCaCertFirmaSegura20232043();
-                    }
-                    return null;
-                } catch (java.security.InvalidKeyException ex) {
-                    //TODO
-                }
-            }
-            case LAZZATE_NAME: {
-                try {
-                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertLazzate())) {
-                        System.out.println("LazzateCA 2022-2037");
-                        return new SubCaCertLazzate();
-                    }
-                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCa1CertLazzate())) {
-                        System.out.println("LazzateCA1 2023-2053");
-                        return new SubCa1CertLazzate();
-                    }
-                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCa2CertLazzate())) {
-                        System.out.println("LazzateCA2 2023-2053");
-                        return new SubCa2CertLazzate();
-                    }
-                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaWeGoCertLazzate())) {
-                        System.out.println("LazzateCAWeGo 2023-2053");
-                        return new SubCaWeGoCertLazzate();
-                    }
-                } catch (java.security.InvalidKeyException ex) {
-                    //TODO
-                }
-            }
-            case LETMI_NAME: {
-                try {
-                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertLetmi20252035())) {
-                        System.out.println("LetmiSubCaCert2025-2035");
-                        return new SubCaCertLetmi20252035();
-                    }
-                    return null;
-                } catch (java.security.InvalidKeyException ex) {
-                    //TODO
-                }
-            }
-            case PRIMECORELAT_NAME: {
-                try {
-                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCa1CertPrimeCoreLat20262036())) {
-                        System.out.println("PrimeCoreLatCA1 2026-2036");
-                        return new SubCa1CertPrimeCoreLat20262036();
-                    }
-                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCa2CertPrimeCoreLat20262036())) {
-                        System.out.println("PrimeCoreLatCA2 2026-2036");
-                        return new SubCa2CertPrimeCoreLat20262036();
-                    }
-                } catch (java.security.InvalidKeyException ex) {
-                    //TODO
-                }
-            }
-            case SECURITYDATA_NAME: {
-                try {
-                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertSecurityData20112026())) {
-                        System.out.println("SecurityDataSubCaCert");
-                        return new SubCaCertSecurityData20112026();
-                    }
-                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertSecurityData20192031())) {
-                        System.out.println("SecurityDataSubCaCert 2019-2031");
-                        return new SubCaCertSecurityData20192031();
-                    }
-                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertSecurityData20202039())) {
-                        System.out.println("SecurityDataSubCaCert 2020-2032");
-                        return new SubCaCertSecurityData20202039();
-                    }
-                    return null;
-                } catch (java.security.InvalidKeyException ex) {
-                    //TODO
-                }
-            }
-            case SECURITYDATA_NAME_OLD: {
-                try {
-                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertSecurityData20112026())) {
-                        System.out.println("SecurityDataSubCaCert");
-                        return new SubCaCertSecurityData20112026();
-                    }
-                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertSecurityData20192031())) {
-                        System.out.println("SecurityDataSubCaCert 2019-2031");
-                        return new SubCaCertSecurityData20192031();
-                    }
-                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertSecurityData20202039())) {
-                        System.out.println("SecurityDataSubCaCert 2020-2032");
-                        return new SubCaCertSecurityData20202039();
-                    }
-                    return null;
-                } catch (java.security.InvalidKeyException ex) {
-                    //TODO
-                }
-            }
-            case UANATACA_NAME: {
-//                try {
-//                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertUanataca0120162029())) {
-//                        System.out.println("Uanataca 2016-2029");
-//                        return new SubCaCertUanataca0120162029();
-//                    }
-//                    return null;
-//                } catch (java.security.InvalidKeyException ex) {
-//                    //TODO
-//                }
-            }
-            case UANATACA_NAME_OLD: {
-                try {
-                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertUanataca0120162029())) {
-                        System.out.println("Uanataca 2016-2029");
-                        return new SubCaCertUanataca0120162029();
-                    }
-                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertUanataca0220162029())) {
-                        System.out.println("Uanataca 2016-2029");
-                        return new SubCaCertUanataca0220162029();
-                    }
-                    if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertUanataca0320212034())) {
-                        System.out.println("Uanataca 2021-2034");
-                        return new SubCaCertUanataca0320212034();
-                    }
-                    return null;
-                } catch (java.security.InvalidKeyException ex) {
-                    //TODO
-                }
-            }
+                CertificadoDataFactoryConsejoJudicatura.getRootCertificate(certificado);
+            case CORPNEWBEST_NAME:
+                CertificadoDataFactoryCorpNewBest.getRootCertificate(certificado);
+            case DARKCAM_NAME:
+                CertificadoDataFactoryDarkcam.getRootCertificate(certificado);
+            case DATIL_NAME:
+                CertificadoDataFactoryDatil.getRootCertificate(certificado);
+            case DIGERCIC_NAME:
+                CertificadoDataFactoryDigercic.getRootCertificate(certificado);
+            case FIRMASEGURA_NAME:
+                CertificadoDataFactoryFirmaSegura.getRootCertificate(certificado);
+            case LAZZATE_NAME:
+                CertificadoDataFactoryLazzate.getRootCertificate(certificado);
+            case LETMI_NAME:
+                CertificadoDataFactoryLetmi.getRootCertificate(certificado);
+            case PRIMECORELAT_NAME:
+                CertificadoDataFactoryPrimeCoreLat.getRootCertificate(certificado);
+            case SECURITYDATA_NAME:
+                CertificadoDataFactorySecurityData.getRootCertificate(certificado);
+            case SECURITYDATA_NAME_OLD:
+                CertificadoDataFactorySecurityData.getRootCertificate(certificado);
+            case UANATACA_NAME:
+                CertificadoDataFactoryUanataca.getRootCertificate(certificado);
+            case UANATACA_NAME_OLD:
+                CertificadoDataFactoryUanataca.getRootCertificate(certificado);
             default:
                 throw new EntidadCertificadoraNoValidaException("Entidad Certificadora no reconocida");
         }

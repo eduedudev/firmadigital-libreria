@@ -18,6 +18,7 @@
 package ec.gob.firmadigital.libreria.certificate.ec.letmi;
 
 import ec.gob.firmadigital.libreria.certificate.ec.letmi.subj.*;
+import ec.gob.firmadigital.libreria.certificate.ec.letmi.cert.*;
 import ec.gob.firmadigital.libreria.certificate.ec.subj.CertificadoSubjImpl;
 import static ec.gob.firmadigital.libreria.certificate.ec.letmi.CertificadoLetmi.*;
 import ec.gob.firmadigital.libreria.certificate.ec.*;
@@ -35,6 +36,18 @@ import static ec.gob.firmadigital.libreria.utils.BouncyCastleUtils.certificateHa
  */
 public class CertificadoDataFactoryLetmi {
 
+    public static X509Certificate getRootCertificate(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
+        try {
+            if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertLetmi20252035())) {
+                        System.out.println("LetmiSubCaCert2025-2035");
+                        return new SubCaCertLetmi20252035();
+                    }
+        } catch (java.security.InvalidKeyException ex) {
+            throw new EntidadCertificadoraNoValidaException("Entidad Certificadora no reconocida");
+        }
+        return null;
+    }
+    
     public static DatosUsuario getDatosUsuarioLetmi(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         DatosUsuario datosUsuario = null;
         //RESOLUCION-ARCOTEL-2024-0176

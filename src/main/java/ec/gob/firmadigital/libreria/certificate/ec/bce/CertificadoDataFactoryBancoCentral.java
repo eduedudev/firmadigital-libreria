@@ -19,6 +19,8 @@ package ec.gob.firmadigital.libreria.certificate.ec.bce;
 
 import ec.gob.firmadigital.libreria.certificate.ec.bce.ext.*;
 //import ec.gob.firmadigital.libreria.certificate.ec.bce.subj.*;
+import ec.gob.firmadigital.libreria.certificate.ec.bce.cert.*;
+import ec.gob.firmadigital.libreria.certificate.ec.subj.CertificadoSubjImpl;
 import static ec.gob.firmadigital.libreria.certificate.ec.bce.CertificadoBancoCentral.*;
 import ec.gob.firmadigital.libreria.certificate.ec.*;
 import ec.gob.firmadigital.libreria.certificate.Certificado;
@@ -34,6 +36,22 @@ import static ec.gob.firmadigital.libreria.utils.BouncyCastleUtils.certificateHa
  * @author Misael Fernández, BANCO CENTRAL DEL ECUADOR
  */
 public class CertificadoDataFactoryBancoCentral {
+
+    public static X509Certificate getRootCertificate(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
+        try {
+            if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertBce20112021())) {
+                System.out.println("BceSubCaCert 2011-2021");
+                return new SubCaCertBce20112021();
+            }
+            if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertBce20192029())) {
+                System.out.println("BceSubCaCert 2019-2029");
+                return new SubCaCertBce20192029();
+            }
+        } catch (java.security.InvalidKeyException ex) {
+            throw new EntidadCertificadoraNoValidaException("Entidad Certificadora no reconocida");
+        }
+        return null;
+    }
 
     public static DatosUsuario getDatosUsuarioBancoCentral(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         DatosUsuario datosUsuario = null;
@@ -124,7 +142,7 @@ public class CertificadoDataFactoryBancoCentral {
         } else if (certificateHasPolicy(certificado, Ext.OID_SELLADO_TIEMPO)) {
             return new CertificadoExtSelladoTiempoBancoCentral(certificado);
 //        }
-        //RESOLUCION-ARCOTEL-2024-0176
+            //RESOLUCION-ARCOTEL-2024-0176
 //        else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
 //            return new CertificadoSubjPersonaNaturalAlphaTechnologies(certificado);
         } else {

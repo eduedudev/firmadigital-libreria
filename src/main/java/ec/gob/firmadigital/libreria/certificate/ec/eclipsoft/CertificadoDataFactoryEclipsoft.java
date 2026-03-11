@@ -19,6 +19,8 @@ package ec.gob.firmadigital.libreria.certificate.ec.eclipsoft;
 
 import ec.gob.firmadigital.libreria.certificate.ec.eclipsoft.ext.*;
 //import ec.gob.firmadigital.libreria.certificate.ec.eclipsoft.subj.*;
+//import ec.gob.firmadigital.libreria.certificate.ec.eclipsoft.cert.*;
+import ec.gob.firmadigital.libreria.certificate.ec.subj.CertificadoSubjImpl;
 import static ec.gob.firmadigital.libreria.certificate.ec.eclipsoft.CertificadoEclipsoft.*;
 import ec.gob.firmadigital.libreria.certificate.ec.*;
 import ec.gob.firmadigital.libreria.certificate.Certificado;
@@ -34,6 +36,18 @@ import static ec.gob.firmadigital.libreria.utils.BouncyCastleUtils.certificateHa
  * @author Misael Fernández, ECLIPSOFT S.A.
  */
 public class CertificadoDataFactoryEclipsoft {
+
+//    public static X509Certificate getRootCertificate(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
+//        try {
+//            if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertAlphaTechnologies20232026())) {
+//                System.out.println("AlphaTechnologiesSubCaCert 2023-2026");
+//                return new SubCaCertAlphaTechnologies20232026();
+//            }
+//        } catch (java.security.InvalidKeyException ex) {
+//            throw new EntidadCertificadoraNoValidaException("Entidad Certificadora no reconocida");
+//        }
+//        return null;
+//    }
 
     public static DatosUsuario getDatosUsuarioEclipsoft(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         DatosUsuario datosUsuario = null;
@@ -117,7 +131,7 @@ public class CertificadoDataFactoryEclipsoft {
         } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_SELLADO_TIEMPO)) {
             return new CertificadoExtSelladoTiempoEclipsoft(certificado);
 //        }
-        //RESOLUCION-ARCOTEL-2024-0176
+            //RESOLUCION-ARCOTEL-2024-0176
 //        else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
 //            return new CertificadoSubjPersonaNaturalAlphaTechnologies(certificado);
         } else {

@@ -165,7 +165,7 @@ public class BasePdfSigner implements Signer {
                     }
                     String nombreFirmante = "";
                     if (datosUsuario.getCedula() != null) {
-                        nombreFirmante = (datosUsuario.getNombre() + " " + datosUsuario.getApellido()).toUpperCase();
+                        nombreFirmante = datosUsuario.getNombre() + " " + datosUsuario.getApellido();
                     } else { // sello electrónico
                         if (datosUsuario.getCommonName().toUpperCase().contains("SELLO ELECTRÓNICO")) {
                             nombreFirmante = "Sello Electrónico - ";
@@ -173,8 +173,9 @@ public class BasePdfSigner implements Signer {
                         if (datosUsuario.getCommonName().toUpperCase().contains("SELLO DE TIEMPO")) {
                             nombreFirmante = "Sello de Tiempo - ";
                         }
-                        nombreFirmante = (nombreFirmante + datosUsuario.getRazonSocial()).toUpperCase();
+                        nombreFirmante = nombreFirmante + datosUsuario.getRazonSocial();
                     }
+                    nombreFirmante = nombreFirmante.toUpperCase();
                     String informacionCertificado = x509Certificate.getSubjectDN().getName();
                     PdfDocument pdfDocument = pdfSigner.getDocument();
                     CustomAppearance customAppearance;

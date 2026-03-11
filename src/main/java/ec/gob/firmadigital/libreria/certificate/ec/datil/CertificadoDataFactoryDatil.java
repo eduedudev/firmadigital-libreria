@@ -19,6 +19,8 @@ package ec.gob.firmadigital.libreria.certificate.ec.datil;
 
 import ec.gob.firmadigital.libreria.certificate.ec.datil.ext.*;
 //import ec.gob.firmadigital.libreria.certificate.ec.datil.subj.*;
+import ec.gob.firmadigital.libreria.certificate.ec.datil.cert.*;
+import ec.gob.firmadigital.libreria.certificate.ec.subj.CertificadoSubjImpl;
 import static ec.gob.firmadigital.libreria.certificate.ec.datil.CertificadoDatil.*;
 import ec.gob.firmadigital.libreria.certificate.ec.*;
 import ec.gob.firmadigital.libreria.certificate.Certificado;
@@ -34,6 +36,18 @@ import static ec.gob.firmadigital.libreria.utils.BouncyCastleUtils.certificateHa
  * @author Misael Fernández, DATILMEDIA S.A.
  */
 public class CertificadoDataFactoryDatil {
+
+    public static X509Certificate getRootCertificate(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
+        try {
+            if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertDatil20212031())) {
+                System.out.println("SubCA DatilMedia");
+                return new SubCaCertDatil20212031();
+            }
+        } catch (java.security.InvalidKeyException ex) {
+            throw new EntidadCertificadoraNoValidaException("Entidad Certificadora no reconocida");
+        }
+        return null;
+    }
 
     public static DatosUsuario getDatosUsuarioDatil(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         DatosUsuario datosUsuario = null;
@@ -108,7 +122,7 @@ public class CertificadoDataFactoryDatil {
         } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_REPRESENTANTE_EMPRESA)) {
             return new CertificadoExtRepresentanteLegalDatil(certificado);
 //        }
-        //RESOLUCION-ARCOTEL-2024-0176
+            //RESOLUCION-ARCOTEL-2024-0176
 //        else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
 //            return new CertificadoSubjPersonaNaturalAlphaTechnologies(certificado);
         } else {

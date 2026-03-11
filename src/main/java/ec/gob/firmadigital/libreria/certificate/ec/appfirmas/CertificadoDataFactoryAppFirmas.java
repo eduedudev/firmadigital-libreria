@@ -18,6 +18,7 @@
 package ec.gob.firmadigital.libreria.certificate.ec.appfirmas;
 
 import ec.gob.firmadigital.libreria.certificate.ec.appfirmas.subj.*;
+import ec.gob.firmadigital.libreria.certificate.ec.appfirmas.cert.*;
 import ec.gob.firmadigital.libreria.certificate.ec.subj.CertificadoSubjImpl;
 import static ec.gob.firmadigital.libreria.certificate.ec.appfirmas.CertificadoAppFirmas.*;
 import ec.gob.firmadigital.libreria.certificate.ec.*;
@@ -34,6 +35,18 @@ import static ec.gob.firmadigital.libreria.utils.BouncyCastleUtils.certificateHa
  * @author Misael Fernández, APPFIRMAS S.A.
  */
 public class CertificadoDataFactoryAppFirmas {
+
+    public static X509Certificate getRootCertificate(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
+        try {
+            if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertAppFirmas20252050())) {
+                System.out.println("AppFirmasSubCaCert2025-2050");
+                return new SubCaCertAppFirmas20252050();
+            }
+        } catch (java.security.InvalidKeyException ex) {
+            throw new EntidadCertificadoraNoValidaException("Entidad Certificadora no reconocida");
+        }
+        return null;
+    }
 
     public static DatosUsuario getDatosUsuarioAppFirmas(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         DatosUsuario datosUsuario = null;

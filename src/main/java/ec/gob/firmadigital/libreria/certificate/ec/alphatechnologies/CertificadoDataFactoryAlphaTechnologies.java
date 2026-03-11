@@ -19,6 +19,7 @@ package ec.gob.firmadigital.libreria.certificate.ec.alphatechnologies;
 
 import ec.gob.firmadigital.libreria.certificate.ec.alphatechnologies.ext.*;
 import ec.gob.firmadigital.libreria.certificate.ec.alphatechnologies.subj.*;
+import ec.gob.firmadigital.libreria.certificate.ec.alphatechnologies.cert.*;
 import ec.gob.firmadigital.libreria.certificate.ec.subj.CertificadoSubjImpl;
 import static ec.gob.firmadigital.libreria.certificate.ec.alphatechnologies.CertificadoAlphaTechnologies.*;
 import ec.gob.firmadigital.libreria.certificate.ec.*;
@@ -35,6 +36,22 @@ import static ec.gob.firmadigital.libreria.utils.BouncyCastleUtils.certificateHa
  * @author Misael Fernández, ALPHA TECHNOLOGIES CIA. LTDA.
  */
 public class CertificadoDataFactoryAlphaTechnologies {
+
+    public static X509Certificate getRootCertificate(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
+        try {
+            if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertAlphaTechnologies20232026())) {
+                System.out.println("AlphaTechnologiesSubCaCert 2023-2026");
+                return new SubCaCertAlphaTechnologies20232026();
+            }
+            if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertAlphaTechnologies20242032())) {
+                System.out.println("AlphaTechnologiesSubCaCert 2024-2032");
+                return new SubCaCertAlphaTechnologies20242032();
+            }
+        } catch (java.security.InvalidKeyException ex) {
+            throw new EntidadCertificadoraNoValidaException("Entidad Certificadora no reconocida");
+        }
+        return null;
+    }
 
     public static DatosUsuario getDatosUsuarioAlphaTechnologies(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         DatosUsuario datosUsuario = null;

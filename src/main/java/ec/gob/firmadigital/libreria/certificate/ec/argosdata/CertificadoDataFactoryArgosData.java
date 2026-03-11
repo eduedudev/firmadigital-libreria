@@ -19,6 +19,8 @@ package ec.gob.firmadigital.libreria.certificate.ec.argosdata;
 
 import ec.gob.firmadigital.libreria.certificate.ec.argosdata.ext.*;
 //import ec.gob.firmadigital.libreria.certificate.ec.argosdata.subj.*;
+import ec.gob.firmadigital.libreria.certificate.ec.argosdata.cert.*;
+import ec.gob.firmadigital.libreria.certificate.ec.subj.CertificadoSubjImpl;
 import static ec.gob.firmadigital.libreria.certificate.ec.argosdata.CertificadoArgosData.*;
 import ec.gob.firmadigital.libreria.certificate.ec.*;
 import ec.gob.firmadigital.libreria.certificate.Certificado;
@@ -36,6 +38,18 @@ import static ec.gob.firmadigital.libreria.utils.BouncyCastleUtils.certificateHa
  */
 public class CertificadoDataFactoryArgosData {
 
+    public static X509Certificate getRootCertificate(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
+        try {
+            if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertArgosData())) {
+                System.out.println("SubCA ArgosData");
+                return new SubCaCertArgosData();
+            }
+        } catch (java.security.InvalidKeyException ex) {
+            throw new EntidadCertificadoraNoValidaException("Entidad Certificadora no reconocida");
+        }
+        return null;
+    }
+    
     public static DatosUsuario getDatosUsuarioArgosData(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         DatosUsuario datosUsuario = null;
         if (esCertificadoArgosData(certificado)) {

@@ -19,6 +19,7 @@ package ec.gob.firmadigital.libreria.certificate.ec.securitydata;
 
 import ec.gob.firmadigital.libreria.certificate.ec.securitydata.ext.*;
 import ec.gob.firmadigital.libreria.certificate.ec.securitydata.subj.*;
+import ec.gob.firmadigital.libreria.certificate.ec.securitydata.cert.*;
 import ec.gob.firmadigital.libreria.certificate.ec.subj.CertificadoSubjImpl;
 import static ec.gob.firmadigital.libreria.certificate.ec.securitydata.CertificadoSecurityData.*;
 import ec.gob.firmadigital.libreria.certificate.ec.*;
@@ -36,6 +37,26 @@ import static ec.gob.firmadigital.libreria.utils.BouncyCastleUtils.certificateHa
  * S.A.
  */
 public class CertificadoDataFactorySecurityData {
+
+    public static X509Certificate getRootCertificate(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
+        try {
+            if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertSecurityData20112026())) {
+                System.out.println("SecurityDataSubCaCert");
+                return new SubCaCertSecurityData20112026();
+            }
+            if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertSecurityData20192031())) {
+                System.out.println("SecurityDataSubCaCert 2019-2031");
+                return new SubCaCertSecurityData20192031();
+            }
+            if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertSecurityData20202039())) {
+                System.out.println("SecurityDataSubCaCert 2020-2032");
+                return new SubCaCertSecurityData20202039();
+            }
+        } catch (java.security.InvalidKeyException ex) {
+            throw new EntidadCertificadoraNoValidaException("Entidad Certificadora no reconocida");
+        }
+        return null;
+    }
 
     public static DatosUsuario getDatosUsuarioSecurityData(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         DatosUsuario datosUsuario = null;

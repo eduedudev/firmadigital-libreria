@@ -18,6 +18,7 @@
 package ec.gob.firmadigital.libreria.certificate.ec.darkcam;
 
 import ec.gob.firmadigital.libreria.certificate.ec.darkcam.subj.*;
+import ec.gob.firmadigital.libreria.certificate.ec.darkcam.cert.*;
 import ec.gob.firmadigital.libreria.certificate.ec.subj.CertificadoSubjImpl;
 import static ec.gob.firmadigital.libreria.certificate.ec.darkcam.CertificadoDarkcam.*;
 import ec.gob.firmadigital.libreria.certificate.ec.*;
@@ -34,6 +35,22 @@ import static ec.gob.firmadigital.libreria.utils.BouncyCastleUtils.certificateHa
  * @author Misael Fernández, DARKCAM S.A.
  */
 public class CertificadoDataFactoryDarkcam {
+
+    public static X509Certificate getRootCertificate(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
+        try {
+            if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaShortCertDarkcam20262036())) {
+                System.out.println("DarkcamSubCaShortCert2026-2036");
+                return new SubCaShortCertDarkcam20262036();
+            }
+            if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertDarkcam20262036())) {
+                System.out.println("DarkcamSubCaCert2026-2036");
+                return new SubCaCertDarkcam20262036();
+            }
+        } catch (java.security.InvalidKeyException ex) {
+            throw new EntidadCertificadoraNoValidaException("Entidad Certificadora no reconocida");
+        }
+        return null;
+    }
 
     public static DatosUsuario getDatosUsuarioDarkcam(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         DatosUsuario datosUsuario = null;

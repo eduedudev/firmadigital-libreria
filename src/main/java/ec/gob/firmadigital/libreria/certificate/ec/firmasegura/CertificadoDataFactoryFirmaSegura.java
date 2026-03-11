@@ -19,6 +19,8 @@ package ec.gob.firmadigital.libreria.certificate.ec.firmasegura;
 
 import ec.gob.firmadigital.libreria.certificate.ec.firmasegura.ext.*;
 //import ec.gob.firmadigital.libreria.certificate.ec.firmasegura.subj.*;
+import ec.gob.firmadigital.libreria.certificate.ec.firmasegura.cert.*;
+import ec.gob.firmadigital.libreria.certificate.ec.subj.CertificadoSubjImpl;
 import static ec.gob.firmadigital.libreria.certificate.ec.firmasegura.CertificadoFirmaSegura.*;
 import ec.gob.firmadigital.libreria.certificate.ec.*;
 import ec.gob.firmadigital.libreria.certificate.Certificado;
@@ -34,6 +36,18 @@ import static ec.gob.firmadigital.libreria.utils.BouncyCastleUtils.certificateHa
  * @author Misael Fernández, FIRMASEGURA S.A.S.
  */
 public class CertificadoDataFactoryFirmaSegura {
+
+    public static X509Certificate getRootCertificate(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
+        try {
+            if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertFirmaSegura20232043())) {
+                System.out.println("FirmaSeguraSubCaCert2023-2043");
+                return new SubCaCertFirmaSegura20232043();
+            }
+        } catch (java.security.InvalidKeyException ex) {
+            throw new EntidadCertificadoraNoValidaException("Entidad Certificadora no reconocida");
+        }
+        return null;
+    }
 
     public static DatosUsuario getDatosUsuarioFirmaSegura(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         DatosUsuario datosUsuario = null;
@@ -84,7 +98,7 @@ public class CertificadoDataFactoryFirmaSegura {
         } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_REPRESENTANTE_LEGAL)) {
             return new CertificadoExtRepresentanteLegalFirmaSegura(certificado);
 //        }
-        //RESOLUCION-ARCOTEL-2024-0176
+            //RESOLUCION-ARCOTEL-2024-0176
 //        else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
 //            return new CertificadoSubjPersonaNaturalAlphaTechnologies(certificado);
         } else {
