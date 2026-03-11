@@ -70,43 +70,43 @@ public class CertEcUtils {
     public static X509Certificate getRootCertificate(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         switch (getNombreCA(certificado)) {
             case ALPHATECHNOLOGIES_NAME:
-                CertificadoDataFactoryAlphaTechnologies.getRootCertificate(certificado);
+                return CertificadoDataFactoryAlphaTechnologies.getRootCertificate(certificado);
             case ANFAC_NAME:
-                CertificadoDataFactoryAnfAc.getRootCertificate(certificado);
+                return CertificadoDataFactoryAnfAc.getRootCertificate(certificado);
             case APPFIRMAS_NAME:
-                CertificadoDataFactoryAppFirmas.getRootCertificate(certificado);
+                return CertificadoDataFactoryAppFirmas.getRootCertificate(certificado);
             case AGOSDATA_NAME:
-                CertificadoDataFactoryArgosData.getRootCertificate(certificado);
+                return CertificadoDataFactoryArgosData.getRootCertificate(certificado);
             case AGOSDATA_NAME_OLD:
-                CertificadoDataFactoryArgosData.getRootCertificate(certificado);
+                return CertificadoDataFactoryArgosData.getRootCertificate(certificado);
             case BCE_NAME:
-                CertificadoDataFactoryBancoCentral.getRootCertificate(certificado);
+                return CertificadoDataFactoryBancoCentral.getRootCertificate(certificado);
             case CJ_NAME:
-                CertificadoDataFactoryConsejoJudicatura.getRootCertificate(certificado);
+                return CertificadoDataFactoryConsejoJudicatura.getRootCertificate(certificado);
             case CORPNEWBEST_NAME:
-                CertificadoDataFactoryCorpNewBest.getRootCertificate(certificado);
+                return CertificadoDataFactoryCorpNewBest.getRootCertificate(certificado);
             case DARKCAM_NAME:
-                CertificadoDataFactoryDarkcam.getRootCertificate(certificado);
+                return CertificadoDataFactoryDarkcam.getRootCertificate(certificado);
             case DATIL_NAME:
-                CertificadoDataFactoryDatil.getRootCertificate(certificado);
+                return CertificadoDataFactoryDatil.getRootCertificate(certificado);
             case DIGERCIC_NAME:
-                CertificadoDataFactoryDigercic.getRootCertificate(certificado);
+                return CertificadoDataFactoryDigercic.getRootCertificate(certificado);
             case FIRMASEGURA_NAME:
-                CertificadoDataFactoryFirmaSegura.getRootCertificate(certificado);
+                return CertificadoDataFactoryFirmaSegura.getRootCertificate(certificado);
             case LAZZATE_NAME:
-                CertificadoDataFactoryLazzate.getRootCertificate(certificado);
+                return CertificadoDataFactoryLazzate.getRootCertificate(certificado);
             case LETMI_NAME:
-                CertificadoDataFactoryLetmi.getRootCertificate(certificado);
+                return CertificadoDataFactoryLetmi.getRootCertificate(certificado);
             case PRIMECORELAT_NAME:
-                CertificadoDataFactoryPrimeCoreLat.getRootCertificate(certificado);
+                return CertificadoDataFactoryPrimeCoreLat.getRootCertificate(certificado);
             case SECURITYDATA_NAME:
-                CertificadoDataFactorySecurityData.getRootCertificate(certificado);
+                return CertificadoDataFactorySecurityData.getRootCertificate(certificado);
             case SECURITYDATA_NAME_OLD:
-                CertificadoDataFactorySecurityData.getRootCertificate(certificado);
+                return CertificadoDataFactorySecurityData.getRootCertificate(certificado);
             case UANATACA_NAME:
-                CertificadoDataFactoryUanataca.getRootCertificate(certificado);
+                return CertificadoDataFactoryUanataca.getRootCertificate(certificado);
             case UANATACA_NAME_OLD:
-                CertificadoDataFactoryUanataca.getRootCertificate(certificado);
+                return CertificadoDataFactoryUanataca.getRootCertificate(certificado);
             default:
                 throw new EntidadCertificadoraNoValidaException("Entidad Certificadora no reconocida");
         }
