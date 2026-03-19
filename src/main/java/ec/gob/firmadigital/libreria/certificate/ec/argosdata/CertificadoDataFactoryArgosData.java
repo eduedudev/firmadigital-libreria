@@ -18,7 +18,7 @@
 package ec.gob.firmadigital.libreria.certificate.ec.argosdata;
 
 import ec.gob.firmadigital.libreria.certificate.ec.argosdata.ext.*;
-//import ec.gob.firmadigital.libreria.certificate.ec.argosdata.subj.*;
+import ec.gob.firmadigital.libreria.certificate.ec.argosdata.subj.*;
 import ec.gob.firmadigital.libreria.certificate.ec.argosdata.cert.*;
 import ec.gob.firmadigital.libreria.certificate.ec.subj.CertificadoSubjImpl;
 import static ec.gob.firmadigital.libreria.certificate.ec.argosdata.CertificadoArgosData.*;
@@ -49,7 +49,7 @@ public class CertificadoDataFactoryArgosData {
         }
         return null;
     }
-    
+
     public static DatosUsuario getDatosUsuarioArgosData(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         DatosUsuario datosUsuario = null;
         if (esCertificadoArgosData(certificado)) {
@@ -73,13 +73,22 @@ public class CertificadoDataFactoryArgosData {
                 }
             }
             //RESOLUCION-ARCOTEL-2024-0176
-//            if (certificadoAlphaTechnologies instanceof CertificadoSubjImpl) {
-//                if (certificadoAlphaTechnologies instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
-//                    datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
-//                    datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
-//                    datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido());
-//                }
-//            }
+            if (certificadoArgosData instanceof CertificadoSubjImpl) {
+                if (certificadoArgosData instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
+                    datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
+                    datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
+                    datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido());
+                }
+            }
+            if (certificadoArgosData instanceof CertificadoSubjImpl) {
+                if (certificadoArgosData instanceof CertificadoRepresentanteLegal certificadoRepresentanteLegal) {
+                    datosUsuario.setCedula(certificadoRepresentanteLegal.getCedulaPasaporte());
+                    datosUsuario.setNombre(certificadoRepresentanteLegal.getNombres());
+                    datosUsuario.setApellido(certificadoRepresentanteLegal.getPrimerApellido());
+                    datosUsuario.setRuc(certificadoRepresentanteLegal.getRuc());
+                    datosUsuario.setRazonSocial(certificadoRepresentanteLegal.getRazonSocial());
+                }
+            }
             datosUsuario.setCertificadoDigitalValido(true);
         }
         return datosUsuario;
@@ -89,8 +98,8 @@ public class CertificadoDataFactoryArgosData {
         return (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_NATURAL)
                 || certificateHasPolicy(certificado, Ext.OID_TIPO_REPRESENTANTE_LEGAL)
                 //RESOLUCION-ARCOTEL-2024-0176
-//                || certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)
-                );
+                || certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)
+                || certificateHasPolicy(certificado, Subj.OID_TIPO_REPRESENTANTE_LEGAL));
     }
 
     private static Certificado construir(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
@@ -98,10 +107,11 @@ public class CertificadoDataFactoryArgosData {
             return new CertificadoExtPersonaNaturalArgosData(certificado);
         } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_REPRESENTANTE_LEGAL)) {
             return new CertificadoExtRepresentanteLegalArgosData(certificado);
-//        }
-        //RESOLUCION-ARCOTEL-2024-0176
-//        else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
-//            return new CertificadoSubjPersonaNaturalAlphaTechnologies(certificado);
+        } //RESOLUCION-ARCOTEL-2024-0176
+        else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
+            return new CertificadoSubjPersonaNaturalArgosData(certificado);
+        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_REPRESENTANTE_LEGAL)) {
+            return new CertificadoSubjRepresentanteLegalArgosData(certificado);
         } else {
             throw new EntidadCertificadoraNoValidaException("Certificado de ARGOSDATA CERTIFICACIÓN DE INFORMACIÓN Y SERVICIOS RELACIONADOS S.A.S. sin categorizar!");
         }

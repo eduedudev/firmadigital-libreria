@@ -91,6 +91,11 @@ public class Json {
 //            jsonObjectCertificado.addProperty("docVerify", certificado.getDocVerify());
             jsonObjectCertificado.addProperty("docReason", certificado.getDocReason());
             jsonObjectCertificado.addProperty("docLocation", certificado.getDocLocation());
+            if (certificado.getDocTimeStamp() != null) {
+                jsonObjectCertificado.addProperty("selladoTiempoFecha", simpleDateFormatISO8601.format(certificado.getDocTimeStamp().getTime()));
+                jsonObjectCertificado.addProperty("selladoTiempoEmitidoPor", certificado.getDocTimeStampIssuedBy());
+                jsonObjectCertificado.addProperty("selladoTiempoEmitidoPor", certificado.getDocValidTimeStamp());
+            }
 
             String json = generarJsonDatosUsuario(certificado.getDatosUsuario());
             JsonObject jsonObjectDatosUsuario = new Gson().fromJson(json, JsonObject.class);
@@ -170,7 +175,12 @@ public class Json {
 //        jsonObjectCertificado.addProperty("docVerify", certificado.getDocVerify());
         jsonObjectCertificado.addProperty("docReason", certificado.getDocReason());
         jsonObjectCertificado.addProperty("docLocation", certificado.getDocLocation());
-
+        if (certificado.getDocTimeStamp() != null) {
+            jsonObjectCertificado.addProperty("selladoTiempoFecha", simpleDateFormatISO8601.format(certificado.getDocTimeStamp().getTime()));
+            jsonObjectCertificado.addProperty("selladoTiempoEmitidoPor", certificado.getDocTimeStampIssuedBy());
+            jsonObjectCertificado.addProperty("selladoTiempoValido", certificado.getDocValidTimeStamp());
+        }
+        
         String json = null;
         if (certificado.getDatosUsuario() != null) {
             json = generarJsonDatosUsuario(certificado.getDatosUsuario());
@@ -205,8 +215,11 @@ public class Json {
         jsonObjectDatosUsuario.addProperty("cedula", datosUsuario.getCedula());
         jsonObjectDatosUsuario.addProperty("nombre", datosUsuario.getNombre());
         jsonObjectDatosUsuario.addProperty("apellido", datosUsuario.getApellido());
+        jsonObjectDatosUsuario.addProperty("ruc", datosUsuario.getRuc());
+        jsonObjectDatosUsuario.addProperty("razonSocial", datosUsuario.getRazonSocial());
         jsonObjectDatosUsuario.addProperty("institucion", datosUsuario.getInstitucion());
         jsonObjectDatosUsuario.addProperty("cargo", datosUsuario.getCargo());
+        jsonObjectDatosUsuario.addProperty("caommonName", datosUsuario.getCommonName());
         jsonObjectDatosUsuario.addProperty("certificadoDigitalValido", datosUsuario.isCertificadoDigitalValido());
         return jsonObjectDatosUsuario.toString();
     }

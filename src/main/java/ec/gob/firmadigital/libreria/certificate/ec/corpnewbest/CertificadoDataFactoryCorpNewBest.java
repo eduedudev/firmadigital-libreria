@@ -18,7 +18,7 @@
 package ec.gob.firmadigital.libreria.certificate.ec.corpnewbest;
 
 import ec.gob.firmadigital.libreria.certificate.ec.corpnewbest.ext.*;
-//import ec.gob.firmadigital.libreria.certificate.ec.corpnewbest.subj.*;
+import ec.gob.firmadigital.libreria.certificate.ec.corpnewbest.subj.*;
 import ec.gob.firmadigital.libreria.certificate.ec.corpnewbest.cert.*;
 import ec.gob.firmadigital.libreria.certificate.ec.subj.CertificadoSubjImpl;
 import static ec.gob.firmadigital.libreria.certificate.ec.corpnewbest.CertificadoCorpNewBest.*;
@@ -99,18 +99,45 @@ public class CertificadoDataFactoryCorpNewBest {
                     datosUsuario.setRazonSocial(certificadoMiembroEmpresa.getRazonSocial());
                     datosUsuario.setCargo(certificadoMiembroEmpresa.getCargo());
                 }
-                if (certificadoCorpNewBest instanceof CertificadoSelladoTiempo) {
+            }
+            //RESOLUCION-ARCOTEL-2024-0176
+            if (certificadoCorpNewBest instanceof CertificadoSubjImpl) {
+                if (certificadoCorpNewBest instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
+                    datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
+                    datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
+                    datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido());
+                }
+                if (certificadoCorpNewBest instanceof CertificadoMiembroEmpresa certificadoMiembroEmpresa) {
+                    datosUsuario.setCedula(certificadoMiembroEmpresa.getCedulaPasaporte());
+                    datosUsuario.setNombre(certificadoMiembroEmpresa.getNombres());
+                    datosUsuario.setApellido(certificadoMiembroEmpresa.getPrimerApellido());
+                    datosUsuario.setRuc(certificadoMiembroEmpresa.getRuc());
+                    datosUsuario.setRazonSocial(certificadoMiembroEmpresa.getRazonSocial());
+                    datosUsuario.setCargo(certificadoMiembroEmpresa.getCargo());
+                }
+                if (certificadoCorpNewBest instanceof CertificadoRepresentanteLegal certificadoRepresentanteLegal) {
+                    datosUsuario.setCedula(certificadoRepresentanteLegal.getCedulaPasaporte());
+                    datosUsuario.setNombre(certificadoRepresentanteLegal.getNombres());
+                    datosUsuario.setApellido(certificadoRepresentanteLegal.getPrimerApellido());
+                    datosUsuario.setRuc(certificadoRepresentanteLegal.getRuc());
+                    datosUsuario.setRazonSocial(certificadoRepresentanteLegal.getRazonSocial());
+                    datosUsuario.setCargo(certificadoRepresentanteLegal.getCargo());
+                }
+                if (certificadoCorpNewBest instanceof CertificadoSelloElectronico certificadoSelloElectronico) {
+                    datosUsuario.setCedula(null);
+                    datosUsuario.setNombre(certificadoSelloElectronico.getNombres());
+                    datosUsuario.setApellido(certificadoSelloElectronico.getPrimerApellido());
+                    datosUsuario.setCommonName(certificadoSelloElectronico.getCommonName());
+                    datosUsuario.setRuc(certificadoSelloElectronico.getRuc());
+                    datosUsuario.setRazonSocial(certificadoSelloElectronico.getRazonSocial());
+                }
+                if (certificadoCorpNewBest instanceof CertificadoSelladoTiempo certificadoSelladoTiempo) {
+                    datosUsuario.setCommonName(certificadoSelladoTiempo.getCommonName());
+                    datosUsuario.setRuc(certificadoSelladoTiempo.getRuc());
+                    datosUsuario.setRazonSocial(certificadoSelladoTiempo.getRazonSocial());
                     datosUsuario.setCertificadoDigitalValido(true);
                 }
             }
-            //RESOLUCION-ARCOTEL-2024-0176
-//            if (certificadoAlphaTechnologies instanceof CertificadoSubjImpl) {
-//                if (certificadoAlphaTechnologies instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
-//                    datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
-//                    datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
-//                    datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido());
-//                }
-//            }
             datosUsuario.setCertificadoDigitalValido(true);
         }
         return datosUsuario;
@@ -121,8 +148,15 @@ public class CertificadoDataFactoryCorpNewBest {
                 || certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_JURIDICA)
                 || certificateHasPolicy(certificado, Ext.OID_TIPO_MIEMBRO_EMPRESA)
                 //RESOLUCION-ARCOTEL-2024-0176
-//                || certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)
-                );
+                || certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)
+                || certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL_DSCF)
+                || certificateHasPolicy(certificado, Subj.OID_TIPO_MIEMBRO_EMPRESA)
+                || certificateHasPolicy(certificado, Subj.OID_TIPO_MIEMBRO_EMPRESA_DSCF)
+                || certificateHasPolicy(certificado, Subj.OID_TIPO_REPRESENTANTE_LEGAL)
+                || certificateHasPolicy(certificado, Subj.OID_TIPO_REPRESENTANTE_LEGAL_DSCF)
+                || certificateHasPolicy(certificado, Subj.OID_TIPO_SELLO_ELECTRONICO)
+                || certificateHasPolicy(certificado, Subj.OID_TIPO_SELLO_ELECTRONICO_DSCF)
+                || certificateHasPolicy(certificado, Subj.OID_TIPO_SELLO_TIEMPO));
     }
 
     private static Certificado construir(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
@@ -132,10 +166,25 @@ public class CertificadoDataFactoryCorpNewBest {
             return new CertificadoExtPersonaJuridicaCorpNewBest(certificado);
         } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_MIEMBRO_EMPRESA)) {
             return new CertificadoExtMiembroEmpresaCorpNewBest(certificado);
-//        }
-            //RESOLUCION-ARCOTEL-2024-0176
-//        else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
-//            return new CertificadoSubjPersonaNaturalAlphaTechnologies(certificado);
+        } //RESOLUCION-ARCOTEL-2024-0176
+        else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
+            return new CertificadoSubjPersonaNaturalCorpNewBest(certificado);
+        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL_DSCF)) {
+            return new CertificadoSubjPersonaNaturalCorpNewBest(certificado);
+        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_MIEMBRO_EMPRESA)) {
+            return new CertificadoSubjMiembroEmpresaCorpNewBest(certificado);
+        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_MIEMBRO_EMPRESA_DSCF)) {
+            return new CertificadoSubjMiembroEmpresaCorpNewBest(certificado);
+        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_REPRESENTANTE_LEGAL)) {
+            return new CertificadoSubjRepresentanteLegalCorpNewBest(certificado);
+        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_REPRESENTANTE_LEGAL_DSCF)) {
+            return new CertificadoSubjRepresentanteLegalCorpNewBest(certificado);
+        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_SELLO_ELECTRONICO)) {
+            return new CertificadoSubjSelloElectronicoCorpNewBest(certificado);
+        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_SELLO_ELECTRONICO_DSCF)) {
+            return new CertificadoSubjSelloElectronicoCorpNewBest(certificado);
+        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_SELLO_TIEMPO)) {
+            return new CertificadoSubjSelladoTiempoCorpNewBest(certificado);
         } else {
             throw new EntidadCertificadoraNoValidaException("Tipo Certificado de CORPNEWBEST CIA. LTDA. sin categorizar!");
         }

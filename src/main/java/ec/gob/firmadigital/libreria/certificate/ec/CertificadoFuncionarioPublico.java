@@ -25,33 +25,7 @@ package ec.gob.firmadigital.libreria.certificate.ec;
  *
  * @author Ricardo Arguello
  */
-public interface CertificadoFuncionarioPublico {
-
-    /**
-     * @return Cedula o Pasaporte del funcionario publico
-     */
-    String getCedulaPasaporte();
-
-    /**
-     * @return Nombre(s) del funcionario publico
-     */
-    String getNombres();
-
-    /**
-     * @return Primer apellido del funcionario publico
-     */
-    String getPrimerApellido();
-
-    /**
-     * @return Segundo apellido del funcionario publico (si no tiene queda en
-     * blanco)
-     */
-    String getSegundoApellido();
-
-    /**
-     * @return Cargo
-     */
-    String getCargo();
+public interface CertificadoFuncionarioPublico extends CertificadoPersonaNatural {
 
     /**
      * @return Institucion
@@ -59,29 +33,9 @@ public interface CertificadoFuncionarioPublico {
     String getInstitucion();
 
     /**
-     * @return Direccion
+     * @return Cargo
      */
-    String getDireccion();
-
-    /**
-     * @return Telefono
-     */
-    String getTelefono();
-
-    /**
-     * @return Ciudad
-     */
-    String getCiudad();
-
-    /**
-     * @return Pais
-     */
-    String getPais();
-
-    /**
-     * @return RUC de la Institucion
-     */
-    String getRuc();
+    String getCargo();
 
     /**
      * @return Razon Social

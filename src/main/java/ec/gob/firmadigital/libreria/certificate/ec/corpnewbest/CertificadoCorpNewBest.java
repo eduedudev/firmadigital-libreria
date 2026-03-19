@@ -36,13 +36,19 @@ public class CertificadoCorpNewBest {
      */
     public static final class Subj {
 
-//        private Subj() {
-//        }
-//
-//        // OIDs de tipo de certificado.
-//        public static final String OID_TIPO_PERSONA_NATURAL = "1.3.6.1.4.1.56105.2.1.1";
-//        public static final String OID_TIPO_MIEMBRO_EMPRESA = "1.3.6.1.4.1.56105.2.2.1";
-//        public static final String OID_TIPO_REPRESENTANTE_LEGAL = "1.3.6.1.4.1.56105.2.3.1";
+        private Subj() {
+        }
+
+        // OIDs de tipo de certificado.
+        public static final String OID_TIPO_PERSONA_NATURAL = "1.3.6.1.4.1.64849.2.1.1";
+        public static final String OID_TIPO_PERSONA_NATURAL_DSCF = "1.3.6.1.4.1.64849.2.1.2";
+        public static final String OID_TIPO_MIEMBRO_EMPRESA = "1.3.6.1.4.1.64849.2.2.1";
+        public static final String OID_TIPO_MIEMBRO_EMPRESA_DSCF = "1.3.6.1.4.1.64849.2.2.2";
+        public static final String OID_TIPO_REPRESENTANTE_LEGAL = "1.3.6.1.4.1.64849.2.3.1";
+        public static final String OID_TIPO_REPRESENTANTE_LEGAL_DSCF = "1.3.6.1.4.1.64849.2.3.2";
+        public static final String OID_TIPO_SELLO_ELECTRONICO = "1.3.6.1.4.1.64849.2.4.1";
+        public static final String OID_TIPO_SELLO_ELECTRONICO_DSCF = "1.3.6.1.4.1.64849.2.4.2";
+        public static final String OID_TIPO_SELLO_TIEMPO = "1.3.6.1.4.1.64849.2.5.1";
     }
 
     /**
