@@ -24,9 +24,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.HexFormat;
 import javax.swing.JRootPane;
 import org.apache.tika.config.TikaConfig;
 import org.apache.tika.detect.DefaultDetector;
@@ -236,5 +240,38 @@ public class FileUtils {
         for (File archivo : archivos) {
             archivo.delete();
         }
+    }
+
+    /**
+     * Calcula el hash de un arreglo de bytes
+     *
+     * @param datos
+     * @param algoritmo "MD5", "SHA-256", "SHA-512"
+     * @return
+     */
+    public static String calcularHash(byte[] datos, String algoritmo) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance(algoritmo);
+            byte[] hashBytes = digest.digest(datos);
+            return HexFormat.of().formatHex(hashBytes).toLowerCase();
+        } catch (NoSuchAlgorithmException ex) {
+            return ex.getMessage();
+        }
+    }
+
+    /**
+     * Valida si un hash coincide con los datos proporcionados
+     *
+     * @param datos
+     * @param hashComparar
+     * @param algoritmo "MD5", "SHA-256", "SHA-512"
+     * @return
+     */
+    public static boolean validarHash(byte[] datos, String hashComparar, String algoritmo) {
+        String hashCalculado = calcularHash(datos, algoritmo);
+        return MessageDigest.isEqual(
+                hashCalculado.getBytes(StandardCharsets.UTF_8),
+                hashComparar.getBytes(StandardCharsets.UTF_8)
+        );
     }
 }
