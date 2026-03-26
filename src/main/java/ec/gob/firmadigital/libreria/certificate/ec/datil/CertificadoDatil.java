@@ -36,13 +36,15 @@ public class CertificadoDatil {
      */
     public static final class Subj {
 
-//        private Subj() {
-//        }
-//
-//        // OIDs de tipo de certificado.
-//        public static final String OID_TIPO_PERSONA_NATURAL = "1.3.6.1.4.1.56105.2.1.1";
-//        public static final String OID_TIPO_MIEMBRO_EMPRESA = "1.3.6.1.4.1.56105.2.2.1";
-//        public static final String OID_TIPO_REPRESENTANTE_LEGAL = "1.3.6.1.4.1.56105.2.3.1";
+        private Subj() {
+        }
+
+        // OIDs de tipo de certificado.
+        public static final String OID_TIPO_PERSONA_NATURAL = "1.3.6.1.4.1.52643.2.1.1";
+        public static final String OID_TIPO_MIEMBRO_EMPRESA = "1.3.6.1.4.1.52643.2.2.1";
+        public static final String OID_TIPO_REPRESENTANTE_LEGAL = "1.3.6.1.4.1.52643.2.3.1";
+        public static final String OID_TIPO_SELLO_ELECTRONICO = "1.3.6.1.4.1.52643.102.2.4.1";
+        public static final String OID_TIPO_SELLO_TIEMPO = "1.3.6.1.4.1.52643.102.2.5.1";
     }
 
     /**
@@ -55,10 +57,7 @@ public class CertificadoDatil {
 
         // OIDs de tipo de certificado:
         public static final String OID_TIPO_PERSONA_NATURAL = "1.3.6.1.4.1.52643.2.5.1";
-        public static final String OID_TIPO_MIEMBRO_EMPRESA = "1.3.6.1.4.1.52643.2.5.2";
-        public static final String OID_TIPO_REPRESENTANTE_EMPRESA = "1.3.6.1.4.1.52643.2.5.2";
         public static final String OID_TIPO_PERSONA_JURIDICA = "1.3.6.1.4.1.52643.2.5.2";
-        public static final String OID_SELLADO_TIEMPO = "1.3.6.1.4.1.52643.2.5.3";
 
         // OIDs de Campos del Certificado:
         public static final String OID_CEDULA_PASAPORTE = "1.3.6.1.4.1.52643.3.1";
@@ -72,10 +71,7 @@ public class CertificadoDatil {
         public static final String OID_RAZON_SOCIAL = "1.3.6.1.4.1.52643.3.10";
         public static final String OID_RUC = "1.3.6.1.4.1.52643.3.11";
         public static final String OID_PAIS = "1.3.6.1.4.1.52643.3.12";
-        public static final String OID_CERTIFICADO = "1.3.6.1.4.1.52643.3.50";
-        public static final String OID_CONTENEDOR = "1.3.6.1.4.1.52643.3.51";
-        public static final String OID_RUP = "1.3.6.1.4.1.52643.3.52";
-        public static final String OID_PROFESION = "2.5.4.12";
-        public static final String OID_DEPARTAMENTO = "2.5.4.11";
+        public static final String OID_PROFESION = "1.3.6.1.4.1.52643.3.30";
+        public static final String OID_NUMERO_FACTURA = "1.3.6.1.4.1.52643.3.32";
     }
 }

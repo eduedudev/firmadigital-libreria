@@ -42,6 +42,10 @@ public class CertificadoDataFactoryAppFirmas {
                 System.out.println("AppFirmasSubCaCert2025-2050");
                 return new SubCaCertAppFirmas20252050();
             }
+            if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertAppFirmas20262036())) {
+                System.out.println("AppFirmasSubCaCert2026-2036");
+                return new SubCaCertAppFirmas20262036();
+            }
         } catch (java.security.InvalidKeyException ex) {
             throw new EntidadCertificadoraNoValidaException("Entidad Certificadora no reconocida");
         }

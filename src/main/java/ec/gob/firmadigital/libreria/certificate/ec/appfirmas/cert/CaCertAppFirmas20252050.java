@@ -26,11 +26,11 @@ import ec.gob.firmadigital.libreria.certificate.base.RubricaCertificate;
  *
  * @author Misael Fernández, APPFIRMAS S.A.
  */
-public class CaCertAppFirmas20252055 extends RubricaCertificate {
+public class CaCertAppFirmas20252050 extends RubricaCertificate {
 
     private static final StringBuilder stringBuilder;
 
-    public CaCertAppFirmas20252055() {
+    public CaCertAppFirmas20252050() {
         super(stringBuilder);
     }
 

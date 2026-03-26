@@ -94,7 +94,7 @@ public class BasePdfSigner implements Signer {
      * @throws java.io.IOException
      */
     public byte[] emptySignature(InputStream is, Certificate[] certChain, Properties properties, String algorithm)
-            throws IOException {
+            throws IOException, com.itextpdf.kernel.exceptions.BadPasswordException {
         try (PdfReader pdfReader = new PdfReader(is) {
             @Override
             public boolean hasRebuiltXref() {
