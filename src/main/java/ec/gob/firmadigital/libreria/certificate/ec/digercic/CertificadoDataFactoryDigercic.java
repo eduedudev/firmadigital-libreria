@@ -52,9 +52,9 @@ public class CertificadoDataFactoryDigercic {
 
     public static DatosUsuario getDatosUsuarioDatil(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         DatosUsuario datosUsuario = null;
-        if (CertificadoDataFactoryDigercic.esCertificadoDigercic(certificado)) {
+        Certificado certificadoDigercic = construir(certificado);
+        if (certificadoDigercic != null) {
             datosUsuario = new DatosUsuario();
-            Certificado certificadoDigercic = construir(certificado);
             if (certificadoDigercic instanceof CertificadoExtImplDigercic) {
                 if (certificadoDigercic instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
                     datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
@@ -75,20 +75,16 @@ public class CertificadoDataFactoryDigercic {
         return datosUsuario;
     }
 
-    private static boolean esCertificadoDigercic(X509Certificate certificado) {
-        return (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_NATURAL)
-                //RESOLUCION-ARCOTEL-2024-0176
-//                || certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)
-                );
-    }
-
     private static Certificado construir(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
-        if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_NATURAL)) {
-            return new CertificadoExtPersonaNaturalDigercic(certificado);
-//        }
-            //RESOLUCION-ARCOTEL-2024-0176
-//        else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
-//            return new CertificadoSubjPersonaNaturalAlphaTechnologies(certificado);
+        if (ec.gob.firmadigital.libreria.certificate.CertUtils.hasExtensionMatchingPattern(certificado, "1.3.6.1.4.1", "3.1")) {
+            if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_NATURAL)) {
+                return new CertificadoExtPersonaNaturalDigercic(certificado);
+            } else {
+                throw new EntidadCertificadoraNoValidaException("Certificado de DIRECCIÓN GENERAL DE REGISTRO CIVIL, IDENTIFICACIÓN sin categorizar!");
+            }
+//        } else {//RESOLUCION-ARCOTEL-2024-0176
+//            if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
+//                return new CertificadoSubjPersonaNaturalAlphaTechnologies(certificado);
         } else {
             throw new EntidadCertificadoraNoValidaException("Certificado de DIRECCIÓN GENERAL DE REGISTRO CIVIL, IDENTIFICACIÓN sin categorizar!");
         }

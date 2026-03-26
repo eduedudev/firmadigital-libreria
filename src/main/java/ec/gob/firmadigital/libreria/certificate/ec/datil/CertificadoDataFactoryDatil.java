@@ -51,9 +51,9 @@ public class CertificadoDataFactoryDatil {
 
     public static DatosUsuario getDatosUsuarioDatil(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         DatosUsuario datosUsuario = null;
-        if (esCertificadoDatil(certificado)) {
+        Certificado certificadoDatil = construir(certificado);
+        if (certificadoDatil != null) {
             datosUsuario = new DatosUsuario();
-            Certificado certificadoDatil = CertificadoDataFactoryDatil.construir(certificado);
             if (certificadoDatil instanceof CertificadoExtImplDatil) {
                 if (certificadoDatil instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
                     datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
@@ -102,32 +102,24 @@ public class CertificadoDataFactoryDatil {
         return datosUsuario;
     }
 
-    private static boolean esCertificadoDatil(X509Certificate certificado) {
-        return (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_NATURAL)
-                || certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_JURIDICA)
-                || certificateHasPolicy(certificado, Ext.OID_TIPO_MIEMBRO_EMPRESA)
-                || certificateHasPolicy(certificado, Ext.OID_TIPO_REPRESENTANTE_EMPRESA)
-                //RESOLUCION-ARCOTEL-2024-0176
-//                || certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)
-                );
-    }
-
     private static Certificado construir(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
-        if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_NATURAL)) {
-            return new CertificadoExtPersonaNaturalDatil(certificado);
-        } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_JURIDICA)) {
-            return new CertificadoExtPersonaJuridicaPrivadaDatil(certificado);
-        } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_MIEMBRO_EMPRESA)) {
-            return new CertificadoExtMiembroEmpresaDatil(certificado);
-        } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_REPRESENTANTE_EMPRESA)) {
-            return new CertificadoExtRepresentanteLegalDatil(certificado);
-//        }
-            //RESOLUCION-ARCOTEL-2024-0176
-//        else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
-//            return new CertificadoSubjPersonaNaturalAlphaTechnologies(certificado);
+        if (ec.gob.firmadigital.libreria.certificate.CertUtils.hasExtensionMatchingPattern(certificado, "1.3.6.1.4.1", "3.1")) {
+            if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_NATURAL)) {
+                return new CertificadoExtPersonaNaturalDatil(certificado);
+            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_JURIDICA)) {
+                return new CertificadoExtPersonaJuridicaPrivadaDatil(certificado);
+            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_MIEMBRO_EMPRESA)) {
+                return new CertificadoExtMiembroEmpresaDatil(certificado);
+            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_REPRESENTANTE_EMPRESA)) {
+                return new CertificadoExtRepresentanteLegalDatil(certificado);
+            } else {
+                throw new EntidadCertificadoraNoValidaException("Certificado de DATILMEDIA S.A. sin categorizar!");
+            }
+//        } else {//RESOLUCION-ARCOTEL-2024-0176
+//            if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
+//                return new CertificadoSubjPersonaNaturalAlphaTechnologies(certificado);
         } else {
             throw new EntidadCertificadoraNoValidaException("Certificado de DATILMEDIA S.A. sin categorizar!");
         }
     }
-
 }

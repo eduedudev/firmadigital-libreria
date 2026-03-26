@@ -28,11 +28,11 @@ import ec.gob.firmadigital.libreria.certificate.base.RubricaCertificate;
  * @author Misael Fernández, ARGOSDATA CERTIFICACIÓN DE INFORMACIÓN Y SERVICIOS
  * RELACIONADOS S.A.S.
  */
-public class SubCaCertArgosData extends RubricaCertificate {
+public class SubCaCertArgosData20242032 extends RubricaCertificate {
 
     private static final StringBuilder stringBuilder;
 
-    public SubCaCertArgosData() {
+    public SubCaCertArgosData20242032() {
         super(stringBuilder);
     }
 

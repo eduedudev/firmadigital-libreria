@@ -17,8 +17,6 @@
  */
 package ec.gob.firmadigital.libreria.utils;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.security.Security;
 import java.security.cert.X509Certificate;
 import java.util.logging.Logger;
@@ -41,13 +39,11 @@ public class BouncyCastleUtils {
      * Inicializa el Proveedor de Seguridad BouncyCastle
      */
     public static void initializeBouncyCastle() {
-        AccessController.doPrivileged(new PrivilegedAction<Void>() {
-            @Override
-            public Void run() {
-                Security.addProvider(new BouncyCastleProvider());
-                return null;
-            }
-        });
+        if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null) {
+            Security.addProvider(new BouncyCastleProvider());
+        }
+        // Configurar BouncyCastle como el proveedor preferido para EC
+        java.security.Security.setProperty("crypto.policy", "unlimited");
     }
 
     /**

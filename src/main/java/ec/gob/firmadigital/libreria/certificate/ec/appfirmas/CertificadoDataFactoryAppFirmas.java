@@ -50,10 +50,10 @@ public class CertificadoDataFactoryAppFirmas {
 
     public static DatosUsuario getDatosUsuarioAppFirmas(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         DatosUsuario datosUsuario = null;
-        //RESOLUCION-ARCOTEL-2024-0176
-        if (esCertificadoDeAppFirmas(certificado)) {
+        Certificado certificadoAppFirmas = construir(certificado);
+        if (certificadoAppFirmas != null) {
             datosUsuario = new DatosUsuario();
-            Certificado certificadoAppFirmas = construir(certificado);
+            //RESOLUCION-ARCOTEL-2024-0176
             if (certificadoAppFirmas instanceof CertificadoSubjImpl) {
                 if (certificadoAppFirmas instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
                     datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
@@ -80,12 +80,6 @@ public class CertificadoDataFactoryAppFirmas {
             datosUsuario.setCertificadoDigitalValido(true);
         }
         return datosUsuario;
-    }
-
-    private static boolean esCertificadoDeAppFirmas(X509Certificate certificado) {
-        return (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)
-                || certificateHasPolicy(certificado, Subj.OID_TIPO_MIEMBRO_EMPRESA)
-                || certificateHasPolicy(certificado, Subj.OID_TIPO_REPRESENTANTE_LEGAL));
     }
 
     private static Certificado construir(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {

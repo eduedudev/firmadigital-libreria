@@ -68,9 +68,9 @@ public class CertificadoDataFactoryAnfAc {
 
     public static DatosUsuario getDatosUsuarioAnfAc(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         DatosUsuario datosUsuario = null;
-        if (esCertificadoDeAnfAc18332(certificado)) {
+        Certificado certificadoAnfAc18332 = construir18332(certificado);
+        if (certificadoAnfAc18332 != null) {
             datosUsuario = new DatosUsuario();
-            Certificado certificadoAnfAc18332 = construir18332(certificado);
             if (certificadoAnfAc18332 instanceof CertificadoExtImplAnfAc_18332) {
                 if (certificadoAnfAc18332 instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
                     datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
@@ -100,9 +100,9 @@ public class CertificadoDataFactoryAnfAc {
             datosUsuario.setCertificadoDigitalValido(true);
         }
 
-        if (esCertificadoDeAnfAc37442(certificado)) {
+        Certificado certificadoAnfAc37442 = construir37442(certificado);
+        if (certificadoAnfAc37442 != null) {
             datosUsuario = new DatosUsuario();
-            Certificado certificadoAnfAc37442 = construir37442(certificado);
             if (certificadoAnfAc37442 instanceof CertificadoExtImplAnfAc_37442) {
                 if (certificadoAnfAc37442 instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
                     datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
@@ -181,68 +181,52 @@ public class CertificadoDataFactoryAnfAc {
         return datosUsuario;
     }
 
-    private static boolean esCertificadoDeAnfAc18332(X509Certificate certificado) {
-        return (certificateHasPolicy(certificado, Ext18332.OID_TIPO_PERSONA_NATURAL)
-                || certificateHasPolicy(certificado, Ext18332.OID_TIPO_PERSONA_JURIDICA)
-                || certificateHasPolicy(certificado, Ext18332.OID_TIPO_FUNCIONARIO_PUBLICO));
-    }
-
     private static Certificado construir18332(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
-        if (certificateHasPolicy(certificado, Ext18332.OID_TIPO_PERSONA_NATURAL)) {
-            return new CertificadoExtPersonaNaturalAnfAc_18332(certificado);
-        } else if (certificateHasPolicy(certificado, Ext18332.OID_TIPO_PERSONA_JURIDICA)) {
-            return new CertificadoExtPersonaJuridicaAnfAc_18332(certificado);
-        } else if (certificateHasPolicy(certificado, Ext18332.OID_TIPO_FUNCIONARIO_PUBLICO)) {
-            return new CertificadoExtFuncionarioPublicoAnfAc_18332(certificado);
-        } else {
-            throw new EntidadCertificadoraNoValidaException("Certificado de ANFAC AUTORIDAD DE CERTIFICACION ECUADOR C.A. 18332 sin categorizar!");
+        if (ec.gob.firmadigital.libreria.certificate.CertUtils.hasExtensionMatchingPattern(certificado, "1.3.6.1.4.1", "3.1")) {
+            if (certificateHasPolicy(certificado, Ext18332.OID_TIPO_PERSONA_NATURAL)) {
+                return new CertificadoExtPersonaNaturalAnfAc_18332(certificado);
+            } else if (certificateHasPolicy(certificado, Ext18332.OID_TIPO_PERSONA_JURIDICA)) {
+                return new CertificadoExtPersonaJuridicaAnfAc_18332(certificado);
+            } else if (certificateHasPolicy(certificado, Ext18332.OID_TIPO_FUNCIONARIO_PUBLICO)) {
+                return new CertificadoExtFuncionarioPublicoAnfAc_18332(certificado);
+            }
         }
-    }
-
-    private static boolean esCertificadoDeAnfAc37442(X509Certificate certificado) {
-        return (certificateHasPolicy(certificado, Ext37442.OID_TIPO_PERSONA_NATURAL)
-                || certificateHasPolicy(certificado, Ext37442.OID_TIPO_PERSONA_NATURAL_TOKEN)
-                || certificateHasPolicy(certificado, Ext37442.OID_TIPO_PERSONA_JURIDICA)
-                || certificateHasPolicy(certificado, Ext37442.OID_TIPO_PERSONA_JURIDICA_TOKEN)
-                || certificateHasPolicy(certificado, Ext37442.OID_TIPO_FUNCIONARIO_PUBLICO)
-                || certificateHasPolicy(certificado, Ext37442.OID_TIPO_FUNCIONARIO_PUBLICO_TOKEN)
-                || certificateHasPolicy(certificado, Ext37442.OID_SELLADO_TIEMPO)
-                // RESOLUCION-ARCOTEL-2024-0176
-                || certificateHasPolicy(certificado, Subj.OID_CERTIFICADO_PERSONA_NATURAL)
-                || certificateHasPolicy(certificado, Subj.OID_CERTIFICADO_MIEMBRO_EMPRESA)
-                || certificateHasPolicy(certificado, Subj.OID_CERTIFICADO_REPRESENTANTE_LEGAL)
-                || certificateHasPolicy(certificado, Subj.OID_SELLADO_TIEMPO)
-                || certificateHasPolicy(certificado, Subj.OID_SELLO_ELECTRONICO));
+        return null;
     }
 
     private static Certificado construir37442(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
-        if (certificateHasPolicy(certificado, Ext37442.OID_TIPO_PERSONA_NATURAL)) {
-            return new CertificadoExtPersonaNaturalAnfAc_37442(certificado);
-        } else if (certificateHasPolicy(certificado, Ext37442.OID_TIPO_PERSONA_NATURAL_TOKEN)) {
-            return new CertificadoExtPersonaNaturalAnfAc_37442(certificado);
-        } else if (certificateHasPolicy(certificado, Ext37442.OID_TIPO_PERSONA_JURIDICA)) {
-            return new CertificadoExtPersonaJuridicaAnfAc_37442(certificado);
-        } else if (certificateHasPolicy(certificado, Ext37442.OID_TIPO_PERSONA_JURIDICA_TOKEN)) {
-            return new CertificadoExtPersonaJuridicaAnfAc_37442(certificado);
-        } else if (certificateHasPolicy(certificado, Ext37442.OID_TIPO_FUNCIONARIO_PUBLICO)) {
-            return new CertificadoExtFuncionarioPublicoAnfAc_37442(certificado);
-        } else if (certificateHasPolicy(certificado, Ext37442.OID_TIPO_FUNCIONARIO_PUBLICO_TOKEN)) {
-            return new CertificadoExtFuncionarioPublicoAnfAc_37442(certificado);
-        } else if (certificateHasPolicy(certificado, Ext37442.OID_SELLADO_TIEMPO)) {
-            return new CertificadoExtSelladoTiempoAnfAc_37442(certificado);
-        } // RESOLUCION-ARCOTEL-2024-0176
-        else if (certificateHasPolicy(certificado, Subj.OID_CERTIFICADO_PERSONA_NATURAL)) {
-            return new CertificadoSubjPersonaNaturalAnfAc(certificado);
-        } else if (certificateHasPolicy(certificado, Subj.OID_CERTIFICADO_MIEMBRO_EMPRESA)) {
-            return new CertificadoSubjMiembroEmpresaAnfAc(certificado);
-        } else if (certificateHasPolicy(certificado, Subj.OID_CERTIFICADO_REPRESENTANTE_LEGAL)) {
-            return new CertificadoSubjRepresentanteLegalAnfAc(certificado);
-        } else if (certificateHasPolicy(certificado, Subj.OID_SELLADO_TIEMPO)) {
-            return new CertificadoSubjSelladoTiempoAnfAc(certificado);
-        } else if (certificateHasPolicy(certificado, Subj.OID_SELLO_ELECTRONICO)) {
-            return new CertificadoSubjSelloElectronicoAnfAc(certificado);
-        } else {
-            throw new EntidadCertificadoraNoValidaException("Certificado de ANFAC AUTORIDAD DE CERTIFICACION ECUADOR C.A. 37442 sin categorizar!");
+        if (ec.gob.firmadigital.libreria.certificate.CertUtils.hasExtensionMatchingPattern(certificado, "1.3.6.1.4.1", "3.1")) {
+            if (certificateHasPolicy(certificado, Ext37442.OID_TIPO_PERSONA_NATURAL)) {
+                return new CertificadoExtPersonaNaturalAnfAc_37442(certificado);
+            } else if (certificateHasPolicy(certificado, Ext37442.OID_TIPO_PERSONA_NATURAL_TOKEN)) {
+                return new CertificadoExtPersonaNaturalAnfAc_37442(certificado);
+            } else if (certificateHasPolicy(certificado, Ext37442.OID_TIPO_PERSONA_JURIDICA)) {
+                return new CertificadoExtPersonaJuridicaAnfAc_37442(certificado);
+            } else if (certificateHasPolicy(certificado, Ext37442.OID_TIPO_PERSONA_JURIDICA_TOKEN)) {
+                return new CertificadoExtPersonaJuridicaAnfAc_37442(certificado);
+            } else if (certificateHasPolicy(certificado, Ext37442.OID_TIPO_FUNCIONARIO_PUBLICO)) {
+                return new CertificadoExtFuncionarioPublicoAnfAc_37442(certificado);
+            } else if (certificateHasPolicy(certificado, Ext37442.OID_TIPO_FUNCIONARIO_PUBLICO_TOKEN)) {
+                return new CertificadoExtFuncionarioPublicoAnfAc_37442(certificado);
+            } else if (certificateHasPolicy(certificado, Ext37442.OID_SELLADO_TIEMPO)) {
+                return new CertificadoExtSelladoTiempoAnfAc_37442(certificado);
+            } else {
+                throw new EntidadCertificadoraNoValidaException("Certificado de ANFAC AUTORIDAD DE CERTIFICACION ECUADOR C.A. 37442 sin categorizar!");
+            }
+        } else {//RESOLUCION-ARCOTEL-2024-0176 
+            if (certificateHasPolicy(certificado, Subj.OID_CERTIFICADO_PERSONA_NATURAL)) {
+                return new CertificadoSubjPersonaNaturalAnfAc(certificado);
+            } else if (certificateHasPolicy(certificado, Subj.OID_CERTIFICADO_MIEMBRO_EMPRESA)) {
+                return new CertificadoSubjMiembroEmpresaAnfAc(certificado);
+            } else if (certificateHasPolicy(certificado, Subj.OID_CERTIFICADO_REPRESENTANTE_LEGAL)) {
+                return new CertificadoSubjRepresentanteLegalAnfAc(certificado);
+            } else if (certificateHasPolicy(certificado, Subj.OID_SELLADO_TIEMPO)) {
+                return new CertificadoSubjSelladoTiempoAnfAc(certificado);
+            } else if (certificateHasPolicy(certificado, Subj.OID_SELLO_ELECTRONICO)) {
+                return new CertificadoSubjSelloElectronicoAnfAc(certificado);
+            } else {
+                throw new EntidadCertificadoraNoValidaException("Certificado de ANFAC AUTORIDAD DE CERTIFICACION ECUADOR C.A. 37442 sin categorizar!");
+            }
         }
     }
 }

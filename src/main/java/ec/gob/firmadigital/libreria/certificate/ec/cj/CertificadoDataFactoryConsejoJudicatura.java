@@ -48,12 +48,12 @@ public class CertificadoDataFactoryConsejoJudicatura {
         }
         return null;
     }
-    
+
     public static DatosUsuario getDatosUsuarioConsejoJudicatura(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         DatosUsuario datosUsuario = null;
-        if (esCertificadoDelConsejoJudicatura(certificado)) {
+        Certificado certificadoConsejoJudicatura = construir(certificado);
+        if (certificadoConsejoJudicatura != null) {
             datosUsuario = new DatosUsuario();
-            Certificado certificadoConsejoJudicatura = construir(certificado);
             if (certificadoConsejoJudicatura instanceof CertificadoExtImplConsejoJudicatura) {
                 if (certificadoConsejoJudicatura instanceof CertificadoExtPersonaNaturalConsejoJudicatura certificadoPersonaNaturalConsejoJudicatura) {
                     datosUsuario.setCedula(certificadoPersonaNaturalConsejoJudicatura.getCedulaPasaporte());
@@ -126,38 +126,28 @@ public class CertificadoDataFactoryConsejoJudicatura {
         return datosUsuario;
     }
 
-    private static boolean esCertificadoDelConsejoJudicatura(X509Certificate certificado) {
-        return (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_NATURAL)
-                || certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_JURIDICA_PRIVADA)
-                || certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_JURIDICA_PUBLICA)
-                || certificateHasPolicy(certificado, Ext.OID_TIPO_MIEMBRO_EMPRESA)
-                || certificateHasPolicy(certificado, Ext.OID_TIPO_EMPRESA)
-                || certificateHasPolicy(certificado, Ext.OID_TIPO_DEPARTAMENTO_EMPRESA)
-                || certificateHasPolicy(certificado, Ext.OID_SELLADO_TIEMPO)
-                //RESOLUCION-ARCOTEL-2024-0176
-//                || certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)
-                );
-    }
-
     private static Certificado construir(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
-        if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_NATURAL)) {
-            return new CertificadoExtPersonaNaturalConsejoJudicatura(certificado);
-        } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_JURIDICA_PRIVADA)) {
-            return new CertificadoExtPersonaJuridicaPrivadaConsejoJudicatura(certificado);
-        } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_JURIDICA_PUBLICA)) {
-            return new CertificadoExtPersonaJuridicaPublicaConsejoJudicatura(certificado);
-        } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_MIEMBRO_EMPRESA)) {
-            return new CertificadoExtMiembroEmpresaConsejoJudicatura(certificado);
-        } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_EMPRESA)) {
-            return new CertificadoExtEmpresaConsejoJudicatura(certificado);
-        } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_DEPARTAMENTO_EMPRESA)) {
-            return new CertificadoExtDepartamentoEmpresaConsejoJudicatura(certificado);
-        } else if (certificateHasPolicy(certificado, Ext.OID_SELLADO_TIEMPO)) {
-            return new CertificadoExtSelladoTiempoConsejoJudicatura(certificado);
-//        }
-        //RESOLUCION-ARCOTEL-2024-0176
-//        else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
-//            return new CertificadoSubjPersonaNaturalAlphaTechnologies(certificado);
+        if (ec.gob.firmadigital.libreria.certificate.CertUtils.hasExtensionMatchingPattern(certificado, "1.3.6.1.4.1", "1.3.1")) {
+            if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_NATURAL)) {
+                return new CertificadoExtPersonaNaturalConsejoJudicatura(certificado);
+            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_JURIDICA_PRIVADA)) {
+                return new CertificadoExtPersonaJuridicaPrivadaConsejoJudicatura(certificado);
+            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_JURIDICA_PUBLICA)) {
+                return new CertificadoExtPersonaJuridicaPublicaConsejoJudicatura(certificado);
+            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_MIEMBRO_EMPRESA)) {
+                return new CertificadoExtMiembroEmpresaConsejoJudicatura(certificado);
+            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_EMPRESA)) {
+                return new CertificadoExtEmpresaConsejoJudicatura(certificado);
+            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_DEPARTAMENTO_EMPRESA)) {
+                return new CertificadoExtDepartamentoEmpresaConsejoJudicatura(certificado);
+            } else if (certificateHasPolicy(certificado, Ext.OID_SELLADO_TIEMPO)) {
+                return new CertificadoExtSelladoTiempoConsejoJudicatura(certificado);
+            } else {
+                throw new EntidadCertificadoraNoValidaException("Certificado del CONSEJO DE LA JUDICATURA sin categorizar!");
+            }
+//        } else {//RESOLUCION-ARCOTEL-2024-0176
+//            if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
+//                return new CertificadoSubjPersonaNaturalAlphaTechnologies(certificado);
         } else {
             throw new EntidadCertificadoraNoValidaException("Certificado del CONSEJO DE LA JUDICATURA sin categorizar!");
         }

@@ -39,21 +39,21 @@ public class CertificadoDataFactoryLetmi {
     public static X509Certificate getRootCertificate(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         try {
             if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertLetmi20252035())) {
-                        System.out.println("LetmiSubCaCert2025-2035");
-                        return new SubCaCertLetmi20252035();
-                    }
+                System.out.println("LetmiSubCaCert2025-2035");
+                return new SubCaCertLetmi20252035();
+            }
         } catch (java.security.InvalidKeyException ex) {
             throw new EntidadCertificadoraNoValidaException("Entidad Certificadora no reconocida");
         }
         return null;
     }
-    
+
     public static DatosUsuario getDatosUsuarioLetmi(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         DatosUsuario datosUsuario = null;
-        //RESOLUCION-ARCOTEL-2024-0176
-        if (esCertificadoDeLetmi(certificado)) {
+        Certificado certificadoLetmi = construir(certificado);
+        if (certificadoLetmi != null) {
             datosUsuario = new DatosUsuario();
-            Certificado certificadoLetmi = construir(certificado);
+            //RESOLUCION-ARCOTEL-2024-0176
             if (certificadoLetmi instanceof CertificadoSubjImpl) {
                 if (certificadoLetmi instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
                     datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
@@ -80,12 +80,6 @@ public class CertificadoDataFactoryLetmi {
             datosUsuario.setCertificadoDigitalValido(true);
         }
         return datosUsuario;
-    }
-
-    private static boolean esCertificadoDeLetmi(X509Certificate certificado) {
-        return (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)
-                || certificateHasPolicy(certificado, Subj.OID_TIPO_MIEMBRO_EMPRESA)
-                || certificateHasPolicy(certificado, Subj.OID_TIPO_REPRESENTANTE_LEGAL));
     }
 
     private static Certificado construir(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {

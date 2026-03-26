@@ -46,7 +46,6 @@ import ec.gob.firmadigital.libreria.exceptions.EntidadCertificadoraNoValidaExcep
 import java.net.SocketTimeoutException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.NoSuchAlgorithmException;
-import java.security.Security;
 import java.security.cert.CertPath;
 import java.security.cert.CertPathValidator;
 import java.security.cert.CertPathValidatorException;
@@ -62,8 +61,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
-
 import ec.gob.firmadigital.libreria.exceptions.RubricaException;
 
 /**
@@ -74,7 +71,7 @@ import ec.gob.firmadigital.libreria.exceptions.RubricaException;
 public class OcspUtils {
 
     static {
-        Security.addProvider(new BouncyCastleProvider());
+        BouncyCastleUtils.initializeBouncyCastle();
     }
 
     public static boolean isValidCertificate(X509Certificate certificate) throws RubricaException, EntidadCertificadoraNoValidaException {

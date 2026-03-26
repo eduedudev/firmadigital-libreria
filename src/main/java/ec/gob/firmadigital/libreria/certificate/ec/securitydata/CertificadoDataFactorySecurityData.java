@@ -60,9 +60,9 @@ public class CertificadoDataFactorySecurityData {
 
     public static DatosUsuario getDatosUsuarioSecurityData(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         DatosUsuario datosUsuario = null;
-        if (esCertificadoDeSecurityData(certificado)) {
+        Certificado certificadoSecurityData = construir(certificado);
+        if (certificadoSecurityData != null) {
             datosUsuario = new DatosUsuario();
-            Certificado certificadoSecurityData = construir(certificado);
             if (certificadoSecurityData instanceof CertificadoExtImplSecurityData) {
                 if (certificadoSecurityData instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
                     datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
@@ -136,62 +136,47 @@ public class CertificadoDataFactorySecurityData {
         return datosUsuario;
     }
 
-    private static boolean esCertificadoDeSecurityData(X509Certificate certificado) {
-        return (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_NATURAL)
-                || certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_JURIDICA_EMPRESA)
-                || certificateHasPolicy(certificado, Ext.OID_TIPO_REPRESENTANTE_LEGAL)
-                || certificateHasPolicy(certificado, Ext.OID_TIPO_MIEMBRO_EMPRESA)
-                || certificateHasPolicy(certificado, Ext.OID_TIPO_FUNCIONARIO_PUBLICO)
-                || certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_NATURAL_PROFESIONAL)
-                || certificateHasPolicy(certificado, Ext.OID_SELLADO_TIEMPO)
-                //RESOLUCION-ARCOTEL-2024-0176
-                || certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)
-                || certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL_DSCF)
-                || certificateHasPolicy(certificado, Subj.OID_TIPO_REPRESENTANTE_LEGAL)
-                || certificateHasPolicy(certificado, Subj.OID_TIPO_REPRESENTANTE_LEGAL_DSCF)
-                || certificateHasPolicy(certificado, Subj.OID_TIPO_MIEMBRO_EMPRESA)
-                || certificateHasPolicy(certificado, Subj.OID_TIPO_MIEMBRO_EMPRESA_DSCF)
-                || certificateHasPolicy(certificado, Subj.OID_TIPO_SELLO_ELECTRONICO)
-                || certificateHasPolicy(certificado, Subj.OID_TIPO_SELLO_ELECTRONICO_DSCF)
-                || certificateHasPolicy(certificado, Subj.OID_TIPO_SELLO_TIEMPO_DSCF));
-    }
-
     private static Certificado construir(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
-        if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_NATURAL)) {
-            return new CertificadoExtPersonaNaturalSecurityData(certificado);
-        } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_JURIDICA_EMPRESA)) {
-            return new CertificadoExtPersonaJuridicaSecurityData(certificado);
-        } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_REPRESENTANTE_LEGAL)) {
-            return new CertificadoExtRepresentanteLegalSecurityData(certificado);
-        } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_MIEMBRO_EMPRESA)) {
-            return new CertificadoExtMiembroEmpresaSecurityData(certificado);
-        } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_FUNCIONARIO_PUBLICO)) {
-            return new CertificadoExtFuncionarioPublicoSecurityData(certificado);
-        } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_NATURAL_PROFESIONAL)) {
-            return new CertificadoExtPersonaNaturalSecurityData(certificado);
-        } else if (certificateHasPolicy(certificado, Ext.OID_SELLADO_TIEMPO)) {
-            return new CertificadoExtSelladoTiempoSecurityData(certificado);
-        } //RESOLUCION-ARCOTEL-2024-0176
-        else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
-            return new CertificadoSubjPersonaNaturalSecurityData(certificado);
-        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL_DSCF)) {
-            return new CertificadoSubjPersonaNaturalSecurityData(certificado);
-        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_REPRESENTANTE_LEGAL)) {
-            return new CertificadoSubjRepresentanteLegalSecurityData(certificado);
-        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_REPRESENTANTE_LEGAL_DSCF)) {
-            return new CertificadoSubjRepresentanteLegalSecurityData(certificado);
-        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_MIEMBRO_EMPRESA)) {
-            return new CertificadoSubjMiembroEmpresaSecurityData(certificado);
-        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_MIEMBRO_EMPRESA_DSCF)) {
-            return new CertificadoSubjMiembroEmpresaSecurityData(certificado);
-        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_SELLO_ELECTRONICO)) {
-            return new CertificadoSubjSelloElectronicoSecurityData(certificado);
-        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_SELLO_ELECTRONICO_DSCF)) {
-            return new CertificadoSubjSelloElectronicoSecurityData(certificado);
-        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_SELLO_TIEMPO_DSCF)) {
-            return new CertificadoSubjSelladoTiempoSecurityData(certificado);
-        } else {
-            throw new EntidadCertificadoraNoValidaException("Certificado de SECURITY DATA SEGURIDAD EN DATOS Y FIRMA DIGITAL S.A. sin categorizar!");
+        if (ec.gob.firmadigital.libreria.certificate.CertUtils.hasExtensionMatchingPattern(certificado, "1.3.6.1.4.1", "3.1")) {
+            if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_NATURAL)) {
+                return new CertificadoExtPersonaNaturalSecurityData(certificado);
+            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_JURIDICA_EMPRESA)) {
+                return new CertificadoExtPersonaJuridicaSecurityData(certificado);
+            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_REPRESENTANTE_LEGAL)) {
+                return new CertificadoExtRepresentanteLegalSecurityData(certificado);
+            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_MIEMBRO_EMPRESA)) {
+                return new CertificadoExtMiembroEmpresaSecurityData(certificado);
+            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_FUNCIONARIO_PUBLICO)) {
+                return new CertificadoExtFuncionarioPublicoSecurityData(certificado);
+            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_NATURAL_PROFESIONAL)) {
+                return new CertificadoExtPersonaNaturalSecurityData(certificado);
+            } else if (certificateHasPolicy(certificado, Ext.OID_SELLADO_TIEMPO)) {
+                return new CertificadoExtSelladoTiempoSecurityData(certificado);
+            } else {
+                throw new EntidadCertificadoraNoValidaException("Certificado de SECURITY DATA SEGURIDAD EN DATOS Y FIRMA DIGITAL S.A. sin categorizar!");
+            }
+        } else {//RESOLUCION-ARCOTEL-2024-0176
+            if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
+                return new CertificadoSubjPersonaNaturalSecurityData(certificado);
+            } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL_DSCF)) {
+                return new CertificadoSubjPersonaNaturalSecurityData(certificado);
+            } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_REPRESENTANTE_LEGAL)) {
+                return new CertificadoSubjRepresentanteLegalSecurityData(certificado);
+            } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_REPRESENTANTE_LEGAL_DSCF)) {
+                return new CertificadoSubjRepresentanteLegalSecurityData(certificado);
+            } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_MIEMBRO_EMPRESA)) {
+                return new CertificadoSubjMiembroEmpresaSecurityData(certificado);
+            } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_MIEMBRO_EMPRESA_DSCF)) {
+                return new CertificadoSubjMiembroEmpresaSecurityData(certificado);
+            } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_SELLO_ELECTRONICO)) {
+                return new CertificadoSubjSelloElectronicoSecurityData(certificado);
+            } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_SELLO_ELECTRONICO_DSCF)) {
+                return new CertificadoSubjSelloElectronicoSecurityData(certificado);
+            } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_SELLO_TIEMPO_DSCF)) {
+                return new CertificadoSubjSelladoTiempoSecurityData(certificado);
+            } else {
+                throw new EntidadCertificadoraNoValidaException("Certificado de SECURITY DATA SEGURIDAD EN DATOS Y FIRMA DIGITAL S.A. sin categorizar!");
+            }
         }
     }
 }

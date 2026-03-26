@@ -57,12 +57,12 @@ public class CertificadoDataFactoryUanataca {
         }
         return null;
     }
-    
+
     public static DatosUsuario getDatosUsuarioUanataca(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         DatosUsuario datosUsuario = null;
-        if (esCertificadoUanataca(certificado)) {
+        Certificado certificadoUanataca = construir(certificado);
+        if (certificadoUanataca != null) {
             datosUsuario = new DatosUsuario();
-            Certificado certificadoUanataca = construir(certificado);
             if (certificadoUanataca instanceof CertificadoExtImplUanataca) {
                 if (certificadoUanataca instanceof CertificadoExtPersonaNaturalUanataca certificadoPersonaNaturalU) {
                     datosUsuario.setCedula(certificadoPersonaNaturalU.getCedulaPasaporte());
@@ -111,35 +111,26 @@ public class CertificadoDataFactoryUanataca {
         return datosUsuario;
     }
 
-    private static boolean esCertificadoUanataca(X509Certificate certificado) {
-        return (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_NATURAL)
-                || certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_JURIDICA)
-                || certificateHasPolicy(certificado, Ext.OID_TIPO_MIEMBRO_EMPRESA)
-                || certificateHasPolicy(certificado, Ext.OID_TIPO_REPRESENTANTE_EMPRESA)
-                || certificateHasPolicy(certificado, Ext.OID_SELLADO_TIEMPO)
-                //RESOLUCION-ARCOTEL-2024-0176
-//                || certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)
-                );
-    }
-
     private static Certificado construir(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
-        if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_NATURAL)) {
-            return new CertificadoExtPersonaNaturalUanataca(certificado);
-        } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_JURIDICA)) {
-            return new CertificadoExtPersonaJuridicaPrivadaUanataca(certificado);
-        } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_MIEMBRO_EMPRESA)) {
-            return new CertificadoExtMiembroEmpresaUanataca(certificado);
-        } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_REPRESENTANTE_EMPRESA)) {
-            return new CertificadoExtRepresentanteLegalUanataca(certificado);
-        } else if (certificateHasPolicy(certificado, Ext.OID_SELLADO_TIEMPO)) {
-            return new CertificadoExtSelladoTiempoUanataca(certificado);
-//        }
-        //RESOLUCION-ARCOTEL-2024-0176
-//        else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
-//            return new CertificadoSubjPersonaNaturalAlphaTechnologies(certificado);
+        if (ec.gob.firmadigital.libreria.certificate.CertUtils.hasExtensionMatchingPattern(certificado, "1.3.6.1.4.1", "3.1")) {
+            if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_NATURAL)) {
+                return new CertificadoExtPersonaNaturalUanataca(certificado);
+            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_JURIDICA)) {
+                return new CertificadoExtPersonaJuridicaPrivadaUanataca(certificado);
+            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_MIEMBRO_EMPRESA)) {
+                return new CertificadoExtMiembroEmpresaUanataca(certificado);
+            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_REPRESENTANTE_EMPRESA)) {
+                return new CertificadoExtRepresentanteLegalUanataca(certificado);
+            } else if (certificateHasPolicy(certificado, Ext.OID_SELLADO_TIEMPO)) {
+                return new CertificadoExtSelladoTiempoUanataca(certificado);
+            } else {
+                throw new EntidadCertificadoraNoValidaException("Certificado de UANATACA ECUADOR S.A. sin categorizar!");
+            }
+//        } else {//RESOLUCION-ARCOTEL-2024-0176
+//            if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
+//                return new CertificadoSubjPersonaNaturalAlphaTechnologies(certificado);
         } else {
             throw new EntidadCertificadoraNoValidaException("Certificado de UANATACA ECUADOR S.A. sin categorizar!");
         }
     }
-
 }

@@ -71,9 +71,9 @@ public class CertificadoDataFactoryCorpNewBest {
 
     public static DatosUsuario getDatosUsuarioCorpNewBest(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         DatosUsuario datosUsuario = null;
-        if (esCertificadoCorpNewBest(certificado)) {
+        Certificado certificadoCorpNewBest = construir(certificado);
+        if (certificadoCorpNewBest != null) {
             datosUsuario = new DatosUsuario();
-            Certificado certificadoCorpNewBest = construir(certificado);
             if (certificadoCorpNewBest instanceof CertificadoExtImplCorpNewBest) {
                 if (certificadoCorpNewBest instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
                     datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
@@ -143,50 +143,39 @@ public class CertificadoDataFactoryCorpNewBest {
         return datosUsuario;
     }
 
-    private static boolean esCertificadoCorpNewBest(X509Certificate certificado) {
-        return (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_NATURAL)
-                || certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_JURIDICA)
-                || certificateHasPolicy(certificado, Ext.OID_TIPO_MIEMBRO_EMPRESA)
-                //RESOLUCION-ARCOTEL-2024-0176
-                || certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)
-                || certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL_DSCF)
-                || certificateHasPolicy(certificado, Subj.OID_TIPO_MIEMBRO_EMPRESA)
-                || certificateHasPolicy(certificado, Subj.OID_TIPO_MIEMBRO_EMPRESA_DSCF)
-                || certificateHasPolicy(certificado, Subj.OID_TIPO_REPRESENTANTE_LEGAL)
-                || certificateHasPolicy(certificado, Subj.OID_TIPO_REPRESENTANTE_LEGAL_DSCF)
-                || certificateHasPolicy(certificado, Subj.OID_TIPO_SELLO_ELECTRONICO)
-                || certificateHasPolicy(certificado, Subj.OID_TIPO_SELLO_ELECTRONICO_DSCF)
-                || certificateHasPolicy(certificado, Subj.OID_TIPO_SELLO_TIEMPO));
-    }
-
     private static Certificado construir(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
-        if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_NATURAL)) {
-            return new CertificadoExtPersonaNaturalCorpNewBest(certificado);
-        } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_JURIDICA)) {
-            return new CertificadoExtPersonaJuridicaCorpNewBest(certificado);
-        } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_MIEMBRO_EMPRESA)) {
-            return new CertificadoExtMiembroEmpresaCorpNewBest(certificado);
-        } //RESOLUCION-ARCOTEL-2024-0176
-        else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
-            return new CertificadoSubjPersonaNaturalCorpNewBest(certificado);
-        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL_DSCF)) {
-            return new CertificadoSubjPersonaNaturalCorpNewBest(certificado);
-        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_MIEMBRO_EMPRESA)) {
-            return new CertificadoSubjMiembroEmpresaCorpNewBest(certificado);
-        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_MIEMBRO_EMPRESA_DSCF)) {
-            return new CertificadoSubjMiembroEmpresaCorpNewBest(certificado);
-        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_REPRESENTANTE_LEGAL)) {
-            return new CertificadoSubjRepresentanteLegalCorpNewBest(certificado);
-        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_REPRESENTANTE_LEGAL_DSCF)) {
-            return new CertificadoSubjRepresentanteLegalCorpNewBest(certificado);
-        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_SELLO_ELECTRONICO)) {
-            return new CertificadoSubjSelloElectronicoCorpNewBest(certificado);
-        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_SELLO_ELECTRONICO_DSCF)) {
-            return new CertificadoSubjSelloElectronicoCorpNewBest(certificado);
-        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_SELLO_TIEMPO)) {
-            return new CertificadoSubjSelladoTiempoCorpNewBest(certificado);
-        } else {
-            throw new EntidadCertificadoraNoValidaException("Tipo Certificado de CORPNEWBEST CIA. LTDA. sin categorizar!");
+        if (ec.gob.firmadigital.libreria.certificate.CertUtils.hasExtensionMatchingPattern(certificado, "1.3.6.1.4.1", "3.1")) {
+            if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_NATURAL)) {
+                return new CertificadoExtPersonaNaturalCorpNewBest(certificado);
+            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_JURIDICA)) {
+                return new CertificadoExtPersonaJuridicaCorpNewBest(certificado);
+            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_MIEMBRO_EMPRESA)) {
+                return new CertificadoExtMiembroEmpresaCorpNewBest(certificado);
+            } else {
+                throw new EntidadCertificadoraNoValidaException("Tipo Certificado de CORPNEWBEST CIA. LTDA. sin categorizar!");
+            }
+        } else {//RESOLUCION-ARCOTEL-2024-0176
+            if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
+                return new CertificadoSubjPersonaNaturalCorpNewBest(certificado);
+            } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL_DSCF)) {
+                return new CertificadoSubjPersonaNaturalCorpNewBest(certificado);
+            } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_MIEMBRO_EMPRESA)) {
+                return new CertificadoSubjMiembroEmpresaCorpNewBest(certificado);
+            } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_MIEMBRO_EMPRESA_DSCF)) {
+                return new CertificadoSubjMiembroEmpresaCorpNewBest(certificado);
+            } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_REPRESENTANTE_LEGAL)) {
+                return new CertificadoSubjRepresentanteLegalCorpNewBest(certificado);
+            } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_REPRESENTANTE_LEGAL_DSCF)) {
+                return new CertificadoSubjRepresentanteLegalCorpNewBest(certificado);
+            } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_SELLO_ELECTRONICO)) {
+                return new CertificadoSubjSelloElectronicoCorpNewBest(certificado);
+            } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_SELLO_ELECTRONICO_DSCF)) {
+                return new CertificadoSubjSelloElectronicoCorpNewBest(certificado);
+            } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_SELLO_TIEMPO)) {
+                return new CertificadoSubjSelladoTiempoCorpNewBest(certificado);
+            } else {
+                throw new EntidadCertificadoraNoValidaException("Tipo Certificado de CORPNEWBEST CIA. LTDA. sin categorizar!");
+            }
         }
     }
 }

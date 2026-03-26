@@ -54,10 +54,10 @@ public class CertificadoDataFactoryPrimeCoreLat {
 
     public static DatosUsuario getDatosUsuarioPrimeCoreLat(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         DatosUsuario datosUsuario = null;
-        //RESOLUCION-ARCOTEL-2024-0176
-        if (esCertificadoPrimeCoreLat(certificado)) {
+        Certificado certificadoPrimeCoreLat = construir(certificado);
+        if (certificadoPrimeCoreLat != null) {
             datosUsuario = new DatosUsuario();
-            Certificado certificadoPrimeCoreLat = construir(certificado);
+            //RESOLUCION-ARCOTEL-2024-0176
             if (certificadoPrimeCoreLat instanceof CertificadoSubjImpl) {
                 if (certificadoPrimeCoreLat instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
                     datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
@@ -82,21 +82,16 @@ public class CertificadoDataFactoryPrimeCoreLat {
                 }
                 if (certificadoPrimeCoreLat instanceof CertificadoSelloElectronico certificadoSelloElectronico) {
                     datosUsuario.setCedula(null);
-                    datosUsuario.setNombre(certificadoSelloElectronico.getNombres());
-                    datosUsuario.setApellido(certificadoSelloElectronico.getPrimerApellido());
+                    datosUsuario.setNombre(null);
+                    datosUsuario.setApellido(null);
                     datosUsuario.setRuc(certificadoSelloElectronico.getRuc());
+                    datosUsuario.setRazonSocial(certificadoSelloElectronico.getRazonSocial());
+                    datosUsuario.setCommonName(certificadoSelloElectronico.getCommonName());
                 }
             }
             datosUsuario.setCertificadoDigitalValido(true);
         }
         return datosUsuario;
-    }
-
-    private static boolean esCertificadoPrimeCoreLat(X509Certificate certificado) {
-        return (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)
-                || certificateHasPolicy(certificado, Subj.OID_TIPO_MIEMBRO_EMPRESA)
-                || certificateHasPolicy(certificado, Subj.OID_TIPO_REPRESENTANTE_LEGAL)
-                || certificateHasPolicy(certificado, Subj.OID_TIPO_SELLO_ELECTRONICO));
     }
 
     private static Certificado construir(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {

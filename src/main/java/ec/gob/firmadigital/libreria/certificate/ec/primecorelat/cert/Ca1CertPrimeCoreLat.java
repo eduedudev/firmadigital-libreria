@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2025
- * Authors: Misael Fernández, PrimeCoreLat
+ * Copyright (C) 2026
+ * Authors: Misael Fernández, PRIMECORELAT S.A.S. B.I.C.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -20,10 +20,11 @@ package ec.gob.firmadigital.libreria.certificate.ec.primecorelat.cert;
 import ec.gob.firmadigital.libreria.certificate.base.RubricaCertificate;
 
 /**
- * Certificado raiz de PRIMECORELAT, representado como un objeto
- * <code>X509Certificate</code>.
+ * Certificado raiz representado como un objeto
+ * <code>X509Certificate</code>.<br>
+ * emitido por PRIMECORELAT S.A.S. B.I.C.
  *
- * @author Henry Carrera <henry@hyrserv.com>
+ * @author Misael Fernández, PRIMECORELAT S.A.S. B.I.C.
  */
 public class Ca1CertPrimeCoreLat extends RubricaCertificate {
 
@@ -36,46 +37,46 @@ public class Ca1CertPrimeCoreLat extends RubricaCertificate {
     static {
         stringBuilder = new StringBuilder();
         stringBuilder.append("-----BEGIN CERTIFICATE-----\n");
-        stringBuilder.append("MIIHdzCCBV+gAwIBAgIUVflFa7tPxMINdLmA8aMybjBLTIkwDQYJKoZIhvcNAQEL\n");
+        stringBuilder.append("MIIHdDCCBVygAwIBAgIULhXUe7AMV94KoNZOp0CtyoXqNsMwDQYJKoZIhvcNAQEL\n");
         stringBuilder.append("BQAwgbIxCzAJBgNVBAYTAkVDMRIwEAYDVQQIDAlQSUNISU5DSEExDjAMBgNVBAcM\n");
         stringBuilder.append("BVFVSVRPMSMwIQYDVQQKDBpQUklNRUNPUkVMQVQgUy5BLlMuIEIuSS5DLjEeMBwG\n");
         stringBuilder.append("A1UECwwVRW50ZSBkZSBDZXJ0aWZpY2FjaW9uMRwwGgYDVQQDDBNQcmltZSBDb3Jl\n");
-        stringBuilder.append("IFJvb3QgQ0ExMRwwGgYDVQRhDBNWQVRFQy0xNzkzMjI0MzM5MDAxMB4XDTI2MDEz\n");
-        stringBuilder.append("MDExMjMzOFoXDTM4MDEyNzExMjMzOFowgbIxCzAJBgNVBAYTAkVDMRIwEAYDVQQI\n");
+        stringBuilder.append("IFJvb3QgQ0ExMRwwGgYDVQRhDBNWQVRFQy0xNzkzMjI0MzM5MDAxMB4XDTI2MDIx\n");
+        stringBuilder.append("OTA4MDE0OVoXDTM4MDIxNjA4MDE0OVowgbIxCzAJBgNVBAYTAkVDMRIwEAYDVQQI\n");
         stringBuilder.append("DAlQSUNISU5DSEExDjAMBgNVBAcMBVFVSVRPMSMwIQYDVQQKDBpQUklNRUNPUkVM\n");
         stringBuilder.append("QVQgUy5BLlMuIEIuSS5DLjEeMBwGA1UECwwVRW50ZSBkZSBDZXJ0aWZpY2FjaW9u\n");
         stringBuilder.append("MRwwGgYDVQQDDBNQcmltZSBDb3JlIFJvb3QgQ0ExMRwwGgYDVQRhDBNWQVRFQy0x\n");
-        stringBuilder.append("NzkzMjI0MzM5MDAxMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAmJ2o\n");
-        stringBuilder.append("h2FfrvTpbzqaSTdyzSB/hxJI2nWMLLDMjlPtSR7ilSwyaQ7ChvBPYXistpelHRul\n");
-        stringBuilder.append("Sf0PiuM85aQWQNTaPPpuNtkaIqWrf+ATjrhb9mjgCiUPBO9OG3fAaV+VtgOPH/aa\n");
-        stringBuilder.append("ygbqZkKHMMgzpGqv/rt/if9fpdDFysw5UmABEaVO6Juz7Wy/cGB167Im5N4WUE40\n");
-        stringBuilder.append("giBw1c1i7nNjM3nfaxMyYVAyMfeoJXamTFXS3SKMaSz3ttFLoC30t+XIjUCcaXkj\n");
-        stringBuilder.append("T30qF7OO9YQ0RXW5wV9konuh410QL5g6/u1zsHKZ3Yrd3FrZPM0cVeVcvWdeM7hz\n");
-        stringBuilder.append("SfOW0OMo/I7WQmX/fhja1e+Uq4RLG4AY6KDmvlV8KTAoSHC/Vj5KPe2CW+l+vFQ9\n");
-        stringBuilder.append("ka6BgOJ0h2zINa7rjR8mWoPiGRGITl55oxpHFHTqWJ2K0kazBP/BxEIRIfPt9H0I\n");
-        stringBuilder.append("uajE/SFN8WJeLKKGgUbVJm3q4tqCRXHsvDn4POmbQByhZ2sxoBIXS78jGx3RBfag\n");
-        stringBuilder.append("6j++zA1sHs1ANj7WyWIWLp7tLiAVvkTRmCkh6prLoGAyw7+bzuwt/vvuEGQig8Wi\n");
-        stringBuilder.append("o3jcaBB+4F8tr2Ti9yPwcW7WRoRVQA4uwp0fh4h1k2s8l33Sv7J3K2ggxxGifdAN\n");
-        stringBuilder.append("Z39mvu6W/gXnjthOga1heYVDI0BY6WRfqfo6uqkCAwEAAaOCAYEwggF9MB0GA1Ud\n");
-        stringBuilder.append("DgQWBBSQoZEvNSBZyLAZZpfOMZG4GZTwnTAfBgNVHSMEGDAWgBSQoZEvNSBZyLAZ\n");
-        stringBuilder.append("ZpfOMZG4GZTwnTAOBgNVHQ8BAf8EBAMCAYYwEgYDVR0TAQH/BAgwBgEB/wIBAjAw\n");
-        stringBuilder.append("BgNVHR8EKTAnMCWgI6Ahhh9odHRwOi8vcGNjYTEub25saW5lL2NybC9jYTEuY3Js\n");
-        stringBuilder.append("MIHDBgNVHSAEgbswgbgwgbUGBFUdIAAwgawwNAYIKwYBBQUHAgEWKGh0dHBzOi8v\n");
-        stringBuilder.append("d3d3LnByaW1lY29yZS5sYXQvcmVwb3NpdG9yeS9jcHMwdAYIKwYBBQUHAgIwaBpm\n");
-        stringBuilder.append("RWwgcHJlc2VudGUgY2VydGlmaWNhZG8gZXMgZW1pdGlkbyBlbiBiYXNlIGEgbGFz\n");
-        stringBuilder.append("IHBvbMOtdGljYXMgZGUgc2VndXJpZGFkIGRlIFBSSU1FQ09SRUxBVCBTLkEuUy4g\n");
-        stringBuilder.append("Qi5JLkMuMB8GA1UdEQQYMBaBFGZpcm1hc0BwcmltZWNvcmUubGF0MA0GCSqGSIb3\n");
-        stringBuilder.append("DQEBCwUAA4ICAQAE2nnsWfhEFlpvP1MqVHBWY+D8lohK2g+vvDcmTksQqhh6/2lO\n");
-        stringBuilder.append("3QvnqpJvqOglg230bXtwzCvLT6NnHSbv0aGjD5Gl8Ryzc/WeocTguL45ybgBaOLT\n");
-        stringBuilder.append("v60o4rmXUy8Es1WiE51wdXJDySt2KSaaxTe9KFTXsecRNXGaPTaUW60acVyhosQF\n");
-        stringBuilder.append("m/fDVQHTshEWYiqRkczJsgbQA3pPxKY6ncu/d9le+fnJ8kk9L5XLyxutKP4hrgJC\n");
-        stringBuilder.append("QRHnYue/f0s7hXWIuBemFQXSXqh7TNEH/pkPWAtNzmlynjxHZHWWlhQBJ3iqnc3o\n");
-        stringBuilder.append("o/kt56MbPQXD1li6a8S51x3FY5pg4zFPg0reIgrOFfI5syO+CKzkbY1VY8zYAglv\n");
-        stringBuilder.append("u58wefOMZiahLmvbeca+5vDDPQUysHvTFlXFgPJir8gKGepau9MJr6+TNsHEb9f/\n");
-        stringBuilder.append("bgsnnqXLmOB+4Or9PynT+vD6rohkQzLW4AY8ycRoVq8yOftQhP4SSFRx6Os/71dH\n");
-        stringBuilder.append("+LbwKfsLnAVhU/42m3toQdBf53vy7w0bEbGQ1kL0udnlBunIkJPCM9bzFqyeKlM1\n");
-        stringBuilder.append("uhXsn2EC7RxxJahQm6E5v9sl9+Ife7d+Qo6iX6FqXxm/53n4wGhNS7wsT4XlUSkw\n");
-        stringBuilder.append("Ynyi7zeeotr8iwRgeggQ0bKRl9IxvFTLKkwaPyZo2ollETVlczayKALngA==\n");
+        stringBuilder.append("NzkzMjI0MzM5MDAxMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEApII0\n");
+        stringBuilder.append("w6oafYmbUjCGVoOWfsJYlf8CMvQx78z2WLoDX26TCuX5TrtnOW9lkQnwif9Swr96\n");
+        stringBuilder.append("d442RkQ34oKc5cHuPFVjTREMmE1OnhxkwJnBpKASgBaKssitgamB5XLRk8Qjus9B\n");
+        stringBuilder.append("CZkmOXbj1k5MMl0q730n1oNb5j8fflWEtkfqKWx/eBCdTBdAT7ZPmKzM7HGgcstZ\n");
+        stringBuilder.append("PwKbODGR7Dj4htE5hsPa95Rgx0k0y9tBB0dzPvtsRDEbEEiaKyPiapNe4UeBNqYI\n");
+        stringBuilder.append("tMN0Iu6Bk6wsAIe0312Gn3E8qJ69Sd7YmFPNe2i54ESksDVgbQIkfq4s2jfHHNmf\n");
+        stringBuilder.append("l32aKTYe00JY2yMYunKsHQgnXoWqpqW433QVQjBl5BqtRgZdJHjxvAUD+NpAi3Vi\n");
+        stringBuilder.append("EbktgJLMwAC9umkJeG3jRvzYtKb6xN0Es+edsmysXAd2rnXFJSBVwSq2nx1JfBCB\n");
+        stringBuilder.append("Ep48KAahI7DIh4XN5/mXRMPEW6Ivr7r6L/zN1Lkj5N/j53R/mMJGwFyLCG1sGno/\n");
+        stringBuilder.append("jFuguGOCobk+KRaP+eudlmn0eeas8mE4z/OgHZD4w6xG4MOY4tVf1huqAVDr8Bxf\n");
+        stringBuilder.append("jGCZ82TJO9Hil5J1hsdFPSux4rVeF46NUPV230T1WsUiedlwqa0uN00K2T4x8Rdy\n");
+        stringBuilder.append("tHK/5/EVzPbsZIfULLDuBuoyrcIxvet9WFs9nVECAwEAAaOCAX4wggF6MB0GA1Ud\n");
+        stringBuilder.append("DgQWBBRQ4c3Hufg+eRWvgUnoJlhEfq3mXzAfBgNVHSMEGDAWgBRQ4c3Hufg+eRWv\n");
+        stringBuilder.append("gUnoJlhEfq3mXzAOBgNVHQ8BAf8EBAMCAQYwDwYDVR0TAQH/BAUwAwEB/zAwBgNV\n");
+        stringBuilder.append("HR8EKTAnMCWgI6Ahhh9odHRwOi8vcGNjYTEub25saW5lL2NybC9jYTEuY3JsMIHD\n");
+        stringBuilder.append("BgNVHSAEgbswgbgwgbUGBFUdIAAwgawwNAYIKwYBBQUHAgEWKGh0dHBzOi8vd3d3\n");
+        stringBuilder.append("LnByaW1lY29yZS5sYXQvcmVwb3NpdG9yeS9jcHMwdAYIKwYBBQUHAgIwaBpmRWwg\n");
+        stringBuilder.append("cHJlc2VudGUgY2VydGlmaWNhZG8gZXMgZW1pdGlkbyBlbiBiYXNlIGEgbGFzIHBv\n");
+        stringBuilder.append("bMOtdGljYXMgZGUgc2VndXJpZGFkIGRlIFBSSU1FQ09SRUxBVCBTLkEuUy4gQi5J\n");
+        stringBuilder.append("LkMuMB8GA1UdEQQYMBaBFGZpcm1hc0BwcmltZWNvcmUubGF0MA0GCSqGSIb3DQEB\n");
+        stringBuilder.append("CwUAA4ICAQCgdubX2iAkTd1CjtUromCNPT14NQvsHkVqyoHmIsknDssPSWnJxnKH\n");
+        stringBuilder.append("WmqbKtm413+XOL5rGWNzdYNx229RRMYGBCmhsTreGXU7UX5A8y7BuAutKKFW1XLK\n");
+        stringBuilder.append("YqmjlxxOK+WLRulb8XoNfEFU6+rmlHBKLbfvcYuk6odXwo7jat73Z42Y5+/vKeXh\n");
+        stringBuilder.append("xlVWHtwU/qkXtxum8/DxoJRfSFg4T0818iQ7jFjY/tH2OkmgE/8dijo2ouoT8alT\n");
+        stringBuilder.append("kQw68oX7oJYLi/ysaWBN8QoDM+u/ZChH25oSCTTx7o50GTut0N7qXJK7/7nuK3je\n");
+        stringBuilder.append("AA/Q6v3zObGYOedTS6wCxCxQNEG2/+lx4h1fChZUrAiOh0v7bStapkmdNSi45QKE\n");
+        stringBuilder.append("9L3BwLHJY7pB8FHOtaLW/k4Q72VXzCaTGBsejw4YKoMgMJTbKzyaVsQcbJOgRucz\n");
+        stringBuilder.append("C/VFglTCsbIe1orW9sb/30xBLi9gGReVpIrCRtKYWKYqyWg4513dX1i8Fd9JLowH\n");
+        stringBuilder.append("0dsOhflQVkEg/PrazRvEOY76XnX5p5Afzv7jtbRA1sofH0ndMVEZmzMpH73eHYWX\n");
+        stringBuilder.append("VRJtoa5naKsOHpcB4OY3d+llDopgPyuuw6/d7lZpObdCPcLI5SKfcrdLNZSS3B2K\n");
+        stringBuilder.append("JTF6hJuvrC0GCPJBpsNnf6AL2lMKEX7WHW1T1VNT1kBEjSWaM2MPsw==\n");
         stringBuilder.append("-----END CERTIFICATE-----\n");
     }
 }

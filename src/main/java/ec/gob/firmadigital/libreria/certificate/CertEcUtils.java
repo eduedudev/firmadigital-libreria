@@ -35,6 +35,7 @@ import ec.gob.firmadigital.libreria.certificate.ec.primecorelat.*;
 import ec.gob.firmadigital.libreria.certificate.ec.securitydata.*;
 import ec.gob.firmadigital.libreria.certificate.ec.uanataca.*;
 
+import ec.gob.firmadigital.libreria.utils.Utils;
 import ec.gob.firmadigital.libreria.certificate.to.DatosUsuario;
 import ec.gob.firmadigital.libreria.exceptions.EntidadCertificadoraNoValidaException;
 import java.security.cert.X509Certificate;
@@ -48,9 +49,10 @@ public class CertEcUtils {
 
     public static final String ALPHATECHNOLOGIES_NAME = "ALPHA TECHNOLOGIES CIA. LTDA.";
     public static final String ANFAC_NAME = "ANFAC AUTORIDAD DE CERTIFICACION ECUADOR C.A.";
+    public static final String ANFAC_NAME_OLD = "ANFAC AUTORIDAD DE CERTIFICACION ECUADOR CA";
     public static final String APPFIRMAS_NAME = "APPFIRMAS S.A.";
-    public static final String AGOSDATA_NAME = "ARGOSDATA CERTIFICACIÓN DE INFORMACIÓN Y SERVICIOS RELACIONADOS S.A.S.";
-    public static final String AGOSDATA_NAME_OLD = "ARGOSDATA CA";
+    public static final String AGOSDATA_NAME = "ARGOSDATA CERTIFICACIÓN DE INFORMACIÓN Y SERVICIOS RELACIONADOS"; //ARGOSDATA CERTIFICACIÓN DE INFORMACIÓN Y SERVICIOS RELACIONADOS S.A.S.
+    public static final String AGOSDATA_NAME_OLD = "ARGOSDATA";
     public static final String BCE_NAME = "BANCO CENTRAL DEL ECUADOR";
     public static final String CJ_NAME = "CONSEJO DE LA JUDICATURA";
     public static final String CORPNEWBEST_NAME = "CORPNEWBEST CIA. LTDA.";
@@ -67,11 +69,81 @@ public class CertEcUtils {
     public static final String UANATACA_NAME = "UANATACA ECUADOR S.A.";
     public static final String UANATACA_NAME_OLD = "UANATACA S.A.";
 
+    public static String getNombreCA(X509Certificate certificado) {
+        String organization = Utils.getRDNvalueFromLdapName("O", certificado.getIssuerX500Principal().toString());
+        if (organization.toUpperCase().equals(ALPHATECHNOLOGIES_NAME)) {
+            return ALPHATECHNOLOGIES_NAME;
+        }
+        if (organization.toUpperCase().equals(ANFAC_NAME)) {
+            return ANFAC_NAME;
+        }
+        if (organization.toUpperCase().equals(ANFAC_NAME_OLD)) {
+            return ANFAC_NAME_OLD;
+        }
+        if (organization.toUpperCase().equals(APPFIRMAS_NAME)) {
+            return APPFIRMAS_NAME;
+        }
+        if (organization.toUpperCase().contains(AGOSDATA_NAME)) {
+            return AGOSDATA_NAME;
+        }
+        if (organization.toUpperCase().equals(AGOSDATA_NAME_OLD)) {
+            return AGOSDATA_NAME_OLD;
+        }
+        if (organization.toUpperCase().equals(BCE_NAME)) {
+            return BCE_NAME;
+        }
+        if (organization.toUpperCase().equals(CJ_NAME)) {
+            return CJ_NAME;
+        }
+        if (organization.toUpperCase().equals(CORPNEWBEST_NAME)) {
+            return CORPNEWBEST_NAME;
+        }
+        if (organization.toUpperCase().equals(DARKCAM_NAME)) {
+            return DARKCAM_NAME;
+        }
+        if (organization.toUpperCase().equals(DATIL_NAME)) {
+            return DATIL_NAME;
+        }
+        if (organization.toUpperCase().equals(DIGERCIC_NAME)) {
+            return DIGERCIC_NAME;
+        }
+//        if (organization.toUpperCase().equals(ECLIPSOFT_NAME)) {
+//            return ECLIPSOFT_NAME;
+//        }
+        if (organization.toUpperCase().equals(FIRMASEGURA_NAME)) {
+            return FIRMASEGURA_NAME;
+        }
+        if (organization.toUpperCase().equals(LAZZATE_NAME)) {
+            return LAZZATE_NAME;
+        }
+        if (organization.toUpperCase().equals(LETMI_NAME)) {
+            return LETMI_NAME;
+        }
+        if (organization.toUpperCase().equals(PRIMECORELAT_NAME)) {
+            return PRIMECORELAT_NAME;
+        }
+        if (organization.toUpperCase().equals(SECURITYDATA_NAME)) {
+            return SECURITYDATA_NAME;
+        }
+        if (organization.toUpperCase().contains(SECURITYDATA_NAME_OLD)) {
+            return SECURITYDATA_NAME_OLD;
+        }
+        if (organization.toUpperCase().equals(UANATACA_NAME)) {
+            return UANATACA_NAME;
+        }
+        if (organization.toUpperCase().contains(UANATACA_NAME_OLD)) {
+            return UANATACA_NAME_OLD;
+        }
+        return "Entidad no reconocida " + certificado.getIssuerX500Principal().getName();
+    }
+
     public static X509Certificate getRootCertificate(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         switch (getNombreCA(certificado)) {
             case ALPHATECHNOLOGIES_NAME:
                 return CertificadoDataFactoryAlphaTechnologies.getRootCertificate(certificado);
             case ANFAC_NAME:
+                return CertificadoDataFactoryAnfAc.getRootCertificate(certificado);
+            case ANFAC_NAME_OLD:
                 return CertificadoDataFactoryAnfAc.getRootCertificate(certificado);
             case APPFIRMAS_NAME:
                 return CertificadoDataFactoryAppFirmas.getRootCertificate(certificado);
@@ -112,76 +184,15 @@ public class CertEcUtils {
         }
     }
 
-    public static String getNombreCA(X509Certificate certificado) {
-        if (certificado.getIssuerX500Principal().getName().toUpperCase().contains(ALPHATECHNOLOGIES_NAME)) {
-            return ALPHATECHNOLOGIES_NAME;
-        }
-        if (certificado.getIssuerX500Principal().getName().toUpperCase().contains(ANFAC_NAME)) {
-            return ANFAC_NAME;
-        }
-        if (certificado.getIssuerX500Principal().getName().toUpperCase().contains(APPFIRMAS_NAME)) {
-            return APPFIRMAS_NAME;
-        }
-        if (certificado.getIssuerX500Principal().getName().toUpperCase().contains(AGOSDATA_NAME_OLD)) {
-            return AGOSDATA_NAME_OLD;
-        }
-        if (certificado.getIssuerX500Principal().getName().toUpperCase().contains(AGOSDATA_NAME)) {
-            return AGOSDATA_NAME;
-        }
-        if (certificado.getIssuerX500Principal().getName().toUpperCase().contains(BCE_NAME)) {
-            return BCE_NAME;
-        }
-        if (certificado.getIssuerX500Principal().getName().toUpperCase().contains(CJ_NAME)) {
-            return CJ_NAME;
-        }
-        if (certificado.getIssuerX500Principal().getName().toUpperCase().contains(CORPNEWBEST_NAME)) {
-            return CORPNEWBEST_NAME;
-        }
-        if (certificado.getIssuerX500Principal().getName().toUpperCase().contains(DARKCAM_NAME)) {
-            return DARKCAM_NAME;
-        }
-        if (certificado.getIssuerX500Principal().getName().toUpperCase().contains(DATIL_NAME)) {
-            return DATIL_NAME;
-        }
-        if (certificado.getIssuerX500Principal().getName().toUpperCase().contains(DIGERCIC_NAME)) {
-            return DIGERCIC_NAME;
-        }
-//        if (certificado.getIssuerX500Principal().getName().toUpperCase().contains(ECLIPSOFT_NAME)) {
-//            return ECLIPSOFT_NAME;
-//        }
-        if (certificado.getIssuerX500Principal().getName().toUpperCase().contains(FIRMASEGURA_NAME)) {
-            return FIRMASEGURA_NAME;
-        }
-        if (certificado.getIssuerX500Principal().getName().toUpperCase().contains(LAZZATE_NAME)) {
-            return LAZZATE_NAME;
-        }
-        if (certificado.getIssuerX500Principal().getName().toUpperCase().contains(LETMI_NAME)) {
-            return LETMI_NAME;
-        }
-        if (certificado.getIssuerX500Principal().getName().toUpperCase().contains(PRIMECORELAT_NAME)) {
-            return PRIMECORELAT_NAME;
-        }
-        if (certificado.getIssuerX500Principal().getName().toUpperCase().contains(SECURITYDATA_NAME)) {
-            return SECURITYDATA_NAME;
-        }
-        if (certificado.getIssuerX500Principal().getName().toUpperCase().contains(SECURITYDATA_NAME_OLD)) {
-            return SECURITYDATA_NAME_OLD;
-        }
-        if (certificado.getIssuerX500Principal().getName().toUpperCase().contains(UANATACA_NAME)) {
-            return UANATACA_NAME;
-        }
-        if (certificado.getIssuerX500Principal().getName().toUpperCase().contains(UANATACA_NAME_OLD)) {
-            return UANATACA_NAME_OLD;
-        }
-        return "Entidad no reconocida " + certificado.getIssuerX500Principal().getName();
-    }
-
     public static DatosUsuario getDatosUsuarios(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         switch (getNombreCA(certificado)) {
             case ALPHATECHNOLOGIES_NAME -> {
                 return CertificadoDataFactoryAlphaTechnologies.getDatosUsuarioAlphaTechnologies(certificado);
             }
             case ANFAC_NAME -> {
+                return CertificadoDataFactoryAnfAc.getDatosUsuarioAnfAc(certificado);
+            }
+            case ANFAC_NAME_OLD -> {
                 return CertificadoDataFactoryAnfAc.getDatosUsuarioAnfAc(certificado);
             }
             case APPFIRMAS_NAME -> {
@@ -238,9 +249,8 @@ public class CertEcUtils {
             case UANATACA_NAME_OLD -> {
                 return CertificadoDataFactoryUanataca.getDatosUsuarioUanataca(certificado);
             }
-//            default ->
-//                throw new EntidadCertificadoraNoValidaException("Entidad Certificadora no reconocida");
+            default ->
+                throw new EntidadCertificadoraNoValidaException("Entidad Certificadora no reconocida");
         }
-        return null;
     }
 }

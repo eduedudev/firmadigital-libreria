@@ -33,7 +33,6 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.PublicKey;
-import java.security.Security;
 import java.security.SignatureException;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
@@ -58,7 +57,6 @@ import javax.security.auth.x500.X500Principal;
 
 import org.bouncycastle.asn1.x500.X500Name;
 import org.bouncycastle.asn1.x500.style.BCStyle;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.w3c.dom.Node;
 
 import com.itextpdf.kernel.pdf.PdfDocument;
@@ -101,7 +99,7 @@ public class Utils {
     private static final Logger LOGGER = Logger.getLogger(Utils.class.getName());
 
     static {
-        Security.addProvider(new BouncyCastleProvider());
+        BouncyCastleUtils.initializeBouncyCastle();
     }
 
     /**

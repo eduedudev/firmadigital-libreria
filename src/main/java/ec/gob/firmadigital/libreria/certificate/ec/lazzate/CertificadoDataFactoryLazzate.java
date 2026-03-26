@@ -63,9 +63,9 @@ public class CertificadoDataFactoryLazzate {
 
     public static DatosUsuario getDatosUsuarioLazzate(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         DatosUsuario datosUsuario = null;
-        if (esCertificadoLazzate(certificado)) {
+        Certificado certificadoLazzate = construir(certificado);
+        if (certificadoLazzate != null) {
             datosUsuario = new DatosUsuario();
-            Certificado certificadoLazzate = construir(certificado);
             if (certificadoLazzate instanceof CertificadoExtImplLazzate) {
                 if (certificadoLazzate instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
                     datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
@@ -96,23 +96,18 @@ public class CertificadoDataFactoryLazzate {
         return datosUsuario;
     }
 
-    private static boolean esCertificadoLazzate(X509Certificate certificado) {
-        return (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_NATURAL)
-                || certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_JURIDICA_EMPRESA)
-                //RESOLUCION-ARCOTEL-2024-0176
-//                || certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)
-                );
-    }
-
     private static Certificado construir(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
-        if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_NATURAL)) {
-            return new CertificadoExtPersonaNaturalLazzate(certificado);
-        } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_JURIDICA_EMPRESA)) {
-            return new CertificadoExtPersonaJuridicaLazzate(certificado);
-//        }
-            //RESOLUCION-ARCOTEL-2024-0176
-//        else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
-//            return new CertificadoSubjPersonaNaturalAlphaTechnologies(certificado);
+        if (ec.gob.firmadigital.libreria.certificate.CertUtils.hasExtensionMatchingPattern(certificado, "1.3.6.1.4.1", "3.1")) {
+            if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_NATURAL)) {
+                return new CertificadoExtPersonaNaturalLazzate(certificado);
+            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_JURIDICA_EMPRESA)) {
+                return new CertificadoExtPersonaJuridicaLazzate(certificado);
+            } else {
+                throw new EntidadCertificadoraNoValidaException("Certificado de LAZZATE CIA. LTDA. sin categorizar!");
+            }
+//        } else {//RESOLUCION-ARCOTEL-2024-0176
+//            if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
+//                return new CertificadoSubjPersonaNaturalAlphaTechnologies(certificado);
         } else {
             throw new EntidadCertificadoraNoValidaException("Certificado de LAZZATE CIA. LTDA. sin categorizar!");
         }

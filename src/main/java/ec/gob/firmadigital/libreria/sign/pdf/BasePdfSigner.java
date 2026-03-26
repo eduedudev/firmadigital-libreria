@@ -166,13 +166,7 @@ public class BasePdfSigner implements Signer {
                     String nombreFirmante = "";
                     if (datosUsuario.getCedula() != null) {
                         nombreFirmante = datosUsuario.getNombre() + " " + datosUsuario.getApellido();
-                    } else { // sello electrónico
-                        if (datosUsuario.getCommonName().toUpperCase().contains("SELLO ELECTRÓNICO")) {
-                            nombreFirmante = "Sello Electrónico - ";
-                        }
-                        if (datosUsuario.getCommonName().toUpperCase().contains("SELLO DE TIEMPO")) {
-                            nombreFirmante = "Sello de Tiempo - ";
-                        }
+                    } else { // sello electrónico y sellado de tiempo
                         nombreFirmante = nombreFirmante + datosUsuario.getRazonSocial();
                     }
                     nombreFirmante = nombreFirmante.toUpperCase();

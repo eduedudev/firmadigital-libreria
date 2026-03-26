@@ -55,9 +55,9 @@ public class CertificadoDataFactoryBancoCentral {
 
     public static DatosUsuario getDatosUsuarioBancoCentral(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         DatosUsuario datosUsuario = null;
-        if (esCertificadoDelBancoCentral(certificado)) {
+        Certificado certificadoBancoCentral = construir(certificado);
+        if (certificadoBancoCentral != null) {
             datosUsuario = new DatosUsuario();
-            Certificado certificadoBancoCentral = construir(certificado);
             if (certificadoBancoCentral instanceof CertificadoExtImplBancoCentral) {
                 if (certificadoBancoCentral instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
                     datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
@@ -122,29 +122,22 @@ public class CertificadoDataFactoryBancoCentral {
         return datosUsuario;
     }
 
-    private static boolean esCertificadoDelBancoCentral(X509Certificate certificado) {
-        return (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_NATURAL)
-                || certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_JURIDICA)
-                || certificateHasPolicy(certificado, Ext.OID_TIPO_FUNCIONARIO_PUBLICO)
-                || certificateHasPolicy(certificado, Ext.OID_SELLADO_TIEMPO)
-                //RESOLUCION-ARCOTEL-2024-0176
-//                || certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)
-                );
-    }
-
     private static Certificado construir(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
-        if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_NATURAL)) {
-            return new CertificadoExtPersonaNaturalBancoCentral(certificado);
-        } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_JURIDICA)) {
-            return new CertificadoExtPersonaJuridicaBancoCentral(certificado);
-        } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_FUNCIONARIO_PUBLICO)) {
-            return new CertificadoExtFuncionarioPublicoBancoCentral(certificado);
-        } else if (certificateHasPolicy(certificado, Ext.OID_SELLADO_TIEMPO)) {
-            return new CertificadoExtSelladoTiempoBancoCentral(certificado);
-//        }
-            //RESOLUCION-ARCOTEL-2024-0176
-//        else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
-//            return new CertificadoSubjPersonaNaturalAlphaTechnologies(certificado);
+        if (ec.gob.firmadigital.libreria.certificate.CertUtils.hasExtensionMatchingPattern(certificado, "1.3.6.1.4.1", "3.1")) {
+            if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_NATURAL)) {
+                return new CertificadoExtPersonaNaturalBancoCentral(certificado);
+            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_JURIDICA)) {
+                return new CertificadoExtPersonaJuridicaBancoCentral(certificado);
+            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_FUNCIONARIO_PUBLICO)) {
+                return new CertificadoExtFuncionarioPublicoBancoCentral(certificado);
+            } else if (certificateHasPolicy(certificado, Ext.OID_SELLADO_TIEMPO)) {
+                return new CertificadoExtSelladoTiempoBancoCentral(certificado);
+            } else {
+                throw new EntidadCertificadoraNoValidaException("Certificado del BANCO CENTRAL DEL ECUADOR sin categorizar!");
+            }
+//        } else {//RESOLUCION-ARCOTEL-2024-0176
+//            if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
+//                return new CertificadoSubjPersonaNaturalAlphaTechnologies(certificado);
         } else {
             throw new EntidadCertificadoraNoValidaException("Certificado del BANCO CENTRAL DEL ECUADOR sin categorizar!");
         }

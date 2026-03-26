@@ -51,9 +51,9 @@ public class CertificadoDataFactoryFirmaSegura {
 
     public static DatosUsuario getDatosUsuarioFirmaSegura(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         DatosUsuario datosUsuario = null;
-        if (esCertificadoDeFirmaSegura(certificado)) {
+        Certificado certificadoFirmaSegura = construir(certificado);
+        if (certificadoFirmaSegura != null) {
             datosUsuario = new DatosUsuario();
-            Certificado certificadoFirmaSegura = construir(certificado);
             if (certificadoFirmaSegura instanceof CertificadoExtImplFirmaSegura) {
                 if (certificadoFirmaSegura instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
                     datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
@@ -71,13 +71,13 @@ public class CertificadoDataFactoryFirmaSegura {
                     datosUsuario.setCargo(certificadoRepresentanteLegal.getCargo());
                 }
             }
-
             //RESOLUCION-ARCOTEL-2024-0176
             if (certificadoFirmaSegura instanceof CertificadoSubjImpl) {
                 if (certificadoFirmaSegura instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
                     datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
                     datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
                     datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido());
+                    datosUsuario.setRuc(certificadoPersonaNatural.getRuc());
                 }
                 if (certificadoFirmaSegura instanceof CertificadoMiembroEmpresa certificadoMiembroEmpresa) {
                     datosUsuario.setCedula(certificadoMiembroEmpresa.getCedulaPasaporte());
@@ -102,41 +102,31 @@ public class CertificadoDataFactoryFirmaSegura {
         return datosUsuario;
     }
 
-    private static boolean esCertificadoDeFirmaSegura(X509Certificate certificado) {
-        return (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_NATURAL)
-                || certificateHasPolicy(certificado, Ext.OID_TIPO_REPRESENTANTE_LEGAL)
-                //RESOLUCION-ARCOTEL-2024-0176
-                || certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)
-                || certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL_DSCF)
-                || certificateHasPolicy(certificado, Subj.OID_TIPO_REPRESENTANTE_LEGAL)
-                || certificateHasPolicy(certificado, Subj.OID_TIPO_REPRESENTANTE_LEGAL_DSCF)
-                || certificateHasPolicy(certificado, Subj.OID_TIPO_MIEMBRO_EMPRESA)
-                || certificateHasPolicy(certificado, Subj.OID_TIPO_MIEMBRO_EMPRESA_DSCF));
-    }
-
     private static Certificado construir(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
-        // OID utilizado anteriormente para la URL de la política de certificados
-        boolean hasPolicyInfoUrl = certificateHasPolicy(certificado, "1.3.6.1.4.1.61305.2.1.1");
-
-        if (hasPolicyInfoUrl && certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_NATURAL)) {
-            return new CertificadoExtPersonaNaturalFirmaSegura(certificado);
-        } else if (hasPolicyInfoUrl && certificateHasPolicy(certificado, Ext.OID_TIPO_REPRESENTANTE_LEGAL)) {
-            return new CertificadoExtRepresentanteLegalFirmaSegura(certificado);
-        } //RESOLUCION-ARCOTEL-2024-0176
-        else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
-            return new CertificadoSubjPersonaNaturalFirmaSegura(certificado);
-        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL_DSCF)) {
-            return new CertificadoSubjPersonaNaturalFirmaSegura(certificado);
-        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_REPRESENTANTE_LEGAL)) {
-            return new CertificadoSubjRepresentanteLegalFirmaSegura(certificado);
-        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_REPRESENTANTE_LEGAL_DSCF)) {
-            return new CertificadoSubjRepresentanteLegalFirmaSegura(certificado);
-        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_MIEMBRO_EMPRESA)) {
-            return new CertificadoSubjMiembroEmpresaFirmaSegura(certificado);
-        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_MIEMBRO_EMPRESA_DSCF)) {
-            return new CertificadoSubjMiembroEmpresaFirmaSegura(certificado);
-        } else {
-            throw new EntidadCertificadoraNoValidaException("Tipo Certificado de FIRMASEGURA S.A.S. sin categorizar!");
+        if (ec.gob.firmadigital.libreria.certificate.CertUtils.hasExtensionMatchingPattern(certificado, "1.3.6.1.4.1", "3.1")) {
+            if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_NATURAL)) {
+                return new CertificadoExtPersonaNaturalFirmaSegura(certificado);
+            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_REPRESENTANTE_LEGAL)) {
+                return new CertificadoExtRepresentanteLegalFirmaSegura(certificado);
+            } else {
+                throw new EntidadCertificadoraNoValidaException("Tipo Certificado de FIRMASEGURA S.A.S. sin categorizar!");
+            }
+        } else {//RESOLUCION-ARCOTEL-2024-0176
+            if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
+                return new CertificadoSubjPersonaNaturalFirmaSegura(certificado);
+            } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL_DSCF)) {
+                return new CertificadoSubjPersonaNaturalFirmaSegura(certificado);
+            } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_REPRESENTANTE_LEGAL)) {
+                return new CertificadoSubjRepresentanteLegalFirmaSegura(certificado);
+            } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_REPRESENTANTE_LEGAL_DSCF)) {
+                return new CertificadoSubjRepresentanteLegalFirmaSegura(certificado);
+            } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_MIEMBRO_EMPRESA)) {
+                return new CertificadoSubjMiembroEmpresaFirmaSegura(certificado);
+            } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_MIEMBRO_EMPRESA_DSCF)) {
+                return new CertificadoSubjMiembroEmpresaFirmaSegura(certificado);
+            } else {
+                throw new EntidadCertificadoraNoValidaException("Tipo Certificado de FIRMASEGURA S.A.S. sin categorizar!");
+            }
         }
     }
 }

@@ -54,10 +54,10 @@ public class CertificadoDataFactoryDarkcam {
 
     public static DatosUsuario getDatosUsuarioDarkcam(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         DatosUsuario datosUsuario = null;
-        //RESOLUCION-ARCOTEL-2024-0176
-        if (esCertificadoDeDarkcam(certificado)) {
+        Certificado certificadoDarkcam = construir(certificado);
+        if (certificadoDarkcam != null) {
             datosUsuario = new DatosUsuario();
-            Certificado certificadoDarkcam = construir(certificado);
+            //RESOLUCION-ARCOTEL-2024-0176
             if (certificadoDarkcam instanceof CertificadoSubjImpl) {
                 if (certificadoDarkcam instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
                     datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
@@ -92,13 +92,6 @@ public class CertificadoDataFactoryDarkcam {
             datosUsuario.setCertificadoDigitalValido(true);
         }
         return datosUsuario;
-    }
-
-    private static boolean esCertificadoDeDarkcam(X509Certificate certificado) {
-        return (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)
-                || certificateHasPolicy(certificado, Subj.OID_TIPO_MIEMBRO_EMPRESA)
-                || certificateHasPolicy(certificado, Subj.OID_TIPO_REPRESENTANTE_LEGAL)
-                || certificateHasPolicy(certificado, Subj.OID_TIPO_SELLO_ELECTRONICO));
     }
 
     private static Certificado construir(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
