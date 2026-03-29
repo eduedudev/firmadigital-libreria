@@ -48,7 +48,7 @@ public class CertificadoDataFactoryAlphaTechnologies {
                 return new SubCaCertAlphaTechnologies20242032();
             }
         } catch (java.security.InvalidKeyException ex) {
-            throw new EntidadCertificadoraNoValidaException("Entidad Certificadora no reconocida");
+            throw new EntidadCertificadoraNoValidaException("Certificado de ALPHA TECHNOLOGIES CIA. LTDA. sin categorizar!");
         }
         return null;
     }
@@ -121,8 +121,6 @@ public class CertificadoDataFactoryAlphaTechnologies {
                 return new CertificadoExtPersonaJuridicaAlphaTechnologies(certificado);
             } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_MIEMBRO_EMPRESA)) {
                 return new CertificadoExtMiembroEmpresaAlphaTechnologies(certificado);
-            } else {
-                throw new EntidadCertificadoraNoValidaException("Certificado de ALPHA TECHNOLOGIES CIA. LTDA. sin categorizar!");
             }
         } else {//RESOLUCION-ARCOTEL-2024-0176
             if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
@@ -131,9 +129,8 @@ public class CertificadoDataFactoryAlphaTechnologies {
                 return new CertificadoSubjMiembroEmpresaAlphaTechnologies(certificado);
             } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_REPRESENTANTE_LEGAL)) {
                 return new CertificadoSubjRepresentanteLegalAlphaTechnologies(certificado);
-            } else {
-                throw new EntidadCertificadoraNoValidaException("Certificado de ALPHA TECHNOLOGIES CIA. LTDA. sin categorizar!");
             }
         }
+        return null;
     }
 }

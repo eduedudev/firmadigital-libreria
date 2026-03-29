@@ -44,7 +44,7 @@ public class CertificadoDataFactoryFirmaSegura {
                 return new SubCaCertFirmaSegura20232043();
             }
         } catch (java.security.InvalidKeyException ex) {
-            throw new EntidadCertificadoraNoValidaException("Entidad Certificadora no reconocida");
+            throw new EntidadCertificadoraNoValidaException("Tipo Certificado de FIRMASEGURA S.A.S. sin categorizar!");
         }
         return null;
     }
@@ -107,8 +107,6 @@ public class CertificadoDataFactoryFirmaSegura {
                 return new CertificadoExtPersonaNaturalFirmaSegura(certificado);
             } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_REPRESENTANTE_LEGAL)) {
                 return new CertificadoExtRepresentanteLegalFirmaSegura(certificado);
-            } else {
-                throw new EntidadCertificadoraNoValidaException("Tipo Certificado de FIRMASEGURA S.A.S. sin categorizar!");
             }
         } else {//RESOLUCION-ARCOTEL-2024-0176
             if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
@@ -123,9 +121,8 @@ public class CertificadoDataFactoryFirmaSegura {
                 return new CertificadoSubjMiembroEmpresaFirmaSegura(certificado);
             } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_MIEMBRO_EMPRESA_DSCF)) {
                 return new CertificadoSubjMiembroEmpresaFirmaSegura(certificado);
-            } else {
-                throw new EntidadCertificadoraNoValidaException("Tipo Certificado de FIRMASEGURA S.A.S. sin categorizar!");
             }
         }
+        return null;
     }
 }

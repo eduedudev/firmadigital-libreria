@@ -43,7 +43,7 @@ public class CertificadoDataFactoryLetmi {
                 return new SubCaCertLetmi20252035();
             }
         } catch (java.security.InvalidKeyException ex) {
-            throw new EntidadCertificadoraNoValidaException("Entidad Certificadora no reconocida");
+            throw new EntidadCertificadoraNoValidaException("Certificado de LETMI ECUADOR S.A. sin categorizar!");
         }
         return null;
     }
@@ -86,8 +86,7 @@ public class CertificadoDataFactoryLetmi {
             return new CertificadoSubjSelloElectronicoLetmi(certificado);
         } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_REPRESENTANTE_LEGAL)) {
             return new CertificadoSubjRepresentanteLegalLetmi(certificado);
-        } else {
-            throw new EntidadCertificadoraNoValidaException("Certificado de LETMI ECUADOR S.A. sin categorizar!");
         }
+        return null;
     }
 }

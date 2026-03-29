@@ -47,7 +47,7 @@ public class CertificadoDataFactoryAppFirmas {
                 return new SubCaCertAppFirmas20262036();
             }
         } catch (java.security.InvalidKeyException ex) {
-            throw new EntidadCertificadoraNoValidaException("Entidad Certificadora no reconocida");
+            throw new EntidadCertificadoraNoValidaException("Certificado de APPFIRMAS S.A. sin categorizar!");
         }
         return null;
     }
@@ -90,8 +90,7 @@ public class CertificadoDataFactoryAppFirmas {
             return new CertificadoSubjSelloElectronicoAppFirmas(certificado);
         } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_REPRESENTANTE_LEGAL)) {
             return new CertificadoSubjRepresentanteLegalAppFirmas(certificado);
-        } else {
-            throw new EntidadCertificadoraNoValidaException("Certificado de APPFIRMAS S.A. sin categorizar!");
         }
+        return null;
     }
 }

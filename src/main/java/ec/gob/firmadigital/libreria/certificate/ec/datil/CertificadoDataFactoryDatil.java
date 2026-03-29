@@ -52,7 +52,7 @@ public class CertificadoDataFactoryDatil {
                 return new SubCaCertDatilCortaDuracion20262036();
             }
         } catch (java.security.InvalidKeyException ex) {
-            throw new EntidadCertificadoraNoValidaException("Entidad Certificadora no reconocida");
+            throw new EntidadCertificadoraNoValidaException("Certificado de DATILMEDIA S.A. sin categorizar!");
         }
         return null;
     }
@@ -125,8 +125,6 @@ public class CertificadoDataFactoryDatil {
                 return new CertificadoExtPersonaNaturalDatil(certificado);
             } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_JURIDICA)) {
                 return new CertificadoExtPersonaJuridicaPrivadaDatil(certificado);
-            } else {
-                throw new EntidadCertificadoraNoValidaException("Certificado de DATILMEDIA S.A. sin categorizar!");
             }
         } else {//RESOLUCION-ARCOTEL-2024-0176
             if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
@@ -139,9 +137,8 @@ public class CertificadoDataFactoryDatil {
                 return new CertificadoSubjSelloElectronicoDatil(certificado);
             } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_SELLO_TIEMPO)) {
                 return new CertificadoSubjSelladoTiempoDatil(certificado);
-            } else {
-                throw new EntidadCertificadoraNoValidaException("Certificado de DATILMEDIA S.A. sin categorizar!");
             }
         }
+        return null;
     }
 }

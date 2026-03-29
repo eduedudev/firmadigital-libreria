@@ -49,7 +49,7 @@ public class CertificadoDataFactoryArgosData {
                 return new SubCaCertArgosData20262036();
             }
         } catch (java.security.InvalidKeyException ex) {
-            throw new EntidadCertificadoraNoValidaException("Entidad Certificadora no reconocida");
+            throw new EntidadCertificadoraNoValidaException("Certificado de ARGOSDATA CERTIFICACIÓN DE INFORMACIÓN Y SERVICIOS RELACIONADOS S.A.S. sin categorizar!");
         }
         return null;
     }
@@ -104,17 +104,14 @@ public class CertificadoDataFactoryArgosData {
                 return new CertificadoExtPersonaNaturalArgosData(certificado);
             } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_REPRESENTANTE_LEGAL)) {
                 return new CertificadoExtRepresentanteLegalArgosData(certificado);
-            } else {
-                throw new EntidadCertificadoraNoValidaException("Certificado de ARGOSDATA CERTIFICACIÓN DE INFORMACIÓN Y SERVICIOS RELACIONADOS S.A.S. sin categorizar!");
             }
         } else {//RESOLUCION-ARCOTEL-2024-0176
             if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
                 return new CertificadoSubjPersonaNaturalArgosData(certificado);
             } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_REPRESENTANTE_LEGAL)) {
                 return new CertificadoSubjRepresentanteLegalArgosData(certificado);
-            } else {
-                throw new EntidadCertificadoraNoValidaException("Certificado de ARGOSDATA CERTIFICACIÓN DE INFORMACIÓN Y SERVICIOS RELACIONADOS S.A.S. sin categorizar!");
             }
         }
+        return null;
     }
 }

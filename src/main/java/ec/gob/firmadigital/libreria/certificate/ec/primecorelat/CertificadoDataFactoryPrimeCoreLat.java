@@ -47,7 +47,7 @@ public class CertificadoDataFactoryPrimeCoreLat {
                 return new SubCa2CertPrimeCoreLat20262036();
             }
         } catch (java.security.InvalidKeyException ex) {
-            throw new EntidadCertificadoraNoValidaException("Entidad Certificadora no reconocida");
+            throw new EntidadCertificadoraNoValidaException("Certificado de PRIMECORELAT S.A.S. B.I.C. sin categorizar!");
         }
         return null;
     }
@@ -98,8 +98,7 @@ public class CertificadoDataFactoryPrimeCoreLat {
             return new CertificadoSubjPersonaJuridicaPrimeCoreLat(certificado);
         } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_SELLO_ELECTRONICO)) {
             return new CertificadoSubjSelloElectronicoPrimeCoreLat(certificado);
-        } else {
-            throw new EntidadCertificadoraNoValidaException("Certificado de PRIMECORELAT S.A.S. B.I.C. sin categorizar!");
         }
+        return null;
     }
 }

@@ -56,7 +56,7 @@ public class CertificadoDataFactoryLazzate {
                 return new SubCaWeGoCertLazzate();
             }
         } catch (java.security.InvalidKeyException ex) {
-            throw new EntidadCertificadoraNoValidaException("Entidad Certificadora no reconocida");
+            throw new EntidadCertificadoraNoValidaException("Certificado de LAZZATE CIA. LTDA. sin categorizar!");
         }
         return null;
     }
@@ -104,14 +104,11 @@ public class CertificadoDataFactoryLazzate {
                 return new CertificadoExtPersonaNaturalLazzate(certificado);
             } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_JURIDICA_EMPRESA)) {
                 return new CertificadoExtPersonaJuridicaLazzate(certificado);
-            } else {
-                throw new EntidadCertificadoraNoValidaException("Certificado de LAZZATE CIA. LTDA. sin categorizar!");
             }
 //        } else {//RESOLUCION-ARCOTEL-2024-0176
 //            if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
 //                return new CertificadoSubjPersonaNaturalAlphaTechnologies(certificado);
-        } else {
-            throw new EntidadCertificadoraNoValidaException("Certificado de LAZZATE CIA. LTDA. sin categorizar!");
         }
+        return null;
     }
 }

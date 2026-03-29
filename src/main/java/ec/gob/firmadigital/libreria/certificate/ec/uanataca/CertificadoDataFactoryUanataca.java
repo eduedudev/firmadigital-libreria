@@ -53,7 +53,7 @@ public class CertificadoDataFactoryUanataca {
                 return new SubCaCertUanataca0320212034();
             }
         } catch (java.security.InvalidKeyException ex) {
-            throw new EntidadCertificadoraNoValidaException("Entidad Certificadora no reconocida");
+            throw new EntidadCertificadoraNoValidaException("Certificado de UANATACA ECUADOR S.A. sin categorizar!");
         }
         return null;
     }
@@ -116,7 +116,7 @@ public class CertificadoDataFactoryUanataca {
     }
 
     private static Certificado construir(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
-        ec.gob.firmadigital.libreria.utils.CertificateUtils.getExtensionsWithBouncyCastle(certificado);
+//        ec.gob.firmadigital.libreria.utils.CertificateUtils.getExtensionsWithBouncyCastle(certificado);
         if (ec.gob.firmadigital.libreria.certificate.CertUtils.hasExtensionMatchingPattern(certificado, "1.3.6.1.4.1", "102.3.1")) {
             if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_NATURAL)) {
                 return new CertificadoExtPersonaNaturalUanataca(certificado);
@@ -128,14 +128,11 @@ public class CertificadoDataFactoryUanataca {
                 return new CertificadoExtRepresentanteLegalUanataca(certificado);
             } else if (certificateHasPolicy(certificado, Ext.OID_SELLADO_TIEMPO)) {
                 return new CertificadoExtSelladoTiempoUanataca(certificado);
-            } else {
-                throw new EntidadCertificadoraNoValidaException("Certificado de UANATACA ECUADOR S.A. sin categorizar!");
             }
 //        } else {//RESOLUCION-ARCOTEL-2024-0176
 //            if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
 //                return new CertificadoSubjPersonaNaturalAlphaTechnologies(certificado);
-        } else {
-            throw new EntidadCertificadoraNoValidaException("Certificado de UANATACA ECUADOR S.A. sin categorizar!");
         }
+        return null;
     }
 }

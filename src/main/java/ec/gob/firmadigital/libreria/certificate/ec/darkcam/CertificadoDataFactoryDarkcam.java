@@ -47,7 +47,7 @@ public class CertificadoDataFactoryDarkcam {
                 return new SubCaCertDarkcam20262036();
             }
         } catch (java.security.InvalidKeyException ex) {
-            throw new EntidadCertificadoraNoValidaException("Entidad Certificadora no reconocida");
+            throw new EntidadCertificadoraNoValidaException("Certificado de DARKCAM S.A. sin categorizar!");
         }
         return null;
     }
@@ -102,8 +102,7 @@ public class CertificadoDataFactoryDarkcam {
         } // Sello Electrónico
         else if (certificateHasPolicy(certificado, Subj.OID_TIPO_SELLO_ELECTRONICO)) {
             return new CertificadoSubjSelloElectronicoDarkcam(certificado);
-        } else {
-            throw new EntidadCertificadoraNoValidaException("Certificado de DARKCAM S.A. sin categorizar!");
         }
+        return null;
     }
 }

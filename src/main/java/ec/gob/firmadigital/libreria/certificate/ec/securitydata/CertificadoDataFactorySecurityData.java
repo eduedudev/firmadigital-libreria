@@ -53,7 +53,7 @@ public class CertificadoDataFactorySecurityData {
                 return new SubCaCertSecurityData20202039();
             }
         } catch (java.security.InvalidKeyException ex) {
-            throw new EntidadCertificadoraNoValidaException("Entidad Certificadora no reconocida");
+            throw new EntidadCertificadoraNoValidaException("Certificado de SECURITY DATA SEGURIDAD EN DATOS Y FIRMA DIGITAL S.A. sin categorizar!");
         }
         return null;
     }
@@ -153,8 +153,6 @@ public class CertificadoDataFactorySecurityData {
                 return new CertificadoExtPersonaNaturalSecurityData(certificado);
             } else if (certificateHasPolicy(certificado, Ext.OID_SELLADO_TIEMPO)) {
                 return new CertificadoExtSelladoTiempoSecurityData(certificado);
-            } else {
-                throw new EntidadCertificadoraNoValidaException("Certificado de SECURITY DATA SEGURIDAD EN DATOS Y FIRMA DIGITAL S.A. sin categorizar!");
             }
         } else {//RESOLUCION-ARCOTEL-2024-0176
             if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
@@ -175,9 +173,8 @@ public class CertificadoDataFactorySecurityData {
                 return new CertificadoSubjSelloElectronicoSecurityData(certificado);
             } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_SELLO_TIEMPO_DSCF)) {
                 return new CertificadoSubjSelladoTiempoSecurityData(certificado);
-            } else {
-                throw new EntidadCertificadoraNoValidaException("Certificado de SECURITY DATA SEGURIDAD EN DATOS Y FIRMA DIGITAL S.A. sin categorizar!");
             }
         }
+        return null;
     }
 }

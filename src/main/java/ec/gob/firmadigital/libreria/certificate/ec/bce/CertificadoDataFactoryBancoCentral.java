@@ -48,7 +48,7 @@ public class CertificadoDataFactoryBancoCentral {
                 return new SubCaCertBce20192029();
             }
         } catch (java.security.InvalidKeyException ex) {
-            throw new EntidadCertificadoraNoValidaException("Entidad Certificadora no reconocida");
+            throw new EntidadCertificadoraNoValidaException("Certificado del BANCO CENTRAL DEL ECUADOR sin categorizar!");
         }
         return null;
     }
@@ -137,14 +137,11 @@ public class CertificadoDataFactoryBancoCentral {
                 return new CertificadoExtFuncionarioPublicoBancoCentral(certificado);
             } else if (certificateHasPolicy(certificado, Ext.OID_SELLADO_TIEMPO)) {
                 return new CertificadoExtSelladoTiempoBancoCentral(certificado);
-            } else {
-                throw new EntidadCertificadoraNoValidaException("Certificado del BANCO CENTRAL DEL ECUADOR sin categorizar!");
             }
 //        } else {//RESOLUCION-ARCOTEL-2024-0176
 //            if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
 //                return new CertificadoSubjPersonaNaturalAlphaTechnologies(certificado);
-        } else {
-            throw new EntidadCertificadoraNoValidaException("Certificado del BANCO CENTRAL DEL ECUADOR sin categorizar!");
         }
+        return null;
     }
 }

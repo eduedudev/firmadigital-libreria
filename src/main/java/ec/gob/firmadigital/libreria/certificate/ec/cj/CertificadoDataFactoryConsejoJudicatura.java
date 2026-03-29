@@ -44,7 +44,7 @@ public class CertificadoDataFactoryConsejoJudicatura {
                 return new SubCaCertConsejoJudicatura();
             }
         } catch (java.security.InvalidKeyException ex) {
-            throw new EntidadCertificadoraNoValidaException("Entidad Certificadora no reconocida");
+            throw new EntidadCertificadoraNoValidaException("Certificado del CONSEJO DE LA JUDICATURA sin categorizar!w");
         }
         return null;
     }
@@ -148,14 +148,11 @@ public class CertificadoDataFactoryConsejoJudicatura {
                 return new CertificadoExtDepartamentoEmpresaConsejoJudicatura(certificado);
             } else if (certificateHasPolicy(certificado, Ext.OID_SELLADO_TIEMPO)) {
                 return new CertificadoExtSelladoTiempoConsejoJudicatura(certificado);
-            } else {
-                throw new EntidadCertificadoraNoValidaException("Certificado del CONSEJO DE LA JUDICATURA sin categorizar!");
             }
 //        } else {//RESOLUCION-ARCOTEL-2024-0176
 //            if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
 //                return new CertificadoSubjPersonaNaturalAlphaTechnologies(certificado);
-        } else {
-            throw new EntidadCertificadoraNoValidaException("Certificado del CONSEJO DE LA JUDICATURA sin categorizar!");
         }
+        return null;
     }
 }

@@ -20,6 +20,7 @@ package ec.gob.firmadigital.libreria.certificate.ec.eclipsoft;
 import ec.gob.firmadigital.libreria.certificate.ec.eclipsoft.ext.*;
 //import ec.gob.firmadigital.libreria.certificate.ec.eclipsoft.subj.*;
 //import ec.gob.firmadigital.libreria.certificate.ec.eclipsoft.cert.*;
+import ec.gob.firmadigital.libreria.certificate.ec.uanataca.cert.*;
 import ec.gob.firmadigital.libreria.certificate.ec.subj.CertificadoSubjImpl;
 import static ec.gob.firmadigital.libreria.certificate.ec.eclipsoft.CertificadoEclipsoft.*;
 import ec.gob.firmadigital.libreria.certificate.ec.*;
@@ -37,17 +38,26 @@ import static ec.gob.firmadigital.libreria.utils.BouncyCastleUtils.certificateHa
  */
 public class CertificadoDataFactoryEclipsoft {
 
-//    public static X509Certificate getRootCertificate(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
-//        try {
-//            if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertAlphaTechnologies20232026())) {
-//                System.out.println("AlphaTechnologiesSubCaCert 2023-2026");
-//                return new SubCaCertAlphaTechnologies20232026();
-//            }
-//        } catch (java.security.InvalidKeyException ex) {
-//            throw new EntidadCertificadoraNoValidaException("Entidad Certificadora no reconocida");
-//        }
-//        return null;
-//    }
+    public static X509Certificate getRootCertificate(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
+        try {
+            if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertUanataca0120162029())) {
+                System.out.println("Uanataca 2016-2029");
+                return new SubCaCertUanataca0120162029();
+            }
+            if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertUanataca0220162029())) {
+                System.out.println("Uanataca 2016-2029");
+                return new SubCaCertUanataca0220162029();
+            }
+            if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCaCertUanataca0320212034())) {
+                System.out.println("Uanataca 2021-2034");
+                return new SubCaCertUanataca0320212034();
+            }
+        } catch (java.security.InvalidKeyException ex) {
+            throw new EntidadCertificadoraNoValidaException("Certificado del ECLIPSOFT S.A. sin categorizar!");
+        }
+        return null;
+    }
+    
     public static DatosUsuario getDatosUsuarioEclipsoft(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         DatosUsuario datosUsuario = null;
         Certificado certificadoEclipsoft = construir(certificado);
@@ -123,14 +133,11 @@ public class CertificadoDataFactoryEclipsoft {
                 return new CertificadoExtPersonaJuridicaPrivadaEclipsoft(certificado);
             } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_SELLADO_TIEMPO)) {
                 return new CertificadoExtSelladoTiempoEclipsoft(certificado);
-            } else {
-                throw new EntidadCertificadoraNoValidaException("Certificado del ECLIPSOFT S.A. sin categorizar!");
             }
 //        } else {//RESOLUCION-ARCOTEL-2024-0176
 //            if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
 //                return new CertificadoSubjPersonaNaturalAlphaTechnologies(certificado);
-        } else {
-            throw new EntidadCertificadoraNoValidaException("Certificado del ECLIPSOFT S.A. sin categorizar!");
         }
+        return null;
     }
 }

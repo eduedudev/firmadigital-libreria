@@ -64,7 +64,7 @@ public class CertificadoDataFactoryCorpNewBest {
                 return new SubCa3CertCorpNewBest2024011020330619();
             }
         } catch (java.security.InvalidKeyException ex) {
-            throw new EntidadCertificadoraNoValidaException("Entidad Certificadora no reconocida");
+            throw new EntidadCertificadoraNoValidaException("Tipo Certificado de CORPNEWBEST CIA. LTDA. sin categorizar!");
         }
         return null;
     }
@@ -149,8 +149,6 @@ public class CertificadoDataFactoryCorpNewBest {
                 return new CertificadoExtPersonaJuridicaCorpNewBest(certificado);
             } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_MIEMBRO_EMPRESA)) {
                 return new CertificadoExtMiembroEmpresaCorpNewBest(certificado);
-            } else {
-                throw new EntidadCertificadoraNoValidaException("Tipo Certificado de CORPNEWBEST CIA. LTDA. sin categorizar!");
             }
         } else {//RESOLUCION-ARCOTEL-2024-0176
             if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
@@ -171,9 +169,8 @@ public class CertificadoDataFactoryCorpNewBest {
                 return new CertificadoSubjSelloElectronicoCorpNewBest(certificado);
             } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_SELLO_TIEMPO)) {
                 return new CertificadoSubjSelladoTiempoCorpNewBest(certificado);
-            } else {
-                throw new EntidadCertificadoraNoValidaException("Tipo Certificado de CORPNEWBEST CIA. LTDA. sin categorizar!");
             }
         }
+        return null;
     }
 }

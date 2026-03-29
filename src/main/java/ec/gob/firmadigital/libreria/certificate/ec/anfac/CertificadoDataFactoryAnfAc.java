@@ -61,7 +61,7 @@ public class CertificadoDataFactoryAnfAc {
                 return new SubCaAnfAc20262044_37442();
             }
         } catch (java.security.InvalidKeyException ex) {
-            throw new EntidadCertificadoraNoValidaException("Entidad Certificadora no reconocida");
+            throw new EntidadCertificadoraNoValidaException("Entidad Certificadora no reconocidaCertificado de ANFAC AUTORIDAD DE CERTIFICACION ECUADOR C.A. sin categorizar!");
         }
         return null;
     }
@@ -209,8 +209,6 @@ public class CertificadoDataFactoryAnfAc {
                 return new CertificadoExtFuncionarioPublicoAnfAc_37442(certificado);
             } else if (certificateHasPolicy(certificado, Ext37442.OID_SELLADO_TIEMPO)) {
                 return new CertificadoExtSelladoTiempoAnfAc_37442(certificado);
-            } else {
-                throw new EntidadCertificadoraNoValidaException("Certificado de ANFAC AUTORIDAD DE CERTIFICACION ECUADOR C.A. 37442 sin categorizar!");
             }
         } else {//RESOLUCION-ARCOTEL-2024-0176 
             if (certificateHasPolicy(certificado, Subj.OID_CERTIFICADO_PERSONA_NATURAL)) {
@@ -223,9 +221,8 @@ public class CertificadoDataFactoryAnfAc {
                 return new CertificadoSubjSelladoTiempoAnfAc(certificado);
             } else if (certificateHasPolicy(certificado, Subj.OID_SELLO_ELECTRONICO)) {
                 return new CertificadoSubjSelloElectronicoAnfAc(certificado);
-            } else {
-                throw new EntidadCertificadoraNoValidaException("Certificado de ANFAC AUTORIDAD DE CERTIFICACION ECUADOR C.A. 37442 sin categorizar!");
             }
         }
+        return null;
     }
 }

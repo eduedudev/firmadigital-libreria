@@ -107,9 +107,9 @@ public class CertEcUtils {
         if (organization.toUpperCase().equals(DIGERCIC_NAME)) {
             return DIGERCIC_NAME;
         }
-//        if (organization.toUpperCase().equals(ECLIPSOFT_NAME)) {
-//            return ECLIPSOFT_NAME;
-//        }
+        if (organization.toUpperCase().equals(ECLIPSOFT_NAME)) {
+            return ECLIPSOFT_NAME;
+        }
         if (organization.toUpperCase().equals(FIRMASEGURA_NAME)) {
             return FIRMASEGURA_NAME;
         }
@@ -139,47 +139,70 @@ public class CertEcUtils {
 
     public static X509Certificate getRootCertificate(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         switch (getNombreCA(certificado)) {
-            case ALPHATECHNOLOGIES_NAME:
+            case ALPHATECHNOLOGIES_NAME -> {
                 return CertificadoDataFactoryAlphaTechnologies.getRootCertificate(certificado);
-            case ANFAC_NAME:
+            }
+            case ANFAC_NAME -> {
                 return CertificadoDataFactoryAnfAc.getRootCertificate(certificado);
-            case ANFAC_NAME_OLD:
+            }
+            case ANFAC_NAME_OLD -> {
                 return CertificadoDataFactoryAnfAc.getRootCertificate(certificado);
-            case APPFIRMAS_NAME:
+            }
+            case APPFIRMAS_NAME -> {
                 return CertificadoDataFactoryAppFirmas.getRootCertificate(certificado);
-            case AGOSDATA_NAME:
+            }
+            case AGOSDATA_NAME -> {
                 return CertificadoDataFactoryArgosData.getRootCertificate(certificado);
-            case AGOSDATA_NAME_OLD:
+            }
+            case AGOSDATA_NAME_OLD -> {
                 return CertificadoDataFactoryArgosData.getRootCertificate(certificado);
-            case BCE_NAME:
+            }
+            case BCE_NAME -> {
                 return CertificadoDataFactoryBancoCentral.getRootCertificate(certificado);
-            case CJ_NAME:
+            }
+            case CJ_NAME -> {
                 return CertificadoDataFactoryConsejoJudicatura.getRootCertificate(certificado);
-            case CORPNEWBEST_NAME:
+            }
+            case CORPNEWBEST_NAME -> {
                 return CertificadoDataFactoryCorpNewBest.getRootCertificate(certificado);
-            case DARKCAM_NAME:
+            }
+            case DARKCAM_NAME -> {
                 return CertificadoDataFactoryDarkcam.getRootCertificate(certificado);
-            case DATIL_NAME:
+            }
+            case DATIL_NAME -> {
                 return CertificadoDataFactoryDatil.getRootCertificate(certificado);
-            case DIGERCIC_NAME:
+            }
+            case DIGERCIC_NAME -> {
                 return CertificadoDataFactoryDigercic.getRootCertificate(certificado);
-            case FIRMASEGURA_NAME:
+            }
+            case ECLIPSOFT_NAME -> {
+                return CertificadoDataFactoryEclipsoft.getRootCertificate(certificado);
+            }
+            case FIRMASEGURA_NAME -> {
                 return CertificadoDataFactoryFirmaSegura.getRootCertificate(certificado);
-            case LAZZATE_NAME:
+            }
+            case LAZZATE_NAME -> {
                 return CertificadoDataFactoryLazzate.getRootCertificate(certificado);
-            case LETMI_NAME:
+            }
+            case LETMI_NAME -> {
                 return CertificadoDataFactoryLetmi.getRootCertificate(certificado);
-            case PRIMECORELAT_NAME:
+            }
+            case PRIMECORELAT_NAME -> {
                 return CertificadoDataFactoryPrimeCoreLat.getRootCertificate(certificado);
-            case SECURITYDATA_NAME:
+            }
+            case SECURITYDATA_NAME -> {
                 return CertificadoDataFactorySecurityData.getRootCertificate(certificado);
-            case SECURITYDATA_NAME_OLD:
+            }
+            case SECURITYDATA_NAME_OLD -> {
                 return CertificadoDataFactorySecurityData.getRootCertificate(certificado);
-            case UANATACA_NAME:
+            }
+            case UANATACA_NAME -> {
                 return CertificadoDataFactoryUanataca.getRootCertificate(certificado);
-            case UANATACA_NAME_OLD:
+            }
+            case UANATACA_NAME_OLD -> {
                 return CertificadoDataFactoryUanataca.getRootCertificate(certificado);
-            default:
+            }
+            default ->
                 throw new EntidadCertificadoraNoValidaException("Entidad Certificadora no reconocida");
         }
     }
