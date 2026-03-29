@@ -38,7 +38,8 @@ import java.util.Date;
 import java.util.Set;
 
 /**
- * Clase base para un certificado manejado por Rubrica <code>X509Certificate</code>.
+ * Clase base para un certificado manejado por Rubrica
+ * <code>X509Certificate</code>.
  *
  * @author Edison Lomas Almeida <elomas@appshandler.com>
  */
@@ -164,7 +165,7 @@ public abstract class RubricaCertificate extends X509Certificate {
 
     @Override
     public boolean[] getKeyUsage() {
-        return getKeyUsage();
+        return x509Certificate.getKeyUsage();
     }
 
     @Override

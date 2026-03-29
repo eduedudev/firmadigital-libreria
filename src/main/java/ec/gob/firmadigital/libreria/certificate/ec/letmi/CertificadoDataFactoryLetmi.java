@@ -56,22 +56,19 @@ public class CertificadoDataFactoryLetmi {
             //RESOLUCION-ARCOTEL-2024-0176
             if (certificadoLetmi instanceof CertificadoSubjImpl) {
                 if (certificadoLetmi instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
+                    datosUsuario.setTipoCertificado("Persona Natural");
                     datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
                     datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
                     datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido());
                 }
                 if (certificadoLetmi instanceof CertificadoMiembroEmpresa certificadoMiembroEmpresa) {
-                    datosUsuario.setCedula(certificadoMiembroEmpresa.getCedulaPasaporte());
-                    datosUsuario.setNombre(certificadoMiembroEmpresa.getNombres());
-                    datosUsuario.setApellido(certificadoMiembroEmpresa.getPrimerApellido());
+                    datosUsuario.setTipoCertificado("Miembro Empresa");
                     datosUsuario.setRuc(certificadoMiembroEmpresa.getRuc());
                     datosUsuario.setRazonSocial(certificadoMiembroEmpresa.getRazonSocial());
                     datosUsuario.setCargo(certificadoMiembroEmpresa.getCargo());
                 }
                 if (certificadoLetmi instanceof CertificadoRepresentanteLegal certificadoRepresentanteLegal) {
-                    datosUsuario.setCedula(certificadoRepresentanteLegal.getCedulaPasaporte());
-                    datosUsuario.setNombre(certificadoRepresentanteLegal.getNombres());
-                    datosUsuario.setApellido(certificadoRepresentanteLegal.getPrimerApellido());
+                    datosUsuario.setTipoCertificado("Representante Legal");
                     datosUsuario.setRuc(certificadoRepresentanteLegal.getRuc());
                     datosUsuario.setRazonSocial(certificadoRepresentanteLegal.getRazonSocial());
                     datosUsuario.setCargo(certificadoRepresentanteLegal.getCargo());

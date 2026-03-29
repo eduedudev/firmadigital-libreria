@@ -63,58 +63,55 @@ public class CertificadoDataFactoryDatil {
         if (certificadoDatil != null) {
             datosUsuario = new DatosUsuario();
             if (certificadoDatil instanceof CertificadoExtImplDatil) {
-                if (certificadoDatil instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
-                    datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
-                    datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
-                    datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido() + " "
-                            + certificadoPersonaNatural.getSegundoApellido());
+                if (certificadoDatil instanceof CertificadoExtPersonaNaturalDatil certificadoExtPersonaNaturalDatil) {
+                    datosUsuario.setTipoCertificado("Persona Natural (EXT)");
+                    datosUsuario.setCedula(certificadoExtPersonaNaturalDatil.getCedulaPasaporte());
+                    datosUsuario.setNombre(certificadoExtPersonaNaturalDatil.getNombres());
+                    datosUsuario.setApellido(certificadoExtPersonaNaturalDatil.getPrimerApellido() + " "
+                            + certificadoExtPersonaNaturalDatil.getSegundoApellido());
                 }
-                if (certificadoDatil instanceof CertificadoPersonaJuridica certificadoPersonaJuridica) {
-                    datosUsuario.setCedula(certificadoPersonaJuridica.getCedulaPasaporte());
-                    datosUsuario.setNombre(certificadoPersonaJuridica.getNombres());
-                    datosUsuario.setApellido(certificadoPersonaJuridica.getPrimerApellido() + " "
-                            + certificadoPersonaJuridica.getSegundoApellido());
-                    datosUsuario.setRuc(certificadoPersonaJuridica.getRuc());
-                    datosUsuario.setRazonSocial(certificadoPersonaJuridica.getRazonSocial());
-                    datosUsuario.setCargo(certificadoPersonaJuridica.getCargo());
+                if (certificadoDatil instanceof CertificadoExtPersonaJuridicaPrivadaDatil certificadoExtPersonaJuridicaPrivadaDatil) {
+                    datosUsuario.setTipoCertificado("Persona Jurídica (EXT)");
+                    datosUsuario.setCedula(certificadoExtPersonaJuridicaPrivadaDatil.getCedulaPasaporte());
+                    datosUsuario.setNombre(certificadoExtPersonaJuridicaPrivadaDatil.getNombres());
+                    datosUsuario.setApellido(certificadoExtPersonaJuridicaPrivadaDatil.getPrimerApellido() + " "
+                            + certificadoExtPersonaJuridicaPrivadaDatil.getSegundoApellido());
+                    datosUsuario.setRuc(certificadoExtPersonaJuridicaPrivadaDatil.getRuc());
+                    datosUsuario.setRazonSocial(certificadoExtPersonaJuridicaPrivadaDatil.getRazonSocial());
+                    datosUsuario.setCargo(certificadoExtPersonaJuridicaPrivadaDatil.getCargo());
                 }
             }
             //RESOLUCION-ARCOTEL-2024-0176
             if (certificadoDatil instanceof CertificadoSubjImpl) {
                 if (certificadoDatil instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
+                    datosUsuario.setTipoCertificado("Persona Natural");
                     datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
                     datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
                     datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido());
                 }
                 if (certificadoDatil instanceof CertificadoMiembroEmpresa certificadoMiembroEmpresa) {
-                    datosUsuario.setCedula(certificadoMiembroEmpresa.getCedulaPasaporte());
-                    datosUsuario.setNombre(certificadoMiembroEmpresa.getNombres());
-                    datosUsuario.setApellido(certificadoMiembroEmpresa.getPrimerApellido());
+                    datosUsuario.setTipoCertificado("Miembro Empresa");
                     datosUsuario.setRuc(certificadoMiembroEmpresa.getRuc());
                     datosUsuario.setRazonSocial(certificadoMiembroEmpresa.getRazonSocial());
                     datosUsuario.setCargo(certificadoMiembroEmpresa.getCargo());
                 }
                 if (certificadoDatil instanceof CertificadoRepresentanteLegal certificadoRepresentanteLegal) {
-                    datosUsuario.setCedula(certificadoRepresentanteLegal.getCedulaPasaporte());
-                    datosUsuario.setNombre(certificadoRepresentanteLegal.getNombres());
-                    datosUsuario.setApellido(certificadoRepresentanteLegal.getPrimerApellido());
+                    datosUsuario.setTipoCertificado("Representante Legal");
                     datosUsuario.setRuc(certificadoRepresentanteLegal.getRuc());
                     datosUsuario.setRazonSocial(certificadoRepresentanteLegal.getRazonSocial());
                     datosUsuario.setCargo(certificadoRepresentanteLegal.getCargo());
                 }
                 if (certificadoDatil instanceof CertificadoSelloElectronico certificadoSelloElectronico) {
-                    datosUsuario.setCedula(null);
-                    datosUsuario.setNombre(certificadoSelloElectronico.getNombres());
-                    datosUsuario.setApellido(certificadoSelloElectronico.getPrimerApellido());
+                    datosUsuario.setTipoCertificado("Sellado Electrónico");
                     datosUsuario.setCommonName(certificadoSelloElectronico.getCommonName());
                     datosUsuario.setRuc(certificadoSelloElectronico.getRuc());
                     datosUsuario.setRazonSocial(certificadoSelloElectronico.getRazonSocial());
                 }
                 if (certificadoDatil instanceof CertificadoSelladoTiempo certificadoSelladoTiempo) {
+                    datosUsuario.setTipoCertificado("Sellado de Tiempo");
                     datosUsuario.setCommonName(certificadoSelladoTiempo.getCommonName());
                     datosUsuario.setRuc(certificadoSelladoTiempo.getRuc());
                     datosUsuario.setRazonSocial(certificadoSelladoTiempo.getRazonSocial());
-                    datosUsuario.setCertificadoDigitalValido(true);
                 }
             }
             datosUsuario.setCertificadoDigitalValido(true);

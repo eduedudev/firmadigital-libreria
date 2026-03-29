@@ -24,6 +24,7 @@ package ec.gob.firmadigital.libreria.certificate.to;
  */
 public class DatosUsuario {
 
+    private String tipoCertificado;
     private String cedula;
     private String nombre;
     private String apellido;
@@ -36,6 +37,14 @@ public class DatosUsuario {
     private String fechaFirmaArchivoP7M;
 
     public DatosUsuario() {
+    }
+
+    public String getTipoCertificado() {
+        return tipoCertificado;
+    }
+
+    public void setTipoCertificado(String tipoCertificado) {
+        this.tipoCertificado = tipoCertificado;
     }
 
     public String getCedula() {
@@ -75,7 +84,14 @@ public class DatosUsuario {
     }
 
     public void setRuc(String ruc) {
-        this.ruc = ruc;
+        this.ruc = obtenerRuc(ruc);
+    }
+
+    private String obtenerRuc(String ruc) {
+        if (ruc == null) {
+            return null;
+        }
+        return ruc.replace("VATEC-", "");
     }
 
     public String getRazonSocial() {
@@ -126,7 +142,8 @@ public class DatosUsuario {
     public String toString() {
         return """
                DatosUsuario
-               \t\t[cedula=""" + cedula + "\n"
+               \t\t[tipoCertificado=""" + tipoCertificado + "\n"
+                + "\t\tcedula=" + cedula + "\n"
                 + "\t\tnombre=" + nombre + "\n"
                 + "\t\tapellido=" + apellido + "\n"
                 + "\t\truc=" + ruc + "\n"

@@ -56,8 +56,9 @@ public class CertificadoDataFactoryDigercic {
         if (certificadoDigercic != null) {
             datosUsuario = new DatosUsuario();
             if (certificadoDigercic instanceof CertificadoExtImplDigercic) {
-                if (certificadoDigercic instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
-                    datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
+                if (certificadoDigercic instanceof CertificadoExtPersonaNaturalDigercic certificadoExtPersonaNaturalDigercic) {
+                    datosUsuario.setTipoCertificado("Persona Natural (EXT)");
+                    datosUsuario.setCedula(certificadoExtPersonaNaturalDigercic.getCedulaPasaporte());
                     datosUsuario.setNombre(ec.gob.firmadigital.libreria.utils.Utils.getCN(certificado));
                     datosUsuario.setApellido("");
                 }

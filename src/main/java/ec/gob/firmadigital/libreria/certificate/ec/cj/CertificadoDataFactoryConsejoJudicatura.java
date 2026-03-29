@@ -55,62 +55,68 @@ public class CertificadoDataFactoryConsejoJudicatura {
         if (certificadoConsejoJudicatura != null) {
             datosUsuario = new DatosUsuario();
             if (certificadoConsejoJudicatura instanceof CertificadoExtImplConsejoJudicatura) {
-                if (certificadoConsejoJudicatura instanceof CertificadoExtPersonaNaturalConsejoJudicatura certificadoPersonaNaturalConsejoJudicatura) {
-                    datosUsuario.setCedula(certificadoPersonaNaturalConsejoJudicatura.getCedulaPasaporte());
-                    datosUsuario.setNombre(certificadoPersonaNaturalConsejoJudicatura.getNombres());
-                    datosUsuario.setApellido(certificadoPersonaNaturalConsejoJudicatura.getPrimerApellido() + " "
-                            + certificadoPersonaNaturalConsejoJudicatura.getSegundoApellido());
+                if (certificadoConsejoJudicatura instanceof CertificadoExtPersonaNaturalConsejoJudicatura certificadoExtPersonaNaturalConsejoJudicatura) {
+                    datosUsuario.setTipoCertificado("Persona Natural (EXT)");
+                    datosUsuario.setCedula(certificadoExtPersonaNaturalConsejoJudicatura.getCedulaPasaporte());
+                    datosUsuario.setNombre(certificadoExtPersonaNaturalConsejoJudicatura.getNombres());
+                    datosUsuario.setApellido(certificadoExtPersonaNaturalConsejoJudicatura.getPrimerApellido() + " "
+                            + certificadoExtPersonaNaturalConsejoJudicatura.getSegundoApellido());
                 }
-                if (certificadoConsejoJudicatura instanceof CertificadoExtDepartamentoEmpresaConsejoJudicatura certificadoDepartamentoEmpresaConsejoJudicatura) {
-                    datosUsuario.setCedula(certificadoDepartamentoEmpresaConsejoJudicatura.getCedulaPasaporte());
-                    datosUsuario.setNombre(certificadoDepartamentoEmpresaConsejoJudicatura.getNombres());
-                    datosUsuario.setApellido(certificadoDepartamentoEmpresaConsejoJudicatura.getPrimerApellido() + " "
-                            + certificadoDepartamentoEmpresaConsejoJudicatura.getSegundoApellido());
-                    datosUsuario.setRuc(certificadoDepartamentoEmpresaConsejoJudicatura.getRuc());
-                    datosUsuario.setRazonSocial(certificadoDepartamentoEmpresaConsejoJudicatura.getRazonSocial());
-                    datosUsuario.setCargo(certificadoDepartamentoEmpresaConsejoJudicatura.getCargo());
+                if (certificadoConsejoJudicatura instanceof CertificadoExtDepartamentoEmpresaConsejoJudicatura certificadoExtDepartamentoEmpresaConsejoJudicatura) {
+                    datosUsuario.setTipoCertificado("Departamento Empresa (EXT)");
+                    datosUsuario.setCedula(certificadoExtDepartamentoEmpresaConsejoJudicatura.getCedulaPasaporte());
+                    datosUsuario.setNombre(certificadoExtDepartamentoEmpresaConsejoJudicatura.getNombres());
+                    datosUsuario.setApellido(certificadoExtDepartamentoEmpresaConsejoJudicatura.getPrimerApellido() + " "
+                            + certificadoExtDepartamentoEmpresaConsejoJudicatura.getSegundoApellido());
+                    datosUsuario.setRuc(certificadoExtDepartamentoEmpresaConsejoJudicatura.getRuc());
+                    datosUsuario.setRazonSocial(certificadoExtDepartamentoEmpresaConsejoJudicatura.getRazonSocial());
+                    datosUsuario.setCargo(certificadoExtDepartamentoEmpresaConsejoJudicatura.getCargo());
                 }
-                if (certificadoConsejoJudicatura instanceof CertificadoExtEmpresaConsejoJudicatura certificadoEmpresaConsejoJudicatura) {
-                    datosUsuario.setCedula(certificadoEmpresaConsejoJudicatura.getCedulaPasaporte());
-                    datosUsuario.setNombre(certificadoEmpresaConsejoJudicatura.getNombres());
-                    datosUsuario.setApellido(certificadoEmpresaConsejoJudicatura.getPrimerApellido() + " "
-                            + certificadoEmpresaConsejoJudicatura.getSegundoApellido());
-                    datosUsuario.setRuc(certificadoEmpresaConsejoJudicatura.getRuc());
-                    datosUsuario.setRazonSocial(certificadoEmpresaConsejoJudicatura.getRazonSocial());
-                    datosUsuario.setCargo(certificadoEmpresaConsejoJudicatura.getCargo());
+                if (certificadoConsejoJudicatura instanceof CertificadoExtEmpresaConsejoJudicatura certificadoExtEmpresaConsejoJudicatura) {
+                    datosUsuario.setTipoCertificado("Empresa (EXT)");
+                    datosUsuario.setCedula(certificadoExtEmpresaConsejoJudicatura.getCedulaPasaporte());
+                    datosUsuario.setNombre(certificadoExtEmpresaConsejoJudicatura.getNombres());
+                    datosUsuario.setApellido(certificadoExtEmpresaConsejoJudicatura.getPrimerApellido() + " "
+                            + certificadoExtEmpresaConsejoJudicatura.getSegundoApellido());
+                    datosUsuario.setRuc(certificadoExtEmpresaConsejoJudicatura.getRuc());
+                    datosUsuario.setRazonSocial(certificadoExtEmpresaConsejoJudicatura.getRazonSocial());
+                    datosUsuario.setCargo(certificadoExtEmpresaConsejoJudicatura.getCargo());
                 }
-                if (certificadoConsejoJudicatura instanceof CertificadoExtMiembroEmpresaConsejoJudicatura certificadoMiembroEmpresaConsejoJudicatura) {
-                    datosUsuario.setCedula(certificadoMiembroEmpresaConsejoJudicatura.getCedulaPasaporte());
-                    datosUsuario.setNombre(certificadoMiembroEmpresaConsejoJudicatura.getNombres());
-                    datosUsuario.setApellido(certificadoMiembroEmpresaConsejoJudicatura.getPrimerApellido() + " "
-                            + certificadoMiembroEmpresaConsejoJudicatura.getSegundoApellido());
-                    datosUsuario.setRuc(certificadoMiembroEmpresaConsejoJudicatura.getRuc());
-                    datosUsuario.setRazonSocial(certificadoMiembroEmpresaConsejoJudicatura.getRazonSocial());
-                    datosUsuario.setCargo(certificadoMiembroEmpresaConsejoJudicatura.getCargo());
+                if (certificadoConsejoJudicatura instanceof CertificadoExtMiembroEmpresaConsejoJudicatura certificadoExtMiembroEmpresaConsejoJudicatura) {
+                    datosUsuario.setTipoCertificado("Miembro de Empresa (EXT)");
+                    datosUsuario.setCedula(certificadoExtMiembroEmpresaConsejoJudicatura.getCedulaPasaporte());
+                    datosUsuario.setNombre(certificadoExtMiembroEmpresaConsejoJudicatura.getNombres());
+                    datosUsuario.setApellido(certificadoExtMiembroEmpresaConsejoJudicatura.getPrimerApellido() + " "
+                            + certificadoExtMiembroEmpresaConsejoJudicatura.getSegundoApellido());
+                    datosUsuario.setRuc(certificadoExtMiembroEmpresaConsejoJudicatura.getRuc());
+                    datosUsuario.setRazonSocial(certificadoExtMiembroEmpresaConsejoJudicatura.getRazonSocial());
+                    datosUsuario.setCargo(certificadoExtMiembroEmpresaConsejoJudicatura.getCargo());
                 }
-                if (certificadoConsejoJudicatura instanceof CertificadoExtPersonaJuridicaPrivadaConsejoJudicatura certificadoPersonaJuridicaPrivadaConsejoJudicatura) {
-                    datosUsuario.setCedula(certificadoPersonaJuridicaPrivadaConsejoJudicatura.getCedulaPasaporte());
-                    datosUsuario.setNombre(certificadoPersonaJuridicaPrivadaConsejoJudicatura.getNombres());
-                    datosUsuario.setApellido(certificadoPersonaJuridicaPrivadaConsejoJudicatura.getPrimerApellido() + " "
-                            + certificadoPersonaJuridicaPrivadaConsejoJudicatura.getSegundoApellido());
+                if (certificadoConsejoJudicatura instanceof CertificadoExtPersonaJuridicaPrivadaConsejoJudicatura certificadoExtPersonaJuridicaPrivadaConsejoJudicatura) {
+                    datosUsuario.setTipoCertificado("Persona Jurídica (EXT)");
+                    datosUsuario.setCedula(certificadoExtPersonaJuridicaPrivadaConsejoJudicatura.getCedulaPasaporte());
+                    datosUsuario.setNombre(certificadoExtPersonaJuridicaPrivadaConsejoJudicatura.getNombres());
+                    datosUsuario.setApellido(certificadoExtPersonaJuridicaPrivadaConsejoJudicatura.getPrimerApellido() + " "
+                            + certificadoExtPersonaJuridicaPrivadaConsejoJudicatura.getSegundoApellido());
                     datosUsuario.setRuc(datosUsuario.getRuc());
                     datosUsuario.setRazonSocial(datosUsuario.getRazonSocial());
                     datosUsuario.setCargo(datosUsuario.getCargo());
                 }
-                if (certificadoConsejoJudicatura instanceof CertificadoExtPersonaJuridicaPublicaConsejoJudicatura certificadoPersonaJuridicaPublicaConsejoJudicatura) {
-                    datosUsuario.setCedula(certificadoPersonaJuridicaPublicaConsejoJudicatura.getCedulaPasaporte());
-                    datosUsuario.setNombre(certificadoPersonaJuridicaPublicaConsejoJudicatura.getNombres());
-                    datosUsuario.setApellido(certificadoPersonaJuridicaPublicaConsejoJudicatura.getPrimerApellido() + " "
-                            + certificadoPersonaJuridicaPublicaConsejoJudicatura.getSegundoApellido());
-                    datosUsuario.setRuc(certificadoPersonaJuridicaPublicaConsejoJudicatura.getRuc());
-                    datosUsuario.setRazonSocial(certificadoPersonaJuridicaPublicaConsejoJudicatura.getRazonSocial());
-                    datosUsuario.setCargo(certificadoPersonaJuridicaPublicaConsejoJudicatura.getCargo());
+                if (certificadoConsejoJudicatura instanceof CertificadoExtPersonaJuridicaPublicaConsejoJudicatura certificadoExtPersonaJuridicaPublicaConsejoJudicatura) {
+                    datosUsuario.setTipoCertificado("Persona Jurídica Pública (EXT)");
+                    datosUsuario.setCedula(certificadoExtPersonaJuridicaPublicaConsejoJudicatura.getCedulaPasaporte());
+                    datosUsuario.setNombre(certificadoExtPersonaJuridicaPublicaConsejoJudicatura.getNombres());
+                    datosUsuario.setApellido(certificadoExtPersonaJuridicaPublicaConsejoJudicatura.getPrimerApellido() + " "
+                            + certificadoExtPersonaJuridicaPublicaConsejoJudicatura.getSegundoApellido());
+                    datosUsuario.setRuc(certificadoExtPersonaJuridicaPublicaConsejoJudicatura.getRuc());
+                    datosUsuario.setRazonSocial(certificadoExtPersonaJuridicaPublicaConsejoJudicatura.getRazonSocial());
+                    datosUsuario.setCargo(certificadoExtPersonaJuridicaPublicaConsejoJudicatura.getCargo());
                 }
-                if (certificadoConsejoJudicatura instanceof CertificadoSelladoTiempo certificadoSelladoTiempo) {
-                    datosUsuario.setCommonName(certificadoSelladoTiempo.getCommonName());
-                    datosUsuario.setRuc(certificadoSelladoTiempo.getRuc());
-                    datosUsuario.setRazonSocial(certificadoSelladoTiempo.getRazonSocial());
-                    datosUsuario.setCertificadoDigitalValido(true);
+                if (certificadoConsejoJudicatura instanceof CertificadoExtSelladoTiempoConsejoJudicatura certificadoExtSelladoTiempoConsejoJudicatura) {
+                    datosUsuario.setTipoCertificado("Sellado de Tiempo (EXT)");
+                    datosUsuario.setCommonName(certificadoExtSelladoTiempoConsejoJudicatura.getCommonName());
+                    datosUsuario.setRuc(certificadoExtSelladoTiempoConsejoJudicatura.getRuc());
+                    datosUsuario.setRazonSocial(certificadoExtSelladoTiempoConsejoJudicatura.getRazonSocial());
                 }
             }
             //RESOLUCION-ARCOTEL-2024-0176

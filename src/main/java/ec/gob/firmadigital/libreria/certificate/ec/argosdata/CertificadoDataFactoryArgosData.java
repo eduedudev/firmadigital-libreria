@@ -60,13 +60,15 @@ public class CertificadoDataFactoryArgosData {
         if (certificadoArgosData != null) {
             datosUsuario = new DatosUsuario();
             if (certificadoArgosData instanceof CertificadoExtImplArgosData) {
-                if (certificadoArgosData instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
+                if (certificadoArgosData instanceof CertificadoExtPersonaNaturalArgosData certificadoPersonaNatural) {
+                    datosUsuario.setTipoCertificado("Persona Natural (EXT)");
                     datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
                     datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
                     datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido() + " "
                             + certificadoPersonaNatural.getSegundoApellido());
                 }
-                if (certificadoArgosData instanceof CertificadoRepresentanteLegal certificadoRepresentanteLegal) {
+                if (certificadoArgosData instanceof CertificadoExtRepresentanteLegalArgosData certificadoRepresentanteLegal) {
+                    datosUsuario.setTipoCertificado("Representante Legal (EXT)");
                     datosUsuario.setCedula(certificadoRepresentanteLegal.getCedulaPasaporte());
                     datosUsuario.setNombre(certificadoRepresentanteLegal.getNombres());
                     datosUsuario.setApellido(certificadoRepresentanteLegal.getPrimerApellido() + " "
@@ -79,16 +81,16 @@ public class CertificadoDataFactoryArgosData {
             //RESOLUCION-ARCOTEL-2024-0176
             if (certificadoArgosData instanceof CertificadoSubjImpl) {
                 if (certificadoArgosData instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
+                    datosUsuario.setTipoCertificado("Persona Natural");
                     datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
                     datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
                     datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido());
                 }
                 if (certificadoArgosData instanceof CertificadoRepresentanteLegal certificadoRepresentanteLegal) {
-                    datosUsuario.setCedula(certificadoRepresentanteLegal.getCedulaPasaporte());
-                    datosUsuario.setNombre(certificadoRepresentanteLegal.getNombres());
-                    datosUsuario.setApellido(certificadoRepresentanteLegal.getPrimerApellido());
+                    datosUsuario.setTipoCertificado("Representante Legal");
                     datosUsuario.setRuc(certificadoRepresentanteLegal.getRuc());
                     datosUsuario.setRazonSocial(certificadoRepresentanteLegal.getRazonSocial());
+                    datosUsuario.setCargo(certificadoRepresentanteLegal.getCargo());
                 }
             }
             datosUsuario.setCertificadoDigitalValido(true);

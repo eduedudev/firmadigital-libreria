@@ -72,29 +72,32 @@ public class CertificadoDataFactoryAnfAc {
         if (certificadoAnfAc18332 != null) {
             datosUsuario = new DatosUsuario();
             if (certificadoAnfAc18332 instanceof CertificadoExtImplAnfAc_18332) {
-                if (certificadoAnfAc18332 instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
-                    datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
-                    datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
-                    datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido() + " "
-                            + certificadoPersonaNatural.getSegundoApellido());
+                if (certificadoAnfAc18332 instanceof CertificadoExtPersonaNaturalAnfAc_18332 certificadoExtPersonaNaturalAnfAc_18332) {
+                    datosUsuario.setTipoCertificado("Persona Natural (EXT)");
+                    datosUsuario.setCedula(certificadoExtPersonaNaturalAnfAc_18332.getCedulaPasaporte());
+                    datosUsuario.setNombre(certificadoExtPersonaNaturalAnfAc_18332.getNombres());
+                    datosUsuario.setApellido(certificadoExtPersonaNaturalAnfAc_18332.getPrimerApellido() + " "
+                            + certificadoExtPersonaNaturalAnfAc_18332.getSegundoApellido());
                 }
-                if (certificadoAnfAc18332 instanceof CertificadoFuncionarioPublico certificadoFuncionarioPublico) {
-                    datosUsuario.setCedula(certificadoFuncionarioPublico.getCedulaPasaporte());
-                    datosUsuario.setNombre(certificadoFuncionarioPublico.getNombres());
-                    datosUsuario.setApellido(certificadoFuncionarioPublico.getPrimerApellido() + " "
-                            + certificadoFuncionarioPublico.getSegundoApellido());
-                    datosUsuario.setRuc(certificadoFuncionarioPublico.getRuc());
-                    datosUsuario.setInstitucion(certificadoFuncionarioPublico.getInstitucion());
-                    datosUsuario.setCargo(certificadoFuncionarioPublico.getCargo());
+                if (certificadoAnfAc18332 instanceof CertificadoExtFuncionarioPublicoAnfAc_18332 certificadoExtFuncionarioPublicoAnfAc_18332) {
+                    datosUsuario.setTipoCertificado("Funcionario Público (EXT)");
+                    datosUsuario.setCedula(certificadoExtFuncionarioPublicoAnfAc_18332.getCedulaPasaporte());
+                    datosUsuario.setNombre(certificadoExtFuncionarioPublicoAnfAc_18332.getNombres());
+                    datosUsuario.setApellido(certificadoExtFuncionarioPublicoAnfAc_18332.getPrimerApellido() + " "
+                            + certificadoExtFuncionarioPublicoAnfAc_18332.getSegundoApellido());
+                    datosUsuario.setRuc(certificadoExtFuncionarioPublicoAnfAc_18332.getRuc());
+                    datosUsuario.setInstitucion(certificadoExtFuncionarioPublicoAnfAc_18332.getInstitucion());
+                    datosUsuario.setCargo(certificadoExtFuncionarioPublicoAnfAc_18332.getCargo());
                 }
-                if (certificadoAnfAc18332 instanceof CertificadoPersonaJuridica certificadoPersonaJuridica) {
-                    datosUsuario.setCedula(certificadoPersonaJuridica.getCedulaPasaporte());
-                    datosUsuario.setNombre(certificadoPersonaJuridica.getNombres());
-                    datosUsuario.setApellido(certificadoPersonaJuridica.getPrimerApellido() + " "
-                            + certificadoPersonaJuridica.getSegundoApellido());
-                    datosUsuario.setRuc(certificadoPersonaJuridica.getRuc());
-                    datosUsuario.setRazonSocial(certificadoPersonaJuridica.getRazonSocial());
-                    datosUsuario.setCargo(certificadoPersonaJuridica.getCargo());
+                if (certificadoAnfAc18332 instanceof CertificadoExtPersonaJuridicaAnfAc_18332 certificadoExtPersonaJuridicaAnfAc_18332) {
+                    datosUsuario.setTipoCertificado("Persona Jurídica (EXT)");
+                    datosUsuario.setCedula(certificadoExtPersonaJuridicaAnfAc_18332.getCedulaPasaporte());
+                    datosUsuario.setNombre(certificadoExtPersonaJuridicaAnfAc_18332.getNombres());
+                    datosUsuario.setApellido(certificadoExtPersonaJuridicaAnfAc_18332.getPrimerApellido() + " "
+                            + certificadoExtPersonaJuridicaAnfAc_18332.getSegundoApellido());
+                    datosUsuario.setRuc(certificadoExtPersonaJuridicaAnfAc_18332.getRuc());
+                    datosUsuario.setRazonSocial(certificadoExtPersonaJuridicaAnfAc_18332.getRazonSocial());
+                    datosUsuario.setCargo(certificadoExtPersonaJuridicaAnfAc_18332.getCargo());
                 }
             }
             datosUsuario.setCertificadoDigitalValido(true);
@@ -104,76 +107,72 @@ public class CertificadoDataFactoryAnfAc {
         if (certificadoAnfAc37442 != null) {
             datosUsuario = new DatosUsuario();
             if (certificadoAnfAc37442 instanceof CertificadoExtImplAnfAc_37442) {
-                if (certificadoAnfAc37442 instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
-                    datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
-                    datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
-                    datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido() + " "
-                            + certificadoPersonaNatural.getSegundoApellido());
+                if (certificadoAnfAc37442 instanceof CertificadoExtPersonaNaturalAnfAc_37442 certificadoExtPersonaNaturalAnfAc_37442) {
+                    datosUsuario.setTipoCertificado("Persona Natural (EXT)");
+                    datosUsuario.setCedula(certificadoExtPersonaNaturalAnfAc_37442.getCedulaPasaporte());
+                    datosUsuario.setNombre(certificadoExtPersonaNaturalAnfAc_37442.getNombres());
+                    datosUsuario.setApellido(certificadoExtPersonaNaturalAnfAc_37442.getPrimerApellido() + " "
+                            + certificadoExtPersonaNaturalAnfAc_37442.getSegundoApellido());
                 }
-                if (certificadoAnfAc37442 instanceof CertificadoFuncionarioPublico certificadoFuncionarioPublico) {
-                    datosUsuario.setCedula(certificadoFuncionarioPublico.getCedulaPasaporte());
-                    datosUsuario.setNombre(certificadoFuncionarioPublico.getNombres());
-                    datosUsuario.setApellido(certificadoFuncionarioPublico.getPrimerApellido() + " "
-                            + certificadoFuncionarioPublico.getSegundoApellido());
-                    datosUsuario.setRuc(certificadoFuncionarioPublico.getRuc());
-                    datosUsuario.setInstitucion(certificadoFuncionarioPublico.getInstitucion());
-                    datosUsuario.setCargo(certificadoFuncionarioPublico.getCargo());
+                if (certificadoAnfAc37442 instanceof CertificadoExtFuncionarioPublicoAnfAc_37442 certificadoExtFuncionarioPublicoAnfAc_37442) {
+                    datosUsuario.setTipoCertificado("Funcionario Público (EXT)");
+                    datosUsuario.setCedula(certificadoExtFuncionarioPublicoAnfAc_37442.getCedulaPasaporte());
+                    datosUsuario.setNombre(certificadoExtFuncionarioPublicoAnfAc_37442.getNombres());
+                    datosUsuario.setApellido(certificadoExtFuncionarioPublicoAnfAc_37442.getPrimerApellido() + " "
+                            + certificadoExtFuncionarioPublicoAnfAc_37442.getSegundoApellido());
+                    datosUsuario.setRuc(certificadoExtFuncionarioPublicoAnfAc_37442.getRuc());
+                    datosUsuario.setInstitucion(certificadoExtFuncionarioPublicoAnfAc_37442.getInstitucion());
+                    datosUsuario.setCargo(certificadoExtFuncionarioPublicoAnfAc_37442.getCargo());
                 }
-                if (certificadoAnfAc37442 instanceof CertificadoPersonaJuridica certificadoPersonaJuridica) {
-                    datosUsuario.setCedula(certificadoPersonaJuridica.getCedulaPasaporte());
-                    datosUsuario.setNombre(certificadoPersonaJuridica.getNombres());
-                    datosUsuario.setApellido(certificadoPersonaJuridica.getPrimerApellido() + " "
-                            + certificadoPersonaJuridica.getSegundoApellido());
-                    datosUsuario.setRuc(certificadoPersonaJuridica.getRuc());
-                    datosUsuario.setRazonSocial(certificadoPersonaJuridica.getRazonSocial());
-                    datosUsuario.setCargo(certificadoPersonaJuridica.getCargo());
+                if (certificadoAnfAc37442 instanceof CertificadoExtPersonaJuridicaAnfAc_37442 certificadoExtPersonaJuridicaAnfAc_37442) {
+                    datosUsuario.setTipoCertificado("Persona Jurídica (EXT)");
+                    datosUsuario.setCedula(certificadoExtPersonaJuridicaAnfAc_37442.getCedulaPasaporte());
+                    datosUsuario.setNombre(certificadoExtPersonaJuridicaAnfAc_37442.getNombres());
+                    datosUsuario.setApellido(certificadoExtPersonaJuridicaAnfAc_37442.getPrimerApellido() + " "
+                            + certificadoExtPersonaJuridicaAnfAc_37442.getSegundoApellido());
+                    datosUsuario.setRuc(certificadoExtPersonaJuridicaAnfAc_37442.getRuc());
+                    datosUsuario.setRazonSocial(certificadoExtPersonaJuridicaAnfAc_37442.getRazonSocial());
+                    datosUsuario.setCargo(certificadoExtPersonaJuridicaAnfAc_37442.getCargo());
                 }
-                if (certificadoAnfAc37442 instanceof CertificadoSelladoTiempo certificadoSelladoTiempo) {
-                    datosUsuario.setCommonName(certificadoSelladoTiempo.getCommonName());
-                    datosUsuario.setRuc(certificadoSelladoTiempo.getRuc());
-                    datosUsuario.setRazonSocial(certificadoSelladoTiempo.getRazonSocial());
-                    datosUsuario.setCertificadoDigitalValido(true);
+                if (certificadoAnfAc37442 instanceof CertificadoExtSelladoTiempoAnfAc_37442 certificadoExtSelladoTiempoAnfAc_37442) {
+                    datosUsuario.setTipoCertificado("Sellado de Tiempo (EXT)");
+                    datosUsuario.setCommonName(certificadoExtSelladoTiempoAnfAc_37442.getCommonName());
+                    datosUsuario.setRuc(certificadoExtSelladoTiempoAnfAc_37442.getRuc());
+                    datosUsuario.setRazonSocial(certificadoExtSelladoTiempoAnfAc_37442.getRazonSocial());
                 }
             }
             // RESOLUCION-ARCOTEL-2024-0176
             if (certificadoAnfAc37442 instanceof CertificadoSubjImpl) {
                 if (certificadoAnfAc37442 instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
+                    datosUsuario.setTipoCertificado("Persona Natural");
                     datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
                     datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
                     datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido() + " "
                             + certificadoPersonaNatural.getSegundoApellido());
                 }
                 if (certificadoAnfAc37442 instanceof CertificadoMiembroEmpresa certificadoMiembroEmpresa) {
-                    datosUsuario.setCedula(certificadoMiembroEmpresa.getCedulaPasaporte());
-                    datosUsuario.setNombre(certificadoMiembroEmpresa.getNombres());
-                    datosUsuario.setApellido(certificadoMiembroEmpresa.getPrimerApellido() + " "
-                            + certificadoMiembroEmpresa.getSegundoApellido());
+                    datosUsuario.setTipoCertificado("Miembro Empresa");
                     datosUsuario.setRuc(certificadoMiembroEmpresa.getRuc());
                     datosUsuario.setRazonSocial(certificadoMiembroEmpresa.getRazonSocial());
                     datosUsuario.setCargo(certificadoMiembroEmpresa.getCargo());
                 }
                 if (certificadoAnfAc37442 instanceof CertificadoRepresentanteLegal certificadoRepresentanteLegal) {
-                    datosUsuario.setCedula(certificadoRepresentanteLegal.getCedulaPasaporte());
-                    datosUsuario.setNombre(certificadoRepresentanteLegal.getNombres());
-                    datosUsuario.setApellido(certificadoRepresentanteLegal.getPrimerApellido() + " "
-                            + certificadoRepresentanteLegal.getSegundoApellido());
+                    datosUsuario.setTipoCertificado("Representante Legal");
                     datosUsuario.setRuc(certificadoRepresentanteLegal.getRuc());
                     datosUsuario.setRazonSocial(certificadoRepresentanteLegal.getRazonSocial());
                     datosUsuario.setCargo(certificadoRepresentanteLegal.getCargo());
                 }
                 if (certificadoAnfAc37442 instanceof CertificadoSelloElectronico certificadoSelloElectronico) {
-                    datosUsuario.setCedula(null);
-                    datosUsuario.setNombre(certificadoSelloElectronico.getNombres());
-                    datosUsuario.setApellido(certificadoSelloElectronico.getPrimerApellido());
+                    datosUsuario.setTipoCertificado("Sellado Electrónico");
                     datosUsuario.setCommonName(certificadoSelloElectronico.getCommonName());
                     datosUsuario.setRuc(certificadoSelloElectronico.getRuc());
                     datosUsuario.setRazonSocial(certificadoSelloElectronico.getRazonSocial());
                 }
                 if (certificadoAnfAc37442 instanceof CertificadoSelladoTiempo certificadoSelladoTiempo) {
+                    datosUsuario.setTipoCertificado("Sellado de Tiempo");
                     datosUsuario.setCommonName(certificadoSelladoTiempo.getCommonName());
                     datosUsuario.setRuc(certificadoSelladoTiempo.getRuc());
                     datosUsuario.setRazonSocial(certificadoSelladoTiempo.getRazonSocial());
-                    datosUsuario.setCertificadoDigitalValido(true);
                 }
             }
             datosUsuario.setCertificadoDigitalValido(true);

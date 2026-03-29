@@ -67,13 +67,15 @@ public class CertificadoDataFactoryLazzate {
         if (certificadoLazzate != null) {
             datosUsuario = new DatosUsuario();
             if (certificadoLazzate instanceof CertificadoExtImplLazzate) {
-                if (certificadoLazzate instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
-                    datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
-                    datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
-                    datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido() + " "
-                            + certificadoPersonaNatural.getSegundoApellido());
+                if (certificadoLazzate instanceof CertificadoExtPersonaNaturalLazzate certificadoExtPersonaNaturalLazzate) {
+                    datosUsuario.setTipoCertificado("Persona Natural (EXT)");
+                    datosUsuario.setCedula(certificadoExtPersonaNaturalLazzate.getCedulaPasaporte());
+                    datosUsuario.setNombre(certificadoExtPersonaNaturalLazzate.getNombres());
+                    datosUsuario.setApellido(certificadoExtPersonaNaturalLazzate.getPrimerApellido() + " "
+                            + certificadoExtPersonaNaturalLazzate.getSegundoApellido());
                 }
-                if (certificadoLazzate instanceof CertificadoPersonaJuridica certificadoExtPersonaJuridicaLazzate) {
+                if (certificadoLazzate instanceof CertificadoExtPersonaJuridicaLazzate certificadoExtPersonaJuridicaLazzate) {
+                    datosUsuario.setTipoCertificado("Persona Jurídica (EXT)");
                     datosUsuario.setCedula(certificadoExtPersonaJuridicaLazzate.getCedulaPasaporte());
                     datosUsuario.setNombre(certificadoExtPersonaJuridicaLazzate.getNombres());
                     datosUsuario.setApellido(certificadoExtPersonaJuridicaLazzate.getPrimerApellido() + " "

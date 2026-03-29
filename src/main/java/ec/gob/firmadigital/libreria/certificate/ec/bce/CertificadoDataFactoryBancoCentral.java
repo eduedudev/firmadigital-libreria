@@ -60,12 +60,14 @@ public class CertificadoDataFactoryBancoCentral {
             datosUsuario = new DatosUsuario();
             if (certificadoBancoCentral instanceof CertificadoExtImplBancoCentral) {
                 if (certificadoBancoCentral instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
+                    datosUsuario.setTipoCertificado("Persona Natural (EXT)");
                     datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
                     datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
                     datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido() + " "
                             + certificadoPersonaNatural.getSegundoApellido());
                 }
                 if (certificadoBancoCentral instanceof CertificadoFuncionarioPublico certificadoFuncionarioPublico) {
+                    datosUsuario.setTipoCertificado("Funcionario Publico (EXT)");
                     datosUsuario.setCedula(certificadoFuncionarioPublico.getCedulaPasaporte());
                     datosUsuario.setNombre(certificadoFuncionarioPublico.getNombres());
                     datosUsuario.setApellido(certificadoFuncionarioPublico.getPrimerApellido() + " "
@@ -75,6 +77,7 @@ public class CertificadoDataFactoryBancoCentral {
                     datosUsuario.setCargo(certificadoFuncionarioPublico.getCargo());
                 }
                 if (certificadoBancoCentral instanceof CertificadoMiembroEmpresa certificadoMiembroEmpresa) {
+                    datosUsuario.setTipoCertificado("Miembro Empresa (EXT)");
                     datosUsuario.setCedula(certificadoMiembroEmpresa.getCedulaPasaporte());
                     datosUsuario.setNombre(certificadoMiembroEmpresa.getNombres());
                     datosUsuario.setApellido(certificadoMiembroEmpresa.getPrimerApellido() + " "
@@ -84,6 +87,7 @@ public class CertificadoDataFactoryBancoCentral {
                     datosUsuario.setCargo(certificadoMiembroEmpresa.getCargo());
                 }
                 if (certificadoBancoCentral instanceof CertificadoPersonaJuridica certificadoPersonaJuridica) {
+                    datosUsuario.setTipoCertificado("Persona Jurídica (EXT)");
                     datosUsuario.setCedula(certificadoPersonaJuridica.getCedulaPasaporte());
                     datosUsuario.setNombre(certificadoPersonaJuridica.getNombres());
                     datosUsuario.setApellido(certificadoPersonaJuridica.getPrimerApellido() + " "
@@ -94,6 +98,7 @@ public class CertificadoDataFactoryBancoCentral {
                 }
 
                 if (certificadoBancoCentral instanceof CertificadoRepresentanteLegal certificadoRepresentanteLegal) {
+                    datosUsuario.setTipoCertificado("Representante Legal (EXT)");
                     datosUsuario.setCedula(certificadoRepresentanteLegal.getCedulaPasaporte());
                     datosUsuario.setNombre(certificadoRepresentanteLegal.getNombres());
                     datosUsuario.setApellido(certificadoRepresentanteLegal.getPrimerApellido() + " "
@@ -103,10 +108,10 @@ public class CertificadoDataFactoryBancoCentral {
                     datosUsuario.setCargo(certificadoRepresentanteLegal.getCargo());
                 }
                 if (certificadoBancoCentral instanceof CertificadoSelladoTiempo certificadoSelladoTiempo) {
+                    datosUsuario.setTipoCertificado("Sellado de Tiempo (EXT)");
                     datosUsuario.setCommonName(certificadoSelladoTiempo.getCommonName());
                     datosUsuario.setRuc(certificadoSelladoTiempo.getRuc());
                     datosUsuario.setRazonSocial(certificadoSelladoTiempo.getRazonSocial());
-                    datosUsuario.setCertificadoDigitalValido(true);
                 }
             }
             //RESOLUCION-ARCOTEL-2024-0176

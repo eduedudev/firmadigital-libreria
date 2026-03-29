@@ -60,30 +60,25 @@ public class CertificadoDataFactoryPrimeCoreLat {
             //RESOLUCION-ARCOTEL-2024-0176
             if (certificadoPrimeCoreLat instanceof CertificadoSubjImpl) {
                 if (certificadoPrimeCoreLat instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
+                    datosUsuario.setTipoCertificado("Persona Natural");
                     datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
                     datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
                     datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido());
                 }
                 if (certificadoPrimeCoreLat instanceof CertificadoMiembroEmpresa certificadoMiembroEmpresa) {
-                    datosUsuario.setCedula(certificadoMiembroEmpresa.getCedulaPasaporte());
-                    datosUsuario.setNombre(certificadoMiembroEmpresa.getNombres());
-                    datosUsuario.setApellido(certificadoMiembroEmpresa.getPrimerApellido());
+                    datosUsuario.setTipoCertificado("Miembro Empresa");
                     datosUsuario.setRuc(certificadoMiembroEmpresa.getRuc());
                     datosUsuario.setRazonSocial(certificadoMiembroEmpresa.getRazonSocial());
                     datosUsuario.setCargo(certificadoMiembroEmpresa.getCargo());
                 }
                 if (certificadoPrimeCoreLat instanceof CertificadoPersonaJuridica certificadoPersonaJuridica) {
-                    datosUsuario.setCedula(certificadoPersonaJuridica.getCedulaPasaporte());
-                    datosUsuario.setNombre(certificadoPersonaJuridica.getNombres());
-                    datosUsuario.setApellido(certificadoPersonaJuridica.getPrimerApellido());
+                    datosUsuario.setTipoCertificado("Persona Jurídica");
                     datosUsuario.setRuc(certificadoPersonaJuridica.getRuc());
                     datosUsuario.setRazonSocial(certificadoPersonaJuridica.getRazonSocial());
                     datosUsuario.setCargo(certificadoPersonaJuridica.getCargo());
                 }
                 if (certificadoPrimeCoreLat instanceof CertificadoSelloElectronico certificadoSelloElectronico) {
-                    datosUsuario.setCedula(null);
-                    datosUsuario.setNombre(null);
-                    datosUsuario.setApellido(null);
+                    datosUsuario.setTipoCertificado("Sello Electrónico");
                     datosUsuario.setRuc(certificadoSelloElectronico.getRuc());
                     datosUsuario.setRazonSocial(certificadoSelloElectronico.getRazonSocial());
                     datosUsuario.setCommonName(certificadoSelloElectronico.getCommonName());

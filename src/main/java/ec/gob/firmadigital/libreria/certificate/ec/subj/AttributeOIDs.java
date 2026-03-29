@@ -37,5 +37,6 @@ public final class AttributeOIDs {
     public static final String OID_CIUDAD = "2.5.4.7";
     public static final String OID_RUC = "2.5.4.97";
     public static final String OID_ORGANIZACION = "2.5.4.10";
+    public static final String OID_DEPARTAMENTO = "2.5.4.11";
     public static final String OID_CARGO = "2.5.4.12";
 }

@@ -55,42 +55,41 @@ public class CertificadoDataFactoryFirmaSegura {
         if (certificadoFirmaSegura != null) {
             datosUsuario = new DatosUsuario();
             if (certificadoFirmaSegura instanceof CertificadoExtImplFirmaSegura) {
-                if (certificadoFirmaSegura instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
-                    datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
-                    datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
-                    datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido() + " "
-                            + certificadoPersonaNatural.getSegundoApellido());
+                if (certificadoFirmaSegura instanceof CertificadoExtPersonaNaturalFirmaSegura certificadoExtPersonaNaturalFirmaSegura) {
+                    datosUsuario.setTipoCertificado("Persona Natural (EXT)");
+                    datosUsuario.setCedula(certificadoExtPersonaNaturalFirmaSegura.getCedulaPasaporte());
+                    datosUsuario.setNombre(certificadoExtPersonaNaturalFirmaSegura.getNombres());
+                    datosUsuario.setApellido(certificadoExtPersonaNaturalFirmaSegura.getPrimerApellido() + " "
+                            + certificadoExtPersonaNaturalFirmaSegura.getSegundoApellido());
                 }
-                if (certificadoFirmaSegura instanceof CertificadoRepresentanteLegal certificadoRepresentanteLegal) {
-                    datosUsuario.setCedula(certificadoRepresentanteLegal.getCedulaPasaporte());
-                    datosUsuario.setNombre(certificadoRepresentanteLegal.getNombres());
-                    datosUsuario.setApellido(certificadoRepresentanteLegal.getPrimerApellido() + " "
-                            + certificadoRepresentanteLegal.getSegundoApellido());
-                    datosUsuario.setRuc(certificadoRepresentanteLegal.getRuc());
-                    datosUsuario.setRazonSocial(certificadoRepresentanteLegal.getRazonSocial());
-                    datosUsuario.setCargo(certificadoRepresentanteLegal.getCargo());
+                if (certificadoFirmaSegura instanceof CertificadoExtRepresentanteLegalFirmaSegura certificadoExtRepresentanteLegalFirmaSegura) {
+                    datosUsuario.setTipoCertificado("Representante Legal (EXT)");
+                    datosUsuario.setCedula(certificadoExtRepresentanteLegalFirmaSegura.getCedulaPasaporte());
+                    datosUsuario.setNombre(certificadoExtRepresentanteLegalFirmaSegura.getNombres());
+                    datosUsuario.setApellido(certificadoExtRepresentanteLegalFirmaSegura.getPrimerApellido() + " "
+                            + certificadoExtRepresentanteLegalFirmaSegura.getSegundoApellido());
+                    datosUsuario.setRuc(certificadoExtRepresentanteLegalFirmaSegura.getRuc());
+                    datosUsuario.setRazonSocial(certificadoExtRepresentanteLegalFirmaSegura.getRazonSocial());
+                    datosUsuario.setCargo(certificadoExtRepresentanteLegalFirmaSegura.getCargo());
                 }
             }
             //RESOLUCION-ARCOTEL-2024-0176
             if (certificadoFirmaSegura instanceof CertificadoSubjImpl) {
                 if (certificadoFirmaSegura instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
+                    datosUsuario.setTipoCertificado("Persona Natural");
                     datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
                     datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
                     datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido());
                     datosUsuario.setRuc(certificadoPersonaNatural.getRuc());
                 }
                 if (certificadoFirmaSegura instanceof CertificadoMiembroEmpresa certificadoMiembroEmpresa) {
-                    datosUsuario.setCedula(certificadoMiembroEmpresa.getCedulaPasaporte());
-                    datosUsuario.setNombre(certificadoMiembroEmpresa.getNombres());
-                    datosUsuario.setApellido(certificadoMiembroEmpresa.getPrimerApellido());
+                    datosUsuario.setTipoCertificado("Miembro Empresa");
                     datosUsuario.setRuc(certificadoMiembroEmpresa.getRuc());
                     datosUsuario.setRazonSocial(certificadoMiembroEmpresa.getRazonSocial());
                     datosUsuario.setCargo(certificadoMiembroEmpresa.getCargo());
                 }
                 if (certificadoFirmaSegura instanceof CertificadoRepresentanteLegal certificadoRepresentanteLegal) {
-                    datosUsuario.setCedula(certificadoRepresentanteLegal.getCedulaPasaporte());
-                    datosUsuario.setNombre(certificadoRepresentanteLegal.getNombres());
-                    datosUsuario.setApellido(certificadoRepresentanteLegal.getPrimerApellido());
+                    datosUsuario.setTipoCertificado("Representante Legal");
                     datosUsuario.setRuc(certificadoRepresentanteLegal.getRuc());
                     datosUsuario.setRazonSocial(certificadoRepresentanteLegal.getRazonSocial());
                     datosUsuario.setCargo(certificadoRepresentanteLegal.getCargo());

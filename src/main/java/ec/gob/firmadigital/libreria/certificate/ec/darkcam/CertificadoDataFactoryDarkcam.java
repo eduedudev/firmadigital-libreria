@@ -60,33 +60,28 @@ public class CertificadoDataFactoryDarkcam {
             //RESOLUCION-ARCOTEL-2024-0176
             if (certificadoDarkcam instanceof CertificadoSubjImpl) {
                 if (certificadoDarkcam instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
+                    datosUsuario.setTipoCertificado("Persona Natural");
                     datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
                     datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
                     datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido());
                 }
                 if (certificadoDarkcam instanceof CertificadoMiembroEmpresa certificadoMiembroEmpresa) {
-                    datosUsuario.setCedula(certificadoMiembroEmpresa.getCedulaPasaporte());
-                    datosUsuario.setNombre(certificadoMiembroEmpresa.getNombres());
-                    datosUsuario.setApellido(certificadoMiembroEmpresa.getPrimerApellido());
+                    datosUsuario.setTipoCertificado("Miembro Empresa");
                     datosUsuario.setRuc(certificadoMiembroEmpresa.getRuc());
                     datosUsuario.setRazonSocial(certificadoMiembroEmpresa.getRazonSocial());
                     datosUsuario.setCargo(certificadoMiembroEmpresa.getCargo());
                 }
-                if (certificadoDarkcam instanceof CertificadoSelloElectronico certificadoSelloElectronico) {
-                    datosUsuario.setCedula(null);
-                    datosUsuario.setNombre(certificadoSelloElectronico.getNombres());
-                    datosUsuario.setApellido(certificadoSelloElectronico.getPrimerApellido());
-                    datosUsuario.setCommonName(certificadoSelloElectronico.getCommonName());
-                    datosUsuario.setRuc(certificadoSelloElectronico.getRuc());
-                    datosUsuario.setRazonSocial(certificadoSelloElectronico.getRazonSocial());
-                }
                 if (certificadoDarkcam instanceof CertificadoRepresentanteLegal certificadoRepresentanteLegal) {
-                    datosUsuario.setCedula(certificadoRepresentanteLegal.getCedulaPasaporte());
-                    datosUsuario.setNombre(certificadoRepresentanteLegal.getNombres());
-                    datosUsuario.setApellido(certificadoRepresentanteLegal.getPrimerApellido());
+                    datosUsuario.setTipoCertificado("Representante Legal");
                     datosUsuario.setRuc(certificadoRepresentanteLegal.getRuc());
                     datosUsuario.setRazonSocial(certificadoRepresentanteLegal.getRazonSocial());
                     datosUsuario.setCargo(certificadoRepresentanteLegal.getCargo());
+                }
+                if (certificadoDarkcam instanceof CertificadoSelloElectronico certificadoSelloElectronico) {
+                    datosUsuario.setTipoCertificado("Sellado Electrónico");
+                    datosUsuario.setCommonName(certificadoSelloElectronico.getCommonName());
+                    datosUsuario.setRuc(certificadoSelloElectronico.getRuc());
+                    datosUsuario.setRazonSocial(certificadoSelloElectronico.getRazonSocial());
                 }
             }
             datosUsuario.setCertificadoDigitalValido(true);

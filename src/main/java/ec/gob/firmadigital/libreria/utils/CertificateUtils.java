@@ -25,18 +25,21 @@ import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
+import org.bouncycastle.asn1.ASN1ObjectIdentifier;
 import org.bouncycastle.asn1.ASN1Primitive;
 import org.bouncycastle.asn1.ASN1Sequence;
 import org.bouncycastle.asn1.DERIA5String;
 import org.bouncycastle.asn1.x509.AccessDescription;
 import org.bouncycastle.asn1.x509.AuthorityInformationAccess;
 import org.bouncycastle.asn1.x509.CRLDistPoint;
+import org.bouncycastle.asn1.x509.CertificatePolicies;
 import org.bouncycastle.asn1.x509.DistributionPoint;
 import org.bouncycastle.asn1.x509.DistributionPointName;
 import org.bouncycastle.asn1.x509.Extension;
 import org.bouncycastle.asn1.x509.GeneralName;
 import org.bouncycastle.asn1.x509.GeneralNames;
+import org.bouncycastle.asn1.x509.PolicyInformation;
+import org.bouncycastle.cert.X509CertificateHolder;
 import org.bouncycastle.x509.extension.X509ExtensionUtil;
 
 /**
@@ -237,5 +240,31 @@ public class CertificateUtils {
         }
 
         return null;
+    }
+
+    public static void getExtensionsWithBouncyCastle(X509Certificate cert) {
+        try {
+            X509CertificateHolder certHolder = new X509CertificateHolder(cert.getEncoded());
+
+            // Obtener todas las extensiones
+            for (ASN1ObjectIdentifier oid : certHolder.getExtensions().getExtensionOIDs()) {
+                Extension ext = certHolder.getExtensions().getExtension(oid);
+
+                System.out.println("OID: " + oid.getId());
+                System.out.println("Crítica: " + ext.isCritical());
+                System.out.println("Valor: " + ext.getExtnValue());
+
+                // Decodificar específicamente para Certificate Policies
+                if (oid.getId().equals(Extension.certificatePolicies.getId())) {
+                    CertificatePolicies policies = CertificatePolicies.getInstance(ext.getParsedValue());
+                    for (PolicyInformation policy : policies.getPolicyInformation()) {
+                        System.out.println("  Política: " + policy.getPolicyIdentifier().getId());
+                    }
+                }
+            }
+            System.out.println("=============================================");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

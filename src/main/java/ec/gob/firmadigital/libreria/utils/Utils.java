@@ -445,14 +445,17 @@ public class Utils {
                                                 if (extendedKeyUsages != null) {
                                                     for (String extendedKeyUsage : extendedKeyUsages) {
                                                         if (extendedKeyUsage.equals("1.3.6.1.5.5.7.3.8")) {//oid timestamping
-                                                            certificado.getDatosUsuario().setApellido("");
+                                                            if (certificado.getDatosUsuario() == null) {
+                                                                certificado.getDatosUsuario().setApellido("");
+                                                                certificado.setDatosUsuario(infoCertificado(certificado.getDatosUsuario(), signInfo));
+                                                            }
                                                             certificado.setDocTimeStamp(pdfPKCS7.getTimeStampDate().getTime());
                                                             certificado.setDocTimeStampIssuedBy(CertEcUtils.getNombreCA(x509Certificate));
                                                             certificado.setCnTimeStamp(Utils.getCN(x509Certificate));
-                                                            certificado.setDatosUsuario(infoCertificado(certificado.getDatosUsuario(), signInfo));
                                                             if (verifySignature(x509Certificate)) {
                                                                 certificado.setDocValidTimeStamp(true);
                                                             }
+
                                                         }
                                                     }
                                                 }
@@ -561,8 +564,8 @@ public class Utils {
         X500Name subjectX500name = new X500Name(subjectX500Principal.getName());
         String cedula = "", nombre = "";
         try {
-            nombre = subjectX500name.getRDNs(BCStyle.CN)[0].getFirst().getValue().toString();//CommonName
             cedula = subjectX500name.getRDNs(BCStyle.SERIALNUMBER)[0].getFirst().getValue().toString();//SerialNumber
+            nombre = subjectX500name.getRDNs(BCStyle.CN)[0].getFirst().getValue().toString();//CommonName
         } catch (java.lang.ArrayIndexOutOfBoundsException aioobe) {
         }
         datosUsuario.setCedula(cedula);

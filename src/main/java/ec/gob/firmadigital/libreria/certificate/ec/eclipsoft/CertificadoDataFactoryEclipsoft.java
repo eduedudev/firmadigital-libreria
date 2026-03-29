@@ -48,51 +48,54 @@ public class CertificadoDataFactoryEclipsoft {
 //        }
 //        return null;
 //    }
-    
     public static DatosUsuario getDatosUsuarioEclipsoft(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
         DatosUsuario datosUsuario = null;
         Certificado certificadoEclipsoft = construir(certificado);
         if (certificadoEclipsoft != null) {
             datosUsuario = new DatosUsuario();
             if (certificadoEclipsoft instanceof CertificadoExtImplEcplipsoft) {
-                if (certificadoEclipsoft instanceof CertificadoPersonaNatural certificadoPersonaNaturalEclipsoft) {
-                    datosUsuario.setCedula(certificadoPersonaNaturalEclipsoft.getCedulaPasaporte());
-                    datosUsuario.setNombre(certificadoPersonaNaturalEclipsoft.getNombres());
-                    datosUsuario.setApellido(certificadoPersonaNaturalEclipsoft.getPrimerApellido() + " "
-                            + certificadoPersonaNaturalEclipsoft.getSegundoApellido());
+                if (certificadoEclipsoft instanceof CertificadoExtPersonalNaturalEclipsoft certificadoExtPersonalNaturalEclipsoft) {
+                    datosUsuario.setTipoCertificado("Persona Natural (EXT)");
+                    datosUsuario.setCedula(certificadoExtPersonalNaturalEclipsoft.getCedulaPasaporte());
+                    datosUsuario.setNombre(certificadoExtPersonalNaturalEclipsoft.getNombres());
+                    datosUsuario.setApellido(certificadoExtPersonalNaturalEclipsoft.getPrimerApellido() + " "
+                            + certificadoExtPersonalNaturalEclipsoft.getSegundoApellido());
                 }
-                if (certificadoEclipsoft instanceof CertificadoMiembroEmpresa certificadoMiembroEmpresaEclipsoft) {
-                    datosUsuario.setCedula(certificadoMiembroEmpresaEclipsoft.getCedulaPasaporte());
-                    datosUsuario.setNombre(certificadoMiembroEmpresaEclipsoft.getNombres());
-                    datosUsuario.setApellido(certificadoMiembroEmpresaEclipsoft.getPrimerApellido() + " "
-                            + certificadoMiembroEmpresaEclipsoft.getSegundoApellido());
-                    datosUsuario.setRuc(certificadoMiembroEmpresaEclipsoft.getRuc());
-                    datosUsuario.setRazonSocial(certificadoMiembroEmpresaEclipsoft.getRazonSocial());
-                    datosUsuario.setCargo(certificadoMiembroEmpresaEclipsoft.getCargo());
+                if (certificadoEclipsoft instanceof CertificadoExtMiembroEmpresaEclipsoft certificadoExtMiembroEmpresaEclipsoft) {
+                    datosUsuario.setTipoCertificado("Miembro Empresa (EXT)");
+                    datosUsuario.setCedula(certificadoExtMiembroEmpresaEclipsoft.getCedulaPasaporte());
+                    datosUsuario.setNombre(certificadoExtMiembroEmpresaEclipsoft.getNombres());
+                    datosUsuario.setApellido(certificadoExtMiembroEmpresaEclipsoft.getPrimerApellido() + " "
+                            + certificadoExtMiembroEmpresaEclipsoft.getSegundoApellido());
+                    datosUsuario.setRuc(certificadoExtMiembroEmpresaEclipsoft.getRuc());
+                    datosUsuario.setRazonSocial(certificadoExtMiembroEmpresaEclipsoft.getRazonSocial());
+                    datosUsuario.setCargo(certificadoExtMiembroEmpresaEclipsoft.getCargo());
                 }
-                if (certificadoEclipsoft instanceof CertificadoRepresentanteLegal certificadoRepresentanteLegalEclipsoft) {
-                    datosUsuario.setCedula(certificadoRepresentanteLegalEclipsoft.getCedulaPasaporte());
-                    datosUsuario.setNombre(certificadoRepresentanteLegalEclipsoft.getNombres());
-                    datosUsuario.setApellido(certificadoRepresentanteLegalEclipsoft.getPrimerApellido() + " "
-                            + certificadoRepresentanteLegalEclipsoft.getSegundoApellido());
-                    datosUsuario.setRuc(certificadoRepresentanteLegalEclipsoft.getRuc());
-                    datosUsuario.setRazonSocial(certificadoRepresentanteLegalEclipsoft.getRazonSocial());
-                    datosUsuario.setCargo(certificadoRepresentanteLegalEclipsoft.getCargo());
+                if (certificadoEclipsoft instanceof CertificadoExtRepresentanteLegalEclipsoft certificadoExtRepresentanteLegalEclipsoft) {
+                    datosUsuario.setTipoCertificado("Representante Legal (EXT)");
+                    datosUsuario.setCedula(certificadoExtRepresentanteLegalEclipsoft.getCedulaPasaporte());
+                    datosUsuario.setNombre(certificadoExtRepresentanteLegalEclipsoft.getNombres());
+                    datosUsuario.setApellido(certificadoExtRepresentanteLegalEclipsoft.getPrimerApellido() + " "
+                            + certificadoExtRepresentanteLegalEclipsoft.getSegundoApellido());
+                    datosUsuario.setRuc(certificadoExtRepresentanteLegalEclipsoft.getRuc());
+                    datosUsuario.setRazonSocial(certificadoExtRepresentanteLegalEclipsoft.getRazonSocial());
+                    datosUsuario.setCargo(certificadoExtRepresentanteLegalEclipsoft.getCargo());
                 }
-                if (certificadoEclipsoft instanceof CertificadoPersonaJuridica certificadoPersonaJuridicaPrivadaEclipsoft) {
-                    datosUsuario.setCedula(certificadoPersonaJuridicaPrivadaEclipsoft.getCedulaPasaporte());
-                    datosUsuario.setNombre(certificadoPersonaJuridicaPrivadaEclipsoft.getNombres());
-                    datosUsuario.setApellido(certificadoPersonaJuridicaPrivadaEclipsoft.getPrimerApellido() + " "
-                            + certificadoPersonaJuridicaPrivadaEclipsoft.getSegundoApellido());
+                if (certificadoEclipsoft instanceof CertificadoExtPersonaJuridicaPrivadaEclipsoft certificadoExtPersonaJuridicaPrivadaEclipsoft) {
+                    datosUsuario.setTipoCertificado("Persona Jurídica Privada (EXT)");
+                    datosUsuario.setCedula(certificadoExtPersonaJuridicaPrivadaEclipsoft.getCedulaPasaporte());
+                    datosUsuario.setNombre(certificadoExtPersonaJuridicaPrivadaEclipsoft.getNombres());
+                    datosUsuario.setApellido(certificadoExtPersonaJuridicaPrivadaEclipsoft.getPrimerApellido() + " "
+                            + certificadoExtPersonaJuridicaPrivadaEclipsoft.getSegundoApellido());
                     datosUsuario.setRuc(datosUsuario.getRuc());
                     datosUsuario.setRazonSocial(datosUsuario.getRazonSocial());
                     datosUsuario.setCargo(datosUsuario.getCargo());
                 }
-                if (certificadoEclipsoft instanceof CertificadoSelladoTiempo certificadoSelladoTiempo) {
-                    datosUsuario.setCommonName(certificadoSelladoTiempo.getCommonName());
-                    datosUsuario.setRuc(certificadoSelladoTiempo.getRuc());
-                    datosUsuario.setRazonSocial(certificadoSelladoTiempo.getRazonSocial());
-                    datosUsuario.setCertificadoDigitalValido(true);
+                if (certificadoEclipsoft instanceof CertificadoExtSelladoTiempoEclipsoft certificadoExtSelladoTiempoEclipsoft) {
+                    datosUsuario.setTipoCertificado("Sellado de Tiempo (EXT)");
+                    datosUsuario.setRuc(certificadoExtSelladoTiempoEclipsoft.getRuc());
+                    datosUsuario.setRazonSocial(certificadoExtSelladoTiempoEclipsoft.getRazonSocial());
+                    datosUsuario.setCommonName(certificadoExtSelladoTiempoEclipsoft.getCommonName());
                 }
             }
             //RESOLUCION-ARCOTEL-2024-0176

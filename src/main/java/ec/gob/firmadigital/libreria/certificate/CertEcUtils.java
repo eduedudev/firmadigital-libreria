@@ -61,7 +61,7 @@ public class CertEcUtils {
     public static final String DIGERCIC_NAME = "DIRECCIÓN GENERAL DE REGISTRO CIVIL, IDENTIFICACIÓN Y CEDULACIÓN";
     public static final String ECLIPSOFT_NAME = "ECLIPSOFT S.A.";
     public static final String FIRMASEGURA_NAME = "FIRMASEGURA S.A.S.";
-    public static final String LAZZATE_NAME = "LAZZATE CIA. LTDA";
+    public static final String LAZZATE_NAME = "LAZZATE CIA. LTDA.";
     public static final String LETMI_NAME = "LETMI ECUADOR S.A.";
     public static final String PRIMECORELAT_NAME = "PRIMECORELAT S.A.S. B.I.C.";
     public static final String SECURITYDATA_NAME = "SECURITY DATA SEGURIDAD EN DATOS Y FIRMA DIGITAL S.A.";
