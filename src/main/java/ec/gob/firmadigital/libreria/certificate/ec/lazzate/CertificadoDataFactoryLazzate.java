@@ -18,7 +18,7 @@
 package ec.gob.firmadigital.libreria.certificate.ec.lazzate;
 
 import ec.gob.firmadigital.libreria.certificate.ec.lazzate.ext.*;
-//import ec.gob.firmadigital.libreria.certificate.ec.lazzate.subj.*;
+import ec.gob.firmadigital.libreria.certificate.ec.lazzate.subj.*;
 import ec.gob.firmadigital.libreria.certificate.ec.lazzate.cert.*;
 import ec.gob.firmadigital.libreria.certificate.ec.subj.CertificadoSubjImpl;
 import static ec.gob.firmadigital.libreria.certificate.ec.lazzate.CertificadoLazzate.*;
@@ -86,13 +86,32 @@ public class CertificadoDataFactoryLazzate {
                 }
             }
             //RESOLUCION-ARCOTEL-2024-0176
-//            if (certificadoAlphaTechnologies instanceof CertificadoSubjImpl) {
-//                if (certificadoAlphaTechnologies instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
-//                    datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
-//                    datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
-//                    datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido());
-//                }
-//            }
+            if (certificadoLazzate instanceof CertificadoSubjImpl) {
+                if (certificadoLazzate instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
+                    datosUsuario.setTipoCertificado("Persona Natural");
+                    datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
+                    datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
+                    datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido());
+                }
+                if (certificadoLazzate instanceof CertificadoMiembroEmpresa certificadoMiembroEmpresa) {
+                    datosUsuario.setTipoCertificado("Miembro Empresa");
+                    datosUsuario.setRuc(certificadoMiembroEmpresa.getRuc());
+                    datosUsuario.setRazonSocial(certificadoMiembroEmpresa.getRazonSocial());
+                    datosUsuario.setCargo(certificadoMiembroEmpresa.getCargo());
+                }
+                if (certificadoLazzate instanceof CertificadoRepresentanteLegal certificadoRepresentanteLegal) {
+                    datosUsuario.setTipoCertificado("Representante Legal");
+                    datosUsuario.setRuc(certificadoRepresentanteLegal.getRuc());
+                    datosUsuario.setRazonSocial(certificadoRepresentanteLegal.getRazonSocial());
+                    datosUsuario.setCargo(certificadoRepresentanteLegal.getCargo());
+                }
+                if (certificadoLazzate instanceof CertificadoSelloElectronico certificadoSelloElectronico) {
+                    datosUsuario.setTipoCertificado("Sello Electrónico");
+                    datosUsuario.setRuc(certificadoSelloElectronico.getRuc());
+                    datosUsuario.setRazonSocial(certificadoSelloElectronico.getRazonSocial());
+                    datosUsuario.setCommonName(certificadoSelloElectronico.getCommonName());
+                }
+            }
             datosUsuario.setCertificadoDigitalValido(true);
         }
         return datosUsuario;
@@ -105,9 +124,16 @@ public class CertificadoDataFactoryLazzate {
             } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_JURIDICA_EMPRESA)) {
                 return new CertificadoExtPersonaJuridicaLazzate(certificado);
             }
-//        } else {//RESOLUCION-ARCOTEL-2024-0176
-//            if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
-//                return new CertificadoSubjPersonaNaturalAlphaTechnologies(certificado);
+        } else {//RESOLUCION-ARCOTEL-2024-0176
+            if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
+                return new CertificadoSubjPersonaNaturalLazzate(certificado);
+            } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_MIEMBRO_EMPRESA)) {
+                return new CertificadoSubjMiembroEmpresaLazzate(certificado);
+            } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_REPRESENTANTE_LEGAL)) {
+                return new CertificadoSubjRepresentanteLegalLazzate(certificado);
+            } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_SELLO_ELECTRONICO)) {
+                return new CertificadoSubjSelloElectronicoLazzate(certificado);
+            }
         }
         return null;
     }
