@@ -142,7 +142,7 @@ public class CertificadoDataFactoryCorpNewBest {
     }
 
     private static Certificado construir(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
-        if (ec.gob.firmadigital.libreria.certificate.CertUtils.hasExtensionMatchingPattern(certificado, "1.3.6.1.4.1", "3.1")) {
+        if (ec.gob.firmadigital.libreria.certificate.CertUtils.hasExtensionMatchingPattern(certificado, "1.3.6.1.4.1", "34380.3.1")) {
             if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_NATURAL)) {
                 return new CertificadoExtPersonaNaturalCorpNewBest(certificado);
             } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_JURIDICA)) {

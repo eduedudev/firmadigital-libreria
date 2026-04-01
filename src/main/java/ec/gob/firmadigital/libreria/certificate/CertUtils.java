@@ -17,6 +17,7 @@
  */
 package ec.gob.firmadigital.libreria.certificate;
 
+import ec.gob.firmadigital.libreria.exceptions.CertificadoInvalidoException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -258,13 +259,13 @@ public class CertUtils {
         return identities;
     }
 
-    public static String seleccionarAlias(KeyStore keyStore, JRootPane jRootPane) throws RubricaException {
+    public static String seleccionarAlias(KeyStore keyStore, JRootPane jRootPane) throws CertificadoInvalidoException {
         String aliasString = null;
         // Con que certificado firmar?
         List<Alias> signingAliases = KeyStoreUtilities.getSigningAliases(keyStore);
 
         if (signingAliases.isEmpty()) {
-            throw new RubricaException("No se encuentran certificados para firmar\nPuede estar expirado o revocado");
+            throw new CertificadoInvalidoException("No se encuentran certificados para firmar\nPuede estar expirado, revocado o no reconocido");
         }
 
         if (signingAliases.size() == 1) {
