@@ -82,6 +82,16 @@ public class CertificadoDataFactorySecurityData {
                     datosUsuario.setRazonSocial(certificadoExtFuncionarioPublicoSecurityData.getRazonSocial());
                     datosUsuario.setCargo(certificadoExtFuncionarioPublicoSecurityData.getCargo());
                 }
+                if (certificadoSecurityData instanceof CertificadoExtMiembroEmpresaSecurityData certificadoExtMiembroEmpresaSecurityData) {
+                    datosUsuario.setTipoCertificado("Miembro de Empresa (EXT)");
+                    datosUsuario.setCedula(certificadoExtMiembroEmpresaSecurityData.getCedulaPasaporte());
+                    datosUsuario.setNombre(certificadoExtMiembroEmpresaSecurityData.getNombres());
+                    datosUsuario.setApellido(certificadoExtMiembroEmpresaSecurityData.getPrimerApellido() + " "
+                            + certificadoExtMiembroEmpresaSecurityData.getSegundoApellido());
+                    datosUsuario.setRuc(certificadoExtMiembroEmpresaSecurityData.getRuc());
+                    datosUsuario.setRazonSocial(certificadoExtMiembroEmpresaSecurityData.getRazonSocial());
+                    datosUsuario.setCargo(certificadoExtMiembroEmpresaSecurityData.getCargo());
+                }
                 if (certificadoSecurityData instanceof CertificadoExtPersonaJuridicaSecurityData certificadoExtPersonaJuridicaSecurityData) {
                     datosUsuario.setTipoCertificado("Persona Jurídica (EXT)");
                     datosUsuario.setCedula(certificadoExtPersonaJuridicaSecurityData.getCedulaPasaporte());
@@ -92,11 +102,15 @@ public class CertificadoDataFactorySecurityData {
                     datosUsuario.setRazonSocial(certificadoExtPersonaJuridicaSecurityData.getRazonSocial());
                     datosUsuario.setCargo(certificadoExtPersonaJuridicaSecurityData.getCargo());
                 }
+                // Para el caso de sello de tiempo, no se generan los OID's suficientes para validar
                 if (certificadoSecurityData instanceof CertificadoExtSelladoTiempoSecurityData certificadoExtSelladoTiempoSecurityData) {
                     datosUsuario.setTipoCertificado("Sellado de Tiempo (EXT)");
-                    datosUsuario.setCommonName(certificadoExtSelladoTiempoSecurityData.getCommonName());
-                    datosUsuario.setRuc(certificadoExtSelladoTiempoSecurityData.getRuc());
-                    datosUsuario.setRazonSocial(certificadoExtSelladoTiempoSecurityData.getRazonSocial());
+                    datosUsuario.setCedula("");
+                    datosUsuario.setNombre("");
+                    datosUsuario.setApellido("");
+                    datosUsuario.setCommonName("");
+                    datosUsuario.setRuc("");
+                    datosUsuario.setRazonSocial("");
                 }
             }
             //RESOLUCION-ARCOTEL-2024-0176
@@ -121,9 +135,9 @@ public class CertificadoDataFactorySecurityData {
                 }
                 if (certificadoSecurityData instanceof CertificadoSelloElectronico certificadoSelloElectronico) {
                     datosUsuario.setTipoCertificado("Sellado Electrónico");
-                    datosUsuario.setRazonSocial(certificadoSelloElectronico.getRazonSocial());
-                    datosUsuario.setRuc(certificadoSelloElectronico.getRuc());
                     datosUsuario.setCommonName(certificadoSelloElectronico.getCommonName());
+                    datosUsuario.setRuc(certificadoSelloElectronico.getRuc());
+                    datosUsuario.setRazonSocial(certificadoSelloElectronico.getRazonSocial());
                 }
                 if (certificadoSecurityData instanceof CertificadoSelladoTiempo certificadoSelladoTiempo) {
                     datosUsuario.setTipoCertificado("Sellado de Tiempo");
@@ -138,42 +152,41 @@ public class CertificadoDataFactorySecurityData {
     }
 
     private static Certificado construir(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
-        if (ec.gob.firmadigital.libreria.certificate.CertUtils.hasExtensionMatchingPattern(certificado, "1.3.6.1.4.1", "3.1")) {
-            if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_NATURAL)) {
-                return new CertificadoExtPersonaNaturalSecurityData(certificado);
-            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_JURIDICA_EMPRESA)) {
-                return new CertificadoExtPersonaJuridicaSecurityData(certificado);
-            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_REPRESENTANTE_LEGAL)) {
-                return new CertificadoExtRepresentanteLegalSecurityData(certificado);
-            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_MIEMBRO_EMPRESA)) {
-                return new CertificadoExtMiembroEmpresaSecurityData(certificado);
-            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_FUNCIONARIO_PUBLICO)) {
-                return new CertificadoExtFuncionarioPublicoSecurityData(certificado);
-            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_NATURAL_PROFESIONAL)) {
-                return new CertificadoExtPersonaNaturalSecurityData(certificado);
-            } else if (certificateHasPolicy(certificado, Ext.OID_SELLADO_TIEMPO)) {
-                return new CertificadoExtSelladoTiempoSecurityData(certificado);
-            }
-        } else {//RESOLUCION-ARCOTEL-2024-0176
-            if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
-                return new CertificadoSubjPersonaNaturalSecurityData(certificado);
-            } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL_DSCF)) {
-                return new CertificadoSubjPersonaNaturalSecurityData(certificado);
-            } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_REPRESENTANTE_LEGAL)) {
-                return new CertificadoSubjRepresentanteLegalSecurityData(certificado);
-            } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_REPRESENTANTE_LEGAL_DSCF)) {
-                return new CertificadoSubjRepresentanteLegalSecurityData(certificado);
-            } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_MIEMBRO_EMPRESA)) {
-                return new CertificadoSubjMiembroEmpresaSecurityData(certificado);
-            } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_MIEMBRO_EMPRESA_DSCF)) {
-                return new CertificadoSubjMiembroEmpresaSecurityData(certificado);
-            } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_SELLO_ELECTRONICO)) {
-                return new CertificadoSubjSelloElectronicoSecurityData(certificado);
-            } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_SELLO_ELECTRONICO_DSCF)) {
-                return new CertificadoSubjSelloElectronicoSecurityData(certificado);
-            } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_SELLO_TIEMPO_DSCF)) {
-                return new CertificadoSubjSelladoTiempoSecurityData(certificado);
-            }
+        // No se implementa condicionamiento, debido que el caso de sello de tiempo, 
+        // no se genera los OID's suficientes para validar, tambien los OID's son diferentes
+        if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_NATURAL)) {
+            return new CertificadoExtPersonaNaturalSecurityData(certificado);
+        } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_JURIDICA_EMPRESA)) {
+            return new CertificadoExtPersonaJuridicaSecurityData(certificado);
+        } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_REPRESENTANTE_LEGAL)) {
+            return new CertificadoExtRepresentanteLegalSecurityData(certificado);
+        } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_MIEMBRO_EMPRESA)) {
+            return new CertificadoExtMiembroEmpresaSecurityData(certificado);
+        } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_FUNCIONARIO_PUBLICO)) {
+            return new CertificadoExtFuncionarioPublicoSecurityData(certificado);
+        } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_NATURAL_PROFESIONAL)) {
+            return new CertificadoExtPersonaNaturalSecurityData(certificado);
+        } else if (certificateHasPolicy(certificado, Ext.OID_SELLADO_TIEMPO)) {
+            return new CertificadoExtSelladoTiempoSecurityData(certificado);
+        } //RESOLUCION-ARCOTEL-2024-0176
+        else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
+            return new CertificadoSubjPersonaNaturalSecurityData(certificado);
+        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL_DSCF)) {
+            return new CertificadoSubjPersonaNaturalSecurityData(certificado);
+        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_REPRESENTANTE_LEGAL)) {
+            return new CertificadoSubjRepresentanteLegalSecurityData(certificado);
+        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_REPRESENTANTE_LEGAL_DSCF)) {
+            return new CertificadoSubjRepresentanteLegalSecurityData(certificado);
+        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_MIEMBRO_EMPRESA)) {
+            return new CertificadoSubjMiembroEmpresaSecurityData(certificado);
+        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_MIEMBRO_EMPRESA_DSCF)) {
+            return new CertificadoSubjMiembroEmpresaSecurityData(certificado);
+        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_SELLO_ELECTRONICO)) {
+            return new CertificadoSubjSelloElectronicoSecurityData(certificado);
+        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_SELLO_ELECTRONICO_DSCF)) {
+            return new CertificadoSubjSelloElectronicoSecurityData(certificado);
+        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_SELLO_TIEMPO_DSCF)) {
+            return new CertificadoSubjSelladoTiempoSecurityData(certificado);
         }
         return null;
     }

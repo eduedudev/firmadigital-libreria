@@ -23,14 +23,4 @@ package ec.gob.firmadigital.libreria.certificate.ec;
  * @author Ricardo Arguello
  */
 public interface CertificadoMiembroEmpresa extends CertificadoPersonaJuridica {
-
-    /**
-     * @return Razon Social
-     */
-    String getRazonSocial();
-
-    /**
-     * @return Cargo
-     */
-    String getCargo();
 }
