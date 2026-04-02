@@ -18,7 +18,7 @@
 package ec.gob.firmadigital.libreria.certificate.ec.uanataca;
 
 import ec.gob.firmadigital.libreria.certificate.ec.uanataca.ext.*;
-//import ec.gob.firmadigital.libreria.certificate.ec.uanataca.subj.*;
+import ec.gob.firmadigital.libreria.certificate.ec.uanataca.subj.*;
 import ec.gob.firmadigital.libreria.certificate.ec.uanataca.cert.*;
 import ec.gob.firmadigital.libreria.certificate.ec.subj.CertificadoSubjImpl;
 import static ec.gob.firmadigital.libreria.certificate.ec.uanataca.CertificadoUanataca.*;
@@ -64,74 +64,121 @@ public class CertificadoDataFactoryUanataca {
         if (certificadoUanataca != null) {
             datosUsuario = new DatosUsuario();
             if (certificadoUanataca instanceof CertificadoExtImplUanataca) {
-                if (certificadoUanataca instanceof CertificadoExtPersonaNaturalUanataca certificadoPersonaNaturalU) {
+                if (certificadoUanataca instanceof CertificadoExtPersonaNaturalUanataca certificadoExtPersonaNaturalUanataca) {
                     datosUsuario.setTipoCertificado("Persona Natural (EXT)");
-                    datosUsuario.setCedula(certificadoPersonaNaturalU.getCedulaPasaporte());
-                    datosUsuario.setNombre(certificadoPersonaNaturalU.getNombres());
-                    datosUsuario.setApellido(certificadoPersonaNaturalU.getPrimerApellido() + " "
-                            + certificadoPersonaNaturalU.getSegundoApellido());
+                    datosUsuario.setCedula(certificadoExtPersonaNaturalUanataca.getCedulaPasaporte());
+                    datosUsuario.setNombre(certificadoExtPersonaNaturalUanataca.getNombres());
+                    datosUsuario.setApellido(certificadoExtPersonaNaturalUanataca.getPrimerApellido() + " "
+                            + certificadoExtPersonaNaturalUanataca.getSegundoApellido());
                 }
-                if (certificadoUanataca instanceof CertificadoExtMiembroEmpresaUanataca certificadoMiembroEmpresaUanataca) {
+                if (certificadoUanataca instanceof CertificadoExtMiembroEmpresaUanataca certificadoExtMiembroEmpresaUanataca) {
                     datosUsuario.setTipoCertificado("Miembro Empresa (EXT)");
-                    datosUsuario.setCedula(certificadoMiembroEmpresaUanataca.getCedulaPasaporte());
-                    datosUsuario.setNombre(certificadoMiembroEmpresaUanataca.getNombres());
-                    datosUsuario.setApellido(certificadoMiembroEmpresaUanataca.getPrimerApellido() + " "
-                            + certificadoMiembroEmpresaUanataca.getSegundoApellido());
-                    datosUsuario.setCargo(certificadoMiembroEmpresaUanataca.getCargo());
+                    datosUsuario.setCedula(certificadoExtMiembroEmpresaUanataca.getCedulaPasaporte());
+                    datosUsuario.setNombre(certificadoExtMiembroEmpresaUanataca.getNombres());
+                    datosUsuario.setApellido(certificadoExtMiembroEmpresaUanataca.getPrimerApellido() + " "
+                            + certificadoExtMiembroEmpresaUanataca.getSegundoApellido());
+                    datosUsuario.setCargo(certificadoExtMiembroEmpresaUanataca.getCargo());
                 }
-                if (certificadoUanataca instanceof CertificadoExtPersonaJuridicaPrivadaUanataca certificadoPersonaJuridicaUanataca) {
+                if (certificadoUanataca instanceof CertificadoExtPersonaJuridicaPrivadaUanataca certificadoExtPersonaJuridicaPrivadaUanataca) {
                     datosUsuario.setTipoCertificado("Persona Jurídica Privada (EXT)");
-                    datosUsuario.setCedula(certificadoPersonaJuridicaUanataca.getCedulaPasaporte());
-                    datosUsuario.setNombre(certificadoPersonaJuridicaUanataca.getNombres());
-                    datosUsuario.setApellido(certificadoPersonaJuridicaUanataca.getPrimerApellido() + " "
-                            + certificadoPersonaJuridicaUanataca.getSegundoApellido());
+                    datosUsuario.setCedula(certificadoExtPersonaJuridicaPrivadaUanataca.getCedulaPasaporte());
+                    datosUsuario.setNombre(certificadoExtPersonaJuridicaPrivadaUanataca.getNombres());
+                    datosUsuario.setApellido(certificadoExtPersonaJuridicaPrivadaUanataca.getPrimerApellido() + " "
+                            + certificadoExtPersonaJuridicaPrivadaUanataca.getSegundoApellido());
                     datosUsuario.setCargo(datosUsuario.getCargo());
                 }
-                if (certificadoUanataca instanceof CertificadoExtRepresentanteLegalUanataca certificadoRepresentanteLegalUanataca) {
+                if (certificadoUanataca instanceof CertificadoExtRepresentanteLegalUanataca certificadoExtRepresentanteLegalUanataca) {
                     datosUsuario.setTipoCertificado("Representante Legal (EXT)");
-                    datosUsuario.setCedula(certificadoRepresentanteLegalUanataca.getCedulaPasaporte());
-                    datosUsuario.setNombre(certificadoRepresentanteLegalUanataca.getNombres());
-                    datosUsuario.setApellido(certificadoRepresentanteLegalUanataca.getPrimerApellido() + " "
-                            + certificadoRepresentanteLegalUanataca.getSegundoApellido());
-                    datosUsuario.setCargo(certificadoRepresentanteLegalUanataca.getCargo());
+                    datosUsuario.setCedula(certificadoExtRepresentanteLegalUanataca.getCedulaPasaporte());
+                    datosUsuario.setNombre(certificadoExtRepresentanteLegalUanataca.getNombres());
+                    datosUsuario.setApellido(certificadoExtRepresentanteLegalUanataca.getPrimerApellido() + " "
+                            + certificadoExtRepresentanteLegalUanataca.getSegundoApellido());
+                    datosUsuario.setCargo(certificadoExtRepresentanteLegalUanataca.getCargo());
                 }
-                if (certificadoUanataca instanceof CertificadoExtSelladoTiempoUanataca certificadoSelladoTiempoUanataca) {
+                if (certificadoUanataca instanceof CertificadoExtSelladoTiempoUanataca certificadoExtSelladoTiempoUanataca) {
                     datosUsuario.setTipoCertificado("Sellado de Tiempo (EXT)");
-                    datosUsuario.setCommonName(certificadoSelladoTiempoUanataca.getCommonName());
-                    datosUsuario.setRuc(certificadoSelladoTiempoUanataca.getRuc());
-                    datosUsuario.setRazonSocial(certificadoSelladoTiempoUanataca.getRazonSocial());
+                    datosUsuario.setCommonName(certificadoExtSelladoTiempoUanataca.getCommonName());
+                    datosUsuario.setRuc(certificadoExtSelladoTiempoUanataca.getRuc());
+                    datosUsuario.setRazonSocial(certificadoExtSelladoTiempoUanataca.getRazonSocial());
                 }
             }
             //RESOLUCION-ARCOTEL-2024-0176
-//            if (certificadoAlphaTechnologies instanceof CertificadoSubjImpl) {
-//                if (certificadoAlphaTechnologies instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
-//                    datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
-//                    datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
-//                    datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido());
-//                }
-//            }
+            if (certificadoUanataca instanceof CertificadoSubjImpl) {
+                if (certificadoUanataca instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
+                    datosUsuario.setTipoCertificado("Persona Natural");
+                    datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
+                    datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
+                    datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido());
+                }
+                if (certificadoUanataca instanceof CertificadoPersonaJuridica certificadoPersonaJuridica) {
+                    datosUsuario.setTipoCertificado("Persona Jurídica");
+                    datosUsuario.setRuc(certificadoPersonaJuridica.getRuc());
+                    datosUsuario.setRazonSocial(certificadoPersonaJuridica.getRazonSocial());
+                    datosUsuario.setCargo(certificadoPersonaJuridica.getCargo());
+                }
+                if (certificadoUanataca instanceof CertificadoMiembroEmpresa certificadoMiembroEmpresa) {
+                    datosUsuario.setTipoCertificado("Miembro Empresa");
+                    datosUsuario.setRuc(certificadoMiembroEmpresa.getRuc());
+                    datosUsuario.setRazonSocial(certificadoMiembroEmpresa.getRazonSocial());
+                    datosUsuario.setCargo(certificadoMiembroEmpresa.getCargo());
+                }
+                if (certificadoUanataca instanceof CertificadoRepresentanteLegal certificadoRepresentanteLegal) {
+                    datosUsuario.setTipoCertificado("Representante Legal");
+                    datosUsuario.setRuc(certificadoRepresentanteLegal.getRuc());
+                    datosUsuario.setRazonSocial(certificadoRepresentanteLegal.getRazonSocial());
+                    datosUsuario.setCargo(certificadoRepresentanteLegal.getCargo());
+                }
+                if (certificadoUanataca instanceof CertificadoSelladoTiempo certificadoSelladoTiempo) {
+                    datosUsuario.setTipoCertificado("Sellado de Tiempo");
+                    datosUsuario.setCommonName(certificadoSelladoTiempo.getCommonName());
+                    datosUsuario.setRuc(certificadoSelladoTiempo.getRuc());
+                    datosUsuario.setRazonSocial(certificadoSelladoTiempo.getRazonSocial());
+                }
+            }
             datosUsuario.setCertificadoDigitalValido(true);
         }
         return datosUsuario;
     }
 
     private static Certificado construir(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
-//        ec.gob.firmadigital.libreria.utils.CertificateUtils.getExtensionsWithBouncyCastle(certificado);
-        if (ec.gob.firmadigital.libreria.certificate.CertUtils.hasExtensionMatchingPattern(certificado, "1.3.6.1.4.1", "102.3.1")) {
-            if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_NATURAL)) {
-                return new CertificadoExtPersonaNaturalUanataca(certificado);
-            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_JURIDICA)) {
-                return new CertificadoExtPersonaJuridicaPrivadaUanataca(certificado);
-            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_MIEMBRO_EMPRESA)) {
-                return new CertificadoExtMiembroEmpresaUanataca(certificado);
-            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_REPRESENTANTE_EMPRESA)) {
-                return new CertificadoExtRepresentanteLegalUanataca(certificado);
-            } else if (certificateHasPolicy(certificado, Ext.OID_SELLADO_TIEMPO)) {
-                return new CertificadoExtSelladoTiempoUanataca(certificado);
-            }
-//        } else {//RESOLUCION-ARCOTEL-2024-0176
-//            if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
-//                return new CertificadoSubjPersonaNaturalAlphaTechnologies(certificado);
+        // No se implementa condicionamiento, debido que tienen OID's distintas
+        if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_NATURAL_ARCHIVO)) {
+            return new CertificadoExtPersonaNaturalUanataca(certificado);
+        } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_NATURAL_DSCF)) {
+            return new CertificadoExtPersonaNaturalUanataca(certificado);
+        } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_JURIDICA_ARCHIVO)) {
+            return new CertificadoExtPersonaJuridicaPrivadaUanataca(certificado);
+        } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_JURIDICA_DSCF)) {
+            return new CertificadoExtPersonaJuridicaPrivadaUanataca(certificado);
+        } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_MIEMBRO_EMPRESA_ARCHIVO)) {
+            return new CertificadoExtMiembroEmpresaUanataca(certificado);
+        } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_MIEMBRO_EMPRESA_DSCF)) {
+            return new CertificadoExtMiembroEmpresaUanataca(certificado);
+        } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_REPRESENTANTE_EMPRESA_ARCHIVO)) {
+            return new CertificadoExtRepresentanteLegalUanataca(certificado);
+        } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_REPRESENTANTE_EMPRESA_DSCF)) {
+            return new CertificadoExtRepresentanteLegalUanataca(certificado);
+        } else if (certificateHasPolicy(certificado, Ext.OID_SELLADO_TIEMPO)) {
+            return new CertificadoExtSelladoTiempoUanataca(certificado);
+        } //RESOLUCION-ARCOTEL-2024-0176
+        else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL_ARCHIVO)) {
+            return new CertificadoSubjPersonaNaturalUanataca(certificado);
+        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL_DSCF)) {
+            return new CertificadoSubjPersonaNaturalUanataca(certificado);
+        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_JURIDICA_ARCHIVO)) {
+            return new CertificadoSubjPersonaJuridicaUanataca(certificado);
+        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_JURIDICA_DSCF)) {
+            return new CertificadoSubjPersonaJuridicaUanataca(certificado);
+        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_MIEMBRO_EMPRESA_ARCHIVO)) {
+            return new CertificadoSubjMiembroEmpresaUanataca(certificado);
+        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_MIEMBRO_EMPRESA_DSCF)) {
+            return new CertificadoSubjMiembroEmpresaUanataca(certificado);
+        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_REPRESENTANTE_EMPRESA_ARCHIVO)) {
+            return new CertificadoSubjRepresentanteLegalUanataca(certificado);
+        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_REPRESENTANTE_EMPRESA_DSCF)) {
+            return new CertificadoSubjRepresentanteLegalUanataca(certificado);
+        } else if (certificateHasPolicy(certificado, Subj.OID_SELLADO_TIEMPO)) {
+            return new CertificadoSubjSelladoTiempoUanataca(certificado);
         }
         return null;
     }

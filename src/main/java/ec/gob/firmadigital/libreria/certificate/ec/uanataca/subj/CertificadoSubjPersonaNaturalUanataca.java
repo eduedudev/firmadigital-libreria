@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2026 
+ * Copyright (C) 2026
  * Authors: Misael Fernández, UANATACA ECUADOR S.A.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -15,33 +15,25 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package ec.gob.firmadigital.libreria.certificate.ec.uanataca.ext;
+package ec.gob.firmadigital.libreria.certificate.ec.uanataca.subj;
 
-import ec.gob.firmadigital.libreria.certificate.ec.CertificadoPersonaJuridica;
-import static ec.gob.firmadigital.libreria.certificate.ec.uanataca.CertificadoUanataca.Ext.*;
+import ec.gob.firmadigital.libreria.certificate.ec.CertificadoPersonaNatural;
+import ec.gob.firmadigital.libreria.certificate.ec.subj.CertificadoSubjImpl;
 import java.security.cert.X509Certificate;
 
 /**
- * Certificado de Miembro de Empresa<br>
+ * Certificado como subject, estructura de resolución de ARCOTEL-2024-0176.<br>
+ * Certificado de Persona Natural<br>
  * emitido por UANATACA ECUADOR S.A.
  *
  * @author Misael Fernández, UANATACA ECUADOR S.A.
  */
-public class CertificadoExtMiembroEmpresaUanataca
-        extends CertificadoExtImplUanataca
-        implements CertificadoPersonaJuridica {
+public class CertificadoSubjPersonaNaturalUanataca 
+        extends CertificadoSubjImpl
+        implements CertificadoPersonaNatural {
 
-    public CertificadoExtMiembroEmpresaUanataca(X509Certificate certificado) {
+    public CertificadoSubjPersonaNaturalUanataca(X509Certificate certificado) {
         super(certificado);
     }
 
-    @Override
-    public String getRazonSocial() {
-        return getSubjectAlternativeName(OID_RAZON_SOCIAL);
-    }
-
-    @Override
-    public String getCargo() {
-        return getSubjectAlternativeName(OID_CARGO);
-    }
 }

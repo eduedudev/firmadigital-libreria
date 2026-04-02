@@ -218,16 +218,6 @@ public class UtilsCrlOcsp {
         return null;
     }
 
-    private static String resultadosCRL(ValidationResult result) {
-        if (result == result.CANNOT_DOWNLOAD_CRL) {
-            return "No se pudo descargar el archivo CRL\nRevisar conexión de Internet";
-        }
-        if (result.isValid()) {
-            return "Válido";
-        }
-        return "Inválido";
-    }
-
     /**
      * Valida un certificado usando el proxy CRL del servidor de FirmaEC.
      * Extrae las URLs de CRL Distribution Point y OCSP del certificado

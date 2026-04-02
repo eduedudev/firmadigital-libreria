@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2026 
- * Authors: Misael Fernández, CONSEJO DE LA JUDICATURA
+ * Authors: Misael Fernández, UANATACA ECUADOR S.A.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,33 +15,35 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package ec.gob.firmadigital.libreria.certificate.ec.cj.ext;
+package ec.gob.firmadigital.libreria.certificate.ec.uanataca.subj;
 
-import ec.gob.firmadigital.libreria.certificate.ec.CertificadoPersonaJuridica;
-import static ec.gob.firmadigital.libreria.certificate.ec.cj.CertificadoConsejoJudicatura.Ext.*;
+import ec.gob.firmadigital.libreria.certificate.ec.CertificadoMiembroEmpresa;
+import ec.gob.firmadigital.libreria.certificate.ec.subj.AttributeOIDs;
+import ec.gob.firmadigital.libreria.certificate.ec.subj.CertificadoSubjImpl;
 import java.security.cert.X509Certificate;
 
 /**
- * Certificado de Persona Juridica Privada<br>
- * emitido por el CONSEJO DE LA JUDICATURA
+ * Certificado como subject, estructura de resolución de ARCOTEL-2024-0176.<br>
+ * Certificado de Miembro de Empresa<br>
+ * emitido por UANATACA ECUADOR S.A.
  *
- * @author Misael Fernández, CONSEJO DE LA JUDICATURA
+ * @author Misael Fernández, UANATACA ECUADOR S.A.
  */
-public class CertificadoExtPersonaJuridicaPrivadaConsejoJudicatura
-        extends CertificadoExtImplConsejoJudicatura
-        implements CertificadoPersonaJuridica {
+public class CertificadoSubjMiembroEmpresaUanataca
+        extends CertificadoSubjImpl
+        implements CertificadoMiembroEmpresa {
 
-    public CertificadoExtPersonaJuridicaPrivadaConsejoJudicatura(X509Certificate certificado) {
+    public CertificadoSubjMiembroEmpresaUanataca(X509Certificate certificado) {
         super(certificado);
     }
 
     @Override
     public String getRazonSocial() {
-        return getSubjectAlternativeName(OID_RAZON_SOCIAL);
+        return getSubjectField(AttributeOIDs.OID_ORGANIZACION);
     }
 
     @Override
     public String getCargo() {
-        return getSubjectAlternativeName(OID_CARGO);
+        return getSubjectField(AttributeOIDs.OID_CARGO);
     }
 }

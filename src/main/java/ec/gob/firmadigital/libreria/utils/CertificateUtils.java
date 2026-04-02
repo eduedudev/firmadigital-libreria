@@ -241,30 +241,4 @@ public class CertificateUtils {
 
         return null;
     }
-
-    public static void getExtensionsWithBouncyCastle(X509Certificate cert) {
-        try {
-            X509CertificateHolder certHolder = new X509CertificateHolder(cert.getEncoded());
-
-            // Obtener todas las extensiones
-            for (ASN1ObjectIdentifier oid : certHolder.getExtensions().getExtensionOIDs()) {
-                Extension ext = certHolder.getExtensions().getExtension(oid);
-
-                System.out.println("OID: " + oid.getId());
-                System.out.println("Crítica: " + ext.isCritical());
-                System.out.println("Valor: " + ext.getExtnValue());
-
-                // Decodificar específicamente para Certificate Policies
-                if (oid.getId().equals(Extension.certificatePolicies.getId())) {
-                    CertificatePolicies policies = CertificatePolicies.getInstance(ext.getParsedValue());
-                    for (PolicyInformation policy : policies.getPolicyInformation()) {
-                        System.out.println("  Política: " + policy.getPolicyIdentifier().getId());
-                    }
-                }
-            }
-            System.out.println("=============================================");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }

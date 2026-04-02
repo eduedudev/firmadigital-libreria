@@ -36,13 +36,19 @@ public class CertificadoUanataca {
      */
     public static final class Subj {
 
-//        private Subj() {
-//        }
-//
-//        // OIDs de tipo de certificado.
-//        public static final String OID_TIPO_PERSONA_NATURAL = "1.3.6.1.4.1.56105.2.1.1";
-//        public static final String OID_TIPO_MIEMBRO_EMPRESA = "1.3.6.1.4.1.56105.2.2.1";
-//        public static final String OID_TIPO_REPRESENTANTE_LEGAL = "1.3.6.1.4.1.56105.2.3.1";
+        private Subj() {
+        }
+
+        // OIDs de tipo de certificado.
+        public static final String OID_TIPO_PERSONA_NATURAL_ARCHIVO = "1.3.6.1.4.1.65311.2.1.1";
+        public static final String OID_TIPO_PERSONA_NATURAL_DSCF = "1.3.6.1.4.1.65311.2.1.2";
+        public static final String OID_TIPO_MIEMBRO_EMPRESA_ARCHIVO = "1.3.6.1.4.1.65311.2.2.1";
+        public static final String OID_TIPO_MIEMBRO_EMPRESA_DSCF = "1.3.6.1.4.1.65311.2.2.2";
+        public static final String OID_TIPO_REPRESENTANTE_EMPRESA_ARCHIVO = "1.3.6.1.4.1.65311.2.3.1";
+        public static final String OID_TIPO_REPRESENTANTE_EMPRESA_DSCF = "1.3.6.1.4.1.65311.2.3.2";
+        public static final String OID_TIPO_PERSONA_JURIDICA_ARCHIVO = "1.3.6.1.4.1.65311.102.2.4.1";
+        public static final String OID_TIPO_PERSONA_JURIDICA_DSCF = "1.3.6.1.4.1.65311.102.2.4.2";
+        public static final String OID_SELLADO_TIEMPO = "1.3.6.1.4.1.65311.102.2.5.1";
     }
 
     /**
@@ -52,13 +58,16 @@ public class CertificadoUanataca {
 
         private Ext() {
         }
-        
+
         // OIDs de tipo de certificado:
-        public static final String OID_TIPO_PERSONA_NATURAL = "1.3.6.1.4.1.47286.102.2.1";
-        public static final String OID_TIPO_MIEMBRO_EMPRESA = "1.3.6.1.4.1.47286.102.2.2";
-        public static final String OID_TIPO_REPRESENTANTE_EMPRESA = "1.3.6.1.4.1.47286.102.2.3";
-        public static final String OID_TIPO_PERSONA_JURIDICA = "1.3.6.1.4.1.47286.102.2.4";
-        //public static final String OID_TIPO_EMPRESA = "1.3.6.1.4.1.43745.1.2.2.1";
+        public static final String OID_TIPO_PERSONA_NATURAL_ARCHIVO = "1.3.6.1.4.1.47286.102.2.1.1";
+        public static final String OID_TIPO_PERSONA_NATURAL_DSCF = "1.3.6.1.4.1.47286.102.2.1.2";
+        public static final String OID_TIPO_MIEMBRO_EMPRESA_ARCHIVO = "1.3.6.1.4.1.47286.102.2.2.1";
+        public static final String OID_TIPO_MIEMBRO_EMPRESA_DSCF = "1.3.6.1.4.1.47286.102.2.2.2";
+        public static final String OID_TIPO_REPRESENTANTE_EMPRESA_ARCHIVO = "1.3.6.1.4.1.47286.102.2.3.1";
+        public static final String OID_TIPO_REPRESENTANTE_EMPRESA_DSCF = "1.3.6.1.4.1.47286.102.2.3.2";
+        public static final String OID_TIPO_PERSONA_JURIDICA_ARCHIVO = "1.3.6.1.4.1.47286.102.2.4.1";
+        public static final String OID_TIPO_PERSONA_JURIDICA_DSCF = "1.3.6.1.4.1.47286.102.2.4.2";
         public static final String OID_SELLADO_TIEMPO = "1.3.6.1.4.1.47286.102.2.5.1";
 
         // OIDs de Campos del Certificado:

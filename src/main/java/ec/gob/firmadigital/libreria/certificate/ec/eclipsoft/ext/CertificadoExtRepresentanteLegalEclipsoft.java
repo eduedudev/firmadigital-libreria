@@ -37,11 +37,11 @@ public class CertificadoExtRepresentanteLegalEclipsoft
 
     @Override
     public String getRazonSocial() {
-        return getExtensionField(OID_RAZON_SOCIAL);
+        return getSubjectAlternativeName(OID_RAZON_SOCIAL);
     }
 
     @Override
     public String getCargo() {
-        return getExtensionField(OID_CARGO);
+        return getSubjectAlternativeName(OID_CARGO);
     }
 }

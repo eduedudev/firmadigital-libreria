@@ -37,7 +37,7 @@ public class CertificadoExtSelladoTiempoConsejoJudicatura
 
     @Override
     public String getRazonSocial() {
-        return getExtensionField(OID_RAZON_SOCIAL);
+        return getSubjectAlternativeName(OID_RAZON_SOCIAL);
     }
 
     @Override

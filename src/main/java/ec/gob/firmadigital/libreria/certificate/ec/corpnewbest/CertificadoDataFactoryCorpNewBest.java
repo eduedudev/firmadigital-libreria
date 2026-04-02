@@ -51,17 +51,17 @@ public class CertificadoDataFactoryCorpNewBest {
                 System.out.println("CorpNewBestSubCa3Cert");
                 return new SubCa3CertCorpNewBest20232033();
             }
-            if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCa1CertCorpNewBest2024011020330619())) {
-                System.out.println("CorpNewBestSubCa1_2024011020330619Cert");
-                return new SubCa1CertCorpNewBest2024011020330619();
+            if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCa1CertCorpNewBest2026022620400223())) {
+                System.out.println("SubCa1CertCorpNewBest2026022620400223Cert");
+                return new SubCa1CertCorpNewBest2026022620400223();
             }
-            if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCa2CertCorpNewBest2024011020330619())) {
-                System.out.println("CorpNewBestSubCa2_2024011020330619Cert");
-                return new SubCa2CertCorpNewBest2024011020330619();
+            if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCa2CertCorpNewBest2026022620400223())) {
+                System.out.println("SubCa2CertCorpNewBest2026022620400223Cert");
+                return new SubCa2CertCorpNewBest2026022620400223();
             }
-            if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCa3CertCorpNewBest2024011020330619())) {
-                System.out.println("CorpNewBestSubCa3_2024011020330619Cert");
-                return new SubCa3CertCorpNewBest2024011020330619();
+            if (ec.gob.firmadigital.libreria.utils.Utils.verifySignature(certificado, new SubCa3CertCorpNewBest2026022620400223())) {
+                System.out.println("SubCa3CertCorpNewBest2026022620400223Cert");
+                return new SubCa3CertCorpNewBest2026022620400223();
             }
         } catch (java.security.InvalidKeyException ex) {
             throw new EntidadCertificadoraNoValidaException("Tipo Certificado de CORPNEWBEST CIA. LTDA. sin categorizar!");

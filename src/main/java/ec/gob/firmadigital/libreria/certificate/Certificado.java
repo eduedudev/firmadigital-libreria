@@ -62,6 +62,21 @@ public abstract class Certificado {
             throw new RuntimeException(e);
         }
     }
+    
+    /**
+     * Retorna el valor de subject alternative name, y una cadena vacia si no existe.
+     *
+     * @param oid
+     * @return
+     */
+    protected String getSubjectAlternativeName(String oid) {
+        try {
+            String valor = CertUtils.getExtensionValueSubjectAlternativeNames(certificado, oid);
+            return (valor != null) ? valor : "";
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     /**
      * Obtiene el valor de un campo específico del Subject del certificado.

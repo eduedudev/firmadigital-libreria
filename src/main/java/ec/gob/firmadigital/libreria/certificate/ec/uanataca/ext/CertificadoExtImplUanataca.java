@@ -35,38 +35,38 @@ public class CertificadoExtImplUanataca
     }
 
     public String getCedulaPasaporte() {
-        return getExtensionField(OID_CEDULA_PASAPORTE);
+        return getSubjectAlternativeName(OID_CEDULA_PASAPORTE);
     }
 
     public String getNombres() {
-        return getExtensionField(OID_NOMBRES);
+        return getSubjectAlternativeName(OID_NOMBRES);
     }
 
     public String getPrimerApellido() {
-        return getExtensionField(OID_APELLIDO_1);
+        return getSubjectAlternativeName(OID_APELLIDO_1);
     }
 
     public String getSegundoApellido() {
-        return getExtensionField(OID_APELLIDO_2);
+        return getSubjectAlternativeName(OID_APELLIDO_2);
     }
 
     public String getDireccion() {
-        return getExtensionField(OID_DIRECCION);
+        return getSubjectAlternativeName(OID_DIRECCION);
     }
 
     public String getTelefono() {
-        return getExtensionField(OID_TELEFONO);
+        return getSubjectAlternativeName(OID_TELEFONO);
     }
 
     public String getCiudad() {
-        return getExtensionField(OID_CIUDAD);
+        return getSubjectAlternativeName(OID_CIUDAD);
     }
 
     public String getPais() {
-        return getExtensionField(OID_PAIS);
+        return getSubjectAlternativeName(OID_PAIS);
     }
 
     public String getRuc() {
-        return getExtensionField(OID_RUC);
+        return getSubjectAlternativeName(OID_RUC);
     }
 }

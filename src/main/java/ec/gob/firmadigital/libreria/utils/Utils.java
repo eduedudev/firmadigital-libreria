@@ -392,7 +392,7 @@ public class Utils {
                     dateToCalendar(temp.getNotAfter()),
                     dateToCalendar(fechaFirmado),
                     dateToCalendar(UtilsCrlOcsp.validarFechaRevocado(temp, null)),
-                    esValido(temp, fechaFirmado),
+                    esCertificadoValido(temp, fechaFirmado),
                     datosUsuario);
             certificado.setDocValidTimeStamp(false);
 
@@ -499,47 +499,6 @@ public class Utils {
         return documento;
     }
 
-    /**
-     * Valida que los keyusage sean por lo menos digitalSignature y
-     * NonRepudiation
-     *
-     * @param signCert
-     * @return
-     * @throws java.security.cert.CertificateParsingException
-     */
-    public static String validacionKeyUsages(X509Certificate signCert) throws CertificateParsingException {
-        String keyUsages = "";
-        boolean[] keyUsage = signCert.getKeyUsage();
-        if (keyUsage[0]) {
-            keyUsages += "Firma Electrónica, ";// digitalSignature
-        }
-        if (keyUsage[1]) {
-            keyUsages += "No Repudio, "; // nonRepudiation
-        }
-        if (keyUsage[2]) {
-            keyUsages += "Cifrado de llave, ";// keyEncipherment
-        }
-        if (keyUsage[3]) {
-            keyUsages += "Cifrado de datos, ";// dataEncipherment
-        }
-        if (keyUsage[4]) {
-            keyUsages += "Acuerdo de llaves, "; // keyAgreement
-        }
-        if (keyUsage[5]) {
-            keyUsages += "Firma y certificado de llave, ";// keyCertSign
-        }
-        if (keyUsage[6]) {
-            keyUsages += "Firma de CRL, ";// cRLSign
-        }
-        if (keyUsage[7]) {
-            keyUsages += "Solo cifrado, ";// encipherOnly
-        }
-        if (keyUsage[8]) {
-            keyUsages += "Solo descifrado"; // decipherOnly
-        }
-        return keyUsages;
-    }
-
     private static final PdfName PDFNAME_ETSI_RFC3161 = new PdfName("ETSI.RFC3161");
     private static final PdfName PDFNAME_DOCTIMESTAMP = new PdfName("DocTimeStamp");
 
@@ -591,7 +550,7 @@ public class Utils {
                 dateToCalendar(signInfo.getCerts()[0].getNotAfter()),
                 dateToCalendar(signInfo.getSigningTime()),
                 dateToCalendar(UtilsCrlOcsp.validarFechaRevocado(signInfo.getCerts()[0], null)),
-                esValido(signInfo.getCerts()[0], signInfo.getSigningTime()),
+                esCertificadoValido(signInfo.getCerts()[0], signInfo.getSigningTime()),
                 datosUsuario);
         certificado.setDocValidTimeStamp(false);
         return certificado;
@@ -613,7 +572,7 @@ public class Utils {
      * @param signingTime
      * @return
      */
-    public static boolean esValido(X509Certificate cert, Date signingTime) {
+    public static boolean esCertificadoValido(X509Certificate cert, Date signingTime) {
         return !(signingTime.before(cert.getNotBefore()) || signingTime.after(cert.getNotAfter()));
     }
 
@@ -675,14 +634,6 @@ public class Utils {
                     java.util.List<SignInfo> signInfos;
                     signInfos = xAdESSigner.getSignInfo(docByteArray);
                     documento = Utils.x509CertificateToDocumento(signInfos);
-                    //SRI
-                    //                String xml = leerXmlSRI(documento);
-                    //                List<Certificado> certificadosSRI = Utils.signInfosToCertificados(docSigner.getSigners(xml.getBytes(StandardCharsets.UTF_8)));
-                    //                if (!certificadosSRI.isEmpty()) {
-                    //                    jakarta.swing.JOptionPane.showMessageDialog(null, PropertiesUtils.getMessages().getProperty("mensaje.error.documento_sri"), "Advertencia", jakarta.swing.JOptionPane.WARNING_MESSAGE);
-                    //                }
-                    //                certificados.addAll(certificadosSRI);
-                    //SRI
                 }
                 return documento;
             }
@@ -697,23 +648,14 @@ public class Utils {
         boolean retorno = true;
         if (certificados != null || !certificados.isEmpty()) {
             for (Certificado certificado : certificados) {
-                if (!certificado.getDocValidTimeStamp()) {//certificados digitales
-                    //certificado digital sin ser revocado, integridad de la firma, dentro de fecha de figencia, válido por CA
-                    boolean revocado = validarFirma(certificado.getValidFrom(), certificado.getValidTo(), certificado.getSignGenerated(), certificado.getRevocated());
-                    if (pdf) {
-                        if (!revocado || !certificado.getSignVerify() || !certificado.getCertificateValidated() || !certificado.getDatosUsuario().isCertificadoDigitalValido()) {
-                            retorno = false;
-                            break;
-                        }
-                    } else {
-                        if (!revocado || !certificado.getCertificateValidated() || !certificado.getDatosUsuario().isCertificadoDigitalValido()) {
-                            retorno = false;
-                            break;
-                        }
+                boolean revocado = validarFirma(certificado.getValidFrom(), certificado.getValidTo(), certificado.getSignGenerated(), certificado.getRevocated());
+                if (pdf) {
+                    if (!revocado || !certificado.getSignVerify() || !certificado.getCertificateValidated() || !certificado.getDatosUsuario().isCertificadoDigitalValido()) {
+                        retorno = false;
+                        break;
                     }
-                } else {// sellos de tiempo
-                    //dentro de fecha de figencia, válido por CA
-                    if (!certificado.getCertificateValidated() || !certificado.getDatosUsuario().isCertificadoDigitalValido()) {
+                } else {
+                    if (!revocado || !certificado.getCertificateValidated() || !certificado.getDatosUsuario().isCertificadoDigitalValido()) {
                         retorno = false;
                         break;
                     }
@@ -721,40 +663,6 @@ public class Utils {
             }
         }
         return retorno;
-    }
-
-    public static String leerXmlSRI(File documento) {
-        Scanner entrada = null;
-        //String xml
-        String xml = "";
-        try {
-            //creamos un Scanner para leer el fichero
-            entrada = new Scanner(documento);
-            while (entrada.hasNext()) { //mientras no se llegue al final del fichero
-                xml += entrada.nextLine();  //se lee una línea
-            }
-            xml = xml.replaceAll("&lt;", "<");
-            xml = xml.replaceAll("&gt;", ">");
-            //Texto a buscar
-            String inicioTexto1 = "<comprobante><![CDATA[";
-            String finTexto1 = "]]></comprobante>";
-            String inicioTexto2 = "<comprobante>";
-            String finTexto2 = "</comprobante>";
-            if (xml.contains(inicioTexto1)) {   //si la línea contiene el texto buscado
-                xml = xml.substring(xml.lastIndexOf(inicioTexto1) + inicioTexto1.length(),
-                        xml.indexOf(finTexto1));
-            } else {   //si la línea contiene el texto buscado
-                xml = xml.substring(xml.lastIndexOf(inicioTexto2) + inicioTexto2.length(),
-                        xml.indexOf(finTexto2));
-            }
-        } catch (Exception e) {
-            System.out.println(e.toString());
-        } finally {
-            if (entrada != null) {
-                entrada.close();
-            }
-        }
-        return xml;
     }
 
     public static boolean validarFirma(Calendar fechaDesde, Calendar fechaHasta, Calendar fechaFirmado, Calendar fechaRevocado) {
@@ -771,6 +679,47 @@ public class Utils {
             }
         }
         return retorno;
+    }
+
+    /**
+     * Valida que los keyusage sean por lo menos digitalSignature y
+     * NonRepudiation
+     *
+     * @param signCert
+     * @return
+     * @throws java.security.cert.CertificateParsingException
+     */
+    public static String validacionKeyUsages(X509Certificate signCert) throws CertificateParsingException {
+        String keyUsages = "";
+        boolean[] keyUsage = signCert.getKeyUsage();
+        if (keyUsage[0]) {
+            keyUsages += "Firma Electrónica, ";// digitalSignature
+        }
+        if (keyUsage[1]) {
+            keyUsages += "No Repudio, "; // nonRepudiation
+        }
+        if (keyUsage[2]) {
+            keyUsages += "Cifrado de llave, ";// keyEncipherment
+        }
+        if (keyUsage[3]) {
+            keyUsages += "Cifrado de datos, ";// dataEncipherment
+        }
+        if (keyUsage[4]) {
+            keyUsages += "Acuerdo de llaves, "; // keyAgreement
+        }
+        if (keyUsage[5]) {
+            keyUsages += "Firma y certificado de llave, ";// keyCertSign
+        }
+        if (keyUsage[6]) {
+            keyUsages += "Firma de CRL, ";// cRLSign
+        }
+        if (keyUsage[7]) {
+            keyUsages += "Solo cifrado, ";// encipherOnly
+        }
+        if (keyUsage[8]) {
+            keyUsages += "Solo descifrado"; // decipherOnly
+        }
+        return keyUsages;
     }
 
     /**

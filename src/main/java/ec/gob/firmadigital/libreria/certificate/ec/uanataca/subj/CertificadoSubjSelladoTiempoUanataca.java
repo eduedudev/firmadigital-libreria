@@ -15,33 +15,35 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package ec.gob.firmadigital.libreria.certificate.ec.uanataca.ext;
+package ec.gob.firmadigital.libreria.certificate.ec.uanataca.subj;
 
-import ec.gob.firmadigital.libreria.certificate.ec.CertificadoPersonaJuridica;
-import static ec.gob.firmadigital.libreria.certificate.ec.uanataca.CertificadoUanataca.Ext.*;
+import ec.gob.firmadigital.libreria.certificate.ec.CertificadoSelladoTiempo;
+import ec.gob.firmadigital.libreria.certificate.ec.subj.AttributeOIDs;
+import ec.gob.firmadigital.libreria.certificate.ec.subj.CertificadoSubjImpl;
 import java.security.cert.X509Certificate;
 
 /**
- * Certificado de Empresa<br>
+ * Certificado como subject, estructura de resolución de ARCOTEL-2024-0176.<br>
+ * Certificado de Sellado de Tiempo<br>
  * emitido por UANATACA ECUADOR S.A.
  *
  * @author Misael Fernández, UANATACA ECUADOR S.A.
  */
-public class CertificadoExtEmpresaUanataca
-        extends CertificadoExtImplUanataca
-        implements CertificadoPersonaJuridica {
+public class CertificadoSubjSelladoTiempoUanataca
+        extends CertificadoSubjImpl
+        implements CertificadoSelladoTiempo {
 
-    public CertificadoExtEmpresaUanataca(X509Certificate certificado) {
+    public CertificadoSubjSelladoTiempoUanataca(X509Certificate certificado) {
         super(certificado);
     }
 
     @Override
-    public String getRazonSocial() {
-        return getExtensionField(OID_RAZON_SOCIAL);
+    public String getCommonName() {
+        return getSubjectField(AttributeOIDs.OID_COMMON_NAME);
     }
 
     @Override
-    public String getCargo() {
-        return getExtensionField(OID_CARGO);
+    public String getRazonSocial() {
+        return getSubjectField(AttributeOIDs.OID_ORGANIZACION);
     }
 }
