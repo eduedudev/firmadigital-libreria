@@ -51,6 +51,7 @@ public class CertEcUtils {
     public static final String ANFAC_NAME = "ANFAC AUTORIDAD DE CERTIFICACION ECUADOR C.A.";
     public static final String ANFAC_NAME_OLD = "ANFAC AUTORIDAD DE CERTIFICACION ECUADOR CA";
     public static final String APPFIRMAS_NAME = "APPFIRMAS S.A.";
+    public static final String APPFIRMAS_NAME_OLD = "APPFIRMAS S.A. SUB CA";
     public static final String AGOSDATA_NAME = "ARGOSDATA CERTIFICACIÓN DE INFORMACIÓN Y SERVICIOS RELACIONADOS"; //ARGOSDATA CERTIFICACIÓN DE INFORMACIÓN Y SERVICIOS RELACIONADOS S.A.S.
     public static final String AGOSDATA_NAME_OLD = "ARGOSDATA";
     public static final String BCE_NAME = "BANCO CENTRAL DEL ECUADOR";
@@ -82,6 +83,9 @@ public class CertEcUtils {
         }
         if (organization.toUpperCase().equals(APPFIRMAS_NAME)) {
             return APPFIRMAS_NAME;
+        }
+        if (organization.toUpperCase().equals(APPFIRMAS_NAME_OLD)) {
+            return APPFIRMAS_NAME_OLD;
         }
         if (organization.toUpperCase().contains(AGOSDATA_NAME)) {
             return AGOSDATA_NAME;
@@ -149,6 +153,9 @@ public class CertEcUtils {
                 return CertificadoDataFactoryAnfAc.getRootCertificate(certificado);
             }
             case APPFIRMAS_NAME -> {
+                return CertificadoDataFactoryAppFirmas.getRootCertificate(certificado);
+            }
+            case APPFIRMAS_NAME_OLD -> {
                 return CertificadoDataFactoryAppFirmas.getRootCertificate(certificado);
             }
             case AGOSDATA_NAME -> {
@@ -219,6 +226,9 @@ public class CertEcUtils {
                 return CertificadoDataFactoryAnfAc.getDatosUsuarioAnfAc(certificado);
             }
             case APPFIRMAS_NAME -> {
+                return CertificadoDataFactoryAppFirmas.getDatosUsuarioAppFirmas(certificado);
+            }
+            case APPFIRMAS_NAME_OLD -> {
                 return CertificadoDataFactoryAppFirmas.getDatosUsuarioAppFirmas(certificado);
             }
             case AGOSDATA_NAME -> {

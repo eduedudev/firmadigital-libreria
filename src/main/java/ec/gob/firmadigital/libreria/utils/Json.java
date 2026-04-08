@@ -222,7 +222,7 @@ public class Json {
         jsonObjectDatosUsuario.addProperty("razonSocial", datosUsuario.getRazonSocial());
         jsonObjectDatosUsuario.addProperty("institucion", datosUsuario.getInstitucion());
         jsonObjectDatosUsuario.addProperty("cargo", datosUsuario.getCargo());
-        jsonObjectDatosUsuario.addProperty("caommonName", datosUsuario.getCommonName());
+        jsonObjectDatosUsuario.addProperty("commonName", datosUsuario.getCommonName());
         jsonObjectDatosUsuario.addProperty("certificadoDigitalValido", datosUsuario.isCertificadoDigitalValido());
         return jsonObjectDatosUsuario.toString();
     }
