@@ -199,7 +199,7 @@ public class BasePdfSigner implements Signer {
                 if (location != null) {
                     signatureAppearance.setLocation(location);
                 }
-                signatureAppearance.setSignatureCreator(PropertiesUtils.getConfig().getProperty("version"));
+                signatureAppearance.setSignatureCreator(PropertiesUtils.getConfig().getProperty("version") + " (FirmaEC)");
                 signatureAppearance.setCertificate(certChain[0]);
             }
 

@@ -92,6 +92,16 @@ public class CertificadoDataFactorySecurityData {
                     datosUsuario.setRazonSocial(certificadoExtMiembroEmpresaSecurityData.getRazonSocial());
                     datosUsuario.setCargo(certificadoExtMiembroEmpresaSecurityData.getCargo());
                 }
+                if (certificadoSecurityData instanceof CertificadoExtRepresentanteLegalSecurityData certificadoExtRepresentanteLegalSecurityData) {
+                    datosUsuario.setTipoCertificado("Representante Legal (EXT)");
+                    datosUsuario.setCedula(certificadoExtRepresentanteLegalSecurityData.getCedulaPasaporte());
+                    datosUsuario.setNombre(certificadoExtRepresentanteLegalSecurityData.getNombres());
+                    datosUsuario.setApellido(certificadoExtRepresentanteLegalSecurityData.getPrimerApellido() + " "
+                            + certificadoExtRepresentanteLegalSecurityData.getSegundoApellido());
+                    datosUsuario.setRuc(certificadoExtRepresentanteLegalSecurityData.getRuc());
+                    datosUsuario.setRazonSocial(certificadoExtRepresentanteLegalSecurityData.getRazonSocial());
+                    datosUsuario.setCargo(certificadoExtRepresentanteLegalSecurityData.getCargo());
+                }
                 if (certificadoSecurityData instanceof CertificadoExtPersonaJuridicaSecurityData certificadoExtPersonaJuridicaSecurityData) {
                     datosUsuario.setTipoCertificado("Persona Jurídica (EXT)");
                     datosUsuario.setCedula(certificadoExtPersonaJuridicaSecurityData.getCedulaPasaporte());

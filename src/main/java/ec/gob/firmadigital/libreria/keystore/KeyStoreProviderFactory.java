@@ -46,9 +46,6 @@ public class KeyStoreProviderFactory {
             windows.add(new WindowsKeyStoreProvider());
             windows.add(new UKCGenericWindowsDllKeyStoreProvider());
         }
-        if (tipoKeyStoreProvider.equals("PCSC")) {
-            windows.add(new WindowsPcscKeyStoreProvider());
-        }
         lista.put(WINDOWS, windows);
     }
 
@@ -64,9 +61,6 @@ public class KeyStoreProviderFactory {
             linux.add(new EPass3003LinuxKeyStoreProvider());
             linux.add(new UKCLinuxKeyStoreProvider());
         }
-        if (tipoKeyStoreProvider.equals("PCSC")) {
-            linux.add(new LinuxPcscKeyStoreProvider());
-        }
         lista.put(LINUX, linux);
     }
 
@@ -81,9 +75,6 @@ public class KeyStoreProviderFactory {
             macOS.add(new Bit4IdGenericAppleKeyStoreProvider());
             macOS.add(new UKCAppleKeyStoreProvider());
             macOS.add(new UKCGenericAppleKeyStoreProvider());
-        }
-        if (tipoKeyStoreProvider.equals("PCSC")) {
-            macOS.add(new PcscAppleKeyStoreProvider());
         }
         lista.put(MACOS, macOS);
     }
@@ -111,7 +102,7 @@ public class KeyStoreProviderFactory {
      * certificado digital
      *
      * @param clave
-     * @param tipoKeyStoreProvider "TOKEN", "PCSC"
+     * @param tipoKeyStoreProvider "TOKEN"
      * @return KeyStore
      */
     public static KeyStore getKeyStore(String clave, String tipoKeyStoreProvider) {

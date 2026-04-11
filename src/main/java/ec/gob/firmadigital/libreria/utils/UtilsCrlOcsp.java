@@ -219,12 +219,12 @@ public class UtilsCrlOcsp {
     }
 
     /**
-     * Valida un certificado usando el proxy CRL del servidor de FirmaEC.
-     * Extrae las URLs de CRL Distribution Point y OCSP del certificado
-     * y las envia al proxy para validacion en tiempo real.
+     * Valida un certificado usando el proxy CRL del servidor de FirmaEC. Extrae
+     * las URLs de CRL Distribution Point y OCSP del certificado y las envia al
+     * proxy para validacion en tiempo real.
      *
-     * Soporta CRLs particionados: cada certificado puede tener una URL
-     * de CRL diferente y el proxy la descarga individualmente.
+     * Soporta CRLs particionados: cada certificado puede tener una URL de CRL
+     * diferente y el proxy la descarga individualmente.
      *
      * @param cert Certificado a validar
      * @return fecha de revocacion si esta revocado, null si no esta revocado
@@ -289,7 +289,8 @@ public class UtilsCrlOcsp {
      * @param crlUrl URL del CRL (puede ser null)
      * @param ocspUrl URL del OCSP (puede ser null)
      * @param serial Serial number del certificado
-     * @return fecha de revocacion si esta revocado, null si no, "errorRed" si hay error de red
+     * @return fecha de revocacion si esta revocado, null si no, "errorRed" si
+     * hay error de red
      * @throws IOException si hay error de conexion
      */
     private static String llamarProxyCrl(String crlUrl, String ocspUrl, String serial, String certBase64) throws IOException {
@@ -347,8 +348,7 @@ public class UtilsCrlOcsp {
 
         // Leer respuesta JSON
         String responseStr;
-        try (InputStream is = conn.getInputStream();
-             BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
+        try (InputStream is = conn.getInputStream(); BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
             StringBuilder sb = new StringBuilder();
             String line;
             while ((line = reader.readLine()) != null) {
