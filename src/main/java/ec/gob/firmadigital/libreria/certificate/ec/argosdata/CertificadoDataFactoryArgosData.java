@@ -78,21 +78,21 @@ public class CertificadoDataFactoryArgosData {
                     datosUsuario.setCargo(certificadoRepresentanteLegal.getCargo());
                 }
             }
-            //RESOLUCION-ARCOTEL-2024-0176
-            if (certificadoArgosData instanceof CertificadoSubjImpl) {
-                if (certificadoArgosData instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
-                    datosUsuario.setTipoCertificado("Persona Natural");
-                    datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
-                    datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
-                    datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido());
-                }
-                if (certificadoArgosData instanceof CertificadoRepresentanteLegal certificadoRepresentanteLegal) {
-                    datosUsuario.setTipoCertificado("Representante Legal");
-                    datosUsuario.setRuc(certificadoRepresentanteLegal.getRuc());
-                    datosUsuario.setRazonSocial(certificadoRepresentanteLegal.getRazonSocial());
-                    datosUsuario.setCargo(certificadoRepresentanteLegal.getCargo());
-                }
-            }
+//            //RESOLUCION-ARCOTEL-2024-0176
+//            if (certificadoArgosData instanceof CertificadoSubjImpl) {
+//                if (certificadoArgosData instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
+//                    datosUsuario.setTipoCertificado("Persona Natural");
+//                    datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
+//                    datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
+//                    datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido());
+//                }
+//                if (certificadoArgosData instanceof CertificadoRepresentanteLegal certificadoRepresentanteLegal) {
+//                    datosUsuario.setTipoCertificado("Representante Legal");
+//                    datosUsuario.setRuc(certificadoRepresentanteLegal.getRuc());
+//                    datosUsuario.setRazonSocial(certificadoRepresentanteLegal.getRazonSocial());
+//                    datosUsuario.setCargo(certificadoRepresentanteLegal.getCargo());
+//                }
+//            }
             datosUsuario.setCertificadoDigitalValido(true);
         }
         return datosUsuario;
@@ -105,12 +105,12 @@ public class CertificadoDataFactoryArgosData {
             } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_REPRESENTANTE_LEGAL)) {
                 return new CertificadoExtRepresentanteLegalArgosData(certificado);
             }
-        } else {//RESOLUCION-ARCOTEL-2024-0176
-            if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
-                return new CertificadoSubjPersonaNaturalArgosData(certificado);
-            } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_REPRESENTANTE_LEGAL)) {
-                return new CertificadoSubjRepresentanteLegalArgosData(certificado);
-            }
+//        } else {//RESOLUCION-ARCOTEL-2024-0176
+//            if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
+//                return new CertificadoSubjPersonaNaturalArgosData(certificado);
+//            } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_REPRESENTANTE_LEGAL)) {
+//                return new CertificadoSubjRepresentanteLegalArgosData(certificado);
+//            }
         }
         return null;
     }

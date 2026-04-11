@@ -102,39 +102,39 @@ public class CertificadoDataFactoryUanataca {
                     datosUsuario.setRazonSocial(certificadoExtSelladoTiempoUanataca.getRazonSocial());
                 }
             }
-            //RESOLUCION-ARCOTEL-2024-0176
-            if (certificadoUanataca instanceof CertificadoSubjImpl) {
-                if (certificadoUanataca instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
-                    datosUsuario.setTipoCertificado("Persona Natural");
-                    datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
-                    datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
-                    datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido());
-                }
-                if (certificadoUanataca instanceof CertificadoPersonaJuridica certificadoPersonaJuridica) {
-                    datosUsuario.setTipoCertificado("Persona Jurídica");
-                    datosUsuario.setRuc(certificadoPersonaJuridica.getRuc());
-                    datosUsuario.setRazonSocial(certificadoPersonaJuridica.getRazonSocial());
-                    datosUsuario.setCargo(certificadoPersonaJuridica.getCargo());
-                }
-                if (certificadoUanataca instanceof CertificadoMiembroEmpresa certificadoMiembroEmpresa) {
-                    datosUsuario.setTipoCertificado("Miembro Empresa");
-                    datosUsuario.setRuc(certificadoMiembroEmpresa.getRuc());
-                    datosUsuario.setRazonSocial(certificadoMiembroEmpresa.getRazonSocial());
-                    datosUsuario.setCargo(certificadoMiembroEmpresa.getCargo());
-                }
-                if (certificadoUanataca instanceof CertificadoRepresentanteLegal certificadoRepresentanteLegal) {
-                    datosUsuario.setTipoCertificado("Representante Legal");
-                    datosUsuario.setRuc(certificadoRepresentanteLegal.getRuc());
-                    datosUsuario.setRazonSocial(certificadoRepresentanteLegal.getRazonSocial());
-                    datosUsuario.setCargo(certificadoRepresentanteLegal.getCargo());
-                }
-                if (certificadoUanataca instanceof CertificadoSelladoTiempo certificadoSelladoTiempo) {
-                    datosUsuario.setTipoCertificado("Sellado de Tiempo");
-                    datosUsuario.setCommonName(certificadoSelladoTiempo.getCommonName());
-                    datosUsuario.setRuc(certificadoSelladoTiempo.getRuc());
-                    datosUsuario.setRazonSocial(certificadoSelladoTiempo.getRazonSocial());
-                }
-            }
+//            //RESOLUCION-ARCOTEL-2024-0176
+//            if (certificadoUanataca instanceof CertificadoSubjImpl) {
+//                if (certificadoUanataca instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
+//                    datosUsuario.setTipoCertificado("Persona Natural");
+//                    datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
+//                    datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
+//                    datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido());
+//                }
+//                if (certificadoUanataca instanceof CertificadoPersonaJuridica certificadoPersonaJuridica) {
+//                    datosUsuario.setTipoCertificado("Persona Jurídica");
+//                    datosUsuario.setRuc(certificadoPersonaJuridica.getRuc());
+//                    datosUsuario.setRazonSocial(certificadoPersonaJuridica.getRazonSocial());
+//                    datosUsuario.setCargo(certificadoPersonaJuridica.getCargo());
+//                }
+//                if (certificadoUanataca instanceof CertificadoMiembroEmpresa certificadoMiembroEmpresa) {
+//                    datosUsuario.setTipoCertificado("Miembro Empresa");
+//                    datosUsuario.setRuc(certificadoMiembroEmpresa.getRuc());
+//                    datosUsuario.setRazonSocial(certificadoMiembroEmpresa.getRazonSocial());
+//                    datosUsuario.setCargo(certificadoMiembroEmpresa.getCargo());
+//                }
+//                if (certificadoUanataca instanceof CertificadoRepresentanteLegal certificadoRepresentanteLegal) {
+//                    datosUsuario.setTipoCertificado("Representante Legal");
+//                    datosUsuario.setRuc(certificadoRepresentanteLegal.getRuc());
+//                    datosUsuario.setRazonSocial(certificadoRepresentanteLegal.getRazonSocial());
+//                    datosUsuario.setCargo(certificadoRepresentanteLegal.getCargo());
+//                }
+//                if (certificadoUanataca instanceof CertificadoSelladoTiempo certificadoSelladoTiempo) {
+//                    datosUsuario.setTipoCertificado("Sellado de Tiempo");
+//                    datosUsuario.setCommonName(certificadoSelladoTiempo.getCommonName());
+//                    datosUsuario.setRuc(certificadoSelladoTiempo.getRuc());
+//                    datosUsuario.setRazonSocial(certificadoSelladoTiempo.getRazonSocial());
+//                }
+//            }
             datosUsuario.setCertificadoDigitalValido(true);
         }
         return datosUsuario;
@@ -160,25 +160,25 @@ public class CertificadoDataFactoryUanataca {
             return new CertificadoExtRepresentanteLegalUanataca(certificado);
         } else if (certificateHasPolicy(certificado, Ext.OID_SELLADO_TIEMPO)) {
             return new CertificadoExtSelladoTiempoUanataca(certificado);
-        } //RESOLUCION-ARCOTEL-2024-0176
-        else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL_ARCHIVO)) {
-            return new CertificadoSubjPersonaNaturalUanataca(certificado);
-        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL_DSCF)) {
-            return new CertificadoSubjPersonaNaturalUanataca(certificado);
-        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_JURIDICA_ARCHIVO)) {
-            return new CertificadoSubjPersonaJuridicaUanataca(certificado);
-        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_JURIDICA_DSCF)) {
-            return new CertificadoSubjPersonaJuridicaUanataca(certificado);
-        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_MIEMBRO_EMPRESA_ARCHIVO)) {
-            return new CertificadoSubjMiembroEmpresaUanataca(certificado);
-        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_MIEMBRO_EMPRESA_DSCF)) {
-            return new CertificadoSubjMiembroEmpresaUanataca(certificado);
-        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_REPRESENTANTE_EMPRESA_ARCHIVO)) {
-            return new CertificadoSubjRepresentanteLegalUanataca(certificado);
-        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_REPRESENTANTE_EMPRESA_DSCF)) {
-            return new CertificadoSubjRepresentanteLegalUanataca(certificado);
-        } else if (certificateHasPolicy(certificado, Subj.OID_SELLADO_TIEMPO)) {
-            return new CertificadoSubjSelladoTiempoUanataca(certificado);
+//        } //RESOLUCION-ARCOTEL-2024-0176
+//        else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL_ARCHIVO)) {
+//            return new CertificadoSubjPersonaNaturalUanataca(certificado);
+//        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL_DSCF)) {
+//            return new CertificadoSubjPersonaNaturalUanataca(certificado);
+//        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_JURIDICA_ARCHIVO)) {
+//            return new CertificadoSubjPersonaJuridicaUanataca(certificado);
+//        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_JURIDICA_DSCF)) {
+//            return new CertificadoSubjPersonaJuridicaUanataca(certificado);
+//        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_MIEMBRO_EMPRESA_ARCHIVO)) {
+//            return new CertificadoSubjMiembroEmpresaUanataca(certificado);
+//        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_MIEMBRO_EMPRESA_DSCF)) {
+//            return new CertificadoSubjMiembroEmpresaUanataca(certificado);
+//        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_REPRESENTANTE_EMPRESA_ARCHIVO)) {
+//            return new CertificadoSubjRepresentanteLegalUanataca(certificado);
+//        } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_REPRESENTANTE_EMPRESA_DSCF)) {
+//            return new CertificadoSubjRepresentanteLegalUanataca(certificado);
+//        } else if (certificateHasPolicy(certificado, Subj.OID_SELLADO_TIEMPO)) {
+//            return new CertificadoSubjSelladoTiempoUanataca(certificado);
         }
         return null;
     }

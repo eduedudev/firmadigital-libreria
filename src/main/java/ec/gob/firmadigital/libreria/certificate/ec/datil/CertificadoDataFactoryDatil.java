@@ -81,39 +81,39 @@ public class CertificadoDataFactoryDatil {
                     datosUsuario.setCargo(certificadoExtPersonaJuridicaPrivadaDatil.getCargo());
                 }
             }
-            //RESOLUCION-ARCOTEL-2024-0176
-            if (certificadoDatil instanceof CertificadoSubjImpl) {
-                if (certificadoDatil instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
-                    datosUsuario.setTipoCertificado("Persona Natural");
-                    datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
-                    datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
-                    datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido());
-                }
-                if (certificadoDatil instanceof CertificadoMiembroEmpresa certificadoMiembroEmpresa) {
-                    datosUsuario.setTipoCertificado("Miembro Empresa");
-                    datosUsuario.setRuc(certificadoMiembroEmpresa.getRuc());
-                    datosUsuario.setRazonSocial(certificadoMiembroEmpresa.getRazonSocial());
-                    datosUsuario.setCargo(certificadoMiembroEmpresa.getCargo());
-                }
-                if (certificadoDatil instanceof CertificadoRepresentanteLegal certificadoRepresentanteLegal) {
-                    datosUsuario.setTipoCertificado("Representante Legal");
-                    datosUsuario.setRuc(certificadoRepresentanteLegal.getRuc());
-                    datosUsuario.setRazonSocial(certificadoRepresentanteLegal.getRazonSocial());
-                    datosUsuario.setCargo(certificadoRepresentanteLegal.getCargo());
-                }
-                if (certificadoDatil instanceof CertificadoSelloElectronico certificadoSelloElectronico) {
-                    datosUsuario.setTipoCertificado("Sellado Electrónico");
-                    datosUsuario.setCommonName(certificadoSelloElectronico.getCommonName());
-                    datosUsuario.setRuc(certificadoSelloElectronico.getRuc());
-                    datosUsuario.setRazonSocial(certificadoSelloElectronico.getRazonSocial());
-                }
-                if (certificadoDatil instanceof CertificadoSelladoTiempo certificadoSelladoTiempo) {
-                    datosUsuario.setTipoCertificado("Sellado de Tiempo");
-                    datosUsuario.setCommonName(certificadoSelladoTiempo.getCommonName());
-                    datosUsuario.setRuc(certificadoSelladoTiempo.getRuc());
-                    datosUsuario.setRazonSocial(certificadoSelladoTiempo.getRazonSocial());
-                }
-            }
+//            //RESOLUCION-ARCOTEL-2024-0176
+//            if (certificadoDatil instanceof CertificadoSubjImpl) {
+//                if (certificadoDatil instanceof CertificadoPersonaNatural certificadoPersonaNatural) {
+//                    datosUsuario.setTipoCertificado("Persona Natural");
+//                    datosUsuario.setCedula(certificadoPersonaNatural.getCedulaPasaporte());
+//                    datosUsuario.setNombre(certificadoPersonaNatural.getNombres());
+//                    datosUsuario.setApellido(certificadoPersonaNatural.getPrimerApellido());
+//                }
+//                if (certificadoDatil instanceof CertificadoMiembroEmpresa certificadoMiembroEmpresa) {
+//                    datosUsuario.setTipoCertificado("Miembro Empresa");
+//                    datosUsuario.setRuc(certificadoMiembroEmpresa.getRuc());
+//                    datosUsuario.setRazonSocial(certificadoMiembroEmpresa.getRazonSocial());
+//                    datosUsuario.setCargo(certificadoMiembroEmpresa.getCargo());
+//                }
+//                if (certificadoDatil instanceof CertificadoRepresentanteLegal certificadoRepresentanteLegal) {
+//                    datosUsuario.setTipoCertificado("Representante Legal");
+//                    datosUsuario.setRuc(certificadoRepresentanteLegal.getRuc());
+//                    datosUsuario.setRazonSocial(certificadoRepresentanteLegal.getRazonSocial());
+//                    datosUsuario.setCargo(certificadoRepresentanteLegal.getCargo());
+//                }
+//                if (certificadoDatil instanceof CertificadoSelloElectronico certificadoSelloElectronico) {
+//                    datosUsuario.setTipoCertificado("Sellado Electrónico");
+//                    datosUsuario.setCommonName(certificadoSelloElectronico.getCommonName());
+//                    datosUsuario.setRuc(certificadoSelloElectronico.getRuc());
+//                    datosUsuario.setRazonSocial(certificadoSelloElectronico.getRazonSocial());
+//                }
+//                if (certificadoDatil instanceof CertificadoSelladoTiempo certificadoSelladoTiempo) {
+//                    datosUsuario.setTipoCertificado("Sellado de Tiempo");
+//                    datosUsuario.setCommonName(certificadoSelladoTiempo.getCommonName());
+//                    datosUsuario.setRuc(certificadoSelladoTiempo.getRuc());
+//                    datosUsuario.setRazonSocial(certificadoSelladoTiempo.getRazonSocial());
+//                }
+//            }
             datosUsuario.setCertificadoDigitalValido(true);
         }
         return datosUsuario;
@@ -126,18 +126,18 @@ public class CertificadoDataFactoryDatil {
             } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_JURIDICA)) {
                 return new CertificadoExtPersonaJuridicaPrivadaDatil(certificado);
             }
-        } else {//RESOLUCION-ARCOTEL-2024-0176
-            if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
-                return new CertificadoSubjPersonaNaturalDatil(certificado);
-            } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_REPRESENTANTE_LEGAL)) {
-                return new CertificadoSubjRepresentanteLegalDatil(certificado);
-            } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_MIEMBRO_EMPRESA)) {
-                return new CertificadoSubjMiembroEmpresaDatil(certificado);
-            } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_SELLO_ELECTRONICO)) {
-                return new CertificadoSubjSelloElectronicoDatil(certificado);
-            } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_SELLO_TIEMPO)) {
-                return new CertificadoSubjSelladoTiempoDatil(certificado);
-            }
+//        } else {//RESOLUCION-ARCOTEL-2024-0176
+//            if (certificateHasPolicy(certificado, Subj.OID_TIPO_PERSONA_NATURAL)) {
+//                return new CertificadoSubjPersonaNaturalDatil(certificado);
+//            } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_REPRESENTANTE_LEGAL)) {
+//                return new CertificadoSubjRepresentanteLegalDatil(certificado);
+//            } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_MIEMBRO_EMPRESA)) {
+//                return new CertificadoSubjMiembroEmpresaDatil(certificado);
+//            } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_SELLO_ELECTRONICO)) {
+//                return new CertificadoSubjSelloElectronicoDatil(certificado);
+//            } else if (certificateHasPolicy(certificado, Subj.OID_TIPO_SELLO_TIEMPO)) {
+//                return new CertificadoSubjSelladoTiempoDatil(certificado);
+//            }
         }
         return null;
     }
