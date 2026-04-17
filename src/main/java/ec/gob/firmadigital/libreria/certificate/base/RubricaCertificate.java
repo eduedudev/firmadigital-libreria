@@ -165,7 +165,7 @@ public abstract class RubricaCertificate extends X509Certificate {
 
     @Override
     public boolean[] getKeyUsage() {
-        return getKeyUsage();
+        return x509Certificate.getKeyUsage();
     }
 
     @Override

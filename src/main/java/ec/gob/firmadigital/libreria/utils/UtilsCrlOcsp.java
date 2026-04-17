@@ -29,15 +29,20 @@ import ec.gob.firmadigital.libreria.exceptions.ConexionException;
 import ec.gob.firmadigital.libreria.exceptions.EntidadCertificadoraNoValidaException;
 
 import ec.gob.firmadigital.libreria.ocsp.ValidadorOCSP;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.math.BigInteger;
 import java.net.HttpURLConnection;
 import java.net.SocketException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.net.UnknownHostException;
+import java.nio.charset.StandardCharsets;
 import java.security.cert.X509Certificate;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -78,6 +83,22 @@ public class UtilsCrlOcsp {
      */
     public static String validarCertificado(X509Certificate cert, String apiUrl) throws EntidadCertificadoraNoValidaException, IOException, RubricaException, ConexionValidarCRLException, CRLValidationException {
         String fechaRevocado = null;
+
+        // PASO 1: Intentar validacion por proxy CRL (soporta CRLs particionados)
+        try {
+            fechaRevocado = validarCertificadoProxy(cert);
+            if (fechaRevocado != null && !fechaRevocado.contains("errorRed")) {
+                return fechaRevocado;
+            }
+            // Si el proxy devolvio null (no revocado), retornar null
+            if (fechaRevocado == null) {
+                return null;
+            }
+        } catch (Exception ex) {
+            LOGGER.log(Level.WARNING, "Fallo la validacion por proxy CRL, intentando por API legacy: {0}", ex.getMessage());
+        }
+
+        // PASO 2: Fallback a API legacy (serial number contra tabla batch)
         try {
             BigInteger serial = cert.getSerialNumber();
             fechaRevocado = validarCrlServidorAPI(serial, apiUrl);
@@ -85,17 +106,6 @@ public class UtilsCrlOcsp {
             System.out.println("Fallo la validacion por el servicio del API");
             LOGGER.log(Level.SEVERE, "SocketException: ", ex.getCause());
             fechaRevocado = "errorRed";
-//            try {
-//                System.out.println("Fallo la validacion por el servicio del API, Ahora intentamos por CRL");
-//                fechaRevocado = validarCRL(cert);
-//            } catch (IOException | RubricaException ex1) {
-//                System.out.println("Fallo la validacion por OCSP, Ahora intentamos por CRL");
-//                fechaRevocado = validarOCSP(cert);
-//                if (fechaRevocado.equals("unknownStatus")) {
-//                    System.out.println("Fallo la validacion por OCSP");
-//                    fechaRevocado = null;
-//                }
-//            }
         } finally {
             return fechaRevocado;
         }
@@ -208,13 +218,170 @@ public class UtilsCrlOcsp {
         return null;
     }
 
-    private static String resultadosCRL(ValidationResult result) {
-        if (result == result.CANNOT_DOWNLOAD_CRL) {
-            return "No se pudo descargar el archivo CRL\nRevisar conexión de Internet";
+    /**
+     * Valida un certificado usando el proxy CRL del servidor de FirmaEC. Extrae
+     * las URLs de CRL Distribution Point y OCSP del certificado y las envia al
+     * proxy para validacion en tiempo real.
+     *
+     * Soporta CRLs particionados: cada certificado puede tener una URL de CRL
+     * diferente y el proxy la descarga individualmente.
+     *
+     * @param cert Certificado a validar
+     * @return fecha de revocacion si esta revocado, null si no esta revocado
+     * @throws IOException si hay error de red
+     */
+    private static String validarCertificadoProxy(X509Certificate cert) throws IOException {
+        BigInteger serial = cert.getSerialNumber();
+
+        // Extraer CRL Distribution Points del certificado
+        String crlUrl = null;
+        try {
+            List<String> crlUrls = CertificateUtils.getCrlDistributionPoints(cert);
+            if (crlUrls != null && !crlUrls.isEmpty()) {
+                // Preferir URL que contenga "crl" en su path
+                crlUrl = obtenerUrlCRL(crlUrls);
+                if (crlUrl == null) {
+                    crlUrl = crlUrls.get(0);
+                }
+            }
+        } catch (Exception e) {
+            LOGGER.log(Level.WARNING, "No se pudo extraer CRL Distribution Points: {0}", e.getMessage());
         }
-        if (result.isValid()) {
-            return "Válido";
+
+        // Extraer OCSP URL del certificado (opcional)
+        String ocspUrl = null;
+        try {
+            List<String> ocspUrls = CertificateUtils.getAuthorityInformationAccess(cert);
+            if (ocspUrls != null && !ocspUrls.isEmpty()) {
+                for (String url : ocspUrls) {
+                    if (url.toLowerCase().contains("ocsp")) {
+                        ocspUrl = url;
+                        break;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            // Algunos certificados no tienen AIA, es normal
+            LOGGER.log(Level.FINE, "No se pudo extraer OCSP URL: {0}", e.getMessage());
         }
-        return "Inválido";
+
+        // Si no tenemos CRL ni OCSP, no podemos usar el proxy
+        if (crlUrl == null && ocspUrl == null) {
+            LOGGER.log(Level.WARNING, "Certificado sin CRL Distribution Point ni OCSP URL");
+            throw new IOException("No se encontraron puntos de distribucion CRL ni OCSP en el certificado");
+        }
+
+        // Codificar certificado en Base64 para OCSP en el proxy
+        String certBase64 = null;
+        try {
+            certBase64 = java.util.Base64.getEncoder().encodeToString(cert.getEncoded());
+        } catch (Exception e) {
+            LOGGER.log(Level.WARNING, "No se pudo codificar el certificado en Base64: {0}", e.getMessage());
+        }
+
+        // Llamar al proxy
+        return llamarProxyCrl(crlUrl, ocspUrl, serial.toString(), certBase64);
+    }
+
+    /**
+     * Realiza la llamada HTTP POST al proxy CRL de FirmaEC.
+     *
+     * @param crlUrl URL del CRL (puede ser null)
+     * @param ocspUrl URL del OCSP (puede ser null)
+     * @param serial Serial number del certificado
+     * @return fecha de revocacion si esta revocado, null si no, "errorRed" si
+     * hay error de red
+     * @throws IOException si hay error de conexion
+     */
+    private static String llamarProxyCrl(String crlUrl, String ocspUrl, String serial, String certBase64) throws IOException {
+        String proxyUrl = PropertiesUtils.getConfig().getProperty("certificado_revocado_proxy_url");
+        if (proxyUrl == null || proxyUrl.isEmpty()) {
+            throw new IOException("No se ha configurado la propiedad certificado_revocado_proxy_url");
+        }
+
+        // Construir body del POST
+        StringBuilder body = new StringBuilder();
+        body.append("serial=").append(URLEncoder.encode(serial, StandardCharsets.UTF_8.name()));
+        if (crlUrl != null) {
+            body.append("&crlUrl=").append(URLEncoder.encode(crlUrl, StandardCharsets.UTF_8.name()));
+        }
+        if (ocspUrl != null) {
+            body.append("&ocspUrl=").append(URLEncoder.encode(ocspUrl, StandardCharsets.UTF_8.name()));
+        }
+        if (certBase64 != null) {
+            body.append("&certBase64=").append(URLEncoder.encode(certBase64, StandardCharsets.UTF_8.name()));
+        }
+
+        URL url = new URL(proxyUrl);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("POST");
+        conn.setConnectTimeout(TIME_OUT);
+        conn.setReadTimeout(15000);
+        conn.setDoOutput(true);
+        conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+
+        try (OutputStream os = conn.getOutputStream()) {
+            os.write(body.toString().getBytes(StandardCharsets.UTF_8));
+        }
+
+        int responseCode = conn.getResponseCode();
+
+        // Manejar redirects
+        if (responseCode >= 300 && responseCode < 400) {
+            String location = conn.getHeaderField("Location");
+            conn = (HttpURLConnection) new URL(location).openConnection();
+            conn.setRequestMethod("POST");
+            conn.setConnectTimeout(TIME_OUT);
+            conn.setReadTimeout(15000);
+            conn.setDoOutput(true);
+            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            try (OutputStream os = conn.getOutputStream()) {
+                os.write(body.toString().getBytes(StandardCharsets.UTF_8));
+            }
+            responseCode = conn.getResponseCode();
+        }
+
+        if (responseCode >= 400) {
+            LOGGER.log(Level.SEVERE, "Proxy CRL respondio con codigo {0}", responseCode);
+            throw new IOException("Error en proxy CRL. Response Code: " + responseCode);
+        }
+
+        // Leer respuesta JSON
+        String responseStr;
+        try (InputStream is = conn.getInputStream(); BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line);
+            }
+            responseStr = sb.toString();
+        }
+
+        // Parsear respuesta JSON
+        try {
+            JsonObject json = JsonParser.parseString(responseStr).getAsJsonObject();
+
+            // Verificar si hubo error
+            if (json.has("error") && !json.get("error").isJsonNull()) {
+                String error = json.get("error").getAsString();
+                LOGGER.log(Level.WARNING, "Proxy CRL retorno error: {0}", error);
+                throw new IOException("Error del proxy CRL: " + error);
+            }
+
+            // Verificar si esta revocado
+            boolean revocado = json.has("revocado") && json.get("revocado").getAsBoolean();
+            if (revocado && json.has("fechaRevocacion") && !json.get("fechaRevocacion").isJsonNull()) {
+                return json.get("fechaRevocacion").getAsString();
+            }
+
+            return null; // No revocado
+
+        } catch (Exception e) {
+            if (e instanceof IOException) {
+                throw (IOException) e;
+            }
+            LOGGER.log(Level.SEVERE, "Error parseando respuesta del proxy CRL: {0}", responseStr);
+            throw new IOException("Error parseando respuesta del proxy CRL", e);
+        }
     }
 }

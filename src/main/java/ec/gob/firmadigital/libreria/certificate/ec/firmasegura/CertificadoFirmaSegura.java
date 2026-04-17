@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2024
- * Authors: Mauricio Perez
+ * Copyright (C) 2026
+ * Authors: Misael Fernández, FIRMASEGURA S.A.S.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -17,74 +17,59 @@
  */
 package ec.gob.firmadigital.libreria.certificate.ec.firmasegura;
 
-import java.io.IOException;
-import java.security.cert.X509Certificate;
-
-import ec.gob.firmadigital.libreria.certificate.CertUtils;
-
 /**
- * Certificado emitido por Firmasegura S.A.S.
+ * Clase contenedora para los Identificadores de Objeto (OIDs) utilizados en
+ * certificados digitales.
  *
- * @author Mauricio Perez <mauricio.perez@firmaseguraec.com>
+ * Agrupa los OIDs en clases anidadas estáticas según su ubicación dentro del
+ * certificado (Subject o Extensions) para una mejor organización y claridad.
+ *
+ * @author Misael Fernández, FIRMASEGURA S.A.S.
  */
-public abstract class CertificadoFirmaSegura {
+public class CertificadoFirmaSegura {
 
-    // OIDs de Tipo de Certificado
-    public static final String OID_TIPO_PERSONA_NATURAL = "1.3.6.1.4.1.61305.2.2.1";
-    public static final String OID_TIPO_REPRESENTANTE_LEGAL = "1.3.6.1.4.1.61305.2.2.2";
-
-    // OIDs de Campos del Certificado:
-    public static final String OID_CEDULA_PASAPORTE = "1.3.6.1.4.1.61305.3.1";
-    public static final String OID_NOMBRES = "1.3.6.1.4.1.61305.3.2";
-    public static final String OID_PRIMER_APELLIDO = "1.3.6.1.4.1.61305.3.3";
-    public static final String OID_SEGUNDO_APELLIDO = "1.3.6.1.4.1.61305.3.4";
-    public static final String OID_CARGO = "1.3.6.1.4.1.61305.3.5";
-    public static final String OID_DIRECCION = "1.3.6.1.4.1.61305.3.7";
-    public static final String OID_TELEFONO = "1.3.6.1.4.1.61305.3.8";
-    public static final String OID_CIUDAD = "1.3.6.1.4.1.61305.3.9";
-    public static final String OID_RAZON_SOCIAL = "1.3.6.1.4.1.61305.3.10";
-    public static final String OID_RUC = "1.3.6.1.4.1.61305.3.11";
-    public static final String OID_PAIS = "1.3.6.1.4.1.61305.3.12";
-
-    /**
-     * Certificado a analizar
-     */
-    private final X509Certificate certificado;
-
-    /**
-     * Permite analizar los contenidos de un X509Certificate segun las OIDs de
-     * Security Data.
-     *
-     * @param certificado
-     */
-    public CertificadoFirmaSegura(X509Certificate certificado) {
-        this.certificado = certificado;
+    private CertificadoFirmaSegura() {
     }
 
     /**
-     * Retorna el valor de la extension, y una cadena vacia si no existe.
-     *
-     * @param oid
-     * @return
+     * OIDs encontrados en el Subject del certificado X.509.
      */
-    protected String obtenerExtension(String oid) {
-        try {
-            String valor = CertUtils.getExtensionValue(certificado, oid);
-            return (valor != null) ? valor : "";
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+    public static final class Subj {
+
+        private Subj() {
         }
+
+        // OIDs de tipo de certificado.
+        public static final String OID_TIPO_PERSONA_NATURAL = "1.3.6.1.4.1.61305.2.1.1";
+        public static final String OID_TIPO_PERSONA_NATURAL_DSCF = "1.3.6.1.4.1.61305.2.1.2";
+        public static final String OID_TIPO_MIEMBRO_EMPRESA = "1.3.6.1.4.1.61305.2.2.1";
+        public static final String OID_TIPO_MIEMBRO_EMPRESA_DSCF = "1.3.6.1.4.1.61305.2.2.2";
+        public static final String OID_TIPO_REPRESENTANTE_LEGAL = "1.3.6.1.4.1.61305.2.3.1";
+        public static final String OID_TIPO_REPRESENTANTE_LEGAL_DSCF = "1.3.6.1.4.1.61305.2.3.2";
     }
 
-    public String getNombres() {
-        return obtenerExtension(OID_NOMBRES);
-    }
+    /**
+     * OIDs encontrados en las extensiones del certificado X.509.
+     */
+    public static final class Ext {
 
-    public String getPrimerApellido() {
-        return obtenerExtension(OID_PRIMER_APELLIDO);
-    }
+        private Ext() {
+        }
+        // OIDs de Tipo de Certificado
+        public static final String OID_TIPO_PERSONA_NATURAL = "1.3.6.1.4.1.61305.2.2.1";
+        public static final String OID_TIPO_REPRESENTANTE_LEGAL = "1.3.6.1.4.1.61305.2.2.2";
 
-    public String getSegundoApellido() {
-        return obtenerExtension(OID_SEGUNDO_APELLIDO);
+        // OIDs de Campos del Certificado:
+        public static final String OID_CEDULA_PASAPORTE = "1.3.6.1.4.1.61305.3.1";
+        public static final String OID_NOMBRES = "1.3.6.1.4.1.61305.3.2";
+        public static final String OID_APELLIDO_1 = "1.3.6.1.4.1.61305.3.3";
+        public static final String OID_APELLIDO_2 = "1.3.6.1.4.1.61305.3.4";
+        public static final String OID_CARGO = "1.3.6.1.4.1.61305.3.5";
+        public static final String OID_DIRECCION = "1.3.6.1.4.1.61305.3.7";
+        public static final String OID_TELEFONO = "1.3.6.1.4.1.61305.3.8";
+        public static final String OID_CIUDAD = "1.3.6.1.4.1.61305.3.9";
+        public static final String OID_RAZON_SOCIAL = "1.3.6.1.4.1.61305.3.10";
+        public static final String OID_RUC = "1.3.6.1.4.1.61305.3.11";
+        public static final String OID_PAIS = "1.3.6.1.4.1.61305.3.12";
     }
 }

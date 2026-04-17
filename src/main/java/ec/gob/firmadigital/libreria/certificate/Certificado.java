@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2025
- * Authors: Alpha Technologies Cia. Ltda., Misael Fernández
+ * Copyright (C) 2026
+ * Authors: Misael Fernández
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -28,7 +28,7 @@ import org.bouncycastle.cert.jcajce.JcaX509CertificateHolder;
 /**
  * Clase generica que representa un certificado
  *
- * @author Alpha Technologies Cia. Ltda.
+ * @author Misael Fernández
  */
 public abstract class Certificado {
 
@@ -54,9 +54,24 @@ public abstract class Certificado {
      * @param oid
      * @return
      */
-    protected String obtenerExtension(String oid) {
+    protected String getExtensionField(String oid) {
         try {
             String valor = CertUtils.getExtensionValue(certificado, oid);
+            return (valor != null) ? valor : "";
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
+     * Retorna el valor de subject alternative name, y una cadena vacia si no existe.
+     *
+     * @param oid
+     * @return
+     */
+    protected String getSubjectAlternativeName(String oid) {
+        try {
+            String valor = CertUtils.getExtensionValueSubjectAlternativeNames(certificado, oid);
             return (valor != null) ? valor : "";
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -81,5 +96,4 @@ public abstract class Certificado {
         String fieldValue = CertUtils.getSubjectFieldByOID(this.subjectName, Asn1OID);
         return (fieldValue != null) ? fieldValue : "";
     }
-
 }

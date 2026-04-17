@@ -18,34 +18,26 @@
 package ec.gob.firmadigital.libreria.utils;
 
 import ec.gob.firmadigital.libreria.certificate.CertEcUtils;
-import ec.gob.firmadigital.libreria.certificate.ec.alphatechnologies.AlphaTechnologiesCaCert;
-import ec.gob.firmadigital.libreria.certificate.ec.alphatechnologies.AlphaTechnologiesCaCert20242034;
-import ec.gob.firmadigital.libreria.certificate.ec.anfac.AnfAc18332CaCert20162036;
-import ec.gob.firmadigital.libreria.certificate.ec.anfac.AnfAc37442CaCert20192039;
-import ec.gob.firmadigital.libreria.certificate.ec.appfirmas.AppFirmasCaCert20252055;
-import ec.gob.firmadigital.libreria.certificate.ec.argosdata.ArgosDataCaCert;
-import ec.gob.firmadigital.libreria.certificate.ec.bce.BceCaCert;
-import ec.gob.firmadigital.libreria.certificate.ec.cj.ConsejoJudicaturaCaCert;
-import ec.gob.firmadigital.libreria.certificate.ec.corpnewbest.CorpNewBestCaCert;
-import ec.gob.firmadigital.libreria.certificate.ec.corpnewbest.CorpNewBestCaCert2024011020330619;
-import ec.gob.firmadigital.libreria.certificate.ec.darkcam.DarkcamCaCert20262046;
-import ec.gob.firmadigital.libreria.certificate.ec.datil.DatilCaCert;
-import ec.gob.firmadigital.libreria.certificate.ec.firmasegura.FirmaSeguraCaCert;
-import ec.gob.firmadigital.libreria.certificate.ec.firmasegura.FirmaSeguraSubCaCert20232043;
-import ec.gob.firmadigital.libreria.certificate.ec.lazzate.LazzateCa1Cert;
-import ec.gob.firmadigital.libreria.certificate.ec.lazzate.LazzateCa2Cert;
-import ec.gob.firmadigital.libreria.certificate.ec.lazzate.LazzateCaCert;
-import ec.gob.firmadigital.libreria.certificate.ec.lazzate.LazzateCaWeGoCert;
-import ec.gob.firmadigital.libreria.certificate.ec.letmi.LetmiCaCert20252055;
-import ec.gob.firmadigital.libreria.certificate.ec.primecorelat.PrimeCoreLatCa1Cert;
-import ec.gob.firmadigital.libreria.certificate.ec.primecorelat.PrimeCoreLatCa2Cert;
-import ec.gob.firmadigital.libreria.certificate.ec.securitydata.SecurityDataCaCert;
-import ec.gob.firmadigital.libreria.certificate.ec.uanataca.UanatacaCaCert;
+import ec.gob.firmadigital.libreria.certificate.ec.alphatechnologies.cert.*;
+import ec.gob.firmadigital.libreria.certificate.ec.anfac.cert.*;
+import ec.gob.firmadigital.libreria.certificate.ec.appfirmas.cert.*;
+import ec.gob.firmadigital.libreria.certificate.ec.argosdata.cert.*;
+import ec.gob.firmadigital.libreria.certificate.ec.bce.cert.*;
+import ec.gob.firmadigital.libreria.certificate.ec.cj.cert.*;
+import ec.gob.firmadigital.libreria.certificate.ec.corpnewbest.cert.*;
+import ec.gob.firmadigital.libreria.certificate.ec.darkcam.cert.*;
+import ec.gob.firmadigital.libreria.certificate.ec.datil.cert.*;
+import ec.gob.firmadigital.libreria.certificate.ec.digercic.cert.*;
+import ec.gob.firmadigital.libreria.certificate.ec.firmasegura.cert.*;
+import ec.gob.firmadigital.libreria.certificate.ec.lazzate.cert.*;
+import ec.gob.firmadigital.libreria.certificate.ec.letmi.cert.*;
+import ec.gob.firmadigital.libreria.certificate.ec.primecorelat.cert.*;
+import ec.gob.firmadigital.libreria.certificate.ec.securitydata.cert.*;
+import ec.gob.firmadigital.libreria.certificate.ec.uanataca.cert.*;
 import ec.gob.firmadigital.libreria.exceptions.EntidadCertificadoraNoValidaException;
 import java.net.SocketTimeoutException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.NoSuchAlgorithmException;
-import java.security.Security;
 import java.security.cert.CertPath;
 import java.security.cert.CertPathValidator;
 import java.security.cert.CertPathValidatorException;
@@ -61,8 +53,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
-
 import ec.gob.firmadigital.libreria.exceptions.RubricaException;
 
 /**
@@ -73,7 +63,7 @@ import ec.gob.firmadigital.libreria.exceptions.RubricaException;
 public class OcspUtils {
 
     static {
-        Security.addProvider(new BouncyCastleProvider());
+        BouncyCastleUtils.initializeBouncyCastle();
     }
 
     public static boolean isValidCertificate(X509Certificate certificate) throws RubricaException, EntidadCertificadoraNoValidaException {
@@ -96,33 +86,34 @@ public class OcspUtils {
         }
 
         // load the root CA certificates
-        X509Certificate rootCACert1 = new SecurityDataCaCert();
-        X509Certificate rootCACert2 = new BceCaCert();
-        X509Certificate rootCACert3 = new ConsejoJudicaturaCaCert();
-        X509Certificate rootCACert4 = new AnfAc18332CaCert20162036();
-        X509Certificate rootCACert5 = new AnfAc37442CaCert20192039();
-        X509Certificate rootCACert6 = new UanatacaCaCert();
-        X509Certificate rootCACert7 = new DatilCaCert();
-        X509Certificate rootCACert8 = new ArgosDataCaCert();
-        X509Certificate rootCACert9 = new LazzateCaCert();
-        X509Certificate rootCACert10 = new AlphaTechnologiesCaCert();
-        X509Certificate rootCACert11 = new CorpNewBestCaCert();
-        X509Certificate rootCACert12 = new CorpNewBestCaCert2024011020330619();
-        X509Certificate rootCACert13 = new FirmaSeguraCaCert();
-        X509Certificate rootCACert14 = new LazzateCa1Cert();
-        X509Certificate rootCACert15 = new LazzateCa2Cert();
-        X509Certificate rootCACert16 = new LazzateCaCert();
-        X509Certificate rootCACert17 = new LazzateCaWeGoCert();
-        X509Certificate rootCACert18 = new AlphaTechnologiesCaCert20242034();
-        X509Certificate rootCACert19 = new CorpNewBestCaCert();
-        X509Certificate rootCACert20 = new CorpNewBestCaCert2024011020330619();
-        X509Certificate rootCACert21 = new FirmaSeguraCaCert();
-        X509Certificate rootCACert22 = new FirmaSeguraSubCaCert20232043();
-        X509Certificate rootCACert23 = new LetmiCaCert20252055();
-        X509Certificate rootCACert24 = new AppFirmasCaCert20252055();
-        X509Certificate rootCACert25 = new DarkcamCaCert20262046();
-        X509Certificate rootCACert26 = new PrimeCoreLatCa1Cert();
-        X509Certificate rootCACert27 = new PrimeCoreLatCa2Cert();
+        X509Certificate rootCACert1 = new CaCertSecurityData();
+        X509Certificate rootCACert2 = new CaCertBce();
+        X509Certificate rootCACert3 = new CaCertConsejoJudicatura();
+        X509Certificate rootCACert4 = new CaCertAnfAc20162036_18332();
+        X509Certificate rootCACert5 = new CaCertAnfAc20192039_37442();
+        X509Certificate rootCACert6 = new CaCertUanataca();
+        X509Certificate rootCACert7 = new CaCertDatil();
+        X509Certificate rootCACert8 = new CaCertArgosData();
+        X509Certificate rootCACert9 = new CaCertLazzate();
+        X509Certificate rootCACert10 = new CaCertAlphaTechnologies();
+        X509Certificate rootCACert11 = new CaCertCorpNewBest();
+        X509Certificate rootCACert12 = new CaCertCorpNewBest2024011020330619();
+        X509Certificate rootCACert13 = new CaCertFirmaSegura();
+        X509Certificate rootCACert14 = new Ca1CertLazzate();
+        X509Certificate rootCACert15 = new Ca2CertLazzate();
+        X509Certificate rootCACert16 = new CaCertLazzate();
+        X509Certificate rootCACert17 = new CaWeGoCertLazzate();
+        X509Certificate rootCACert18 = new CaCertAlphaTechnologies20242034();
+        X509Certificate rootCACert19 = new CaCertCorpNewBest();
+        X509Certificate rootCACert20 = new CaCertCorpNewBest2024011020330619();
+        X509Certificate rootCACert21 = new CaCertFirmaSegura();
+        X509Certificate rootCACert22 = new SubCaCertFirmaSegura20232043();
+        X509Certificate rootCACert23 = new CaCertLetmi20252055();
+        X509Certificate rootCACert24 = new CaCertAppFirmas20252050();
+        X509Certificate rootCACert25 = new CaCertDarkcam20262046();
+        X509Certificate rootCACert26 = new Ca1CertPrimeCoreLat();
+        X509Certificate rootCACert27 = new Ca2CertPrimeCoreLat();
+        X509Certificate rootCACert28 = new CaCertAnfAc20242044_37442();
 
         // init root trusted certs
         TrustAnchor ta1 = new TrustAnchor(rootCACert1, null);
@@ -152,6 +143,7 @@ public class OcspUtils {
         TrustAnchor ta25 = new TrustAnchor(rootCACert25, null);
         TrustAnchor ta26 = new TrustAnchor(rootCACert26, null);
         TrustAnchor ta27 = new TrustAnchor(rootCACert27, null);
+        TrustAnchor ta28 = new TrustAnchor(rootCACert28, null);
 
         Set<TrustAnchor> trustedCertsSet = new HashSet<TrustAnchor>();
         trustedCertsSet.add(ta1);
@@ -181,6 +173,7 @@ public class OcspUtils {
         trustedCertsSet.add(ta25);
         trustedCertsSet.add(ta26);
         trustedCertsSet.add(ta27);
+        trustedCertsSet.add(ta28);
 
         // init PKIX parameters
         PKIXParameters params;

@@ -17,10 +17,20 @@
  */
 package ec.gob.firmadigital.libreria.certificate.ec;
 
+/**
+ * Certificado de sello electrónico
+ *
+ * @author Ricardo Arguello
+ */
 public interface CertificadoSelloElectronico extends CertificadoPersonaNatural {
 
     /**
-     * @return Cedula o Pasaporte
+     * @return Razon Social
+     */
+    String getRazonSocial();
+
+    /**
+     * @return CommonName
      */
     String getCommonName();
 }

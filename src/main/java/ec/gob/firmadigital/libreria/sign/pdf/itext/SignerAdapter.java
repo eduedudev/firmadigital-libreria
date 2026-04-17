@@ -20,6 +20,7 @@ package ec.gob.firmadigital.libreria.sign.pdf.itext;
 import java.security.GeneralSecurityException;
 
 import com.itextpdf.signatures.IExternalSignature;
+import com.itextpdf.signatures.ISignatureMechanismParams;
 
 import ec.gob.firmadigital.libreria.sign.RubricaSigner;
 
@@ -32,17 +33,22 @@ public class SignerAdapter implements IExternalSignature {
     }
 
     @Override
-    public String getHashAlgorithm() {
+    public byte[] sign(byte[] message) throws GeneralSecurityException {
+        return signer.sign(message);
+    }
+
+    @Override
+    public String getDigestAlgorithmName() {
         return signer.getDigestAlgorithm().getJavaName();
     }
 
     @Override
-    public String getEncryptionAlgorithm() {
+    public String getSignatureAlgorithmName() {
         return signer.getEncryptionAlgorithm().getName();
     }
 
     @Override
-    public byte[] sign(byte[] message) throws GeneralSecurityException {
-        return signer.sign(message);
+    public ISignatureMechanismParams getSignatureMechanismParameters() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

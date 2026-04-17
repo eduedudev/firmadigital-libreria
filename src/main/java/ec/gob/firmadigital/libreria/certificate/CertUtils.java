@@ -17,6 +17,7 @@
  */
 package ec.gob.firmadigital.libreria.certificate;
 
+import ec.gob.firmadigital.libreria.exceptions.CertificadoInvalidoException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -44,6 +45,7 @@ import org.bouncycastle.asn1.DLTaggedObject;
 import ec.gob.firmadigital.libreria.exceptions.RubricaException;
 import ec.gob.firmadigital.libreria.keystore.Alias;
 import ec.gob.firmadigital.libreria.keystore.KeyStoreUtilities;
+import java.util.Set;
 import javax.swing.JRootPane;
 import org.bouncycastle.asn1.x500.AttributeTypeAndValue;
 import org.bouncycastle.asn1.x500.RDN;
@@ -134,6 +136,37 @@ public class CertUtils {
         return decoded;
     }
 
+    public static List<String> getExtensionOIDs(X509Certificate certificate) {
+        List<String> oids = new ArrayList<>();
+        try {
+            Set<String> criticalOIDs = certificate.getCriticalExtensionOIDs();
+            Set<String> nonCriticalOIDs = certificate.getNonCriticalExtensionOIDs();
+
+            if (criticalOIDs != null) {
+                oids.addAll(criticalOIDs);
+            }
+            if (nonCriticalOIDs != null) {
+                oids.addAll(nonCriticalOIDs);
+            }
+        } catch (Exception e) {
+            // Manejar excepción
+        }
+        return oids;
+    }
+
+    public static boolean hasExtensionMatchingPattern(X509Certificate certificate,
+            String prefix,
+            String suffix) {
+        List<String> extensionOIDs = getExtensionOIDs(certificate);
+
+        for (String oid : extensionOIDs) {
+            if (oid.startsWith(prefix) && oid.endsWith(suffix)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static String getExtensionValue(X509Certificate certificate, String oid) throws IOException {
         String decoded = null;
         byte[] extensionValue = certificate.getExtensionValue(oid);
@@ -218,10 +251,6 @@ public class CertUtils {
                         System.out.println("Error decoding subjectAltName" + e.getLocalizedMessage());
                     }
                 }
-                // else{
-                // System.out.println("SubjectAltName of invalid type found: " +
-                // certificate);
-                // }
             }
         } catch (CertificateParsingException e) {
             System.out.println("Error parsing SubjectAltName in certificate: " + certificate + "\r\nerror:"
@@ -230,13 +259,13 @@ public class CertUtils {
         return identities;
     }
 
-    public static String seleccionarAlias(KeyStore keyStore, JRootPane jRootPane) throws RubricaException {
+    public static String seleccionarAlias(KeyStore keyStore, JRootPane jRootPane) throws CertificadoInvalidoException {
         String aliasString = null;
         // Con que certificado firmar?
         List<Alias> signingAliases = KeyStoreUtilities.getSigningAliases(keyStore);
 
         if (signingAliases.isEmpty()) {
-            throw new RubricaException("No se encuentran certificados para firmar\nPuede estar expirado o revocado");
+            throw new CertificadoInvalidoException("No se encuentran certificados para firmar\nPuede estar expirado, revocado o no reconocido");
         }
 
         if (signingAliases.size() == 1) {

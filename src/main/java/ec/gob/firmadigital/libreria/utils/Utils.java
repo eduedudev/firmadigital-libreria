@@ -19,7 +19,6 @@ package ec.gob.firmadigital.libreria.utils;
 
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
-import com.itextpdf.kernel.pdf.PdfDate;
 import com.itextpdf.kernel.pdf.PdfDictionary;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
@@ -34,7 +33,6 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.PublicKey;
-import java.security.Security;
 import java.security.SignatureException;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
@@ -50,7 +48,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -59,14 +56,11 @@ import javax.security.auth.x500.X500Principal;
 
 import org.bouncycastle.asn1.x500.X500Name;
 import org.bouncycastle.asn1.x500.style.BCStyle;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.bouncycastle.tsp.TimeStampToken;
 import org.w3c.dom.Node;
 
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfName;
 import com.itextpdf.kernel.pdf.PdfReader;
-import com.itextpdf.kernel.utils.CompareTool;
 import com.itextpdf.signatures.PdfPKCS7;
 import com.itextpdf.signatures.SignatureUtil;
 
@@ -90,15 +84,10 @@ import ec.gob.firmadigital.libreria.exceptions.SignatureVerificationException;
 import ec.gob.firmadigital.libreria.sign.SignInfo;
 import ec.gob.firmadigital.libreria.sign.Signer;
 import ec.gob.firmadigital.libreria.sign.cms.VerificadorCMS;
-import ec.gob.firmadigital.libreria.sign.pdf.PadesSigner;
+import ec.gob.firmadigital.libreria.sign.pdf.BasePdfSigner;
 import ec.gob.firmadigital.libreria.sign.xades.XAdESSigner;
+import java.security.cert.Certificate;
 import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.Iterator;
-import org.bouncycastle.cert.X509CertificateHolder;
-import org.bouncycastle.cert.jcajce.JcaX509CertificateConverter;
-import org.bouncycastle.cms.jcajce.JcaSimpleSignerInfoVerifierBuilder;
-import org.bouncycastle.util.Store;
 
 /**
  * M&eacute;todos generales de utilidad para toda la aplicaci&oacute;n.
@@ -109,7 +98,7 @@ public class Utils {
     private static final Logger LOGGER = Logger.getLogger(Utils.class.getName());
 
     static {
-        Security.addProvider(new BouncyCastleProvider());
+        BouncyCastleUtils.initializeBouncyCastle();
     }
 
     /**
@@ -314,9 +303,10 @@ public class Utils {
 
             int offset2;
             switch (principal.charAt(offset1)) {
-                case ',':
+                case ',' -> {
                     return "";
-                case '"':
+                }
+                case '"' -> {
                     offset1++;
                     if (offset1 >= principal.length()) {
                         return "";
@@ -330,12 +320,14 @@ public class Utils {
                     } else {
                         return principal.substring(offset1);
                     }
-                default:
+                }
+                default -> {
                     offset2 = principal.indexOf(',', offset1);
                     if (offset2 != -1) {
                         return principal.substring(offset1, offset2).trim();
                     }
                     return principal.substring(offset1).trim();
+                }
             }
         }
 
@@ -357,7 +349,7 @@ public class Utils {
             cert = (X509Certificate) CertificateFactory.getInstance("X.509").generateCertificate(isCert);
             try {
                 isCert.close();
-            } catch (Exception e) {
+            } catch (IOException e) {
                 LOGGER.log(Level.WARNING, "Error cerrando el flujo de lectura del certificado: {0}", e);
             }
         } catch (Exception e) {
@@ -399,7 +391,7 @@ public class Utils {
                     dateToCalendar(temp.getNotAfter()),
                     dateToCalendar(fechaFirmado),
                     dateToCalendar(UtilsCrlOcsp.validarFechaRevocado(temp, null)),
-                    esValido(temp, fechaFirmado),
+                    esCertificadoValido(temp, fechaFirmado),
                     datosUsuario);
             certificado.setDocValidTimeStamp(false);
 
@@ -411,7 +403,7 @@ public class Utils {
     //revertir
     public static Documento pdfToDocumento(InputStream pdf) throws IOException, SignatureVerificationException, Exception {
         PdfReader pdfReader = new PdfReader(pdf);
-        Signer signer = new PadesSigner();
+        Signer signer = new BasePdfSigner();
         java.util.List<SignInfo> signInfos;
         signInfos = signer.getSigners(pdf.readAllBytes());
         return pdfToDocumento(pdfReader, signInfos);
@@ -420,7 +412,7 @@ public class Utils {
     public static Documento pdfToDocumento(File pdf) throws IOException, SignatureVerificationException, Exception {
         PdfReader pdfReader = new PdfReader(pdf);
         java.util.List<SignInfo> signInfos;
-        Signer signer = new PadesSigner();
+        Signer signer = new BasePdfSigner();
         signInfos = signer.getSigners(FileUtils.fileConvertToByteArray(pdf));
         return pdfToDocumento(pdfReader, signInfos);
     }
@@ -444,35 +436,32 @@ public class Utils {
                                 if (pdfPKCS7.getSigningCertificate().equals(certificate)
                                         && certificado.getSignGenerated().getTime().equals(pdfPKCS7.getSignDate().getTime())) {
                                     // Validacion Sellado de Tiempo
-                                    TimeStampToken tsToken = pdfPKCS7.getTimeStampToken();
-                                    if (tsToken != null) { // Timestamping Change Openpdf to itext
-                                        ////////////////////
-                                        Store store = tsToken.getCertificates();
-                                        Collection collection = store.getMatches(tsToken.getSID());
-                                        Iterator iterator = collection.iterator();
-                                        X509CertificateHolder certificateHolder = (X509CertificateHolder) iterator.next();
-                                        X509Certificate x509Certificate = new JcaX509CertificateConverter().getCertificate(certificateHolder);
-                                        ////////////////////
-                                        boolean tsTohenisSignatureValid = tsToken.isSignatureValid(new JcaSimpleSignerInfoVerifierBuilder().setProvider("BC").build(certificateHolder));
-                                        tsToken.validate(new JcaSimpleSignerInfoVerifierBuilder().setProvider("BC").build(certificateHolder));
-                                        if (tsTohenisSignatureValid) {
-                                            List<String> extendedKeyUsages = x509Certificate.getExtendedKeyUsage();
-                                            for (String extendedKeyUsage : extendedKeyUsages) {
-                                                if (extendedKeyUsage.equals("1.3.6.1.5.5.7.3.8")) {//oid timestamping
-                                                    certificado.getDatosUsuario().setApellido("");
-                                                    certificado.setDocTimeStamp(tsToken.getTimeStampInfo().getGenTime());
-                                                    certificado.setDocTimeStampIssuedBy(CertEcUtils.getNombreCA(x509Certificate));
-                                                    certificado.setDatosUsuario(infoCertificado(certificado.getDatosUsuario(), signInfo));
-                                                    try {
-                                                        if (verifySignature(x509Certificate)) {
-                                                            certificado.setDocValidTimeStamp(true);
-                                                        }
-                                                    } catch (EntidadCertificadoraNoValidaException ex) {
-                                                    }
+                                    try {
+                                        if (pdfPKCS7.getTimeStampTokenInfo() != null) {
+                                            for (Certificate tsaCertificate : pdfPKCS7.getTimestampCertificates()) {
+                                                X509Certificate x509Certificate = (X509Certificate) tsaCertificate;
+                                                List<String> extendedKeyUsages = x509Certificate.getExtendedKeyUsage();
+                                                if (extendedKeyUsages != null) {
+                                                    for (String extendedKeyUsage : extendedKeyUsages) {
+                                                        if (extendedKeyUsage.equals("1.3.6.1.5.5.7.3.8")) {//oid timestamping
+                                                            if (certificado.getDatosUsuario() == null) {
+                                                                certificado.getDatosUsuario().setApellido("");
+                                                                certificado.setDatosUsuario(infoCertificado(certificado.getDatosUsuario(), signInfo));
+                                                            }
+                                                            certificado.setDocTimeStamp(pdfPKCS7.getTimeStampDate().getTime());
+                                                            certificado.setDocTimeStampIssuedBy(CertEcUtils.getNombreCA(x509Certificate));
+                                                            certificado.setCnTimeStamp(Utils.getCN(x509Certificate));
+                                                            if (verifySignature(x509Certificate)) {
+                                                                certificado.setDocValidTimeStamp(true);
+                                                            }
 
+                                                        }
+                                                    }
                                                 }
                                             }
                                         }
+                                    } catch (EntidadCertificadoraNoValidaException ex) {
+                                        LOGGER.log(Level.SEVERE, "Sellado de tiempo: {0}", ex.getMessage());
                                     }
                                     // Validacion Sellado de Tiempo
                                     certificado.setDocReason(pdfPKCS7.getReason());
@@ -509,116 +498,6 @@ public class Utils {
         return documento;
     }
 
-    private static void infoPDF(PdfDocument pdfDocument) {
-        try {
-            SignatureUtil signatureUtil = new SignatureUtil(pdfDocument);
-            List<String> signatureNames = signatureUtil.getSignatureNames();
-            if (signatureNames.isEmpty()) {
-                System.out.println("No signed revisions detected. (no AcroForm)");
-            } else {
-                CompareTool compareTool = new CompareTool();
-                PdfDocument currentDocument = null;
-                PdfDocument nextDocument = null;
-                for (int i = 1; i < signatureNames.size(); i++) {
-                    String currentRevision = signatureNames.get(i - 1);
-                    System.out.printf("* Signed revision (%d): %s\n", i, currentRevision);
-                    currentDocument = new PdfDocument(new PdfReader(signatureUtil.extractRevision(currentRevision)));
-
-                    String nextRevision = signatureNames.get(i);
-                    nextDocument = new PdfDocument(new PdfReader(signatureUtil.extractRevision(nextRevision)));
-
-                    if (signatureUtil.signatureCoversWholeDocument(nextRevision)) {
-                        System.out.printf("* Signed revision (%d): %s\n", i, "No unsigned updates.");
-                    }
-
-                    if (currentDocument.getNumberOfPages() != nextDocument.getNumberOfPages()) {
-                        System.out.printf("* Signed revision (%d): %s\n", i, "Distinto número de paginas.");
-                    }
-                    compareTool.disableCachedPagesComparison();
-                    compareTool.enableEncryptionCompare();
-                    CompareTool.CompareResult compareResult = compareTool.compareByCatalog(currentDocument, nextDocument);
-                    System.out.println("compareResult.getReport(): " + compareResult.getReport());
-                }
-                if (currentDocument != null && nextDocument != null) {
-                    currentDocument.close();
-                    nextDocument.close();
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        //get metadata map
-        PdfDictionary trailerDictionary = pdfDocument.getTrailer();
-        trailerDictionary.entrySet().forEach(entry -> {
-            if (entry.getKey().getValue().equals("Prev")) {
-                System.out.println(entry.getKey().getValue() + " - " + entry.getValue());
-            }
-            if (entry.getKey().getValue().equals("XRefStm")) {
-                System.out.println(entry.getKey().getValue() + " - " + entry.getValue());
-            }
-        });
-        PdfDictionary infoDictionary = pdfDocument.getTrailer().getAsDictionary(PdfName.Info);
-        infoDictionary.entrySet().forEach(entry -> {
-            if (entry.getKey().getValue().equals("Author")) {
-                System.out.println(entry.getKey().getValue() + " - " + entry.getValue());
-            }
-            if (entry.getKey().getValue().equals("Creator")) {
-                System.out.println(entry.getKey().getValue() + " - " + entry.getValue());
-            }
-            if (entry.getKey().getValue().equals("Producer")) {
-                System.out.println(entry.getKey().getValue() + " - " + entry.getValue());
-            }
-            if (entry.getKey().getValue().equals("CreationDate")) {
-                System.out.println("CreationDate: " + PdfDate.decode(entry.getValue().toString()).getTime());
-            }
-            if (entry.getKey().getValue().equals("ModDate")) {
-                System.out.println("ModDate: " + PdfDate.decode(entry.getValue().toString()).getTime());
-            }
-        });
-        //get metadata map
-    }
-
-    /**
-     * Valida que los keyusage sean por lo menos digitalSignature y
-     * NonRepudiation
-     *
-     * @param signCert
-     * @return
-     */
-    public static String validacionKeyUsages(X509Certificate signCert) throws CertificateParsingException {
-        String keyUsages = "";
-        boolean[] keyUsage = signCert.getKeyUsage();
-        if (keyUsage[0]) {
-            keyUsages += "Firma Electrónica, ";// digitalSignature
-        }
-        if (keyUsage[1]) {
-            keyUsages += "No Repudio, "; // nonRepudiation
-        }
-        if (keyUsage[2]) {
-            keyUsages += "Cifrado de llave, ";// keyEncipherment
-        }
-        if (keyUsage[3]) {
-            keyUsages += "Cifrado de datos, ";// dataEncipherment
-        }
-        if (keyUsage[4]) {
-            keyUsages += "Acuerdo de llaves, "; // keyAgreement
-        }
-        if (keyUsage[5]) {
-            keyUsages += "Firma y certificado de llave, ";// keyCertSign
-        }
-        if (keyUsage[6]) {
-            keyUsages += "Firma de CRL, ";// cRLSign
-        }
-        if (keyUsage[7]) {
-            keyUsages += "Solo cifrado, ";// encipherOnly
-        }
-        if (keyUsage[8]) {
-            keyUsages += "Solo descifrado"; // decipherOnly
-        }
-        return keyUsages;
-    }
-
     private static final PdfName PDFNAME_ETSI_RFC3161 = new PdfName("ETSI.RFC3161");
     private static final PdfName PDFNAME_DOCTIMESTAMP = new PdfName("DocTimeStamp");
 
@@ -639,15 +518,12 @@ public class Utils {
 
     public static DatosUsuario infoCertificado(DatosUsuario datosUsuario, SignInfo signInfo) {
         //extraer información del certificado
-        X500Principal issuerX500Principal = signInfo.getCerts()[0].getIssuerX500Principal();//CA
-        X500Name issuerX500name = new X500Name(issuerX500Principal.getName());
         X500Principal subjectX500Principal = signInfo.getCerts()[0].getSubjectX500Principal();//firmante
         X500Name subjectX500name = new X500Name(subjectX500Principal.getName());
-        String cedula = "", nombre = "", entidadCertificadora = "";
+        String cedula = "", nombre = "";
         try {
-            nombre = subjectX500name.getRDNs(BCStyle.CN)[0].getFirst().getValue().toString();//CommonName
             cedula = subjectX500name.getRDNs(BCStyle.SERIALNUMBER)[0].getFirst().getValue().toString();//SerialNumber
-            entidadCertificadora = issuerX500name.getRDNs(BCStyle.O)[0].getFirst().getValue().toString();//OrganizationName
+            nombre = subjectX500name.getRDNs(BCStyle.CN)[0].getFirst().getValue().toString();//CommonName
         } catch (java.lang.ArrayIndexOutOfBoundsException aioobe) {
         }
         datosUsuario.setCedula(cedula);
@@ -673,7 +549,7 @@ public class Utils {
                 dateToCalendar(signInfo.getCerts()[0].getNotAfter()),
                 dateToCalendar(signInfo.getSigningTime()),
                 dateToCalendar(UtilsCrlOcsp.validarFechaRevocado(signInfo.getCerts()[0], null)),
-                esValido(signInfo.getCerts()[0], signInfo.getSigningTime()),
+                esCertificadoValido(signInfo.getCerts()[0], signInfo.getSigningTime()),
                 datosUsuario);
         certificado.setDocValidTimeStamp(false);
         return certificado;
@@ -695,7 +571,7 @@ public class Utils {
      * @param signingTime
      * @return
      */
-    public static boolean esValido(X509Certificate cert, Date signingTime) {
+    public static boolean esCertificadoValido(X509Certificate cert, Date signingTime) {
         return !(signingTime.before(cert.getNotBefore()) || signingTime.after(cert.getNotAfter()));
     }
 
@@ -722,23 +598,6 @@ public class Utils {
         return documento;
     }
 
-//    private static Certificado validarX509Certificate(SignInfo signInfo)
-//            throws EntidadCertificadoraNoValidaException, CertificadoInvalidoException, IOException, ConexionException, CertificateParsingException {
-//        DatosUsuario datosUsuario = CertEcUtils.getDatosUsuarios(x509Certificate);
-//        datosUsuario.setFechaFirmaArchivoP7M((String) new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format((dateToCalendar(fechaFirmado)).getTime()));
-//        Certificado certificado = new Certificado(
-//                x509Certificate.getSerialNumber().toString(),
-//                Util.getCN(x509Certificate),
-//                CertEcUtils.getNombreCA(x509Certificate),
-//                Utils.dateToCalendar(x509Certificate.getNotBefore()),
-//                Utils.dateToCalendar(x509Certificate.getNotAfter()),
-//                null,
-//                Utils.dateToCalendar(UtilsCrlOcsp.validarFechaRevocado(x509Certificate, null)),
-//                esValido(x509Certificate, fechaFirmado),
-//                datosUsuario);
-//        certificado.setKeyUsages(Utils.validacionKeyUsages(x509Certificate));
-//        return certificado;
-//    }
     public static Documento verificarDocumento(File file, String base64) throws IOException, KeyStoreException, OcspValidationException, SignatureException, RubricaException, ConexionInvalidaOCSPException, HoraServidorException, CertificadoInvalidoException, EntidadCertificadoraNoValidaException, ConexionValidarCRLException, SignatureVerificationException, DocumentoException, CRLValidationException, Exception {
         byte[] docByteArray = FileUtils.fileConvertToByteArray(file);
         // para P7m, ya que p7m no tiene signer
@@ -774,14 +633,6 @@ public class Utils {
                     java.util.List<SignInfo> signInfos;
                     signInfos = xAdESSigner.getSignInfo(docByteArray);
                     documento = Utils.x509CertificateToDocumento(signInfos);
-                    //SRI
-                    //                String xml = leerXmlSRI(documento);
-                    //                List<Certificado> certificadosSRI = Utils.signInfosToCertificados(docSigner.getSigners(xml.getBytes(StandardCharsets.UTF_8)));
-                    //                if (!certificadosSRI.isEmpty()) {
-                    //                    jakarta.swing.JOptionPane.showMessageDialog(null, PropertiesUtils.getMessages().getProperty("mensaje.error.documento_sri"), "Advertencia", jakarta.swing.JOptionPane.WARNING_MESSAGE);
-                    //                }
-                    //                certificados.addAll(certificadosSRI);
-                    //SRI
                 }
                 return documento;
             }
@@ -796,23 +647,14 @@ public class Utils {
         boolean retorno = true;
         if (certificados != null || !certificados.isEmpty()) {
             for (Certificado certificado : certificados) {
-                if (!certificado.getDocValidTimeStamp()) {//certificados digitales
-                    //certificado digital sin ser revocado, integridad de la firma, dentro de fecha de figencia, válido por CA
-                    boolean revocado = validarFirma(certificado.getValidFrom(), certificado.getValidTo(), certificado.getSignGenerated(), certificado.getRevocated());
-                    if (pdf) {
-                        if (!revocado || !certificado.getSignVerify() || !certificado.getCertificateValidated() || !certificado.getDatosUsuario().isCertificadoDigitalValido()) {
-                            retorno = false;
-                            break;
-                        }
-                    } else {
-                        if (!revocado || !certificado.getCertificateValidated() || !certificado.getDatosUsuario().isCertificadoDigitalValido()) {
-                            retorno = false;
-                            break;
-                        }
+                boolean revocado = validarFirma(certificado.getValidFrom(), certificado.getValidTo(), certificado.getSignGenerated(), certificado.getRevocated());
+                if (pdf) {
+                    if (!revocado || !certificado.getSignVerify() || !certificado.getCertificateValidated() || !certificado.getDatosUsuario().isCertificadoDigitalValido()) {
+                        retorno = false;
+                        break;
                     }
-                } else {// sellos de tiempo
-                    //dentro de fecha de figencia, válido por CA
-                    if (!certificado.getCertificateValidated() || !certificado.getDatosUsuario().isCertificadoDigitalValido()) {
+                } else {
+                    if (!revocado || !certificado.getCertificateValidated() || !certificado.getDatosUsuario().isCertificadoDigitalValido()) {
                         retorno = false;
                         break;
                     }
@@ -820,40 +662,6 @@ public class Utils {
             }
         }
         return retorno;
-    }
-
-    public static String leerXmlSRI(File documento) {
-        Scanner entrada = null;
-        //String xml
-        String xml = "";
-        try {
-            //creamos un Scanner para leer el fichero
-            entrada = new Scanner(documento);
-            while (entrada.hasNext()) { //mientras no se llegue al final del fichero
-                xml += entrada.nextLine();  //se lee una línea
-            }
-            xml = xml.replaceAll("&lt;", "<");
-            xml = xml.replaceAll("&gt;", ">");
-            //Texto a buscar
-            String inicioTexto1 = "<comprobante><![CDATA[";
-            String finTexto1 = "]]></comprobante>";
-            String inicioTexto2 = "<comprobante>";
-            String finTexto2 = "</comprobante>";
-            if (xml.contains(inicioTexto1)) {   //si la línea contiene el texto buscado
-                xml = xml.substring(xml.lastIndexOf(inicioTexto1) + inicioTexto1.length(),
-                        xml.indexOf(finTexto1));
-            } else {   //si la línea contiene el texto buscado
-                xml = xml.substring(xml.lastIndexOf(inicioTexto2) + inicioTexto2.length(),
-                        xml.indexOf(finTexto2));
-            }
-        } catch (Exception e) {
-            System.out.println(e.toString());
-        } finally {
-            if (entrada != null) {
-                entrada.close();
-            }
-        }
-        return xml;
     }
 
     public static boolean validarFirma(Calendar fechaDesde, Calendar fechaHasta, Calendar fechaFirmado, Calendar fechaRevocado) {
@@ -870,6 +678,47 @@ public class Utils {
             }
         }
         return retorno;
+    }
+
+    /**
+     * Valida que los keyusage sean por lo menos digitalSignature y
+     * NonRepudiation
+     *
+     * @param signCert
+     * @return
+     * @throws java.security.cert.CertificateParsingException
+     */
+    public static String validacionKeyUsages(X509Certificate signCert) throws CertificateParsingException {
+        String keyUsages = "";
+        boolean[] keyUsage = signCert.getKeyUsage();
+        if (keyUsage[0]) {
+            keyUsages += "Firma Electrónica, ";// digitalSignature
+        }
+        if (keyUsage[1]) {
+            keyUsages += "No Repudio, "; // nonRepudiation
+        }
+        if (keyUsage[2]) {
+            keyUsages += "Cifrado de llave, ";// keyEncipherment
+        }
+        if (keyUsage[3]) {
+            keyUsages += "Cifrado de datos, ";// dataEncipherment
+        }
+        if (keyUsage[4]) {
+            keyUsages += "Acuerdo de llaves, "; // keyAgreement
+        }
+        if (keyUsage[5]) {
+            keyUsages += "Firma y certificado de llave, ";// keyCertSign
+        }
+        if (keyUsage[6]) {
+            keyUsages += "Firma de CRL, ";// cRLSign
+        }
+        if (keyUsage[7]) {
+            keyUsages += "Solo cifrado, ";// encipherOnly
+        }
+        if (keyUsage[8]) {
+            keyUsages += "Solo descifrado"; // decipherOnly
+        }
+        return keyUsages;
     }
 
     /**
@@ -895,13 +744,13 @@ public class Utils {
                 return true;
             } catch (InvalidKeyException | CertificateException | NoSuchAlgorithmException
                     | NoSuchProviderException | SignatureException e) {
-                System.out.println("\n"
-                        + "\tSignature verification of certificate having distinguished name \n"
-                        + "\t'" + certificate.getSubjectX500Principal() + "'\n"
-                        + "\twith certificate having distinguished name (the issuer) \n"
-                        + "\t'" + rootCertificate.getSubjectX500Principal() + "'\n"
-                        + "\tfailed. Expected issuer has distinguished name \n"
-                        + "\t'" + certificate.getIssuerX500Principal() + "' (" + e.getClass().getSimpleName() + ")");
+//                System.out.println("\n"
+//                        + "\tSignature verification of certificate having distinguished name \n"
+//                        + "\t'" + certificate.getSubjectX500Principal() + "'\n"
+//                        + "\twith certificate having distinguished name (the issuer) \n"
+//                        + "\t'" + rootCertificate.getSubjectX500Principal() + "'\n"
+//                        + "\tfailed. Expected issuer has distinguished name \n"
+//                        + "\t'" + certificate.getIssuerX500Principal() + "' (" + e.getClass().getSimpleName() + ")");
             }
         }
         return false;

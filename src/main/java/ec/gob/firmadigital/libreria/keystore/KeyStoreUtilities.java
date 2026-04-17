@@ -116,6 +116,8 @@ public class KeyStoreUtilities {
             while (aliases.hasMoreElements()) {
                 String alias = aliases.nextElement();
                 X509Certificate certificate = (X509Certificate) keyStore.getCertificate(alias);
+                
+                //validación certificado ext
 
                 try {
                     certificate.checkValidity();

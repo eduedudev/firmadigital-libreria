@@ -27,6 +27,11 @@ package ec.gob.firmadigital.libreria.certificate.ec;
 public interface CertificadoPersonaNatural {
 
     /**
+     * @return RUC (si no tiene queda en blanco)
+     */
+    String getRuc();
+
+    /**
      * @return Cedula o Pasaporte
      */
     String getCedulaPasaporte();
@@ -65,9 +70,4 @@ public interface CertificadoPersonaNatural {
      * @return Pais
      */
     String getPais();
-
-    /**
-     * @return RUC (si no tiene queda en blanco)
-     */
-    String getRuc();
 }

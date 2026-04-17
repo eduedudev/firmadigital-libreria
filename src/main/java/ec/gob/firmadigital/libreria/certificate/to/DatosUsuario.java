@@ -24,9 +24,12 @@ package ec.gob.firmadigital.libreria.certificate.to;
  */
 public class DatosUsuario {
 
+    private String tipoCertificado;
     private String cedula;
     private String nombre;
     private String apellido;
+    private String ruc = "";
+    private String razonSocial = "";
     private String institucion = "";
     private String cargo = "";
     private String commonName = "";
@@ -34,6 +37,14 @@ public class DatosUsuario {
     private String fechaFirmaArchivoP7M;
 
     public DatosUsuario() {
+    }
+
+    public String getTipoCertificado() {
+        return tipoCertificado;
+    }
+
+    public void setTipoCertificado(String tipoCertificado) {
+        this.tipoCertificado = tipoCertificado;
     }
 
     public String getCedula() {
@@ -66,6 +77,29 @@ public class DatosUsuario {
 
     public void setApellido(String apellido) {
         this.apellido = apellido;
+    }
+
+    public String getRuc() {
+        return ruc;
+    }
+
+    public void setRuc(String ruc) {
+        this.ruc = obtenerRuc(ruc);
+    }
+
+    private String obtenerRuc(String ruc) {
+        if (ruc == null) {
+            return null;
+        }
+        return ruc.replace("VATEC-", "");
+    }
+
+    public String getRazonSocial() {
+        return razonSocial;
+    }
+
+    public void setRazonSocial(String razonSocial) {
+        this.razonSocial = razonSocial;
     }
 
     public String getInstitucion() {
@@ -108,9 +142,12 @@ public class DatosUsuario {
     public String toString() {
         return """
                DatosUsuario
-               \t\t[cedula=""" + cedula + "\n"
+               \t\t[tipoCertificado=""" + tipoCertificado + "\n"
+                + "\t\tcedula=" + cedula + "\n"
                 + "\t\tnombre=" + nombre + "\n"
                 + "\t\tapellido=" + apellido + "\n"
+                + "\t\truc=" + ruc + "\n"
+                + "\t\trazonSocial=" + razonSocial + "\n"
                 + "\t\tinstitucion=" + institucion + "\n"
                 + "\t\tcargo=" + cargo + "\n"
                 + "\t\tcommonName=" + commonName + "\n"

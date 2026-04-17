@@ -27,7 +27,7 @@ package ec.gob.firmadigital.libreria.certificate.ec;
  *
  * @author Ricardo Arguello
  */
-public interface CertificadoPersonaJuridica {
+public interface CertificadoPersonaJuridica extends CertificadoPersonaNatural {
 
     /**
      * @return Razon Social
@@ -35,52 +35,7 @@ public interface CertificadoPersonaJuridica {
     String getRazonSocial();
 
     /**
-     * @return RUC (si no tiene queda en blanco)
-     */
-    String getRuc();
-
-    /**
-     * @return Cedula o Pasaporte del suscriptor
-     */
-    String getCedulaPasaporte();
-
-    /**
-     * @return Nombre(s) del suscriptor
-     */
-    String getNombres();
-
-    /**
-     * @return Primer apellido del suscriptor
-     */
-    String getPrimerApellido();
-
-    /**
-     * @return Segundo apellido del suscriptor (si no tiene queda en blanco)
-     */
-    String getSegundoApellido();
-
-    /**
      * @return Cargo
      */
     String getCargo();
-
-    /**
-     * @return Direccion
-     */
-    String getDireccion();
-
-    /**
-     * @return Telefono
-     */
-    String getTelefono();
-
-    /**
-     * @return Ciudad
-     */
-    String getCiudad();
-
-    /**
-     * @return Pais
-     */
-    String getPais();
 }
