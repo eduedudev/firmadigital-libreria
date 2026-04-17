@@ -78,8 +78,55 @@ public class PadesEnhancedSigner extends BasePdfSigner {
         ITSAClient tsaClient = null;
         if (identificacion != null && !identificacion.isEmpty()) {
             tsaClient = new TSAClientBouncyCastle(PropertiesUtils.getConfig().getProperty("tsa_url"), identificacion, identificacion);
-        }
+        }//
+            try {
+//                throw new GeneralSecurityException("Error de autenticación TSA: Las credenciales proporcionadas son incorrectas. Verifique usuario y contraseña.");
+//                throw new IOException("Server returned HTTP response code: 401 for URL: https://tsa.uanatacaec.com/tsa/timestamp");
+                return sgn.getEncodedPKCS7(hash, com.itextpdf.signatures.PdfSigner.CryptoStandard.CMS, tsaClient, null, null);
+            } catch (Exception e) {
+                // Atrapar errores HTTP específicos
+                String errorMessage = e.getMessage();
+                String causeMessage = e.getCause() != null ? e.getCause().getMessage() : "";
+                String fullMessage = errorMessage + " " + causeMessage;
 
-        return sgn.getEncodedPKCS7(hash, com.itextpdf.signatures.PdfSigner.CryptoStandard.CMS, tsaClient, null, null);
+                // Buscar códigos de error HTTP en el mensaje
+                if (fullMessage.contains("HTTP response code: 401")) {
+                    LOGGER.log(Level.SEVERE, "Error de autenticación TSA (401): Credenciales incorrectas o usuario no autorizado. URL: {0}",
+                            PropertiesUtils.getConfig().getProperty("tsa_url"));
+                    throw new GeneralSecurityException("Error de autenticación TSA (sello de tiempo): Las credenciales proporcionadas son incorrectas. Verifique usuario y contraseña.", e);
+
+                } else if (fullMessage.contains("HTTP response code: 409")) {
+                    LOGGER.log(Level.SEVERE, "Error de conflicto TSA (409): Posiblemente el hash ya fue sellado anteriormente o hay duplicación. URL: {0}",
+                            PropertiesUtils.getConfig().getProperty("tsa_url"));
+                    throw new GeneralSecurityException("Error de conflicto TSA (sello de tiempo): No se puede obtener el sello de tiempo debido a un conflicto. El hash podría estar duplicado.", e);
+
+                } else if (fullMessage.contains("HTTP response code:")) {
+                    // Atrapar cualquier otro código HTTP
+                    String httpCode = extractHttpCode(fullMessage);
+                    LOGGER.log(Level.SEVERE, "Error HTTP {0} del servidor TSA: {1}", new Object[]{httpCode, fullMessage});
+                    throw new GeneralSecurityException(String.format("Error del servidor TSA (sello de tiempo) (HTTP %s): No se pudo obtener el sello de tiempo. URL: %s",
+                            httpCode, PropertiesUtils.getConfig().getProperty("tsa_url")), e);
+
+                } else {
+                    // Otros errores no HTTP
+                    LOGGER.log(Level.SEVERE, "Error al obtener sello de tiempo TSA: {0}", e.getMessage());
+                    throw new GeneralSecurityException("Error al obtener TSA (sello de tiempo): " + e.getMessage(), e);
+                }
+            }
+//        } else {
+//            // No hay identificación, firmar sin TSA
+//            LOGGER.log(Level.WARNING, "No se proporcionó identificación, se firmará sin sello de tiempo TSA");
+//            return sgn.getEncodedPKCS7(hash, com.itextpdf.signatures.PdfSigner.CryptoStandard.CMS, null, null, null);
+//        }
+    }
+
+    // Método auxiliar para extraer el código HTTP del mensaje de error
+    private String extractHttpCode(String message) {
+        java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("HTTP response code: (\\d+)");
+        java.util.regex.Matcher matcher = pattern.matcher(message);
+        if (matcher.find()) {
+            return matcher.group(1);
+        }
+        return "desconocido";
     }
 }

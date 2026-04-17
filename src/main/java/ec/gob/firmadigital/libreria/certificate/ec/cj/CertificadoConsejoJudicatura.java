@@ -53,13 +53,32 @@ public class CertificadoConsejoJudicatura {
         private Ext() {
         }
         // OIDs de tipo de certificado:
-        public static final String OID_TIPO_PERSONA_NATURAL = "1.3.6.1.4.1.43745.1.2.1.1";
-        public static final String OID_TIPO_PERSONA_JURIDICA_PRIVADA = "1.3.6.1.4.1.43745.1.2.1.2";
-        public static final String OID_TIPO_PERSONA_JURIDICA_PUBLICA = "1.3.6.1.4.1.43745.1.2.1.3";
-        public static final String OID_TIPO_MIEMBRO_EMPRESA = "1.3.6.1.4.1.43745.1.2.1.4";
-        public static final String OID_TIPO_EMPRESA = "1.3.6.1.4.1.43745.1.2.2.1";
-        public static final String OID_TIPO_DEPARTAMENTO_EMPRESA = "1.3.6.1.4.1.43745.1.2.3.1";
-        public static final String OID_SELLADO_TIEMPO = "1.3.6.1.4.1.43745.1.2.4.1";
+        public static final String OID_TIPO_PERSONA_NATURAL_HW_TOKEN = "1.3.6.1.4.1.43745.1.2.1.1.1.1";     // Certificado de Persona Natural - Hardware - Token/Tarjeta
+        public static final String OID_TIPO_PERSONA_NATURAL_HW_HSM_SFC = "1.3.6.1.4.1.43745.1.2.1.1.1.2";   // Certificado de Persona Natural - Hardware - HSM SFC
+        public static final String OID_TIPO_PERSONA_NATURAL_HW_HSM = "1.3.6.1.4.1.43745.1.2.1.1.1.3";       // Certificado de Persona Natural - Hardware - HSM
+        public static final String OID_TIPO_PERSONA_NATURAL_SW_PKCS12 = "1.3.6.1.4.1.43745.1.2.1.1.2.1";    // Certificado de Persona Natural - Software - Archivo (PKCS #12)
+
+        public static final String OID_TIPO_PERSONA_JURIDICA_PRIVADA_HW_TOKEN = "1.3.6.1.4.1.43745.1.2.1.2.1.1";    // Certificados de Persona Jurídica Privada - Hardware - Token/Tarjeta
+        public static final String OID_TIPO_PERSONA_JURIDICA_PRIVADA_HW_HSM_SFC = "1.3.6.1.4.1.43745.1.2.1.2.1.2";  // Certificados de Persona Jurídica Privada - Hardware - HSM SFC
+        public static final String OID_TIPO_PERSONA_JURIDICA_PRIVADA_SW_PKCS12 = "1.3.6.1.4.1.43745.1.2.1.2.2.1";   // Certificados de Persona Jurídica Privada - Software - Archivo (PKCS#12)    
+
+        public static final String OID_TIPO_PERSONA_JURIDICA_PUBLICA_HW_TOKEN = "1.3.6.1.4.1.43745.1.2.1.3.1.1";    // Certificado de Persona Jurídica Pública - Hardware - Token/Tarjeta
+        public static final String OID_TIPO_PERSONA_JURIDICA_PUBLICA_HW_HSM_SFC = "1.3.6.1.4.1.43745.1.2.1.3.1.2";  // Certificado de Persona Jurídica Pública - Hardware - HSM SFC
+        public static final String OID_TIPO_PERSONA_JURIDICA_PUBLICA_HW_HSM = "1.3.6.1.4.1.43745.1.2.1.3.1.3";      // Certificado de Persona Jurídica Pública - Hardware - HSM
+        public static final String OID_TIPO_PERSONA_JURIDICA_PUBLICA_SW_PKCS12 = "1.3.6.1.4.1.43745.1.2.1.3.2.1";   // Certificado de Persona Jurídica Pública - Software - Archivo (PKCS#12)
+
+        public static final String OID_TIPO_MIEMBRO_EMPRESA_HW_TOKEN = "1.3.6.1.4.1.43745.1.2.1.4.1.1";     // Certificado de Miembro de Empresa - Hardware - Token/Tarjeta
+        public static final String OID_TIPO_MIEMBRO_EMPRESA_HW_HSM_SFC = "1.3.6.1.4.1.43745.1.2.1.4.1.2";   // Certificado de Miembro de Empresa - Hardware - HSM SFC
+        public static final String OID_TIPO_MIEMBRO_EMPRESA_HW_HSM = "1.3.6.1.4.1.43745.1.2.1.4.1.3";       // Certificado de Miembro de Empresa - Hardware - HSM
+        public static final String OID_TIPO_MIEMBRO_EMPRESA_SW_PKCS12 = "1.3.6.1.4.1.43745.1.2.1.4.2.1";    // Certificado de Miembro de Empresa - Software - Archivo (PKCS #12)
+
+        public static final String OID_TIPO_EMPRESA_HW_HSM_SFC = "1.3.6.1.4.1.43745.1.2.2.1.1.2";   // Certificado - Empresa o Institución - Hardware - HSM Remoto SFC
+        public static final String OID_TIPO_EMPRESA_HW_HSM = "1.3.6.1.4.1.43745.1.2.2.1.2.1";       // Certificado de Empresa o Institución - Hardware - HSM
+
+        public static final String OID_TIPO_DEPARTAMENTO_EMPRESA_HW_HSM_SFC = "1.3.6.1.4.1.43745.1.2.3.1.1.2";  // Certificado de Departamento de Empresa o Institución - Hardware - HSM SFC
+        public static final String OID_TIPO_DEPARTAMENTO_EMPRESA_SW_PKCS12 = "1.3.6.1.4.1.43745.1.2.3.1.2.1";   // Certificado de Departamento de Empresa o Institución - Software - Archivo (PKCS #12)
+
+        public static final String OID_SELLADO_TIEMPO = "1.3.6.1.4.1.43745.1.2.4.1.1.3";            // Certificado de Sellado de Tiempo
 
         // OIDs de Campos del Certificado:
         public static final String OID_CEDULA_PASAPORTE = "1.3.6.1.4.1.43745.1.3.1";

@@ -69,6 +69,7 @@ public class CertEcUtils {
     public static final String SECURITYDATA_NAME_OLD = "SECURITY DATA";
     public static final String UANATACA_NAME = "UANATACA ECUADOR S.A.";
     public static final String UANATACA_NAME_OLD = "UANATACA S.A.";
+    public static final String ECLIPSOFT_COMMON_NAME = "UANATACA CA1 2016";
 
     public static String getNombreCA(X509Certificate certificado) {
         String organization = Utils.getRDNvalueFromLdapName("O", certificado.getIssuerX500Principal().toString());
@@ -136,7 +137,12 @@ public class CertEcUtils {
             return UANATACA_NAME;
         }
         if (organization.toUpperCase().contains(UANATACA_NAME_OLD)) {
-            return UANATACA_NAME_OLD;
+            String commonName = Utils.getRDNvalueFromLdapName("CN", certificado.getIssuerX500Principal().toString());
+            if (commonName.toUpperCase().equals(ECLIPSOFT_COMMON_NAME)) {
+                return ECLIPSOFT_NAME;
+            } else {
+                return UANATACA_NAME_OLD;
+            }
         }
         return "Entidad no reconocida " + certificado.getIssuerX500Principal().getName();
     }
