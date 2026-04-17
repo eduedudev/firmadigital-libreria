@@ -133,18 +133,44 @@ public class CertificadoDataFactoryConsejoJudicatura {
     }
 
     private static Certificado construir(X509Certificate certificado) throws EntidadCertificadoraNoValidaException {
-        if (ec.gob.firmadigital.libreria.certificate.CertUtils.hasExtensionMatchingPattern(certificado, "1.3.6.1.4.1", "1.3.1")) {
-            if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_NATURAL)) {
+        if (ec.gob.firmadigital.libreria.certificate.CertUtils.hasCertificatePoliciesMatchingPattern(certificado, "1.3.6.1.4.1.43745.1.2", "")) {
+            if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_NATURAL_HW_TOKEN)) {
                 return new CertificadoExtPersonaNaturalConsejoJudicatura(certificado);
-            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_JURIDICA_PRIVADA)) {
+            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_NATURAL_HW_HSM_SFC)) {
+                return new CertificadoExtPersonaNaturalConsejoJudicatura(certificado);
+            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_NATURAL_HW_HSM)) {
+                return new CertificadoExtPersonaNaturalConsejoJudicatura(certificado);
+            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_NATURAL_SW_PKCS12)) {
+                return new CertificadoExtPersonaNaturalConsejoJudicatura(certificado);
+            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_JURIDICA_PRIVADA_HW_TOKEN)) {
                 return new CertificadoExtPersonaJuridicaPrivadaConsejoJudicatura(certificado);
-            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_JURIDICA_PUBLICA)) {
+            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_JURIDICA_PRIVADA_HW_HSM_SFC)) {
+                return new CertificadoExtPersonaJuridicaPrivadaConsejoJudicatura(certificado);
+            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_JURIDICA_PRIVADA_SW_PKCS12)) {
+                return new CertificadoExtPersonaJuridicaPrivadaConsejoJudicatura(certificado);
+            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_JURIDICA_PUBLICA_HW_TOKEN)) {
                 return new CertificadoExtPersonaJuridicaPublicaConsejoJudicatura(certificado);
-            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_MIEMBRO_EMPRESA)) {
+            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_JURIDICA_PUBLICA_HW_HSM_SFC)) {
+                return new CertificadoExtPersonaJuridicaPublicaConsejoJudicatura(certificado);
+            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_JURIDICA_PUBLICA_HW_HSM)) {
+                return new CertificadoExtPersonaJuridicaPublicaConsejoJudicatura(certificado);
+            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_PERSONA_JURIDICA_PUBLICA_SW_PKCS12)) {
+                return new CertificadoExtPersonaJuridicaPublicaConsejoJudicatura(certificado);
+            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_MIEMBRO_EMPRESA_HW_TOKEN)) {
                 return new CertificadoExtMiembroEmpresaConsejoJudicatura(certificado);
-            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_EMPRESA)) {
+            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_MIEMBRO_EMPRESA_HW_HSM_SFC)) {
+                return new CertificadoExtMiembroEmpresaConsejoJudicatura(certificado);
+            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_MIEMBRO_EMPRESA_HW_HSM)) {
+                return new CertificadoExtMiembroEmpresaConsejoJudicatura(certificado);
+            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_MIEMBRO_EMPRESA_SW_PKCS12)) {
+                return new CertificadoExtMiembroEmpresaConsejoJudicatura(certificado);
+            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_EMPRESA_HW_HSM_SFC)) {
                 return new CertificadoExtEmpresaConsejoJudicatura(certificado);
-            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_DEPARTAMENTO_EMPRESA)) {
+            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_EMPRESA_HW_HSM)) {
+                return new CertificadoExtEmpresaConsejoJudicatura(certificado);
+            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_DEPARTAMENTO_EMPRESA_HW_HSM_SFC)) {
+                return new CertificadoExtDepartamentoEmpresaConsejoJudicatura(certificado);
+            } else if (certificateHasPolicy(certificado, Ext.OID_TIPO_DEPARTAMENTO_EMPRESA_SW_PKCS12)) {
                 return new CertificadoExtDepartamentoEmpresaConsejoJudicatura(certificado);
             } else if (certificateHasPolicy(certificado, Ext.OID_SELLADO_TIEMPO)) {
                 return new CertificadoExtSelladoTiempoConsejoJudicatura(certificado);

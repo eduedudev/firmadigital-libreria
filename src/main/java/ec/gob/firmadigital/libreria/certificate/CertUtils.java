@@ -47,6 +47,7 @@ import ec.gob.firmadigital.libreria.keystore.Alias;
 import ec.gob.firmadigital.libreria.keystore.KeyStoreUtilities;
 import java.util.Set;
 import javax.swing.JRootPane;
+import org.bouncycastle.asn1.ASN1OctetString;
 import org.bouncycastle.asn1.x500.AttributeTypeAndValue;
 import org.bouncycastle.asn1.x500.RDN;
 import org.bouncycastle.asn1.x500.X500Name;
@@ -183,6 +184,60 @@ public class CertUtils {
             }
         }
         return decoded;
+    }
+
+    //Se debe implementar esta solución para todas las entidades de certificación, primero deben probar
+    public static List<String> getCertificatePolicies(X509Certificate certificate) {
+        List<String> policyOIDs = new ArrayList<>();
+        try {
+            byte[] extensionValue = certificate.getExtensionValue("2.5.29.32");
+            if (extensionValue == null) {
+                return policyOIDs;
+            }
+
+            // Decodificar la estructura ASN.1
+            ASN1InputStream asn1Stream = null;
+            try {
+                // El valor viene envuelto en un OctetString
+                ASN1Primitive wrapped = ASN1Primitive.fromByteArray(extensionValue);
+                if (wrapped instanceof ASN1OctetString) {
+                    ASN1OctetString octetString = (ASN1OctetString) wrapped;
+                    ASN1Primitive policies = ASN1Primitive.fromByteArray(octetString.getOctets());
+
+                    if (policies instanceof ASN1Sequence) {
+                        ASN1Sequence seq = (ASN1Sequence) policies;
+                        for (int i = 0; i < seq.size(); i++) {
+                            ASN1Sequence policySeq = (ASN1Sequence) seq.getObjectAt(i);
+                            // El primer elemento es el PolicyIdentifier (OID)
+                            if (policySeq.size() > 0) {
+                                ASN1ObjectIdentifier oid = ASN1ObjectIdentifier.getInstance(policySeq.getObjectAt(0));
+                                policyOIDs.add(oid.getId());
+                            }
+                        }
+                    }
+                }
+            } finally {
+                if (asn1Stream != null) {
+                    asn1Stream.close();
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+        return policyOIDs;
+    }
+
+    public static boolean hasCertificatePoliciesMatchingPattern(X509Certificate certificate,
+            String prefix,
+            String suffix) {
+        List<String> CertificatePoliciesOIDs = getCertificatePolicies(certificate);
+
+        for (String oid : CertificatePoliciesOIDs) {
+            if (oid.startsWith(prefix) && oid.endsWith(suffix)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static ASN1Primitive toDERObject(byte[] data) throws IOException {
