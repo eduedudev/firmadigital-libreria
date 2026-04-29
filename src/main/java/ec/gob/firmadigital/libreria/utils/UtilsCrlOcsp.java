@@ -24,7 +24,6 @@ import ec.gob.firmadigital.libreria.certificate.CertEcUtils;
 import ec.gob.firmadigital.libreria.certificate.CrlUtils;
 import ec.gob.firmadigital.libreria.certificate.ValidationResult;
 import ec.gob.firmadigital.libreria.exceptions.RubricaException;
-import ec.gob.firmadigital.libreria.exceptions.ConexionApiException;
 import ec.gob.firmadigital.libreria.exceptions.ConexionException;
 import ec.gob.firmadigital.libreria.exceptions.EntidadCertificadoraNoValidaException;
 
@@ -38,10 +37,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.math.BigInteger;
 import java.net.HttpURLConnection;
-import java.net.SocketException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.security.cert.X509Certificate;
 import java.text.DateFormat;
@@ -67,47 +64,45 @@ public class UtilsCrlOcsp {
     }
 
     /**
-     * Valida primero por OCSP, si falla lo hace por CRL
+     * Valida certificados usando Proxy CRL con soporte para CRLs particionados.
+     * Si el Proxy falla, hace fallback a validación CRL directa en tiempo real.
      *
-     * @param cert
-     * @param apiUrl
-     * @return X509Certificate
-     * @throws IOException
-     * @throws RubricaException si hay un error de conexion con el CRL bota
-     * esto, si es por OCSP y falla la conexion intenta por CRL
-     * @throws ec.gob.firmadigital.libreria.exceptions.CRLValidationException
-     * @throws
-     * ec.gob.firmadigital.libreria.exceptions.EntidadCertificadoraNoValidaException
-     * @throws
-     * ec.gob.firmadigital.libreria.exceptions.ConexionValidarCRLException
+     * @param cert Certificado a validar
+     * @param apiUrl Parámetro obsoleto, se mantiene por compatibilidad
+     * @return Fecha de revocación si está revocado, null si no está revocado
+     * @throws IOException Si hay error de red
+     * @throws RubricaException Si hay error en la validación
+     * @throws ConexionValidarCRLException Si no se puede conectar al CRL
+     * @throws CRLValidationException Si el certificado es inválido
+     * @throws EntidadCertificadoraNoValidaException Si la entidad no es válida
      */
     public static String validarCertificado(X509Certificate cert, String apiUrl) throws EntidadCertificadoraNoValidaException, IOException, RubricaException, ConexionValidarCRLException, CRLValidationException {
         String fechaRevocado = null;
 
-        // PASO 1: Intentar validacion por proxy CRL (soporta CRLs particionados)
+        // PASO 1: Intentar validación por Proxy CRL (soporta CRLs particionados en tiempo real)
         try {
             fechaRevocado = validarCertificadoProxy(cert);
-            if (fechaRevocado != null && !fechaRevocado.contains("errorRed")) {
-                return fechaRevocado;
+            if (fechaRevocado != null) {
+                if (fechaRevocado.contains("errorRed")) {
+                    throw new ConexionValidarCRLException("Error de red al validar contra Proxy CRL");
+                }
+                return fechaRevocado; // Certificado revocado, retornar fecha
             }
-            // Si el proxy devolvio null (no revocado), retornar null
-            if (fechaRevocado == null) {
-                return null;
-            }
-        } catch (Exception ex) {
-            LOGGER.log(Level.WARNING, "Fallo la validacion por proxy CRL, intentando por API legacy: {0}", ex.getMessage());
+            // Si el proxy devolvió null, el certificado NO está revocado
+            LOGGER.log(Level.INFO, "Certificado NO revocado según Proxy CRL");
+            return null;
+        } catch (IOException ex) {
+            LOGGER.log(Level.WARNING, "Fallo la validación por Proxy CRL: {0}", ex.getMessage());
         }
 
-        // PASO 2: Fallback a API legacy (serial number contra tabla batch)
+        // PASO 2: Fallback a validación CRL directa (sin API legacy)
         try {
-            BigInteger serial = cert.getSerialNumber();
-            fechaRevocado = validarCrlServidorAPI(serial, apiUrl);
-        } catch (UnknownHostException | SocketException | ConexionApiException ex) {
-            System.out.println("Fallo la validacion por el servicio del API");
-            LOGGER.log(Level.SEVERE, "SocketException: ", ex.getCause());
-            fechaRevocado = "errorRed";
-        } finally {
+            LOGGER.log(Level.INFO, "Intentando validación CRL directa en tiempo real");
+            fechaRevocado = validarCRLDirecta(cert);
             return fechaRevocado;
+        } catch (ConexionValidarCRLException ex) {
+            LOGGER.log(Level.SEVERE, "No se pudo validar contra CRL directo: {0}", ex.getMessage());
+            throw new ConexionValidarCRLException("No se puede validar el certificado contra CRL: " + ex.getMessage());
         }
     }
 
@@ -182,30 +177,35 @@ public class UtilsCrlOcsp {
         return crlUtils.getRevocationDate();
     }
 
-    private static String validarCrlServidorAPI(BigInteger serial, String apiUrl) throws IOException, ConexionApiException {
-        String certificado_revocado_url = apiUrl == null ? PropertiesUtils.getConfig().getProperty("certificado_revocado_url") : apiUrl;
-        if (!certificado_revocado_url.isEmpty()) {
-            URL url = new URL(certificado_revocado_url + "/" + serial);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            int responseCode = urlConnection.getResponseCode();
-
-            if (responseCode >= 300 && responseCode < 400) {
-                urlConnection = (HttpURLConnection) new URL(urlConnection.getHeaderField("Location")).openConnection();
-                urlConnection.setConnectTimeout(TIME_OUT);
-                responseCode = urlConnection.getResponseCode();
+    /**
+     * Valida un certificado directamente contra CRL en tiempo real.
+     * Este método fallback valida el certificado descargando y procesando
+     * el CRL desde la URL especificada en el certificado.
+     *
+     * @param cert Certificado a validar
+     * @return Fecha de revocación si está revocado, null si no está revocado
+     * @throws IOException Si hay error de red o al procesar el CRL
+     * @throws EntidadCertificadoraNoValidaException Si la entidad certificadora no es válida
+     * @throws RubricaException Si hay error en la validación
+     * @throws ConexionValidarCRLException Si no se puede conectar al CRL
+     * @throws CRLValidationException Si el certificado es inválido
+     */
+    private static String validarCRLDirecta(X509Certificate cert) throws IOException, EntidadCertificadoraNoValidaException, RubricaException, ConexionValidarCRLException, CRLValidationException {
+        try {
+            // Usar el método validarCRL existente que hace validación directa contra CRL
+            String fechaRevocado = validarCRL(cert);
+            if (fechaRevocado != null) {
+                LOGGER.log(Level.INFO, "Certificado revocado según CRL directo. Fecha: {0}", fechaRevocado);
+                return fechaRevocado;
             }
-            if (responseCode >= 400) {
-                LOGGER.log(Level.SEVERE, "{0}/{1}: Response Code: {2}", new Object[]{certificado_revocado_url, serial, responseCode});
-                throw new ConexionApiException("No se pudo conectar API. " + certificado_revocado_url + " Response Code: " + responseCode);
-            }
-
-            try (InputStream is = urlConnection.getInputStream()) {
-                InputStreamReader reader = new InputStreamReader(is);
-                BufferedReader in = new BufferedReader(reader);
-                return in.readLine();
-            }
-        } else {
+            LOGGER.log(Level.INFO, "Certificado NO revocado según CRL directo");
             return null;
+        } catch (ConexionValidarCRLException ex) {
+            LOGGER.log(Level.SEVERE, "Error de conexión al CRL directo: {0}", ex.getMessage());
+            throw ex;
+        } catch (CRLValidationException ex) {
+            LOGGER.log(Level.SEVERE, "Certificado inválido según CRL directo: {0}", ex.getMessage());
+            throw ex;
         }
     }
 

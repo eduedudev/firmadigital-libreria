@@ -74,6 +74,10 @@ public class HttpClient {
     }
 
     public byte[] download(String urlString) throws IOException {
+        return download(urlString, DEFAULT_CONNECT_TIMEOUT, DEFAULT_READ_TIMEOUT);
+    }
+
+    public byte[] download(String urlString, int connectTimeOut, int readTimeOut) throws IOException {
         if (urlString == null) {
             throw new IllegalArgumentException("La URL a leer no puede ser nula");
         }
@@ -89,8 +93,8 @@ public class HttpClient {
         }
 
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setConnectTimeout(DEFAULT_CONNECT_TIMEOUT);
-        conn.setReadTimeout(DEFAULT_READ_TIMEOUT);
+        conn.setConnectTimeout(connectTimeOut);
+        conn.setReadTimeout(readTimeOut);
 
         conn.connect();
 
