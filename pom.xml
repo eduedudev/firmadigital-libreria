@@ -2,14 +2,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>ec.gob.firmadigital</groupId>
+    <groupId>io.github.eduedudev</groupId>
     <artifactId>libreria</artifactId>
-    <version>5.1.0-SNAPSHOT</version>
+    <version>5.1.0</version>
     <packaging>jar</packaging>
 
     <name>firmadigital-libreria</name>
-    <description>Una librería para firma digital</description>
-    <url>https://www.firmadigital.gob.ec</url>
+    <description>Una librería para firma digital (mirror de minka.gob.ec)</description>
+    <url>https://github.com/eduedudev/firmadigital-libreria</url>
     <licenses>
         <license>
             <name>GNU General Public License v3.0</name>
@@ -29,29 +29,17 @@
 
     <developers>
         <developer>
-            <name>Ricardo Arguello</name>
-            <email>ricardo.arguello@soportelibre.com</email>
-            <organization>Soporte Libre</organization>
-            <organizationUrl>https://www.soportelibre.com</organizationUrl>
-        </developer>
-        <developer>
-            <name>Misael Fernández Correa</name>
-            <email>misael.fernandez@mintel.gob.ec</email>
-            <organization>Ministerio de Telecomunicaciones y de la Sociedad de la Información</organization>
-            <organizationUrl>https://www.telecomunicaciones.gob.ec</organizationUrl>
-        </developer>
-        <developer>
-            <name>Efraín Rodríguez López</name>
-            <email>efrain.rodriguez@sercop.gob.ec</email>
-            <organization>Servicio Nacional de Contratación Pública</organization>
-            <organizationUrl>https://portal.compraspublicas.gob.ec/sercop/</organizationUrl>
+            <name>Eduardo Guastay</name>
+            <email>hi@eduedu.dev</email>
+            <organization>eduedudev</organization>
+            <organizationUrl>https://github.com/eduedudev</organizationUrl>
         </developer>
     </developers>
 
     <scm>
-        <connection>scm:git:https://minka.gob.ec/mintel/ge/firmaec/firmadigital-digital.git</connection>
-        <developerConnection>scm:git:git@minka.gob.ec:mintel/ge/firmaec/firmadigital-digital.git</developerConnection>
-        <url>https://minka.gob.ec/mintel/ge/firmaec/firmadigital-digital</url>
+        <connection>scm:git:git://github.com/eduedudev/firmadigital-libreria.git</connection>
+        <developerConnection>scm:git:ssh://github.com:eduedudev/firmadigital-libreria.git</developerConnection>
+        <url>https://github.com/eduedudev/firmadigital-libreria</url>
     </scm>
     
     <properties>
@@ -237,6 +225,61 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.11.2</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>3.2.7</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                        <configuration>
+                            <gpgArguments>
+                                <arg>--pinentry-mode</arg>
+                                <arg>loopback</arg>
+                            </gpgArguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.7.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
 </project>

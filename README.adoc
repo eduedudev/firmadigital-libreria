@@ -1,6 +1,40 @@
-= FirmaEC: firmadigital-libreria
+= firmadigital-libreria
 
-Fork del proyecto https://minka.gob.ec/rubrica/rubrica[Rubrica], la cual es una librería Java para aplicaciones de firma digital.
+image:https://img.shields.io/maven-central/v/io.github.eduedudev/libreria[link=https://central.sonatype.com/artifact/io.github.eduedudev/libreria]
+image:https://github.com/eduedudev/firmadigital-libreria/actions/workflows/ci.yml/badge.svg[link=https://github.com/eduedudev/firmadigital-libreria/actions]
+
+Mirror del proyecto original https://minka.gob.ec/mintel/ge/firmaec/firmadigital-digital[firmadigital-digital] mantenido en GitHub por https://github.com/eduedudev[Eduardo Guastay].
+
+Librería Java para aplicaciones de firma digital (XAdES, PAdES, CAdES).
+
+== Instalación
+
+=== Maven
+
+Agrega esta dependencia a tu `pom.xml`:
+
+[source,xml]
+----
+<dependency>
+    <groupId>io.github.eduedudev</groupId>
+    <artifactId>libreria</artifactId>
+    <version>5.1.0</version>
+</dependency>
+----
+
+=== Gradle
+
+[source,groovy]
+----
+implementation 'io.github.eduedudev:libreria:5.1.0'
+----
+
+=== Compilar desde fuente
+
+[source,bash]
+----
+$ mvn clean package
+----
 
 == Introducción
 
@@ -61,17 +95,14 @@ $ mvn clean package
 
 == Colaborar
 
-Para colaborar se puede enviar un _Merge Request_ utilizando la plataforma https://minka.gob.ec/mintel/ge/firmaec[Minka].
-
-== Versiones
-
-Usamos https://minka.gob.ec/mintel/ge/estandares/-/blob/master/versionamiento.md[Estandares] para versionar.
+Para colaborar abre un _Issue_ o _Pull Request_ en https://github.com/eduedudev/firmadigital-libreria[GitHub].
 
 == Autores
 
-* *Ricardo Arguello* - *Desarrollo* - https://www.soportelibre.com[Soporte Libre]
-* *Misael Fernández* - *Desarrollo* - misael.fernandez.correa@gmail.com
-* *Diana Pujol* - deeperdigitalec@outlook.es
+* *Eduardo Guastay* - *Mantenimiento* - https://github.com/eduedudev[@eduedudev] - hi@eduedu.dev
+* *Ricardo Arguello* - *Desarrollo original* - https://www.soportelibre.com[Soporte Libre]
+* *Misael Fernández* - *Desarrollo original* - misael.fernandez.correa@gmail.com
+* *Diana Pujol* - *Desarrollo original* - deeperdigitalec@outlook.es
 
 == Licencia
 
