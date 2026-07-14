@@ -31,7 +31,8 @@ jobs:
           CENTRAL_PASS: ${{ secrets.OSSRH_TOKEN }}
         run: |
           cd target
-          ARTIFACT=libreria-${{ github.ref_name }}
+          VERSION=${GITHUB_REF_NAME#v}
+          ARTIFACT=libreria-$VERSION
           curl -s -u "$CENTRAL_USER:$CENTRAL_PASS" \
             -F "pom=@$ARTIFACT.pom" \
             -F "jar=@$ARTIFACT.jar" \
